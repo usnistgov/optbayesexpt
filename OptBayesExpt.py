@@ -4,7 +4,7 @@ import numpy as np
 from ExptModel_class import ExptModel
 from ProbDistFunc_class import ProbDistFunc
 
-class BayesOptExpt(ExptModel, ProbDistFunc):
+class OptBayesExpt(ExptModel, ProbDistFunc):
     """
     combines an ExptModel class and a ProbDistFunc class to steer an experiment
     ExptModel provides methods for evaluating an experimental model
@@ -196,7 +196,7 @@ if __name__ == '__main__':
     c1 = 1
     c2 = 5
     cvs = (c1, c2)
-    myexpt = BayesOptExpt()
+    myexpt = OptBayesExpt()
     myexpt.sets = svs
     myexpt.pars = pvs
     myexpt.cons = cvs
