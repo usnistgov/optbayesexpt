@@ -35,7 +35,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-from BayesOptExpt import BayesOptExpt
+from OptBayesExpt import OptBayesExpt
 
 """
 ESTABLISH THE EXPERIMENTAL MODEL
@@ -64,9 +64,9 @@ def Lorentz(x, x0, A, B, d):
 
 # this is the part where we make use of the BayesOptExpt class
 # We inherit from that class and add a model for a particular use
-class BayesOptExpt_Lorentz(BayesOptExpt):
+class OptBayesExpt_Lorentz(OptBayesExpt):
     def __init__(self):
-        BayesOptExpt.__init__(self)
+        OptBayesExpt.__init__(self)
 
     def model_function(self, sets, pars, cons):
         # unpack the experimental settings
@@ -81,7 +81,7 @@ class BayesOptExpt_Lorentz(BayesOptExpt):
 
 
 # make the instance that we'll use
-myBOE = BayesOptExpt_Lorentz()
+myOBE = OptBayesExpt_Lorentz()
 
 """
 SETTING UP A PARTICULAR EXAMPLE
@@ -91,7 +91,7 @@ SETTING UP A PARTICULAR EXAMPLE
 xvals = np.linspace(1.5, 4.5, 200)
 # tell it to the BOE
 # sets, pars, cons are all expected to be tuples
-myBOE.sets = (xvals,)
+myOBE.sets = (xvals,)
 
 # define the parameter space where the peak could be found
 # resonance values x0 (like NV frequency) around 3 GHz
@@ -109,15 +109,15 @@ Bvals = np.linspace(Bmin, Bmax, 151)
 
 # Pack the parameters into a tuple and send it to the BOE
 # note that the order must correspond to how the values are unpacked in the model_function
-myBOE.pars = (x0vals, Avals, Bvals)
+myOBE.pars = (x0vals, Avals, Bvals)
 
 # define the known constants
 # keeping the peak width constant in this example
 dtrue = .1
-myBOE.cons = (dtrue,)
+myOBE.cons = (dtrue,)
 
 # Settings, parameters, constants and model all defined, so set it all up
-myBOE.config()
+myOBE.config()
 
 """
 MEASUREMENT SIMULATION
@@ -162,7 +162,7 @@ def batchdemo():
     for i in np.arange(Nmeasure):
         """ get the optimum measurement seting """
         # reply = myBOE.opt_setting()
-        reply = myBOE.good_setting(pickiness=pickiness)
+        reply = myOBE.good_setting(pickiness=pickiness)
 
         xmeasure = reply[0]
         ymeasure = simdata(xmeasure)
@@ -170,9 +170,9 @@ def batchdemo():
         ydata[i] = ymeasure
 
         """report the results -- the learning phase"""
-        myBOE.pdf_update((xmeasure,), ymeasure, 0.02 * ymeasure)
+        myOBE.pdf_update((xmeasure,), ymeasure, 0.02 * ymeasure)
         # get statistics to track progress
-        sig[i] = myBOE.get_std(0)
+        sig[i] = myOBE.get_std(0)
 
         print(i, "sigma = {}".format(sig[i]))
 
@@ -245,10 +245,10 @@ def myframes():
         if smartmeasure:
             """ Get the new measurement setting by Bayes Optimization  """
             # xmeas, = myBOE.opt_setting()
-            xmeas, = myBOE.good_setting(pickiness=pickiness)
+            xmeas, = myOBE.good_setting(pickiness=pickiness)
             ymeas = simdata(xmeas)
             """ report the measurement back in order to update """
-            myBOE.pdf_update((xmeas,), ymeas, 0.02 * ymeas)
+            myOBE.pdf_update((xmeas,), ymeas, 0.02 * ymeas)
         else:
             # or we're just going to sweep the x measurement values
             try:
