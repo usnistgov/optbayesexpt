@@ -50,7 +50,7 @@ The package incorporates a few Python classes that provide the basic fuctionalit
       model function.  The model function itself must be provided by the user, preferably by adding
       it to an instance of the BayesOptExpt class.
 
-    - BayesOptExpt.py provides methods for the learning and deciding steps described above.  This
+    - OptBayesExpt.py provides methods for the learning and deciding steps described above.  This
       class inherits all methods and data from both ProbDistFunc and ExptModel, and it is the only
       class that a user will need to interact with directly.
 
