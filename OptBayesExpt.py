@@ -186,6 +186,39 @@ class OptBayesExpt(ExptModel, ProbDistFunc):
         bestparams = self.max_params()
         return self.eval_over_all_settings(bestparams)
 
+    #a few methods to manage these input tuples
+
+    # clearing data
+    def clrsets(self):
+        self.sets = ()
+
+    def clrpars(self):
+        self.pars = ()
+
+    def clrcons(self):
+        self.cons = ()
+
+    # appending data to tuples
+    def addsets(self, setarray):
+        self.sets += (setarray, )
+
+    def addpars(self, pararray):
+        self.pars += (pararray, )
+
+    def addcon(self, constval):
+        self.cons += (constval, )
+
+    # reporting data
+    def getsets(self):
+        return self.sets
+
+    def getpars(self):
+        return self.pars
+
+    def setcons(self):
+        return self.cons
+
+
 if __name__ == '__main__':
     # settings
     s = np.linspace(0, 10, 5)
