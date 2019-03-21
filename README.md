@@ -13,7 +13,7 @@ methods is that they direct measurements toward settings that have the
 best chance of making our parameter estimates more precise. This feature
 is very heplful in situations where the measurements are expensive.
 
-Note that Bayesian optimization is _something completely different_ that
+Note that Bayesian optimization is 'something completely different' that
 has proven to be useful for machine learning. Typically, those are
 situations where the system isn't well understood.
 
