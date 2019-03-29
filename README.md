@@ -21,7 +21,7 @@ situations where the system isn't well understood.
 Using a common measurement strategy, we might measure _y_ for a series
 of _x_ values and then, when the data's all collected, do least-squares
 fit that determines best-fit parameters for a model function. Or maybe
-we look at the data and decide to run the measurements again, only with 
+we look at the data and decide to run the measurements again, only with
 _x_ values more focused on some region of interest.
 
 The Bayesian Optimized Experimental Design plays the role of the
