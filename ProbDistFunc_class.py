@@ -48,19 +48,19 @@ class ProbDistFunc:
             self.lnPDF = np.zeros(self.pdfshape)
             self.PDF = np.ones(self.pdfshape)
             done += 1
-        if probvalarrays:
+        if probvalarrays != []:
             # Used when the user initializes with a 1-D array of probabilities for each variable parameter
             self.PDF = self.__multiply_probs(probvalarrays)
             self.lnPDF = np.log(self.PDF)
             done += 1
-        if pdf:
+        if pdf != []:
             if np.array(pdf).shape != self.pdfshape:
                 pass  # raise an error - pdf shape doesn't fit parameter values
             else:
                 self.PDF = pdf
                 self.lnPDF = np.log(pdf)
                 done += 1
-        if lnpdf:
+        if lnpdf != []:
             if np.array(pdf).shape != self.pdfshape:
                 pass  # raise an error - pdf shape doesn't fit parameter values
             else:
