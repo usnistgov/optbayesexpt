@@ -156,14 +156,17 @@ RUN THE "EXPERIMENT" DEMO
 def batchdemo():
     global Nmeasure
     global pickiness
+    global optimum
+
     xdata = np.zeros(Nmeasure)
     ydata = np.zeros(Nmeasure)
     sig = np.zeros(Nmeasure)
     for i in np.arange(Nmeasure):
         """ get the optimum measurement seting """
-        # reply = myBOE.opt_setting()
-        reply = myOBE.good_setting(pickiness=pickiness)
-
+        if optimum:
+            xmeas, = myOBE.opt_setting()
+        else:
+            xmeas, = myOBE.good_setting(pickiness=pickiness)
         xmeasure = reply[0]
         ymeasure = simdata(xmeasure)
         xdata[i] = xmeasure
@@ -238,14 +241,19 @@ def myframes():
     global xvals
     global smartmeasure
     global pickiness
+    global optimum
+
     i = 0
     while cnt < Nmeasure:
         cnt += 1
         print(cnt)
         if smartmeasure:
             """ Get the new measurement setting by Bayes Optimization  """
-            # xmeas, = myBOE.opt_setting()
-            xmeas, = myOBE.good_setting(pickiness=pickiness)
+            if optimum:
+                xmeas, = myOBE.opt_setting()
+            else:
+                xmeas, = myOBE.good_setting(pickiness=pickiness)
+
             ymeas = simdata(xmeas)
             """ report the measurement back in order to update """
             myOBE.pdf_update((xmeas,), ymeas, 0.02 * ymeas)
@@ -274,7 +282,8 @@ def livedemo():
 
 Nmeasure = 100
 smartmeasure = True
-pickiness = 4
+optimum = False
+pickiness = 2
 
 livedemo()
 # batchdemo()
