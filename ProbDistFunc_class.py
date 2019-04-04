@@ -143,6 +143,29 @@ class ProbDistFunc:
         ssquare = psquare - pbar**2
         return np.sqrt(ssquare)
 
+    def get_mean(self, paraxis):
+        """
+        compute the standard deviation of the PDF collapsed down to 1 axis
+        :param paraxis: the axis of the pdf corresponding to the vaiable of interest.
+        :return: standard deviation  (float)
+        """
+        # We need a list of axes to sum, i.e. all axes _except_ for the requested paraxis,
+        # all axes
+        axes = list(np.arange(self.pdfdims))
+        # remove the parameter axis
+        del axes[paraxis]
+
+        # get the collapsed pdf
+        oneDpdf = self.get_PDF(denuisance=axes, normalize=True)
+        # and the corresponding parameter values
+        oneParam = np.array(self.paramvals[paraxis])
+
+        # calculate the standard deviation using sums
+        pbar = np.sum(oneDpdf * oneParam)
+        psquare = np.sum(oneDpdf * oneParam **2)
+        ssquare = psquare - pbar**2
+        return (pbar, np.sqrt(ssquare))
+
     def entropy(self):
         return self.__calculate_discrete_Entropy(self.PDF)
 
