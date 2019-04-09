@@ -64,21 +64,27 @@ myOBE.sets = (pulsetime, detune)
 # Rabi freuquency
 B1min = 1
 B1max = 5
-B1 = np.linspace(B1min, B1max, 101)
+B1 = np.linspace(B1min, B1max, 71)
 fc_min = -7
 fc_max = 7
-f_center = np.linspace(fc_min,fc_max , 51)
+f_center = np.linspace(fc_min,fc_max , 71)
 # baseline = np.linspace(50000, 60000, 51)
 # contrast = np.linspace(.05, .15, 11)
 myOBE.pars = (B1, f_center)
 
 baseline = 100000
 contrast = .01
-T1 = 1
+T1 = .5
 myOBE.cons = (baseline, contrast, T1)
 
 # Settings, parameters, constants and model all defined, so set it all up
 myOBE.config()
+
+# put in a prior
+B1prior = np.exp(-(B1-2.0)**2/2/2.0**2)
+fcprior = np.exp(-(f_center-3.0)**2/2/4.0**2)
+
+# myOBE.set_pdf(probvalarrays=(B1prior, fcprior))
 
 """
 MEASUREMENT SIMULATION
@@ -135,7 +141,8 @@ def batchdemo():
         dfmean, dfsig = myOBE.get_mean(1)
         bmeandata[i]=bmean
         dfmeandata[i]=dfmean
-        print(i, 'B1 = {:5.3f} $\pm$ {:5.3f};  df = {:5.3f} $\pm$ {:5.3f}'.format(bmean, bsig,
+        if i % 10 == 0:
+            print(i, 'B1 = {:5.3f} $\pm$ {:5.3f};  df = {:5.3f} $\pm$ {:5.3f}'.format(bmean, bsig,
                                                                                   dfmean, dfsig))
 
     print('B1_true = {:6.3f}; df_true = {:6.3f}'.format(B1_true, fc_true))
@@ -146,19 +153,27 @@ def batchdemo():
     plt.subplot(121)
     plt.imshow(ytrue.transpose(), origin='bottom', extent=extent, aspect='auto', cmap='cubehelix')
     plt.colorbar()
-    plt.plot(ptdata, dfdata, 'r.')
+    plt.scatter(ptdata, dfdata, s = 9, c=np.arange(len(ptdata)), cmap='Reds')
+    plt.xlabel('time ($\mu$s)')
+    plt.ylabel('$\Delta$f (MHz)')
 
     plt.subplot(122)
-    plt.imshow(np.log10(myOBE.get_PDF().transpose()), origin='bottom',
-               extent=(B1min, B1max, fc_min, fc_max), aspect='auto', cmap='cubehelix')
+    plt.imshow(myOBE.get_PDF().transpose(), origin='bottom',
+               extent=(B1min, B1max, fc_min, fc_max), aspect='auto', cmap='cubehelix_r')
     plt.colorbar()
-    plt.plot(bmeandata,dfmeandata, color='#8888ff', alpha = .5)
+    plt.plot(bmeandata,dfmeandata, color='#888888', alpha = .5)
     plt.plot(B1_true, fc_true, 'r.')
+    plt.xlabel('Rabi Frequency (MHz)')
+    plt.ylabel('detuning (MHz)')
+    plt.tight_layout()
     plt.show()
 
-Nmeasure = 10
+Nmeasure = 50
 
 pickiness = 4
 optimum = True
 
 batchdemo()
+
+# import cProfile
+# cProfile.run('batchdemo()', sort='cumtime')
