@@ -13,78 +13,50 @@ from OptBayesExpt import OptBayesExpt
 ESTABLISH THE EXPERIMENTAL MODEL
 """
 
-# this is the model of our experiment - a Lorentzian peak.
-def Rabicounts(pulsetime, delta_f, B1, f_center, baseline, contrast, T1):
-    zz = ((delta_f-f_center)/B1)**2
-    f_rabi = np.hypot(delta_f - f_center, B1)
-    return baseline*(1 - np.exp(-pulsetime/T1)*contrast/2 *
-                     ( 1 - np.cos(np.pi*2*f_rabi*pulsetime)) / ( zz + 1 ))
+# this is the model of our experiment - a straight line
+def mxplusb(x, m, b):
+    return m*x+b
 
 # this is the part where we make use of the BayesOptExpt class
 # We inherit from that class and add a model for a particular use
-class OptBayesExpt_Rabi(OptBayesExpt):
+class OptBayesExpt_slopeIntercept(OptBayesExpt):
     def __init__(self):
         OptBayesExpt.__init__(self)
 
     def model_function(self, sets, pars, cons):
 
         # unpack the experimental settings
-        pulsetime = sets[0]
-        delta_f = sets[1]
+        x = sets[0]
 
         # unpack model parameters
-        B1 = pars[0]
-        f_center=pars[1]
+        m = pars[0]
+        b=pars[1]
 
         # unpack model constants
         # N/A
-        baseline=cons[0]
-        contrast=cons[1]
-        T1 = cons[2]
 
-        return Rabicounts(pulsetime, delta_f, B1, f_center, baseline, contrast, T1)
+        return mxplusb(x, m, b)
 
 # make the instance that we'll use
-myOBE = OptBayesExpt_Rabi()
+myOBE = OptBayesExpt_slopeIntercept()
 
 """
 SETTING UP A PARTICULAR EXAMPLE
 """
 # define the measurement setting space
-# 101 delay times up to 1 us
-pulsetime = np.linspace(0, 1, 101)
-# 101 detunings (MHz)
-detune = np.linspace(-10, 10, 101)
+# 101 possible x values
+xsettings = np.linspace(0, 1, 201)
+# sent it to myOBE packaged as a tuple
+myOBE.sets = (xsettings,)
 
-
-# tell it to the BOE
-myOBE.sets = (pulsetime, detune)
-
-# define the parameter space where the peak could be found
-# Rabi freuquency
-B1min = 1
-B1max = 5
-B1 = np.linspace(B1min, B1max, 71)
-fc_min = -7
-fc_max = 7
-f_center = np.linspace(fc_min,fc_max , 71)
-# baseline = np.linspace(50000, 60000, 51)
-# contrast = np.linspace(.05, .15, 11)
-myOBE.pars = (B1, f_center)
-
-baseline = 100000
-contrast = .01
-T1 = .5
-myOBE.cons = (baseline, contrast, T1)
+# define the parameter space
+mvals = np.linspace(-1, 1, 501)
+bvals = np.linspace(-1, 1, 501)
+# package as a tuple and send
+myOBE.pars = (mvals, bvals)
 
 # Settings, parameters, constants and model all defined, so set it all up
 myOBE.config()
-
-# put in a prior
-B1prior = np.exp(-(B1-2.0)**2/2/2.0**2)
-fcprior = np.exp(-(f_center-3.0)**2/2/4.0**2)
-
-# myOBE.set_pdf(probvalarrays=(B1prior, fcprior))
 
 """
 MEASUREMENT SIMULATION
@@ -92,18 +64,18 @@ MEASUREMENT SIMULATION
 
 # secret stuff - to be used only by the measurement simulator
 # pick the parameters of the true resonance
-fc_true = (fc_max-fc_min) * np.random.rand() + fc_min  # pick a random resonance center
-B1_true = (B1max - B1min) * np.random.rand() + B1min  # pick a random background
+m_true = 2 * np.random.rand() -1  # pick a random slope betw. -1 and 1
+b_true = 2 * np.random.rand() -1  # pick a random intercept
 
-def simdata(pt, df):
+def simdata(x):
     """
     simulate a measurement at pulsetime pt and detuning df
     """
-    # calculate the theoretical output result
-    y = Rabicounts(pt, df, B1_true, fc_true, baseline, contrast, T1)
+    # calculate the true line
+    y = mxplusb(x, m_true, b_true)
     # add noise
     global noiselevel
-    s = np.sqrt(y) # counting noise
+    s = noiselevel # noise level
     if type(y) == np.ndarray:
         y += s * np.random.randn(len(y))
     else:
@@ -114,66 +86,90 @@ def simdata(pt, df):
 RUN THE "EXPERIMENT" DEMO 
 """
 
-def batchdemo():
+def batchplot(subplot):
     global Nmeasure
     global pickiness
     global optimum
     global noiselevel
     global drawplots
 
-    ptdata = np.zeros(Nmeasure)
-    dfdata = np.zeros(Nmeasure)
-    bmeandata = np.zeros(Nmeasure)
-    dfmeandata = np.zeros(Nmeasure)
+    myOBE.set_pdf(flat=True)
+    xdata = np.zeros(Nmeasure)
+    ydata = np.zeros(Nmeasure)
+    mbar = np.zeros(Nmeasure)
+    bbar = np.zeros(Nmeasure)
     for i in np.arange(Nmeasure):
         if optimum :
-            ptset, dfset = myOBE.opt_setting()
+            xset, = myOBE.opt_setting()
         else:
-            ptset, dfset = myOBE.good_setting(pickiness=pickiness)
-        ptdata[i] = ptset
-        dfdata[i] = dfset
+            xset, = myOBE.good_setting(pickiness=pickiness)
+        xdata[i] = xset
 
-        measurement = simdata(ptset, dfset)
+        measurement = simdata(xset)
+        ydata[i] = measurement
 
-        myOBE.pdf_update((ptset, dfset), measurement, np.sqrt(measurement))
+        myOBE.pdf_update((xset,), measurement, noiselevel)
 
-        bmean, bsig = myOBE.get_mean(0)
-        dfmean, dfsig = myOBE.get_mean(1)
-        bmeandata[i]=bmean
-        dfmeandata[i]=dfmean
-        if i % 10 == 0:
-            print(i, 'B1 = {:5.3f} $\pm$ {:5.3f};  df = {:5.3f} $\pm$ {:5.3f}'.format(bmean, bsig,
-                                                                                  dfmean, dfsig))
+    m_mean, sigm = myOBE.get_mean(0)
+    b_mean, sigb = myOBE.get_mean(1)
 
-    print('B1_true = {:6.3f}; df_true = {:6.3f}'.format(B1_true, fc_true))
+    ytrue = mxplusb(xsettings, m_true, b_true)
 
-    ytrue = Rabicounts(*myOBE.allsettings, B1_true, fc_true, baseline, contrast, T1)
-    extent=(pulsetime[0], pulsetime[-1], detune[0], detune[-1])
-    plt.figure(figsize=(9,4))
-    plt.subplot(121)
-    plt.imshow(ytrue.transpose(), origin='bottom', extent=extent, aspect='auto', cmap='cubehelix')
-    plt.colorbar()
-    plt.scatter(ptdata, dfdata, s = 9, c=np.arange(len(ptdata)), cmap='Reds')
-    plt.xlabel('time ($\mu$s)')
-    plt.ylabel('$\Delta$f (MHz)')
+    axL = subplot.twinx()
+    subplot.hist(xdata, bins=20, color='lightblue')
+    subplot.yaxis.tick_right()
+    subplot.yaxis.set_label_position('right')
+    subplot.set_ylabel("points")
+    subplot.set_xlabel('x')
+    ymax = Nmeasure/2 * 1.1
+    subplot.set_ylim(0, ymax)
 
-    plt.subplot(122)
-    plt.imshow(myOBE.get_PDF().transpose(), origin='bottom',
-               extent=(B1min, B1max, fc_min, fc_max), aspect='auto', cmap='cubehelix_r')
-    plt.colorbar()
-    plt.plot(bmeandata,dfmeandata, color='#888888', alpha = .5)
-    plt.plot(B1_true, fc_true, 'r.')
-    plt.xlabel('Rabi Frequency (MHz)')
-    plt.ylabel('detuning (MHz)')
-    plt.tight_layout()
-    plt.show()
 
-Nmeasure = 50
+    axL.plot(xsettings, ytrue, 'r-')
+    axL.errorbar(xdata, ydata, noiselevel, fmt='.', color='k')
+    axL.yaxis.tick_left()
+    axL.yaxis.set_label_position('left')
 
-pickiness = 4
+    axL.set_ylabel('y')
+    bottom, top = axL.get_ylim()
+    bottom -= .5
+    top += .3
+    axL.set_ylim((bottom, top))
+    y1 = bottom + .93 * (top - bottom)
+    y2 = bottom + .85 * (top - bottom)
+    plt.text(0.05, y1 , 'm = {:5.3f}$\pm${:5.3f}'.format(m_mean,sigm))
+    plt.text(0.05, y2 , 'b = {:5.3f}$\pm${:5.3f}'.format(b_mean,sigb))
+
+    return subplot.yaxis, axL.yaxis
+
+Nmeasure = 40
+noiselevel = .1
+
+fig, axes = plt.subplots(1, 4, figsize=(12, 3))
+
+
 optimum = True
+batchplot(axes[0])
+plt.title('opt_setting()')
 
-batchdemo()
+
+optimum=False
+pickiness = 9
+batchplot(axes[1])
+plt.title('good_setting(pickiness={})'.format(pickiness))
+
+optimum=False
+pickiness = 4
+batchplot(axes[2])
+plt.title('good_setting(pickiness={})'.format(pickiness))
+
+optimum=False
+pickiness = 1
+batchplot(axes[3])
+plt.title('good_setting(pickiness={})'.format(pickiness))
+
+plt.tight_layout()
+plt.show()
 
 # import cProfile
 # cProfile.run('batchdemo()', sort='cumtime')
