@@ -13,7 +13,7 @@ from OptBayesExpt import OptBayesExpt
 ESTABLISH THE EXPERIMENTAL MODEL
 """
 
-# this is the model of our experiment - a Lorentzian peak.
+# this is the model of our experiment
 def Rabicounts(pulsetime, delta_f, B1, f_center, baseline, contrast, T1):
     zz = ((delta_f-f_center)/B1)**2
     f_rabi = np.hypot(delta_f - f_center, B1)
