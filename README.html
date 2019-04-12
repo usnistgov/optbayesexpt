@@ -13139,29 +13139,27 @@ steps here. The first step, looking at the data, is really an act of extracting 
 <h2 id="What's-included?">What's included?<a class="anchor-link" href="#What's-included?">&#182;</a></h2><h3 id="Core-files">Core files<a class="anchor-link" href="#Core-files">&#182;</a></h3><p>The package incorporates a few Python classes that provide the basic
 fuctionality.</p>
 <ul>
-<li><p><strong>OptBayesExpt.py</strong> provides methods for the learning and deciding steps
-described above. This class inherits all methods and data from both
-ProbDistFunc and ExptModel, and it is the only class that a user will
-need to interact with directly.</p>
+<li><p><strong>OptBayesExpt.py</strong> provides methods for the learning and deciding steps described above. This class inherits all methods and data from both ProbDistFunc and ExptModel, and it is the only class that a user will need to interact with directly.  Manual: <a href="Docs/OptBayesExpt.ipynb">[notebook]</a><a href="Docs/OptBayesExpt.html">[html]</a></p>
 </li>
-<li><p><strong>ProbDistFunc_class.py</strong> implements the probability distribution function. Its methods are used to define the parameters and their respective ranges, perform basic mathematical functions, to supply random draws, basic statistics of the distribution, and the distribution itself.</p>
+<li><p><strong>ProbDistFunc_class.py</strong> implements the probability distribution function. Its methods are used to define the parameters and their respective ranges, perform basic mathematical functions, to supply random draws, basic statistics of the distribution, and the distribution itself. Manual: <a href="Docs/ProbDistFunc_class.ipynb">[notebook]</a><a href="Docs/ProbDistFunc_class.html">[html]</a></p>
 </li>
-<li><p><strong>ExptModel_class.py</strong> provides methods to define the experimental settings and to evaluate a model function. The model function itself must be provided by the user, preferably by adding it to an instance of the BayesOptExpt class.</p>
+<li><p><strong>ExptModel_class.py</strong> provides methods to define the experimental settings and to evaluate a model function. The model function itself must be provided by the user, preferably by adding it to an instance of the BayesOptExpt class. Manual: <a href="Docs/ExptModel_class.ipynb">[notebook]</a><a href="Docs/ExptModel_class.html">[html]</a></p>
 </li>
 <li><p><strong>OBETCP.py</strong> provides way to use this software with programs written in other languages. OBETCP incorporates
 an OptBayesExpt class with a server that communicates with external programs via TCP socket connections. Configuration commands, measurement settings and measurement data are sent as JSON-formatted strings over the TCP sockets.</p>
 </li>
 </ul>
 <h2 id="What's-next?">What's next?<a class="anchor-link" href="#What's-next?">&#182;</a></h2><h3 id="Tutorials">Tutorials<a class="anchor-link" href="#Tutorials">&#182;</a></h3><ul>
-<li><p><strong>Docs/sequentialLorentzian.ipynb</strong> <a href="Docs/sequentialLorentzian.html">html</a> provides a tutorial introduction to the OptBayesExpt software including setup and use of <code>OptBayesExpt</code> in a simulated "measurement" of a Lorentzian peak.  The <code>ipynb</code> file is live code that can be run from inside the jupyter notebook environment.  See also <strong>sequentialLorentzian.py</strong>.</p>
+<li><p><strong>Docs/sequentialLorentzian.ipynb</strong> <a href="Docs/sequentialLorentzian.ipynb">[notebook]</a> <a href="Docs/sequentialLorentzian.html">[html]</a> provides a tutorial introduction to the OptBayesExpt software including setup and use of <code>OptBayesExpt</code> in a simulated "measurement" of a Lorentzian peak.  The <code>ipynb</code> file is live code that can be run from inside the jupyter notebook environment.  See also <strong>sequentialLorentzian.py</strong>.</p>
 </li>
-<li><p><strong>Docs/manual.ipynb</strong> <a href="Docs/manual.html">[html]</a> outlines the "if it works good, it is good" philosophy of the project and provides a tutorial-level description of the theory behind optimal Bayesian experimental design.</p>
+<li><p><strong>Docs/manual.ipynb</strong> <a href="Docs/manual.html">[ipynb]</a><a href="Docs/manual.html">[html]</a> outlines the "if it works good, it is good" philosophy of the project and provides a tutorial-level description of the theory behind optimal Bayesian experimental design.</p>
 </li>
 </ul>
 <h3 id="Demos">Demos<a class="anchor-link" href="#Demos">&#182;</a></h3><p>A brief discussion of these demos is included in the manual. 
-[<a href="]Docs/manual.ipynb">notebook</a> [<a href="]Docs/manual.html">html</a></p>
+<a href="Docs/manual.ipynb">[notebook]</a> <a href="Docs/manual.html">[html]</a></p>
 <ul>
-<li><strong>demoLorentzian.py</strong>  demonstrates how to incorporate a simple model into a BayesOptExpt. A simulation takes the place of a real measurement, supplying noisy "measurement results" that the BayesOptExpt uses to locate and measure a randomly placed Lorentzian peak.  One setting, several model parameters.  Also see <strong>Docs/sequentialLorentzian.ipynb</strong> <a href="Demos/sequentialLorentzian.html">html version</a> is a jupyter notebook with a step-by-step walk-through of the <code>sequentialLorentzian.py</code> code.  </li>
+<li><p><strong>demoLorentzian.py</strong>  demonstrates how to incorporate a simple model into a BayesOptExpt. A simulation takes the place of a real measurement, supplying noisy "measurement results" that the BayesOptExpt uses to locate and measure a randomly placed Lorentzian peak.  One setting, several model parameters.  Also see <strong>Docs/sequentialLorentzian.ipynb</strong> <a href="Docs/sequentialLorentzian.ipynb">[notebook]</a><a href="Demos/sequentialLorentzian.html">[html]</a> is a jupyter notebook with a step-by-step walk-through of the <code>sequentialLorentzian.py</code> code.</p>
+</li>
 <li><p><strong>pipulse.py</strong> is a slightly more complicated demo featuring multiple (two!) experimental settings and the process for including pre-existing information, a <em>prior</em>.</p>
 </li>
 <li><p><strong>slopeIntercept.py</strong> demonstrates measurement of straight lines, $y = m x + B$.  The demonstration presents options in the decision-making part of the code.</p>
@@ -13178,19 +13176,6 @@ BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR CONSEQUENTIAL DAMAGES, ARISING 
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
     </div>
   </div>
