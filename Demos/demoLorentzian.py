@@ -62,7 +62,7 @@ xvals = np.linspace(1.5, 4.5, 200)
 myOBE.sets = (xvals,)
 
 # define the parameter space where the peak could be found
-# resonance values x0 around 3 
+# resonance values x0 around 3
 x0min = 2
 x0max = 4
 x0vals = np.linspace(x0min, x0max, 151)
