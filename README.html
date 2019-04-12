@@ -13119,11 +13119,19 @@ div#notebook {
 <h1 id="OptBayesExpt-Overview">OptBayesExpt Overview<a class="anchor-link" href="#OptBayesExpt-Overview">&#182;</a></h1><p>R. D. McMichael
 <code>rmcmichael@nist.gov</code><br>
 National Institute of Standards and Technology<br>
-March 28, 2019</p>
-<h2 id="What-is-it-for?">What is it for?<a class="anchor-link" href="#What-is-it-for?">&#182;</a></h2><p>It's for automating measurements to efficiently determine parameters of a pre-determined model. 
-This repository offers an implementation of optimal Bayesian experimental
-design (OBED). It is geared toward cases where the "normal" method would determine model parameters by fitting data after measurements are completed.  In contrast, OBED provides an iterative measurement strategy, suggesting measurement settings based on updated measurement data.  By selecting settings that are predicted to yield the most meaningful information, the OBED method makes efficient use of measurement resources.</p>
-<p>Please note that Bayesian optimization is "something completely different." Bayesian optimization has proven to be useful for machine learning. Typically, those are situations where the model isn't known ahead of time.</p>
+April 12, 2019</p>
+<h2 id="What-is-it-for?">What is it for?<a class="anchor-link" href="#What-is-it-for?">&#182;</a></h2><p>It's for making smarter measurements. This repository offers an implementation of optimized Bayesian experimental design (OBED). It is an experimental control strategy that chooses measurement settings based on accumulated data.  It is for cases with</p>
+<ul>
+<li>an experiment (possibly computational) <ul>
+<li>that yields measurements and uncertainty estimates, </li>
+<li>and that can be controlled on the fly by one or more experimental settings, and</li>
+</ul>
+</li>
+<li>an experimental model that relates unknown parameters and experimental settings to measurement predictions.  If you would normally fit a function to the data to get fit parameters, that's the model function.</li>
+</ul>
+<p>The real benefit of OBED methods is that they direct measurements toward settings that have the best chance of making our parameter estimates more precise. This feature is very heplful in situations where the measurements are expensive.</p>
+<p>It is not for fitting existing data, but if you're thinking about making more measurements, you might be interested.</p>
+<p>Note that Bayesian optimization is 'something completely different' that has proven to be useful for machine learning. Typically, those are situations where the system isn't well understood.</p>
 <h2 id="What-does-it-do?">What does it do?<a class="anchor-link" href="#What-does-it-do?">&#182;</a></h2><p>The optimal Bayesian experimental design algorithms play the role of an impatient experimenter who monitors data from a running experiment and changes the measurement settings in order to get better, more meaningful data. Note the two
 steps here. The first step, looking at the data, is really an act of extracting meaning from the numbers, learning something about the system from the existing measurements. The second step is using that knowledge to improve the measurement strategy.</p>
 <p>In the "looking at the data" role, the OBED routines use a user-supplied model function and Bayesian inference to extract and update information about model parameters as new measurement data arrives.  Then, in the decision making role, the OBED routines use the updated parameter knowledge to select settings that have the best chance of refining the parameters.</p>
@@ -13131,62 +13139,58 @@ steps here. The first step, looking at the data, is really an act of extracting 
 <h2 id="What's-included?">What's included?<a class="anchor-link" href="#What's-included?">&#182;</a></h2><h3 id="Core-files">Core files<a class="anchor-link" href="#Core-files">&#182;</a></h3><p>The package incorporates a few Python classes that provide the basic
 fuctionality.</p>
 <ul>
-<li><p><strong>ProbDistFunc_class.py</strong> implements the probability distribution
-function. Its methods are used to define the parameters and their
-respective ranges, perform basic mathematical functions, to supply
-random draws, basic statistics of the distribution, and the
-distribution itself.</p>
-</li>
-<li><p><strong>ExptModel_class.py</strong> provides methods to define the experimental
-settings and to evaluate a model function. The model function itself
-must be provided by the user, preferably by adding it to an instance
-of the BayesOptExpt class.</p>
-</li>
 <li><p><strong>OptBayesExpt.py</strong> provides methods for the learning and deciding steps
 described above. This class inherits all methods and data from both
 ProbDistFunc and ExptModel, and it is the only class that a user will
 need to interact with directly.</p>
 </li>
-</ul>
-<h3 id="Examples">Examples<a class="anchor-link" href="#Examples">&#182;</a></h3><ul>
-<li><p><strong>sequentialLorentzian.py</strong> is an example script that demonstrates how to incorporate a simple model of a Lorentzian peak into a BayesOptExpt. A simulation takes the place of a real measurement, supplying noisy "measurement results" that the BayesOptExpt uses to locate and focus on a randomly placed peak.  Features include:</p>
-<ul>
-<li>Step-by-step documentation</li>
-<li>multiple "fit" parameters</li>
-</ul>
+<li><p><strong>ProbDistFunc_class.py</strong> implements the probability distribution function. Its methods are used to define the parameters and their respective ranges, perform basic mathematical functions, to supply random draws, basic statistics of the distribution, and the distribution itself.</p>
 </li>
-<li><p><strong>pipulse.py</strong> uses the OptBayesExpt class to simultaneously find the resonance frequency of a spin and the Rabi frequency of an rf field by "measuring" a spin's response to rf pulses.  Features include</p>
-<ul>
-<li>multiple (two!) settings</li>
-<li>Including existing information in a non-default <em>prior</em> parameter distribution.</li>
-</ul>
+<li><p><strong>ExptModel_class.py</strong> provides methods to define the experimental settings and to evaluate a model function. The model function itself must be provided by the user, preferably by adding it to an instance of the BayesOptExpt class.</p>
+</li>
+<li><p><strong>OBETCP.py</strong> provides way to use this software with programs written in other languages. OBETCP incorporates
+an OptBayesExpt class with a server that communicates with external programs via TCP socket connections. Configuration commands, measurement settings and measurement data are sent as JSON-formatted strings over the TCP sockets.</p>
 </li>
 </ul>
-<h3 id="Add-ons">Add-ons<a class="anchor-link" href="#Add-ons">&#182;</a></h3><p>Extra code for extra functionality</p>
-<ul>
-<li><p><strong>OBETCP.py</strong> provides way to use optimized Bayesian experimental design
-software with programs written in other languages. OBETCP incorporates
-an OptBayesExpt class with a server that communicates with external
-programs via TCP socket connections. Configuration commands,
-measurement settings and measurement data are sent as json-ified
-strings over the TCP sockets.</p>
+<h2 id="What's-next?">What's next?<a class="anchor-link" href="#What's-next?">&#182;</a></h2><h3 id="Tutorials">Tutorials<a class="anchor-link" href="#Tutorials">&#182;</a></h3><ul>
+<li><p><strong>Docs/sequentialLorentzian.ipynb</strong> <a href="Docs/sequentialLorentzian.html">html</a> provides a tutorial introduction to the OptBayesExpt software including setup and use of <code>OptBayesExpt</code> in a simulated "measurement" of a Lorentzian peak.  The <code>ipynb</code> file is live code that can be run from inside the jupyter notebook environment.  See also <strong>sequentialLorentzian.py</strong>.</p>
 </li>
-<li><p><strong>LabView/OBE_ODMR_demo.vi</strong> demonstrates how OBETCP.py can be used from
-Labview. Like the sequentialLorentzian.py example, it's about finding
-and measuring a Lorentzian peak.</p>
+<li><p><strong>Docs/manual.ipynb</strong> <a href="Docs/manual.html">[html]</a> outlines the "if it works good, it is good" philosophy of the project and provides a tutorial-level description of the theory behind optimal Bayesian experimental design.</p>
 </li>
 </ul>
-<h2 id="What's-next?">What's next?<a class="anchor-link" href="#What's-next?">&#182;</a></h2><ul>
-<li><strong>Docs/manual.html</strong> and </li>
-<li><strong>Docs/manual.ipynb</strong> provides a gallery of examples and describes the statistical methods used in OptBayesExpt.</li>
-</ul>
+<h3 id="Demos">Demos<a class="anchor-link" href="#Demos">&#182;</a></h3><p>A brief discussion of these demos is included in the manual. 
+[<a href="]Docs/manual.ipynb">notebook</a> [<a href="]Docs/manual.html">html</a></p>
 <ul>
-<li><strong>Docs/sequentialLorentzian.html</strong> and </li>
-<li><strong>Docs/sequentialLorentzian.ipynb</strong> provide a gentle introduction to the OptBayesExpt software in <code>html</code> and jupyter notebook <code>ipynb</code> formats.  They include explanations of the setup and use of <code>OptBayesExpt</code> in an example simulated "measurement" of a Lorentzian peak.  The <code>ipynb</code> file is live code that can be run from inside the jupyter notebook environment. Both formats are derived from <strong>sequentialLorentzian.py</strong>.</li>
+<li><strong>demoLorentzian.py</strong>  demonstrates how to incorporate a simple model into a BayesOptExpt. A simulation takes the place of a real measurement, supplying noisy "measurement results" that the BayesOptExpt uses to locate and measure a randomly placed Lorentzian peak.  One setting, several model parameters.  Also see <strong>Docs/sequentialLorentzian.ipynb</strong> <a href="Demos/sequentialLorentzian.html">html version</a> is a jupyter notebook with a step-by-step walk-through of the <code>sequentialLorentzian.py</code> code.  </li>
+<li><p><strong>pipulse.py</strong> is a slightly more complicated demo featuring multiple (two!) experimental settings and the process for including pre-existing information, a <em>prior</em>.</p>
+</li>
+<li><p><strong>slopeIntercept.py</strong> demonstrates measurement of straight lines, $y = m x + B$.  The demonstration presents options in the decision-making part of the code.</p>
+</li>
+<li><p><strong>LabView/OBE_ODMR_demo.vi</strong> demonstrates how OBETCP.py can be used from Labview. Like the sequentialLorentzian.py example, it's about finding and measuring a Lorentzian peak.</p>
+</li>
 </ul>
+<h2 id="Legal-stuff">Legal stuff<a class="anchor-link" href="#Legal-stuff">&#182;</a></h2><h3 id="Disclaimer">Disclaimer<a class="anchor-link" href="#Disclaimer">&#182;</a></h3><p>Certain commercial firms and trade names are identified in this document in order to specify the installation and usage procedures adequately. Such identification is not intended to imply recommendation or endorsement by the <a href="http://www.nist.gov">National Institute of Standards and Technology</a>, nor is it intended to imply that related products are necessarily the best available for the purpose.</p>
+<h3 id="Terms-of-Use">Terms of Use<a class="anchor-link" href="#Terms-of-Use">&#182;</a></h3><p>This software was developed by employees of the National Institute of Standards and Technology (NIST), an agency of the Federal
+Government and is being made available as a public service. Pursuant to title 17 United States Code Section 105, works of NIST employees are not subject to copyright protection in the United States. This software may be subject to foreign copyright. Permission in the United States and in foreign countries, to the extent that NIST may hold copyright, to use,
+copy, modify, create derivative works, and distribute this software and its documentation without fee is hereby granted on a non-exclusive basis, provided that this notice and disclaimer of warranty appears in all copies.</p>
+<p>THE SOFTWARE IS PROVIDED 'AS IS' WITHOUT ANY WARRANTY OF ANY KIND, EITHER EXPRESSED, IMPLIED, OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, ANY WARRANTY THAT THE SOFTWARE WILL CONFORM TO SPECIFICATIONS, ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND FREEDOM FROM INFRINGEMENT, AND ANY WARRANTY THAT THE DOCUMENTATION WILL CONFORM TO THE SOFTWARE, OR ANY WARRANTY THAT THE SOFTWARE WILL BE ERROR FREE. IN NO EVENT SHALL NIST BE LIABLE FOR ANY DAMAGES, INCLUDING,
+BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR CONSEQUENTIAL DAMAGES, ARISING OUT OF, RESULTING FROM, OR IN ANY WAY CONNECTED WITH THIS SOFTWARE, WHETHER OR NOT BASED UPON WARRANTY, CONTRACT, TORT, OR OTHERWISE, WHETHER OR NOT INJURY WAS SUSTAINED BY PERSONS OR PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
     </div>
   </div>
