@@ -13122,12 +13122,12 @@ National Institute of Standards and Technology<br>
 Gaithersburg, MD  USA
 March 29, 2019</p>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">&#182;</a></h2><ul>
-<li><a href="##Introduction">Introduction</a></li>
-<li><a href="##Philosophy">Philosophy and goals</a></li>
-<li><a href="##Requirements">Requirements</a></li>
-<li><a href="##Demos">Demos</a></li>
-<li><a href="##Theory">Theory of Operation</a></li>
-<li>[Software manuals]</li>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#philosophy">Philosophy and goals</a></li>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#demos">Demos</a></li>
+<li><a href="#theory">Theory of Operation</a></li>
+<li><a href="#software">Software documentation</a></li>
 </ul>
 
 </div>
@@ -13136,6 +13136,7 @@ March 29, 2019</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="introduction"></a></p>
 <h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h2><p>This manual describes an implementation of optimal Bayesian experimental design methods.  These methods address routine measurements where data are fit to experimenal models in order to obtain model parameters.  The twin benefits of these methods  are reduced uncertainty with fewer required measurements.  These methods are therefore most beneficial in measurements where measurments are expensive in terms of money, time, risk, labor and/or discomfort.  The price for these benefits lies in the complexity of automating such measuremnts and in the computational load required.  It is the goal of this package to assist potential users in overcoming at least the programming hurdles.</p>
 <p>Optimal Bayesian experimental design is not new, at least not in the statistics community.  A review paper from 1995 by <a href="https://projecteuclid.org/euclid.ss/1177009939">Kathryn Chaloner and Isabella Verinelli</a> reveals that the basic methods had been worked out in preceding decades.  The methods implemented here closely follow <a href="http://dx.doi.org/10.1016/j.jcp.2012.08.013">Xun Huan and Youssef M. Marzouk</a> which emphasizes simulation-based experimental design.  Optimal Bayesian experimental design is also an active area of research</p>
 <p>There are at least three important factors that encourage application of these methods today.  First, the availability of flexible, modular (package friendly?) computer languages such as Python.  Second, availability of cheap computational power.   Most of all though, an increased awareness of the benefits of code sharing and reuse is growing in scientific communities, and the sharing is facilitated by websites such as sourceforge, bitbucket and github.</p>
@@ -13146,6 +13147,7 @@ March 29, 2019</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="philosophy"></a></p>
 <h2 id="Philosophy-and-goals">Philosophy and goals<a class="anchor-link" href="#Philosophy-and-goals">&#182;</a></h2><blockquote><p>If it sounds good, it is good</p>
 <blockquote><p>Duke Ellington</p>
 </blockquote>
@@ -13157,6 +13159,7 @@ March 29, 2019</p>
 <li>If the user finds it useful, it runs good.</li>
 <li>If it runs good, it is good.</li>
 </ul>
+<p><a id="requirements"></a></p>
 <h2 id="Requirements-for-users">Requirements for users<a class="anchor-link" href="#Requirements-for-users">&#182;</a></h2><p>It takes a little effort to get this software up and running.  Here's what a user will need to supply to get started.</p>
 <ol>
 <li>An experiment that yields measurement results with uncertainty estimates. </li>
@@ -13170,6 +13173,7 @@ March 29, 2019</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="demos"></a></p>
 <h2 id="Demos">Demos<a class="anchor-link" href="#Demos">&#182;</a></h2><h3 id="Locating-a-Lorentzian-peak">Locating a Lorentzian peak<a class="anchor-link" href="#Locating-a-Lorentzian-peak">&#182;</a></h3><p><img src="images/demoLorentzfig1.png" alt="Comparison of measure-then-fit and OBED method"></p>
 <p>Figure 1:  A comparison of measure-then-fit (left) and optimal Bayesian experimental design (right).  Both methods measure the same "true" peak with Gaussian noise added ($\sigma = 1$) independently.  The peak parameters are selected randomly: center between 2 and 4, height between 2 and 5, background between -1 and 1 and peak width between 0.1 and 0.3.  On the left, 30 evenly-spaced "measurements" are made and fit using <code>scipy.curve_fit()</code>.  A curve usingthe best-fit parameters is plotted for comparison with the true curve.  The diagonal element of the covariance matrix is taken as the square of the uncertainty.   On the right, the optimal Bayes experimental design method is used sequentially.  Iterations stop when the standard deviation of the <code>x0</code> peak center distribution is less than the uncertaintly of the fit on the left.  Green curves correspond to random draws from the parameter distribution at the stopping point. Typical runs of this example require something like 1/4 to 1/2 as many measurements.</p>
 
@@ -13197,6 +13201,7 @@ March 29, 2019</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="theory"></a></p>
 <h2 id="Theory-of-operation">Theory of operation<a class="anchor-link" href="#Theory-of-operation">&#182;</a></h2><p>The optimal Bayes experimental design method incorporates two main jobs, which we can describe as "learning fast" and "making good decisions"</p>
 <h3 id="Learning-fast">Learning fast<a class="anchor-link" href="#Learning-fast">&#182;</a></h3><p>The learning process is a straightforward application of the well-known Bayesian inference method.  If that last sentence made perfect sense to you, feel free to skip ahead.</p>
 <p>We do measurements in order to learn things.  At the very beginning, before we start measuring, we may have some knowledge or experience, but we expect to have better information after we measure. Let's start in the logical place, <del>at the beginning</del> in the middle, asking how the knowledge is refined as a new measurment result is digested.  For that we need to use some technical language.</p>
@@ -13274,7 +13279,8 @@ which is typical "beating down the noise" behavior of long-term averaging.</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Software">Software<a class="anchor-link" href="#Software">&#182;</a></h2><ul>
+<p><a id="software"></a></p>
+<h2 id="Software-documentation">Software documentation<a class="anchor-link" href="#Software-documentation">&#182;</a></h2><ul>
 <li><strong>OptBayesExpt.py</strong> <a href="OptBayesExpt.ipynb">[notebook]</a><a href="OptBayesExpt.html">[html]</a></li>
 <li><strong>ProbDistFunc_class.py</strong> <a href="ProbDistFunc.ipynb">[notebook]</a><a href="ProbDistFunc.html">[html]</a></li>
 <li><strong>ExptModel_class.py</strong> <a href="ExptModel_class.ipynb">[notebook]</a><a href="ExptModel_class.html">[html]</a></li>
@@ -13292,19 +13298,6 @@ which is typical "beating down the noise" behavior of long-term averaging.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
     </div>
   </div>
