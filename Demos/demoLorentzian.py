@@ -55,14 +55,14 @@ myOBE = OptBayesExpt_Lorentz()
 SETTING UP A PARTICULAR EXAMPLE
 """
 # define the measurement setting space
-# 50 values between 1.5 and 4.5 (GHz)
+# 200 values between 1.5 and 4.5 (GHz)
 xvals = np.linspace(1.5, 4.5, 200)
 # tell it to the BOE
 # sets, pars, cons are all expected to be tuples
 myOBE.sets = (xvals,)
 
 # define the parameter space where the peak could be found
-# resonance values x0 (like NV frequency) around 3 GHz
+# resonance values x0 around 3 
 x0min = 2
 x0max = 4
 x0vals = np.linspace(x0min, x0max, 151)
