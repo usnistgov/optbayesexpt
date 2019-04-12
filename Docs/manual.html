@@ -13121,6 +13121,21 @@ rmcmichael@nist.gov<br>
 National Institute of Standards and Technology<br>
 Gaithersburg, MD  USA
 March 29, 2019</p>
+<h2 id="Contents">Contents<a class="anchor-link" href="#Contents">&#182;</a></h2><ul>
+<li><a href="##Introduction">Introduction</a></li>
+<li><a href="##Philosophy">Philosophy and goals</a></li>
+<li><a href="##Requirements">Requirements</a></li>
+<li><a href="##Demos">Demos</a></li>
+<li><a href="##Theory">Theory of Operation</a></li>
+<li>[Software manuals]</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h2><p>This manual describes an implementation of optimal Bayesian experimental design methods.  These methods address routine measurements where data are fit to experimenal models in order to obtain model parameters.  The twin benefits of these methods  are reduced uncertainty with fewer required measurements.  These methods are therefore most beneficial in measurements where measurments are expensive in terms of money, time, risk, labor and/or discomfort.  The price for these benefits lies in the complexity of automating such measuremnts and in the computational load required.  It is the goal of this package to assist potential users in overcoming at least the programming hurdles.</p>
 <p>Optimal Bayesian experimental design is not new, at least not in the statistics community.  A review paper from 1995 by <a href="https://projecteuclid.org/euclid.ss/1177009939">Kathryn Chaloner and Isabella Verinelli</a> reveals that the basic methods had been worked out in preceding decades.  The methods implemented here closely follow <a href="http://dx.doi.org/10.1016/j.jcp.2012.08.013">Xun Huan and Youssef M. Marzouk</a> which emphasizes simulation-based experimental design.  Optimal Bayesian experimental design is also an active area of research</p>
 <p>There are at least three important factors that encourage application of these methods today.  First, the availability of flexible, modular (package friendly?) computer languages such as Python.  Second, availability of cheap computational power.   Most of all though, an increased awareness of the benefits of code sharing and reuse is growing in scientific communities, and the sharing is facilitated by websites such as sourceforge, bitbucket and github.</p>
@@ -13137,8 +13152,8 @@ March 29, 2019</p>
 </blockquote>
 <p>Of course, jazz legend Duke Ellington was talking about music, where it's all about the sound.  For this package, it's all about being useful.  The goals are modest: to adapt some of the developments in optimal Bayeseian experimental design research for practical use in laboratory settings, giving users tools to make better measurements.</p>
 <ul>
-<li>If its a struggle to use, it can't run good.</li>
-<li>If its to full of technical jargon to understand, it can't run good</li>
+<li>If it's a struggle to use, it can't run good.</li>
+<li>If it's too full of technical jargon to understand, it can't run good</li>
 <li>If the user finds it useful, it runs good.</li>
 <li>If it runs good, it is good.</li>
 </ul>
@@ -13155,7 +13170,7 @@ March 29, 2019</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Gallery">Gallery<a class="anchor-link" href="#Gallery">&#182;</a></h2><h3 id="Locating-a-Lorentzian-peak">Locating a Lorentzian peak<a class="anchor-link" href="#Locating-a-Lorentzian-peak">&#182;</a></h3><p><img src="./demoLorentzfig1.png" alt="Comparison of measure-then-fit and optimal bayesian methods" title="lorentz demo"></p>
+<h2 id="Demos">Demos<a class="anchor-link" href="#Demos">&#182;</a></h2><h3 id="Locating-a-Lorentzian-peak">Locating a Lorentzian peak<a class="anchor-link" href="#Locating-a-Lorentzian-peak">&#182;</a></h3><p><img src="images/demoLorentzfig1.png" alt="Comparison of measure-then-fit and OBED method"></p>
 <p>Figure 1:  A comparison of measure-then-fit (left) and optimal Bayesian experimental design (right).  Both methods measure the same "true" peak with Gaussian noise added ($\sigma = 1$) independently.  The peak parameters are selected randomly: center between 2 and 4, height between 2 and 5, background between -1 and 1 and peak width between 0.1 and 0.3.  On the left, 30 evenly-spaced "measurements" are made and fit using <code>scipy.curve_fit()</code>.  A curve usingthe best-fit parameters is plotted for comparison with the true curve.  The diagonal element of the covariance matrix is taken as the square of the uncertainty.   On the right, the optimal Bayes experimental design method is used sequentially.  Iterations stop when the standard deviation of the <code>x0</code> peak center distribution is less than the uncertaintly of the fit on the left.  Green curves correspond to random draws from the parameter distribution at the stopping point. Typical runs of this example require something like 1/4 to 1/2 as many measurements.</p>
 
 </div>
@@ -13164,7 +13179,7 @@ March 29, 2019</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Tuning-a-$\pi$-pulse">Tuning a $\pi$ pulse<a class="anchor-link" href="#Tuning-a-$\pi$-pulse">&#182;</a></h3><p><img src="./pipulsefig2.png" alt="2D settings space" title="pi pulse demo"></p>
+<h3 id="Tuning-a-$\pi$-pulse">Tuning a $\pi$ pulse<a class="anchor-link" href="#Tuning-a-$\pi$-pulse">&#182;</a></h3><p><img src="images/pipulsefig2.png" alt="measurements of transition probability vs pulse length and detuning"></p>
 <p>Figure 2: A $\pi$ pulse is a method of inverting spins that is frequenly used in nuclear magnetic resonance (NMR and MRI) and pulsed electron paramagnetic resonance (EPR).  In order to be accurate, the duration and frequency of the pulse must be tuned.  On the left, the background image displays the model photon counts for optically detected spin manipulation for different detunings and pulse lengths.  White indicates the expected result for spin up and black, spin down.  Points indicate simulated measurement settings, with sequence in order from white to dark red.  Simulated measurements have 1$\sigma$ uncertainties of 100.  The right panel shows the probability distribution function after 50 measurements, with the red dot at the simulated "true" value.  The grey line shows the path of the probability maximum.</p>
 
 </div>
@@ -13173,7 +13188,7 @@ March 29, 2019</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Slope-Intercept">Slope Intercept<a class="anchor-link" href="#Slope-Intercept">&#182;</a></h3><p><img src="./slopeintercept.png" alt="Straight line measurement examples" title="slope intercept demo"></p>
+<h3 id="Slope-Intercept">Slope Intercept<a class="anchor-link" href="#Slope-Intercept">&#182;</a></h3><p><img src="images/slopeintercept.png" alt="Straight line measurement examples"></p>
 <p>Figure 3: This demo uses a straight line model, a case where we know ahead of time where the "best" measurements should be made.  Measurements at the ends of a line are the most effective at reducing uncertainty in the slope and intercept values.  But perhaps we also need to be convinced or reassured that the straight line model is appropriate, and we'd like to have some data in the middle, too. The OptBayesExpt class provides two methods for flexibility in measurement selection.  The <code>opt_setting()</code> method selects the setting with the highest <em>utility</em> $\max[U(x)]$.  The first panel shows that it behaves as expected, choosing measurements at the ends of the line.  The <code>good_setting()</code> method is more flexible, selecting settings with a probability based on the <em>utility</em> and the <code>pickiness</code> parameter.  The 2nd through 4th panels show that the <code>good_setting()</code> algorithm selects more diverse setting values as the <code>pickiness</code> is reduced.  Note also that the standard deviations increase from left to right as measurement resources are diverted away from reducing uncertainty.  Each run uses 40 points.</p>
 
 </div>
@@ -13252,6 +13267,18 @@ which is typical "beating down the noise" behavior of long-term averaging.</p>
 <li>When should I quit measuring?</li>
 </ol>
 <p>Both of these questions involve weighing the cost of a measurement against the expected benefits, and that's something that we just can't do, because a) we don't know how and b) it'd be a legal mess if we claimed that we did.   Economic decisions are left to the user.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Software">Software<a class="anchor-link" href="#Software">&#182;</a></h2><ul>
+<li><strong>OptBayesExpt.py</strong> <a href="OptBayesExpt.ipynb">[notebook]</a><a href="OptBayesExpt.html">[html]</a></li>
+<li><strong>ProbDistFunc_class.py</strong> <a href="ProbDistFunc.ipynb">[notebook]</a><a href="ProbDistFunc.html">[html]</a></li>
+<li><strong>ExptModel_class.py</strong> <a href="ExptModel_class.ipynb">[notebook]</a><a href="ExptModel_class.html">[html]</a></li>
+</ul>
 
 </div>
 </div>
