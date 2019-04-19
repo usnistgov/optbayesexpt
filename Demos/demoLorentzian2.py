@@ -125,6 +125,7 @@ def ymodel(x, x0, A, B, d):
     return Lorentz(x, x0, A, B, d)
 
 def fititerate():
+
     xseries = np.linspace(xvals[0], xvals[-1], Nmeasure)
     ysum = np.zeros(xseries.shape)
     ysquare = np.zeros(xseries.shape)
@@ -147,7 +148,8 @@ def fititerate():
         except RuntimeError:
             print('hiccup')
 
-        if i == 10:
+
+        if i == Nscans:
             sig = np.sqrt(ysquare/i - yaverage**2)/np.sqrt(i*1.0)
             trace = open('trace10.txt', 'w')
             for x, y, s in zip(xseries, yaverage, sig):
@@ -183,7 +185,7 @@ def batchdata():
     i = 0
     obefile = open('obedata.txt', "w")
 
-    while sig > 2*x0resolution:
+    while sig > .01:
         """get the measurement seting"""
         if optimum:
             xmeasure, = myOBE.opt_setting()
@@ -193,7 +195,7 @@ def batchdata():
         """fake measurement"""
         ymeasure = simdata(xmeasure)
 
-        if i < Nmeasure*10:
+        if i < Nmeasure*Nscans:
             xtrace.append(xmeasure)
             ytrace.append(ymeasure)
 
@@ -203,7 +205,7 @@ def batchdata():
         x0, sig = myOBE.get_mean(0)
         i += 1
         obefile.write('{}\t{}\t{}\n'.format(i, x0, sig))
-        print(i, "x0 = {}, sigma = {}".format(x0, sig))
+        print(i, "x0 = {:6.4f}, sigma = {:6.4f}".format(x0, sig))
 
     obefile.close()
     obetrace = open('obetrace.txt', 'w')
@@ -226,7 +228,7 @@ def batchplot():
     sobex = obex[sortindices]
     sobey = obey[sortindices]
 
-    oldx = -999
+    oldx = sobex[0]
     xbar = []
     ybar = []
     sbar = []
@@ -237,7 +239,7 @@ def batchplot():
             # process the accumulated data
             xbar.append(oldx)
             ybar.append(np.mean(np.array(ylist)))
-            sbar.append(1/np.sqrt(len(ylist)))
+            sbar.append(noiselevel/np.sqrt(len(ylist)))
             # reset accumulation
             oldx = x
             ylist = [y, ]
@@ -247,7 +249,7 @@ def batchplot():
     # oh, and the last batch
     xbar.append(oldx)
     ybar.append(np.mean(np.array(ylist)))
-    sbar.append(1/np.sqrt(len(ylist)))
+    sbar.append(noiselevel/np.sqrt(len(ylist)))
 
     # PLOTS
     plt.figure(figsize=(10, 4))
@@ -255,6 +257,7 @@ def batchplot():
     axL = axR.twinx()
 
     # histogram
+
     axR.hist(obex, bins=20, zorder=1, range=(1.45, 4.55), color='lightblue')
     axR.yaxis.tick_right()
     axR.yaxis.set_label_position('right')
@@ -266,24 +269,30 @@ def batchplot():
     axL.yaxis.tick_left()
     axL.set_ylabel('measured values')
     axL.yaxis.set_label_position('left')
-    axL.set_ylim((-1.5, 2))
+    axL.set_ylim((-1.0, 2))
 
 
     # plt.plot(obetrace[0], obetrace[1], 'o')
     # OBE values
-    plt.errorbar(xbar, ybar, sbar, fmt = 'o', lw=3, color = 'blue',
-                 label='OptBayesExpt', zorder=5)
+    # plt.errorbar(xbar, ybar, sbar, fmt = 'o', lw=3, color = 'blue',
+    #              label='OptBayesExpt', zorder=5)
+    smax = np.max(sbar)
+    pts = smax / sbar
+    plt.scatter(xbar, ybar, s=pts**2, c='blue', label='OptBayesExpt')
 
     #scan values
-    sig = 1/np.sqrt(10.)
-    axL.errorbar(scantrace[0], scantrace[1], sig, fmt='.', lw=1, capsize=3,  color='red',
-                 label='average & fit', zorder=10)
+    sig = noiselevel/np.sqrt(Nscans)
+    # axL.errorbar(scantrace[0], scantrace[1], sig, fmt='.', lw=1, capsize=3,  color='red',
+    #              label='average & fit')
+    plt.scatter(scantrace[0], scantrace[1], s= (smax/sig)**2, c='red', label='average & fit')
 
     truevals = np.loadtxt('truth.txt')
     x =np.arange(1.5, 4.5, .01)
     plt.plot(x, Lorentz(x, *truevals), 'k', label='true values')
     plt.legend(loc=1)
+    plt.arrow(3, -.45, .7, 0, facecolor="lightblue", edgecolor='None', width=.05)
 
+    # Log-Log
     plt.subplot(122)
 
     obedata = np.loadtxt('obedata.txt', unpack=True)
@@ -298,10 +307,12 @@ def batchplot():
 
     plt.legend()
     plt.xlim(left=3)
-    plt.ylim(top=1)
+    plt.ylim(top=.5)
     plt.xlabel('Total measurements')
     plt.ylabel('peak center uncertainty')
 
+    plt.arrow(500, .015, 4500, 0, facecolor='k', edgecolor='None', zorder = 30)
+    plt.text(1000, .017, "x 10")
 
 
     plt.tight_layout()
@@ -309,9 +320,11 @@ def batchplot():
 
 
 Nmeasure = 20
+Nscans = 50
 Nbatch = 1000
 
-optimum = True
+optimum = False
+pickiness = 10
 noiselevel = 1
 
 # data calculations stored in .txt files
