@@ -220,7 +220,6 @@ def batchplot():
     scantrace = np.loadtxt('trace10.txt', unpack=True)
     obetrace = np.loadtxt('obetrace.txt', unpack=True)
 
-
     obex = obetrace[0]
     obey = obetrace[1]
     sortindices = np.argsort(obex)
@@ -312,11 +311,11 @@ def batchplot():
 Nmeasure = 20
 Nbatch = 1000
 
-smartmeasure = True
 optimum = True
-pickiness = 7
 noiselevel = 1
-drawplots = 50
 
-batchdata()
+# data calculations stored in .txt files
+# batchdata()
+
+# read .txt files and make plots
 batchplot()
