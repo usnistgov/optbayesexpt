@@ -185,7 +185,7 @@ def batchdata():
     i = 0
     obefile = open('obedata.txt', "w")
 
-    while sig > .01:
+    while i < Nmeasure*Nscans:
         """get the measurement seting"""
         if optimum:
             xmeasure, = myOBE.opt_setting()
