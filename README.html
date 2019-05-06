@@ -13119,7 +13119,7 @@ div#notebook {
 <h1 id="OptBayesExpt-Overview">OptBayesExpt Overview<a class="anchor-link" href="#OptBayesExpt-Overview">&#182;</a></h1><p>R. D. McMichael
 <code>rmcmichael@nist.gov</code><br>
 National Institute of Standards and Technology<br>
-April 12, 2019</p>
+May 6, 2019</p>
 <h2 id="What-is-it-for?">What is it for?<a class="anchor-link" href="#What-is-it-for?">&#182;</a></h2><p>It's for making smarter measurements. This repository offers an implementation of optimized Bayesian experimental design (OBED). It is an experimental control strategy that chooses measurement settings based on accumulated data.  It is for cases with</p>
 <ul>
 <li>an experiment (possibly computational) <ul>
@@ -13127,7 +13127,7 @@ April 12, 2019</p>
 <li>and that can be controlled on the fly by one or more experimental settings, and</li>
 </ul>
 </li>
-<li>an experimental model that relates unknown parameters and experimental settings to measurement predictions.  If you would normally fit a function to the data to get fit parameters, that's the model function.</li>
+<li>a parametric model, i.e. an equation that relates unknown parameters and experimental settings to measurement predictions.  If you would normally fit a function to the data to get fit parameters, that's the parametric model.</li>
 </ul>
 <p>The real benefit of OBED methods is that they direct measurements toward settings that have the best chance of making our parameter estimates more precise. This feature is very heplful in situations where the measurements are expensive.</p>
 <p>It is not for fitting existing data, but if you're thinking about making more measurements, you might be interested.</p>
@@ -13135,7 +13135,7 @@ April 12, 2019</p>
 <h2 id="What-does-it-do?">What does it do?<a class="anchor-link" href="#What-does-it-do?">&#182;</a></h2><p>The optimal Bayesian experimental design algorithms play the role of an impatient experimenter who monitors data from a running experiment and changes the measurement settings in order to get better, more meaningful data. Note the two
 steps here. The first step, looking at the data, is really an act of extracting meaning from the numbers, learning something about the system from the existing measurements. The second step is using that knowledge to improve the measurement strategy.</p>
 <p>In the "looking at the data" role, the OBED routines use a user-supplied model function and Bayesian inference to extract and update information about model parameters as new measurement data arrives.  Then, in the decision making role, the OBED routines use the updated parameter knowledge to select settings that have the best chance of refining the parameters.</p>
-<p>The most important role is the responsibility of the user, however. As delivered, the BayesOptExpt is ignorant of the world, and it's the user's responsibility to describe the world (OK, just the experiment really.) in terms of a model, reasonable parameters, and reasonable experimental settings. As with any computer program, "the garbage in, garbage out" rule applies.</p>
+<p>The most important role is the responsibility of the user, however. As delivered, the BayesOptExpt is ignorant of the world, and it's the user's responsibility to describe the world (OK, just the experiment really.) in terms of a model, reasonable parameters, and reasonable experimental settings. As with most computer programs, "the garbage in, garbage out" rule applies.</p>
 <h2 id="What's-included?">What's included?<a class="anchor-link" href="#What's-included?">&#182;</a></h2><h3 id="Core-files">Core files<a class="anchor-link" href="#Core-files">&#182;</a></h3><p>The package incorporates a few Python classes that provide the basic
 fuctionality.</p>
 <ul>
@@ -13159,6 +13159,8 @@ an OptBayesExpt class with a server that communicates with external programs via
 <a href="Docs/manual.ipynb">[notebook]</a> <a href="Docs/manual.html">[html]</a></p>
 <ul>
 <li><p><strong>demoLorentzian.py</strong>  demonstrates how to incorporate a simple model into a BayesOptExpt. A simulation takes the place of a real measurement, supplying noisy "measurement results" that the BayesOptExpt uses to locate and measure a randomly placed Lorentzian peak.  One setting, several model parameters.  Also see <strong>Docs/sequentialLorentzian.ipynb</strong> <a href="Docs/sequentialLorentzian.ipynb">[notebook]</a><a href="Demos/sequentialLorentzian.html">[html]</a> is a jupyter notebook with a step-by-step walk-through of the <code>sequentialLorentzian.py</code> code.</p>
+</li>
+<li><p><strong>demoLorentzian2.py</strong> uses the Lorentzian peak experimenttal model to demonstrate 10 $\times$ improved measurement efficiency of BayesOptExpt relative to an average &amp; fit method.</p>
 </li>
 <li><p><strong>pipulse.py</strong> is a slightly more complicated demo featuring multiple (two!) experimental settings and the process for including pre-existing information, a <em>prior</em>.</p>
 </li>

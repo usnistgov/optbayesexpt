@@ -4,7 +4,7 @@
 R. D. McMichael
 `rmcmichael@nist.gov`  
 National Institute of Standards and Technology  
-April 12, 2019
+May 6, 2019
 
 
 ## What is it for?
@@ -14,7 +14,7 @@ It's for making smarter measurements. This repository offers an implementation o
  - an experiment (possibly computational) 
    - that yields measurements and uncertainty estimates, 
    - and that can be controlled on the fly by one or more experimental settings, and
- - an experimental model that relates unknown parameters and experimental settings to measurement predictions.  If you would normally fit a function to the data to get fit parameters, that's the model function.
+ - a parametric model, i.e. an equation that relates unknown parameters and experimental settings to measurement predictions.  If you would normally fit a function to the data to get fit parameters, that's the parametric model.
  
 The real benefit of OBED methods is that they direct measurements toward settings that have the best chance of making our parameter estimates more precise. This feature is very heplful in situations where the measurements are expensive.
 
@@ -29,7 +29,7 @@ steps here. The first step, looking at the data, is really an act of extracting 
 
 In the "looking at the data" role, the OBED routines use a user-supplied model function and Bayesian inference to extract and update information about model parameters as new measurement data arrives.  Then, in the decision making role, the OBED routines use the updated parameter knowledge to select settings that have the best chance of refining the parameters.
 
-The most important role is the responsibility of the user, however. As delivered, the BayesOptExpt is ignorant of the world, and it's the user's responsibility to describe the world (OK, just the experiment really.) in terms of a model, reasonable parameters, and reasonable experimental settings. As with any computer program, "the garbage in, garbage out" rule applies.
+The most important role is the responsibility of the user, however. As delivered, the BayesOptExpt is ignorant of the world, and it's the user's responsibility to describe the world (OK, just the experiment really.) in terms of a model, reasonable parameters, and reasonable experimental settings. As with most computer programs, "the garbage in, garbage out" rule applies.
 
 ## What's included?
 
@@ -61,6 +61,8 @@ A brief discussion of these demos is included in the manual.
 [[notebook]](Docs/manual.ipynb) [[html]](Docs/manual.html)
 
 * **demoLorentzian.py**  demonstrates how to incorporate a simple model into a BayesOptExpt. A simulation takes the place of a real measurement, supplying noisy "measurement results" that the BayesOptExpt uses to locate and measure a randomly placed Lorentzian peak.  One setting, several model parameters.  Also see **Docs/sequentialLorentzian.ipynb** [[notebook]](Docs/sequentialLorentzian.ipynb)[[html]](Demos/sequentialLorentzian.html) is a jupyter notebook with a step-by-step walk-through of the `sequentialLorentzian.py` code.  
+
+* **demoLorentzian2.py** uses the Lorentzian peak experimenttal model to demonstrate 10 $\times$ improved measurement efficiency of BayesOptExpt relative to an average & fit method.
 
 * **pipulse.py** is a slightly more complicated demo featuring multiple (two!) experimental settings and the process for including pre-existing information, a _prior_.
 
