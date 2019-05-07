@@ -13117,7 +13117,7 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="ExptModel_class.py">ExptModel_class.py<a class="anchor-link" href="#ExptModel_class.py">&#182;</a></h2><p>This class handles evaluation of the user-defined model function.</p>
-<h3 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h3><h4 id="ExptModel.model_config(self,-settings,-parameters,-constants)"><code>ExptModel.model_config(self, settings, parameters, constants)</code><a class="anchor-link" href="#ExptModel.model_config(self,-settings,-parameters,-constants)">&#182;</a></h4><p>This method prepares arrays of all possible setting combinations and arrays of all possible parameter combinations.  These arrays are used in evaluating the model function in order to determine useful measurement settings and to update the probabilitiy distribution function with new measurement data.</p>
+<h3 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h3><h4 id="ExptModel.model_config(self,-settings,-parameters,-constants)"><code>ExptModel.model_config(self, settings, parameters, constants)</code><a class="anchor-link" href="#ExptModel.model_config(self,-settings,-parameters,-constants)">&#182;</a></h4><p>This method prepares arrays of all possible setting combinations and arrays of all possible parameter combinations.  These arrays are used in evaluating the model function in order to determine useful measurement settings and to update the probability distribution function with new measurement data.</p>
 <ul>
 <li><code>settings</code> is a tuple of numpy arrays, an array of allowed values for each experimental setting. Settings are properties of the measuring equipment.</li>
 <li><code>parameters</code> is a tuple of numpy arrays, an array for each parameter.  Parameters are properties of the thing that's getting measured.  The OptBayesExpt methods will refine the probability distribution over the parameter values given in these arrays.</li>
@@ -13126,23 +13126,23 @@ div#notebook {
 <h4 id="ExptModel.model_function(self,-sets,-pars,-cons)"><code>ExptModel.model_function(self, sets, pars, cons)</code><a class="anchor-link" href="#ExptModel.model_function(self,-sets,-pars,-cons)">&#182;</a></h4><p>A placeholder for the user-defined model function.  This function will be called in two different modes, either evaluating the model at all possible settings or evaluating at all possible parameters.  Using the flexibility of numpy arrays, a single model_function can handle both modes</p>
 <ul>
 <li><em>setting mode</em>:  Used in determining useful measurement settings, the model_function is evaluated with<ul>
-<li><code>sets</code> a tuple of arrays (possibly multidimensonal) covering all possible settings combinations</li>
+<li><code>sets</code> a tuple of arrays (possibly multidimensional) covering all possible settings combinations</li>
 <li><code>pars</code> a tuple of floats representing a single set of parameter values</li>
 <li><code>cons</code> a tuple of model constants</li>
 </ul>
 </li>
 <li><em>learning mode</em>: Used in incorporating new measurement values into the parameter probability distribution<ul>
 <li><code>sets</code> a tuple of floats representing a single set of setting values</li>
-<li><code>pars</code> a tuple of arrays (possibly multidimensonal) covering all possible parameter combinations</li>
+<li><code>pars</code> a tuple of arrays (possibly multidimensional) covering all possible parameter combinations</li>
 <li><code>cons</code> a tuple of model constants</li>
 </ul>
 </li>
 </ul>
-<h4 id="eval_over_all_parameters(self,-onesettingset)"><code>eval_over_all_parameters(self, onesettingset)</code><a class="anchor-link" href="#eval_over_all_parameters(self,-onesettingset)">&#182;</a></h4><p>A wrapper that calles the <code>model_function</code> in <em>learning mode</em>, evaluating over parameters</p>
+<h4 id="eval_over_all_parameters(self,-onesettingset)"><code>eval_over_all_parameters(self, onesettingset)</code><a class="anchor-link" href="#eval_over_all_parameters(self,-onesettingset)">&#182;</a></h4><p>A wrapper that calls the <code>model_function</code> in <em>learning mode</em>, evaluating over parameters</p>
 <ul>
 <li><code>onesettingset</code> a tuple of floats representing a single set of settings.</li>
 </ul>
-<h4 id="eval_over_all_settings(self,-oneparamset)"><code>eval_over_all_settings(self, oneparamset)</code><a class="anchor-link" href="#eval_over_all_settings(self,-oneparamset)">&#182;</a></h4><p>A wrapper that calles the <code>model_function</code> in <em>setting mode</em>, evaluating over all settings</p>
+<h4 id="eval_over_all_settings(self,-oneparamset)"><code>eval_over_all_settings(self, oneparamset)</code><a class="anchor-link" href="#eval_over_all_settings(self,-oneparamset)">&#182;</a></h4><p>A wrapper that calls the <code>model_function</code> in <em>setting mode</em>, evaluating over all settings</p>
 <ul>
 <li><code>oneparamset</code> a tuple of floats representing a single set of parameters.</li>
 </ul>

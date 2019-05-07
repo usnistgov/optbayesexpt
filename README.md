@@ -16,7 +16,7 @@ It's for making smarter measurements. This repository offers an implementation o
    - and that can be controlled on the fly by one or more experimental settings, and
  - a parametric model, i.e. an equation that relates unknown parameters and experimental settings to measurement predictions.  If you would normally fit a function to the data to get fit parameters, that's the parametric model.
  
-The real benefit of OBED methods is that they direct measurements toward settings that have the best chance of making our parameter estimates more precise. This feature is very heplful in situations where the measurements are expensive.
+The real benefit of OBED methods is that they direct measurements toward settings that have the best chance of making our parameter estimates more precise. This feature is very helpful in situations where the measurements are expensive.
 
 It is not for fitting existing data, but if you're thinking about making more measurements, you might be interested.
 
@@ -36,7 +36,7 @@ The most important role is the responsibility of the user, however. As delivered
 ### Core files
  
 The package incorporates a few Python classes that provide the basic
-fuctionality.
+functionality.
 
 * **OptBayesExpt.py** provides methods for the learning and deciding steps described above. This class inherits all methods and data from both ProbDistFunc and ExptModel, and it is the only class that a user will need to interact with directly.  Manual: [[notebook]](Docs/OptBayesExpt.ipynb)[[html]](Docs/OptBayesExpt.html)
   
@@ -62,7 +62,7 @@ A brief discussion of these demos is included in the manual.
 
 * **demoLorentzian.py**  demonstrates how to incorporate a simple model into a BayesOptExpt. A simulation takes the place of a real measurement, supplying noisy "measurement results" that the BayesOptExpt uses to locate and measure a randomly placed Lorentzian peak.  One setting, several model parameters.  Also see **Docs/sequentialLorentzian.ipynb** [[notebook]](Docs/sequentialLorentzian.ipynb)[[html]](Demos/sequentialLorentzian.html) is a jupyter notebook with a step-by-step walk-through of the `sequentialLorentzian.py` code.  
 
-* **demoLorentzian2.py** uses the Lorentzian peak experimenttal model to demonstrate 10 $\times$ improved measurement efficiency of BayesOptExpt relative to an average & fit method.
+* **demoLorentzian2.py** uses the Lorentzian peak experimental model to demonstrate 10 $\times$ improved measurement efficiency of BayesOptExpt relative to an average & fit method.
 
 * **pipulse.py** is a slightly more complicated demo featuring multiple (two!) experimental settings and the process for including pre-existing information, a _prior_.
 
@@ -82,8 +82,3 @@ copy, modify, create derivative works, and distribute this software and its docu
 
 THE SOFTWARE IS PROVIDED 'AS IS' WITHOUT ANY WARRANTY OF ANY KIND, EITHER EXPRESSED, IMPLIED, OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, ANY WARRANTY THAT THE SOFTWARE WILL CONFORM TO SPECIFICATIONS, ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND FREEDOM FROM INFRINGEMENT, AND ANY WARRANTY THAT THE DOCUMENTATION WILL CONFORM TO THE SOFTWARE, OR ANY WARRANTY THAT THE SOFTWARE WILL BE ERROR FREE. IN NO EVENT SHALL NIST BE LIABLE FOR ANY DAMAGES, INCLUDING,
 BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR CONSEQUENTIAL DAMAGES, ARISING OUT OF, RESULTING FROM, OR IN ANY WAY CONNECTED WITH THIS SOFTWARE, WHETHER OR NOT BASED UPON WARRANTY, CONTRACT, TORT, OR OTHERWISE, WHETHER OR NOT INJURY WAS SUSTAINED BY PERSONS OR PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
-
-
-```python
-
-```

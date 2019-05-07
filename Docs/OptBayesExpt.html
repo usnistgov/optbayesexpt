@@ -13116,8 +13116,8 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="OptBayesExpt">OptBayesExpt<a class="anchor-link" href="#OptBayesExpt">&#182;</a></h2><p>This class combines an ExptModel class and a ProbDistFunc class, and adds the routines needed for interpreting new measurement data and for slecting new mesurement settings.</p>
-<p>ExptModel provides methods for evaluating an experimental model. Note that the actual model ins't provided.  See the Demos for examples of how to add your model and configure.</p>
+<h2 id="OptBayesExpt">OptBayesExpt<a class="anchor-link" href="#OptBayesExpt">&#182;</a></h2><p>This class combines an ExptModel class and a ProbDistFunc class, and adds the routines needed for interpreting new measurement data and for selecting new measurement settings.</p>
+<p>ExptModel provides methods for evaluating an experimental model. Note that the actual model isn't provided.  See the Demos for examples of how to add your model and configure.</p>
 <p>ProbDistFunc provides a probability distribution function and methods for parameter probabilities.</p>
 <p>OptBayesExpt adds</p>
 <ul>
@@ -13131,8 +13131,8 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h3><h4 id="myOBE.config()"><code>myOBE.config()</code><a class="anchor-link" href="#myOBE.config()">&#182;</a></h4><p>Configures the settings and parameters arrays and constands based on the <code>sets</code>, <code>params</code> and <code>cons</code> variables.  These variables must set up before running <code>config.</code></p>
-<h4 id="myOBE.pdf_update(onesetting,-ymeas,-sigma)"><code>myOBE.pdf_update(onesetting, ymeas, sigma)</code><a class="anchor-link" href="#myOBE.pdf_update(onesetting,-ymeas,-sigma)">&#182;</a></h4><p>Recieves new measurement data, <code>ymeas</code> $\pm$ <code>sigma</code>, and updates the probability distribution function using Bayesian inference.  The model function is evaluated once for each possible combination of parameters.</p>
+<h3 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h3><h4 id="myOBE.config()"><code>myOBE.config()</code><a class="anchor-link" href="#myOBE.config()">&#182;</a></h4><p>Configures the settings and parameters arrays and constants based on the <code>sets</code>, <code>params</code> and <code>cons</code> variables.  These variables must set up before running <code>config.</code></p>
+<h4 id="myOBE.pdf_update(onesetting,-ymeas,-sigma)"><code>myOBE.pdf_update(onesetting, ymeas, sigma)</code><a class="anchor-link" href="#myOBE.pdf_update(onesetting,-ymeas,-sigma)">&#182;</a></h4><p>Receives new measurement data, <code>ymeas</code> $\pm$ <code>sigma</code>, and updates the probability distribution function using Bayesian inference.  The model function is evaluated once for each possible combination of parameters.</p>
 <ul>
 <li><code>onesetting</code> a tuple representing the combination of settings used in the measurement. </li>
 <li><code>ymeas</code> a float, the measurement value.  Interpreted by the code as the mean of a Gaussian distribution.</li>
@@ -13140,14 +13140,14 @@ div#notebook {
 </ul>
 <h4 id="myOBE.opt_setting()"><code>myOBE.opt_setting()</code><a class="anchor-link" href="#myOBE.opt_setting()">&#182;</a></h4><p>Computes a utility function $U(x)$ for each possible combination of settings $x$. $U(x)$ is an estimate of how much "good" a measurement at settings $x$ will do in terms of refining the parameter distribution.  See the manual for details.  The calculation of $U(x)$ is the most computationally demanding part of a measurement cycle; For <code>myOBE.Ndraws</code> random parameter values, the model function is evaluated at every possible combination of settings.</p>
 <ul>
-<li><code>return:</code> a tuple containing measurment settings that correspond to the maximum $\max[U(x)]$.</li>
+<li><code>return:</code> a tuple containing measurement settings that correspond to the maximum $\max[U(x)]$.</li>
 </ul>
 <h4 id="myOBE.good_setting(pickiness=1)"><code>myOBE.good_setting(pickiness=1)</code><a class="anchor-link" href="#myOBE.good_setting(pickiness=1)">&#182;</a></h4><p>Computes the utility function $U(x)$ as in <code>myOBE.optsetting()</code> and selects a setting $x$ with a probability proportional to $U(x)^n$ where the exponent $n$ is given by the <code>pickiness</code> parameter.</p>
 <ul>
 <li><code>pickiness</code> a value that skews the setting selection away from small $U(x)$ and toward large values.</li>
 <li><code>return:</code> a tuple containing good - but maybe not the optimal - measurement settings.</li>
 </ul>
-<h4 id="myOBE.besty()"><code>myOBE.besty()</code><a class="anchor-link" href="#myOBE.besty()">&#182;</a></h4><p>Provides something like the best-fit curve.  Using parameters from the maximum of the parameter probability distribution, the model fuction is evaluated for every experimental setting.</p>
+<h4 id="myOBE.besty()"><code>myOBE.besty()</code><a class="anchor-link" href="#myOBE.besty()">&#182;</a></h4><p>Provides something like the best-fit curve.  Using parameters from the maximum of the parameter probability distribution, the model function is evaluated for every experimental setting.</p>
 <ul>
 <li><code>return:</code> a numpy array with the dimensions of parameter space.</li>
 </ul>
@@ -13203,13 +13203,15 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     
     <span class="kn">from</span> <span class="nn">OptBayesExpt</span> <span class="k">import</span> <span class="n">OptBayesExpt</span> 
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
     <span class="c1"># settings</span>
+    
     <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
     <span class="n">svs</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span><span class="p">,)</span>
     <span class="n">p1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
@@ -13228,6 +13230,60 @@ div#notebook {
     <span class="nb">print</span><span class="p">(</span><span class="n">myexpt</span><span class="o">.</span><span class="n">paramvals</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">myexpt</span><span class="o">.</span><span class="n">allparams</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">myexpt</span><span class="o">.</span><span class="n">allsettings</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(11, 9)
+(array([-1. , -0.8, -0.6, -0.4, -0.2,  0. ,  0.2,  0.4,  0.6,  0.8,  1. ]), array([2.1  , 2.325, 2.55 , 2.775, 3.   , 3.225, 3.45 , 3.675, 3.9  ]))
+[array([[-1. , -1. , -1. , -1. , -1. , -1. , -1. , -1. , -1. ],
+       [-0.8, -0.8, -0.8, -0.8, -0.8, -0.8, -0.8, -0.8, -0.8],
+       [-0.6, -0.6, -0.6, -0.6, -0.6, -0.6, -0.6, -0.6, -0.6],
+       [-0.4, -0.4, -0.4, -0.4, -0.4, -0.4, -0.4, -0.4, -0.4],
+       [-0.2, -0.2, -0.2, -0.2, -0.2, -0.2, -0.2, -0.2, -0.2],
+       [ 0. ,  0. ,  0. ,  0. ,  0. ,  0. ,  0. ,  0. ,  0. ],
+       [ 0.2,  0.2,  0.2,  0.2,  0.2,  0.2,  0.2,  0.2,  0.2],
+       [ 0.4,  0.4,  0.4,  0.4,  0.4,  0.4,  0.4,  0.4,  0.4],
+       [ 0.6,  0.6,  0.6,  0.6,  0.6,  0.6,  0.6,  0.6,  0.6],
+       [ 0.8,  0.8,  0.8,  0.8,  0.8,  0.8,  0.8,  0.8,  0.8],
+       [ 1. ,  1. ,  1. ,  1. ,  1. ,  1. ,  1. ,  1. ,  1. ]]), array([[2.1  , 2.325, 2.55 , 2.775, 3.   , 3.225, 3.45 , 3.675, 3.9  ],
+       [2.1  , 2.325, 2.55 , 2.775, 3.   , 3.225, 3.45 , 3.675, 3.9  ],
+       [2.1  , 2.325, 2.55 , 2.775, 3.   , 3.225, 3.45 , 3.675, 3.9  ],
+       [2.1  , 2.325, 2.55 , 2.775, 3.   , 3.225, 3.45 , 3.675, 3.9  ],
+       [2.1  , 2.325, 2.55 , 2.775, 3.   , 3.225, 3.45 , 3.675, 3.9  ],
+       [2.1  , 2.325, 2.55 , 2.775, 3.   , 3.225, 3.45 , 3.675, 3.9  ],
+       [2.1  , 2.325, 2.55 , 2.775, 3.   , 3.225, 3.45 , 3.675, 3.9  ],
+       [2.1  , 2.325, 2.55 , 2.775, 3.   , 3.225, 3.45 , 3.675, 3.9  ],
+       [2.1  , 2.325, 2.55 , 2.775, 3.   , 3.225, 3.45 , 3.675, 3.9  ],
+       [2.1  , 2.325, 2.55 , 2.775, 3.   , 3.225, 3.45 , 3.675, 3.9  ],
+       [2.1  , 2.325, 2.55 , 2.775, 3.   , 3.225, 3.45 , 3.675, 3.9  ]])]
+[array([ 0. ,  2.5,  5. ,  7.5, 10. ])]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 
     </div>

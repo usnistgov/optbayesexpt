@@ -13129,7 +13129,7 @@ May 6, 2019</p>
 </li>
 <li>a parametric model, i.e. an equation that relates unknown parameters and experimental settings to measurement predictions.  If you would normally fit a function to the data to get fit parameters, that's the parametric model.</li>
 </ul>
-<p>The real benefit of OBED methods is that they direct measurements toward settings that have the best chance of making our parameter estimates more precise. This feature is very heplful in situations where the measurements are expensive.</p>
+<p>The real benefit of OBED methods is that they direct measurements toward settings that have the best chance of making our parameter estimates more precise. This feature is very helpful in situations where the measurements are expensive.</p>
 <p>It is not for fitting existing data, but if you're thinking about making more measurements, you might be interested.</p>
 <p>Note that Bayesian optimization is 'something completely different' that has proven to be useful for machine learning. Typically, those are situations where the system isn't well understood.</p>
 <h2 id="What-does-it-do?">What does it do?<a class="anchor-link" href="#What-does-it-do?">&#182;</a></h2><p>The optimal Bayesian experimental design algorithms play the role of an impatient experimenter who monitors data from a running experiment and changes the measurement settings in order to get better, more meaningful data. Note the two
@@ -13137,7 +13137,7 @@ steps here. The first step, looking at the data, is really an act of extracting 
 <p>In the "looking at the data" role, the OBED routines use a user-supplied model function and Bayesian inference to extract and update information about model parameters as new measurement data arrives.  Then, in the decision making role, the OBED routines use the updated parameter knowledge to select settings that have the best chance of refining the parameters.</p>
 <p>The most important role is the responsibility of the user, however. As delivered, the BayesOptExpt is ignorant of the world, and it's the user's responsibility to describe the world (OK, just the experiment really.) in terms of a model, reasonable parameters, and reasonable experimental settings. As with most computer programs, "the garbage in, garbage out" rule applies.</p>
 <h2 id="What's-included?">What's included?<a class="anchor-link" href="#What's-included?">&#182;</a></h2><h3 id="Core-files">Core files<a class="anchor-link" href="#Core-files">&#182;</a></h3><p>The package incorporates a few Python classes that provide the basic
-fuctionality.</p>
+functionality.</p>
 <ul>
 <li><p><strong>OptBayesExpt.py</strong> provides methods for the learning and deciding steps described above. This class inherits all methods and data from both ProbDistFunc and ExptModel, and it is the only class that a user will need to interact with directly.  Manual: <a href="Docs/OptBayesExpt.ipynb">[notebook]</a><a href="Docs/OptBayesExpt.html">[html]</a></p>
 </li>
@@ -13160,7 +13160,7 @@ an OptBayesExpt class with a server that communicates with external programs via
 <ul>
 <li><p><strong>demoLorentzian.py</strong>  demonstrates how to incorporate a simple model into a BayesOptExpt. A simulation takes the place of a real measurement, supplying noisy "measurement results" that the BayesOptExpt uses to locate and measure a randomly placed Lorentzian peak.  One setting, several model parameters.  Also see <strong>Docs/sequentialLorentzian.ipynb</strong> <a href="Docs/sequentialLorentzian.ipynb">[notebook]</a><a href="Demos/sequentialLorentzian.html">[html]</a> is a jupyter notebook with a step-by-step walk-through of the <code>sequentialLorentzian.py</code> code.</p>
 </li>
-<li><p><strong>demoLorentzian2.py</strong> uses the Lorentzian peak experimenttal model to demonstrate 10 $\times$ improved measurement efficiency of BayesOptExpt relative to an average &amp; fit method.</p>
+<li><p><strong>demoLorentzian2.py</strong> uses the Lorentzian peak experimental model to demonstrate 10 $\times$ improved measurement efficiency of BayesOptExpt relative to an average &amp; fit method.</p>
 </li>
 <li><p><strong>pipulse.py</strong> is a slightly more complicated demo featuring multiple (two!) experimental settings and the process for including pre-existing information, a <em>prior</em>.</p>
 </li>
@@ -13178,19 +13178,6 @@ BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR CONSEQUENTIAL DAMAGES, ARISING 
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
     </div>
   </div>

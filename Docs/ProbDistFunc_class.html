@@ -13161,21 +13161,21 @@ div#notebook {
 </ul>
 <h4 id="P.get_std(self,-paraxis)"><code>P.get_std(self, paraxis)</code><a class="anchor-link" href="#P.get_std(self,-paraxis)">&#182;</a></h4><p>Computes the standard deviation of <code>P.PDF</code> collapsed down to a single axis, treating all other axes as nuisance variables.</p>
 <ul>
-<li><code>paraxis</code> the axis of the pdf corresponding to the vaiable of interest.</li>
+<li><code>paraxis</code> the axis of the pdf corresponding to the variable of interest.</li>
 <li><code>return:</code> The standard deviation.</li>
 </ul>
 <h4 id="P.get_mean(self,paraxis)"><code>P.get_mean(self,paraxis)</code><a class="anchor-link" href="#P.get_mean(self,paraxis)">&#182;</a></h4><p>Computes the mean and standard deviation of <code>P.PDF</code> collapsed down to a single axis, treating all other axes as nuisance variables.</p>
 <ul>
-<li><code>paraxis</code> the axis of the pdf corresponding to the vaiable of interest.</li>
+<li><code>paraxis</code> the axis of the pdf corresponding to the variable of interest.</li>
 <li><code>return:</code> a (mean value, standard deviation) tuple</li>
 </ul>
 <h4 id="P.entropy(self):"><code>P.entropy(self):</code><a class="anchor-link" href="#P.entropy(self):">&#182;</a></h4><p>Computes the information entropy of the probability distribution. Smaller values indicate narrower distributions.</p>
 <ul>
 <li><code>return:</code> float containting the entropy value of P.PDF.</li>
 </ul>
-<h3 id="Variables">Variables<a class="anchor-link" href="#Variables">&#182;</a></h3><h4 id="P.pdfshape"><code>P.pdfshape</code><a class="anchor-link" href="#P.pdfshape">&#182;</a></h4><p>A tuple describing the dimensions of the probability disttribution arrays.  Its value is initialized by <code>ProbDistFunc.pdf_config()</code>.</p>
+<h3 id="Variables">Variables<a class="anchor-link" href="#Variables">&#182;</a></h3><h4 id="P.pdfshape"><code>P.pdfshape</code><a class="anchor-link" href="#P.pdfshape">&#182;</a></h4><p>A tuple describing the dimensions of the probability distribution arrays.  Its value is initialized by <code>ProbDistFunc.pdf_config()</code>.</p>
 <h4 id="P.pdfdims"><code>P.pdfdims</code><a class="anchor-link" href="#P.pdfdims">&#182;</a></h4><p>The dimensionality of P.PDF, or more simply, the number or parameters.</p>
-<h4 id="P.PDF"><code>P.PDF</code><a class="anchor-link" href="#P.PDF">&#182;</a></h4><p>A numpy array with dimensions <code>P.shape</code> that contains values proportional to the probaility density for the parameters.  <code>P.PDF</code> is not normalized.  See the <code>P.getPDF()</code> method to access normalized distributions.</p>
+<h4 id="P.PDF"><code>P.PDF</code><a class="anchor-link" href="#P.PDF">&#182;</a></h4><p>A numpy array with dimensions <code>P.shape</code> that contains values proportional to the probability density for the parameters.  <code>P.PDF</code> is not normalized.  See the <code>P.getPDF()</code> method to access normalized distributions.</p>
 <h4 id="P.lnPDF"><code>P.lnPDF</code><a class="anchor-link" href="#P.lnPDF">&#182;</a></h4><p>A numpy array with dimensions <code>P.shape</code> that contains the natural logarithm of the probability density.  <code>P.lnPDF</code> is pseudo-normalized to have a maximum value of 1.0.  See the <code>P.getPDF()</code> method to access normalized distributions.</p>
 <h4 id="P.Ndraws"><code>P.Ndraws</code><a class="anchor-link" href="#P.Ndraws">&#182;</a></h4><p>An integer number of random draws that will be taken from the parameter distribution during the calculation of useful settings.  Default is 200.  Initialized by <code>__init__()</code>.</p>
 <h4 id="P.paramvals"><code>P.paramvals</code><a class="anchor-link" href="#P.paramvals">&#182;</a></h4><p>A tuple of numpy arrays, stores the argument of <code>P.pdf_config()</code></p>
