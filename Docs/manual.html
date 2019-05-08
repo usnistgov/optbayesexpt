@@ -13222,7 +13222,7 @@ March 29, 2019</p>
   $$ p(\theta|m) = \frac{p(m|\theta) p(\theta)}{p(m)}. $$</p>
 <p>It's easy to write down Bayes rule. You just put the symbols in the right places.  On the other hand, understanding the symbols can be tricky, so let's pick it apart.   All of the terms here have technical names.  The left side is the <em>posterior</em> distribution, i.e. the distribution of parameters $\theta$ after we include $m$. On the right, distribution $p(\theta)$ is the <em>prior</em>, representing what we knew about the parameters $\theta$ before the measurement. In the denominator, $p(m)$ is the <em>evidence</em>, which has no $\theta$ dependence, so it behaves like a normalization constant.  In this case we can normalize our <em>posterior</em> before we use it, and that allows us to ignore the <em>evidence</em>.  I can't believe I just wrote that.</p>
 <p>The term that we need to focus on, $p(m|\theta)$, is called the <em>likelihood</em>. It's the probability of getting measurement $m$ given variable parameter values $\theta$. Just as any conditional probability $p(a|b)$ depends on both $a$ and $b$, $p(m |\theta)$ depends on both $m$ and $\theta$.  But when we put it into practice, we're going to have fixed measurement results $m_i$ to "plug in" for $m$.  It's important to keep sight of the fact that $p(m_i|\theta)$ is still a function of theta. Conceptually, we can try out different parameter values in our model to produce a variety of measurement predictions.  Some will be closer to $m_i$ (and more likely) and some will be further away (and less likely).</p>
-<p>To go further, we need to specify what we mean by a measurement $m_i$.  Of course the measurement includes the "value" $y_i$ (which could be more than one number), but we also require it to include measurement settings $x_i$ and an estimate of the uncertainties $\sigma_i$. The choice to require uncertainties adds responsibility to the experiment, while making the model simpler. A supremely complete model would include not only the theory of our system's behavior, but also the theory of the measurement noise, environmental fluctuations, the universe and everything.  It's a bit much to ask.  By requiring uncertainty estimates in the measurement, the experimental model can be an easy-to-program deterministic function $y(x,\theta)$.  The probabilistic nature of measurement noise (and everything) is captured by the $\sigma_i$, which provides a recipe for a Gaussian distribution.</p>
+<p>To go further, we need to specify what we mean by a measurement $m_i$.  Of course the measurement includes the "value" $y_i$ (which could be more than one number), but we also require it to include measurement settings $x_i$ and an estimate of the uncertainties $\sigma_i$. The choice to require uncertainties adds responsibility to the experiment, while making the model simpler. A supremely complete model would include not only the theory of our system's behavior, but also a model of the measurement noise, environmental fluctuations, the universe and everything.  It's a bit much to ask.  By requiring uncertainty estimates in the measurement, the experimental model can be an easy-to-program deterministic function $y(x,\theta)$ rather than a distribution.  The probabilistic nature of measurement noise (and everything) is captured by the $\sigma_i$, which provides a recipe for a Gaussian distribution.</p>
 <p>Unpacking a mean value $y_i$ and uncertainty $\sigma_i$ from $m$, we can supplement the simple model with the measured uncertainty to yield the <em>likelihood</em></p>
 <p>$$ p(m_i|\theta) = \frac{1}{\sqrt{2\pi}\sigma_i} \exp\left[-\frac{[y_i - y(x_i, \theta)]^2 }{ 2\sigma_i^2 } \right]$$.</p>
 <p>Now we know how to update our "knowledge" of parameters $\theta$ expressed as a probability distribution $P(\theta)$.</p>
@@ -13246,20 +13246,20 @@ March 29, 2019</p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Making-good-decisions">Making good decisions<a class="anchor-link" href="#Making-good-decisions">&#182;</a></h3><p>The next important job in the process is figuring out the settings for the next measurement that will best advance our goals.   At least part of our goal is to make the parameter probability distribution $p(\theta)$ narrow while minimizing cost or time spent.  But we might have more than one goal: of course to find the best parameter values, but maybe also to convince a skeptical journal reviewer or to get project funding.</p>
 <p>The challenge, then is to develop a <em>utility function</em> $U(x)$ that helps us to predict and compare the relative benefits of different possible experimental settings $x$.</p>
-<p>First, an appeal to intuition.  Our system model describes a connection between parameter values $\theta$ and measurement results $y$, so if we try out different parameter values the model will predict different measurements.  So, intuitively, if we want to constrain the parameter values, it would do the most good to "pin down" the measurement at the settings $x$ where the predicted $y$ has the largest variations.  Also we only want to be 
-Our approach to making good decisions about measurement parameters goes like this:</p>
+<p>First, an appeal to intuition.  Our system model describes a connection between parameter values $\theta$ and measurement results $y$, so if we try out different parameter values the model will predict different measurement outcomes.  Intuitively, if we want to constrain the parameter values, it would do the most good to "pin down" the measurement by selecting the settings $x$ where the predicted $y$ has the largest variations.  To be smart about the selection, we need to take advantage of the accumulated measurements, so we only try out parameters that are samples from the $p(\theta)$ parameter distribution.</p>
+<p>In broad strokes, our approach to making good decisions about measurement settings goes like this:</p>
 <ol>
 <li>For random draws $\theta_i$ of parameters from the distribution $p(\theta)$
-Use the model to predict $y_i(x)$ for every possible setting $x$.</li>
+Use the model to predict $y_i = y(x,\theta_i)$ for every possible setting $x$.</li>
 <li>Calculate a measure of the spread in $y_i$ values</li>
 <li>Pick a measurement setting with a large spread.</li>
 </ol>
-<h4 id="Estimate-benefits">Estimate benefits<a class="anchor-link" href="#Estimate-benefits">&#182;</a></h4><p>To translate such a qualitative argument into code, a good place to start is to clarify what we mean by "doing the most good" in refining our parameter distribution $p(\theta)$.  When we determine model parameters, usually the goal is to get results with small uncertainty.  But here we're thinking in terms of a distribution $p(\theta)$.  Information theory gives us information entropy as a way to quantify the sharpness of a probability distribution.  The information entropy of a probability distribution $p(a)$ is defined as<br>
+<h4 id="Estimate-benefits">Estimate benefits<a class="anchor-link" href="#Estimate-benefits">&#182;</a></h4><p>To translate such a qualitative argument into code, a good place to start is to clarify what we mean by "doing the most good" in refining our parameter distribution $p(\theta)$.  When we determine model parameters, usually the goal is to get results with small uncertainty.  But here we're thinking in terms of a possibly multidimensional distribution $p(\theta)$.  Information theory gives us information entropy as a way to quantify the sharpness of a probability distribution.  The information entropy of a probability distribution $p(a)$ is defined as<br>
  $$ E = -\int da\; p(a)\; \ln[p(a)] $$<br>
-Note that the integrand is zero for both $p(a) = 1$ and $p(a)=0$.  It's the intermediate values encountered in a spread-out distribution where the information entropy accumulates.  For common distributions, like rectangular or Gaussian, that have characteristic widths $w$ the entropy goes like $\ln(w) + C$.</p>
+Note that the integrand above is zero for both $p(a) = 1$ and $p(a)=0$.  It's the intermediate values encountered in a spread-out distribution where the information entropy accumulates.  For common distributions, like rectangular or Gaussian, that have characteristic widths $w$ the entropy goes like $\ln(w) + C$.</p>
 <p>We adopt the information entropy as our measure of $p(\theta)$ sharpness, and that makes it possible to estimate how much $E$(posterior) - $E$(prior) we might get for predicted measurement values $y$ at different settings $x$.  Actually, the statisticians use something slightly different called the Kulback-Liebler divergence. 
-$$ D^{KL} = \int\int d\theta dy\; p(\theta |y,x)\ln \left[ \frac{p(\theta | y,x)}{p(\theta)}\right] $$<br>
-Here, we're using $y,x$ to denote predicted measurement results at potential settings $x$ instead of the $m$ we used for a completed measurement in the learning section above.</p>
+$$ D^{KL}(y,x) = \int d\theta\; p(\theta |y,x)\ln \left[ \frac{p(\theta | y,x)}{p(\theta)}\right] $$<br>
+Here, $y$ is a possible measurement result at potential setting $x$, and</p>
 <p>The result for each potential setting $x$ is the difference between two information entropy values:</p>
 <ol>
 <li>The entropy of the $y$ distribution due to both measurement uncertainty and uncertainty in $\theta$.
@@ -13313,6 +13313,19 @@ which is typical "beating down the noise" behavior of long-term averaging.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
     </div>
   </div>
