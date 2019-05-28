@@ -13120,7 +13120,7 @@ div#notebook {
 <code>rmcmichael@nist.gov</code><br>
 National Institute of Standards and Technology<br>
 May 6, 2019</p>
-<h2 id="What-is-it-for?">What is it for?<a class="anchor-link" href="#What-is-it-for?">&#182;</a></h2><p>It's for making smarter measurements. This repository offers an implementation of optimized Bayesian experimental design (OBED). It is an experimental control strategy that chooses measurement settings based on accumulated data.  It is for cases with</p>
+<h2 id="What-is-it-for?">What is it for?<a class="anchor-link" href="#What-is-it-for?">&#182;</a></h2><p>It's for making smarter measurements. This repository offers an implementation of optimized Bayesian experimental design (OBED). It is an adaptive strategy for controlling experiments that chooses measurement settings based on accumulated data.  It is for cases with</p>
 <ul>
 <li>an experiment (possibly computational) <ul>
 <li>that yields measurements and uncertainty estimates, </li>
@@ -13131,26 +13131,24 @@ May 6, 2019</p>
 </ul>
 <p>The real benefit of OBED methods is that they direct measurements toward settings that have the best chance of making our parameter estimates more precise. This feature is very helpful in situations where the measurements are expensive.</p>
 <p>It is not for fitting existing data, but if you're thinking about making more measurements, you might be interested.</p>
-<p>Note that Bayesian optimization is 'something completely different' that has proven to be useful for machine learning. Typically, those are situations where the system isn't well understood.</p>
+<p>Note that <em>Bayesian optimization</em> addresses a different problem: finding a maximum or minimum of an unknown function.  <em>Bayesian optimization</em> has proven to be useful for machine learning.</p>
 <h2 id="What-does-it-do?">What does it do?<a class="anchor-link" href="#What-does-it-do?">&#182;</a></h2><p>The optimal Bayesian experimental design algorithms play the role of an impatient experimenter who monitors data from a running experiment and changes the measurement settings in order to get better, more meaningful data. Note the two
 steps here. The first step, looking at the data, is really an act of extracting meaning from the numbers, learning something about the system from the existing measurements. The second step is using that knowledge to improve the measurement strategy.</p>
 <p>In the "looking at the data" role, the OBED routines use a user-supplied model function and Bayesian inference to extract and update information about model parameters as new measurement data arrives.  Then, in the decision making role, the OBED routines use the updated parameter knowledge to select settings that have the best chance of refining the parameters.</p>
-<p>The most important role is the responsibility of the user, however. As delivered, the BayesOptExpt is ignorant of the world, and it's the user's responsibility to describe the world (OK, just the experiment really.) in terms of a model, reasonable parameters, and reasonable experimental settings. As with most computer programs, "the garbage in, garbage out" rule applies.</p>
-<h2 id="What's-included?">What's included?<a class="anchor-link" href="#What's-included?">&#182;</a></h2><h3 id="Core-files">Core files<a class="anchor-link" href="#Core-files">&#182;</a></h3><p>The package incorporates a few Python classes that provide the basic
-functionality.</p>
+<p>The most important role is the responsibility of the user. As delivered, the BayesOptExpt is ignorant of the world, and it's the user's responsibility to describe the world in terms of a model, reasonable parameters, and reasonable experimental settings. As with most computer programs, "the garbage in, garbage out" rule applies.</p>
+<h2 id="What's-included?">What's included?<a class="anchor-link" href="#What's-included?">&#182;</a></h2><h3 id="Core-files">Core files<a class="anchor-link" href="#Core-files">&#182;</a></h3><p>The core files provide Python classes that implement optimal Bayesian experimental design.</p>
 <ul>
-<li><p><strong>OptBayesExpt.py</strong> provides methods for the learning and deciding steps described above. This class inherits all methods and data from both ProbDistFunc and ExptModel, and it is the only class that a user will need to interact with directly.  Manual: <a href="Docs/OptBayesExpt.ipynb">[notebook]</a><a href="Docs/OptBayesExpt.html">[html]</a></p>
+<li><p><strong>OptBayesExpt.py</strong> provides the <code>OptBayesExpt</code> class with methods for the learning and deciding steps described above. This class inherits all methods and data from both ProbDistFunc and ExptModel, and it is the only class that a user will need to interact with directly.  Manual: <a href="Docs/OptBayesExpt.ipynb">[notebook]</a><a href="Docs/OptBayesExpt.html">[html]</a></p>
 </li>
-<li><p><strong>ProbDistFunc_class.py</strong> implements the probability distribution function. Its methods are used to define the parameters and their respective ranges, perform basic mathematical functions, to supply random draws, basic statistics of the distribution, and the distribution itself. Manual: <a href="Docs/ProbDistFunc_class.ipynb">[notebook]</a><a href="Docs/ProbDistFunc_class.html">[html]</a></p>
+<li><p><strong>ProbDistFunc_class.py</strong> provides the <code>ProbDistFunc</code> class with methods for handling probability distribution functions. Its methods are used to define the parameters and their respective ranges, perform basic mathematical functions, to supply random draws, basic statistics of the distribution, and the distribution itself. Manual: <a href="Docs/ProbDistFunc_class.ipynb">[notebook]</a><a href="Docs/ProbDistFunc_class.html">[html]</a></p>
 </li>
-<li><p><strong>ExptModel_class.py</strong> provides methods to define the experimental settings and to evaluate a model function. The model function itself must be provided by the user, preferably by adding it to an instance of the BayesOptExpt class. Manual: <a href="Docs/ExptModel_class.ipynb">[notebook]</a><a href="Docs/ExptModel_class.html">[html]</a></p>
+<li><p><strong>ExptModel_class.py</strong> provides the <code>ExptModel</code> class with methods to define the experimental settings and to evaluate a model function. The model function itself must be provided by the user, preferably by adding it to an instance of the BayesOptExpt class. Manual: <a href="Docs/ExptModel_class.ipynb">[notebook]</a><a href="Docs/ExptModel_class.html">[html]</a></p>
 </li>
-<li><p><strong>OBETCP.py</strong> provides way to use this software with programs written in other languages. OBETCP incorporates
-an OptBayesExpt class with a server that communicates with external programs via TCP socket connections. Configuration commands, measurement settings and measurement data are sent as JSON-formatted strings over the TCP sockets.</p>
+<li><p><strong>OBETCP.py</strong> provides the <code>OBETCP</code> class which adds TCP socket communications to the <code>OptBayesExpt</code> class enabling it to interface with programs written in other languages. Configuration commands, measurement settings, and measurement data are sent as JSON-formatted strings over the TCP sockets.</p>
 </li>
 </ul>
 <h2 id="What's-next?">What's next?<a class="anchor-link" href="#What's-next?">&#182;</a></h2><h3 id="Tutorials">Tutorials<a class="anchor-link" href="#Tutorials">&#182;</a></h3><ul>
-<li><p><strong>Docs/sequentialLorentzian.ipynb</strong> <a href="Docs/sequentialLorentzian.ipynb">[notebook]</a> <a href="Docs/sequentialLorentzian.html">[html]</a> provides a tutorial introduction to the OptBayesExpt software including setup and use of <code>OptBayesExpt</code> in a simulated "measurement" of a Lorentzian peak.  The <code>ipynb</code> file is live code that can be run from inside the jupyter notebook environment.  See also <strong>sequentialLorentzian.py</strong>.</p>
+<li><p><strong>Docs/sequentialLorentzian.ipynb</strong> <a href="Docs/sequentialLorentzian.ipynb">[notebook]</a> <a href="Docs/sequentialLorentzian.html">[html]</a> provides a tutorial introduction to the OptBayesExpt software including setup and use of <code>OptBayesExpt</code> in a simulated "measurement" of a Lorentzian peak.  The <code>ipynb</code> file is live code that can be run from inside the Jupyter Notebook environment.  See also <strong>sequentialLorentzian.py</strong>.</p>
 </li>
 <li><p><strong>Docs/manual.ipynb</strong> <a href="Docs/manual.html">[notebook]</a><a href="Docs/manual.html">[html]</a> outlines the "if it works good, it is good" philosophy of the project and provides a tutorial-level description of the theory behind optimal Bayesian experimental design.</p>
 </li>
@@ -13158,9 +13156,9 @@ an OptBayesExpt class with a server that communicates with external programs via
 <h3 id="Demos">Demos<a class="anchor-link" href="#Demos">&#182;</a></h3><p>A brief discussion of these demos is included in the manual. 
 <a href="Docs/manual.ipynb">[notebook]</a> <a href="Docs/manual.html">[html]</a></p>
 <ul>
-<li><p><strong>demoLorentzian.py</strong>  demonstrates how to incorporate a simple model into a BayesOptExpt. A simulation takes the place of a real measurement, supplying noisy "measurement results" that the BayesOptExpt uses to locate and measure a randomly placed Lorentzian peak.  One setting, several model parameters.  Also see <strong>Docs/sequentialLorentzian.ipynb</strong> <a href="Docs/sequentialLorentzian.ipynb">[notebook]</a><a href="Demos/sequentialLorentzian.html">[html]</a> is a jupyter notebook with a step-by-step walk-through of the <code>sequentialLorentzian.py</code> code.</p>
+<li><p><strong>demoLorentzian.py</strong>  demonstrates how to incorporate a simple model into a BayesOptExpt. A simulation takes the place of a real measurement, supplying noisy "measurement results" that the BayesOptExpt uses to locate and measure a randomly placed Lorentzian peak.  One setting, several model parameters.  Also see <strong>Docs/sequentialLorentzian.ipynb</strong> <a href="Docs/sequentialLorentzian.ipynb">[notebook]</a><a href="Demos/sequentialLorentzian.html">[html]</a> is a Jupyter Notebook with a step-by-step walk-through of the <code>sequentialLorentzian.py</code> code.</p>
 </li>
-<li><p><strong>demoLorentzian2.py</strong> uses the Lorentzian peak experimental model to demonstrate 10 $\times$ improved measurement efficiency of BayesOptExpt relative to an average &amp; fit method.</p>
+<li><p><strong>demoLorentzian2.py</strong> uses the Lorentzian peak experimental model to demonstrate 10 &times; improved measurement efficiency of BayesOptExpt relative to an average &amp; fit method.</p>
 </li>
 <li><p><strong>pipulse.py</strong> is a slightly more complicated demo featuring multiple (two!) experimental settings and the process for including pre-existing information, a <em>prior</em>.</p>
 </li>
@@ -13178,6 +13176,19 @@ BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR CONSEQUENTIAL DAMAGES, ARISING 
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
     </div>
   </div>
