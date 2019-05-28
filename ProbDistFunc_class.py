@@ -11,7 +11,8 @@ class ProbDistFunc:
         lnPDF -- an N-dimensional array, one axis for each variable parameter
             contains nat.log of the probability, not normalized
         shape -- tuple describing dimensions of pdf
-        paramspace -- a tuple of arrays and constants intended for iterating over all of parameter space
+        paramspace -- a tuple of arrays and constants intended for iterating over all of
+            parameter space
         paramisarray -- which parameters are arrays, i.e. variables
     methods:
         __init__ -- determines the pdf's shape from lists/arrays of possible parameter values
@@ -24,7 +25,7 @@ class ProbDistFunc:
     """
 
     def __init__(self):
-        self.Ndraws=200
+        self.Ndraws = 200
 
     def pdf_config(self, paramvals):
         # paramvals is expected to be a tuple of arrays containing all possible parameter values
@@ -49,22 +50,23 @@ class ProbDistFunc:
             self.PDF = np.ones(self.pdfshape)
             done += 1
         if probvalarrays != []:
-            # Used when the user initializes with a 1-D array of probabilities for each variable parameter
+            # Used when the user initializes with a 1-D array of probabilities for each variable
+            # parameter
             self.PDF = self.__multiply_probs(probvalarrays)
             self.lnPDF = np.log(self.PDF)
             done += 1
         if pdf != []:
             if np.array(pdf).shape != self.pdfshape:
-                pass  # raise an error - pdf shape doesn't fit parameter values
+                pass  # TODO: raise an error - pdf shape doesn't fit parameter values
             else:
-                self.PDF = pdf
+                self.PDF = np.array(pdf)
                 self.lnPDF = np.log(pdf)
                 done += 1
         if lnpdf != []:
-            if np.array(pdf).shape != self.pdfshape:
-                pass  # raise an error - pdf shape doesn't fit parameter values
+            if np.array(lnpdf).shape != self.pdfshape:
+                pass  # TODO: raise an error - pdf shape doesn't fit parameter values
             else:
-                self.lnPDF = lnpdf
+                self.lnPDF = np.array(lnpdf)
                 self.PDF = np.exp(lnpdf)
                 done += 1
         if done != 1:  # the pdf should be set exactly once
@@ -79,7 +81,7 @@ class ProbDistFunc:
 
     def multiply_pdf(self, likelihood):
         # multiply by another
-        self.lnPDF += np.ln(likelihood)
+        self.lnPDF += np.log(likelihood)
         # pseudo-normalize to max lnPDF=0 --> max PDF = 1
         self.lnPDF -= self.lnPDF.max()
         self.PDF = np.exp(self.lnPDF)
@@ -88,12 +90,10 @@ class ProbDistFunc:
         """
         produce a number of samples from a probability distribution function
         using a Markov chain process
-        :param n_draws:   the number of samples to generate
-        :param n_burn:    desired number of "pre-randomizing" moves
         :return: a list of parameter combinations
         """
 
-        return self.__markov_chain_gen_ND(self.Ndraws, self.Ndraws)
+        return self.__markov_chain_gen_n_dims(self.Ndraws, self.Ndraws)
 
     def max_params(self):
         """
@@ -110,11 +110,11 @@ class ProbDistFunc:
         print(maxpars)
         return tuple(maxpars)
 
-    def get_PDF(self, denuisance=(), normalize=True):
+    def get_pdf(self, denuisance=(), normalize=True):
         """
         packaging & polishing the PDF
         Integrate over nuisance parameters, normalize and return the resulting pdf.
-        :param denuisance:   tuple identifying parameters to be integrated out of self.PDF (default none)
+        :param denuisance: tuple identifying parameters to be integrated out of self.PDF (default none)
         :param normalize:  Boolean to normalize sum=1 (default yes)
         :return:
         """
@@ -133,14 +133,14 @@ class ProbDistFunc:
         del axes[paraxis]
 
         # get the collapsed pdf
-        oneDpdf = self.get_PDF(denuisance=axes, normalize=True)
+        one_d_pdf = self.get_pdf(denuisance=axes, normalize=True)
         # and the corresponding parameter values
-        oneParam = np.array(self.paramvals[paraxis])
+        one_param = np.array(self.paramvals[paraxis])
 
         # calculate the standard deviation using sums
-        pbar = np.sum(oneDpdf * oneParam)
-        psquare = np.sum(oneDpdf * oneParam **2)
-        ssquare = psquare - pbar**2
+        pbar = np.sum(one_d_pdf * one_param)
+        psquare = np.sum(one_d_pdf * one_param ** 2)
+        ssquare = psquare - pbar ** 2
         return np.sqrt(ssquare)
 
     def get_mean(self, paraxis):
@@ -156,18 +156,18 @@ class ProbDistFunc:
         del axes[paraxis]
 
         # get the collapsed pdf
-        oneDpdf = self.get_PDF(denuisance=axes, normalize=True)
+        one_d_pdf = self.get_pdf(denuisance=axes, normalize=True)
         # and the corresponding parameter values
-        oneParam = np.array(self.paramvals[paraxis])
+        one_param = np.array(self.paramvals[paraxis])
 
         # calculate the standard deviation using sums
-        pbar = np.sum(oneDpdf * oneParam)
-        psquare = np.sum(oneDpdf * oneParam **2)
-        ssquare = psquare - pbar**2
-        return (pbar, np.sqrt(ssquare))
+        pbar = np.sum(one_d_pdf * one_param)
+        psquare = np.sum(one_d_pdf * one_param ** 2)
+        ssquare = psquare - pbar ** 2
+        return pbar, np.sqrt(ssquare)
 
     def entropy(self):
-        return self.__calculate_discrete_Entropy(self.PDF)
+        return self.__calculate_discrete_entropy(self.PDF)
 
     """The nitty-gritty details, in private methods"""
 
@@ -196,9 +196,10 @@ class ProbDistFunc:
             return a_pdf
 
     def __multiply_probs(self, probvals):
-        # Used when the user initializes with a 1-D array of probabilities for each variable parameter
-        # sift out just the variables
+        # Used when the user initializes with a 1-D array of probabilities for each variable
+        # parameter
 
+        # sift out just the variables
         meshes = list(np.meshgrid(*probvals, indexing='ij'))
 
         # probability arrays must have same shape and order as parameter arrays
@@ -218,10 +219,11 @@ class ProbDistFunc:
         :param dist:  a distribution "function" as a 1-D array, maybe unnormalized
         :return: randomly drawn index from dist
         """
-        # the strategy is to compare a random number with the running integral (cumulative sum) of the pdf
+        # the strategy is to compare a random number with the running integral (cumulative sum)
+        # of the pdf
         cumdist = np.cumsum(dist)
-        # rather than normalize the whole distribution, we'll just scale up the random numbers
-        # so that they span [0:cumdist[-1]).  the last value of cumdist is the "integral" of the dist.
+        # rather than normalize the whole distribution, we'll just scale up the random numbers so
+        #  that they span [0:cumdist[-1]).  the last value of cumdist is the "integral" of the dist.
         rscaled = r * cumdist[-1]
 
         # Next, find the index where cumdist > rscaled
@@ -232,11 +234,10 @@ class ProbDistFunc:
         else:
             return bigger[0][0]
 
-    def __markov_chain_gen_ND(self, n_draws, n_burn=100):
+    def __markov_chain_gen_n_dims(self, n_draws, n_burn=100):
         """
         produce a number of samples from a probability distribution function
         using a Markov chain process
-        :param pdf:         an N-dimensional pdf
         :param n_draws:     the number of samples to generate
         :param n_burn:    desired number of "pre-randomizing" moves
         :return:
@@ -262,15 +263,15 @@ class ProbDistFunc:
         for i in np.arange(n_burn):
             # making one step along each axis
             for axis in np.arange(ndims):
-                # substitute an ellipsis as an index in the location to get the probabilities along one axis
-                # it's a python thing.
+                # substitute an ellipsis as an index in the location to get the probabilities
+                # along one axis -- it's a python thing.
                 location[axis] = ...
-                # pdf[location] will now return a 1D array that we interpret as a pdf, and we make a random draw
-                # for the new location along the axis
+                # pdf[location] will now return a 1D array that we interpret as a pdf,
+                # and we make a random draw for the new location along the axis
                 location[axis] = self.__randdraw(rand_bucket[i, axis], self.PDF[location])
 
-        # Now that the Markov chain has been initialized, we move to generating the actual draws from the pdf
-        # each full move generates Ndims draws, so we'll need this many moves.
+        # Now that the Markov chain has been initialized, we move to generating the actual draws
+        # from the pdf each full move generates Ndims draws, so we'll need this many moves.
         nmoves = int(n_draws / ndims) + 1
         # a stash of random numbers
         rand_pail = np.random.random((nmoves, ndims))
@@ -301,17 +302,16 @@ class ProbDistFunc:
 
         return paramdraws
 
-    def __calculate_discrete_Entropy(self, a_pdf):
+    def __calculate_discrete_entropy(self, a_pdf):
         """
         Calculate the entropy of a discrete distribution.
-        :param distro: an array of probability density possibly unnormalized
+        :param a_pdf: an array of probability density possibly unnormalized
         :return: sum of x * log2(x)
         """
-        """
-        "There's an app for that" --> scipy.stats.entropy does almost the same thing, but without flattening
-        and also offering the Kullback-Leibler divergence and offering different log bases.
-        """
-        # flatten the distro array to 1D - we're just going to add things up anyways
+        # "There's an app for that" --> scipy.stats.entropy does almost the same thing, but without
+        # flattening and also offering the Kullback-Leibler divergence and offering different log
+        # bases.
+        #   First flatten the distro array to 1D - we're just going to add things up anyways
         # Clean out the zeros (anything less than 1e-100) because zeros cause problems and
         # contribute nothing to either normalization or entropy integrals
         maskeddist = ma.masked_less(a_pdf.flatten(), 1e-100).compressed()
@@ -334,9 +334,8 @@ def self_test():
     xparam = np.linspace(xmin, xmax, 101)
     yparam = np.linspace(ymin, ymax, 201)
 
-    #mypdf = ProbDistFunc((xparam, yparam))
     mypdf = ProbDistFunc()
-    mypdf.pdf_config((xparam,yparam))
+    mypdf.pdf_config((xparam, yparam))
 
     print('default mypdf.shape = {}'.format(mypdf.pdfshape))
     print('default mypdf.lnPDF = {}'.format(mypdf.lnPDF))
@@ -355,7 +354,7 @@ def self_test():
     plt.title('probvalarrays')
     xprobs = 1 - xparam * xparam / 1.1
     yprobs = 1 - yparam * yparam / 8
-    mypdf.set_pdf(probvalarrays=(xprobs, yprobs))
+    mypdf.set_pdf(probvalarrays=[xprobs, yprobs])
     plt.imshow(mypdf.PDF.T, extent=extent, cmap='cubehelix', aspect='auto')
     plt.colorbar()
 

@@ -2,15 +2,18 @@ from json import dumps, loads
 from socket import socket, AF_INET, SOCK_STREAM
 from OptBayesExpt import OptBayesExpt
 
+
 class Socket:
     def __init__(self, role, ip_address='127.0.0.1', port=31415):
         """
         Create a simplified TCP socket which can act as a server or client.
-        :param role: 'server' tells the socket to wait and listen for someone to connect. 'client' tells the
-        socket to connect to a server.
+        :param role: 'server' tells the socket to wait and listen for someone to connect.
+        'client' tells the socket to connect to a server.
         :param ip_address: Which computer do you want to talk to? Specify its IP address.
-        The default of 127.0.0.1 means "the same computer I'm on". Sometimes you just have to talk to yourself.
-        :param port: The server will listen on this TCP port for communication. The client will connect to this port.
+        The default of 127.0.0.1 means "the same computer I'm on". Sometimes you just have to
+        talk to yourself.
+        :param port: The server will listen on this TCP port for communication. The client will
+        connect to this port.
         """
         self.role = role
         self.ip_address = ip_address
@@ -28,19 +31,20 @@ class Socket:
 
     def send(self, contents):
         """
-        Send a message to the other computer. A server may only call this function after receive() is called.
+        Send a message to the other computer. A server may only call this function after
+        receive() is called.
         The message has a 12 character header:  " + 10 chars describing length + "
         """
         json = dumps(contents).encode()
         jdatalen = dumps('{:0>10d}'.format(len(json))).encode()
-        message =  jdatalen + json
+        message = jdatalen + json
         print(message)
         self.connection.sendall(message)
 
     def receive(self):
         """
-        Receive a message from the other computer. If a connection to another computer does not exist
-        then the function will wait until a connection is established.
+        Receive a message from the other computer. If a connection to another computer does not
+        exist then the function will wait until a connection is established.
         :return: Returns a message received from the other computer.
             This function will block until a message is received.
         """
@@ -50,7 +54,7 @@ class Socket:
                 self.connection, address = self.server.accept()
             # our protocol includes 10 bytes of message size
             sizestr = self.connection.recv(10).decode()
-            if sizestr != None:
+            if sizestr is not None:
                 bytestoread = int(sizestr)
                 raw_message = b''
                 nextgulp = gulp
@@ -66,7 +70,8 @@ class Socket:
 
     def close(self):
         """
-        Close the communication connection. Only clients need to close connections once they're done communicating.
+        Close the communication connection. Only clients need to close connections once they're
+        done communicating.
         No need to call this for servers.
         """
         self.connection.close()
@@ -86,16 +91,15 @@ class BOE_Server(Socket, OptBayesExpt):
         # experimental settings
         x = settings[0]
         # model parameter
-        x0 = parameters[0]   ;# peak center
-        A =  parameters[1]   ;# peak amplitude
-        B =  parameters[2]   ;# background
+        x0 = parameters[0]  # peak center
+        A =  parameters[1]  # peak amplitude
+        B =  parameters[2]  # background
         # constants
         d = constants[0]
 
         # and now our model 'fitting function' for the experiment
-        return B + A / ( ((x - x0) / d) ** 2 + 1 )
+        return B + A / (((x - x0) / d) ** 2 + 1)
         # OK, this is just a one-liner, but the model could be much more complex.
-
 
     def run(self):
         print()
@@ -166,7 +170,3 @@ class BOE_Server(Socket, OptBayesExpt):
 if __name__ == '__main__':
     nanny = BOE_Server()
     nanny.run()
-
-
-
-

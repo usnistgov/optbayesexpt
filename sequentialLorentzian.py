@@ -38,16 +38,15 @@ import matplotlib.animation as animation
 from OptBayesExpt import OptBayesExpt
 
 """
-ESTABLISH THE EXPERIMENTAL MODEL
+Create an instance of the OptBayesExpt class for our use
 """
+myOBE = OptBayesExpt()
 
 
-
-# this is the model of our experiment - a Lorentzian peak.
-# Sometimes people are concerned about Bayesian statistics because the prior can bias the output.
-# However, the more serious bias (in my opinion) is in the model.  With the experimental model, we are asserting that
-# we know how the world behaves, except for a few parameters that need fitting.
-def Lorentz(x, x0, A, B, d):
+"""
+Establish the experimental model -- a Lorentzian peak
+"""
+def lorentz_peak(x, x0, A, B, d):
     """
     Calculate a Lorentzian function of x
     All parameters may be scalars or they may be arrays
@@ -62,29 +61,23 @@ def Lorentz(x, x0, A, B, d):
     return B + A / (((x - x0) / d) ** 2 + 1)
 
 
-# this is the part where we make use of the BayesOptExpt class
-# We inherit from that class and add a model for a particular use
-class OptBayesExpt_Lorentz(OptBayesExpt):
-    def __init__(self):
-        OptBayesExpt.__init__(self)
+# this function is a wrapper so that myOBE can access the model
+def my_model_function(sets, pars, cons):
+    # unpack the experimental settings
+    x = sets[0]
+    # unpack model parameters
+    x0 = pars[0]
+    A = pars[1]
+    B = pars[2]
+    # unpack model constants
+    d = cons[0]
+    return lorentz_peak(x, x0, A, B, d)
 
-    def model_function(self, sets, pars, cons):
-        # unpack the experimental settings
-        x = sets[0]
-        # unpack model parameters
-        x0 = pars[0]
-        A = pars[1]
-        B = pars[2]
-        # unpack model constants
-        d = cons[0]
-        return Lorentz(x, x0, A, B, d)
-
-
-# make the instance that we'll use
-myOBE = OptBayesExpt_Lorentz()
+"""Connect it to myOBE"""
+myOBE.model_function = my_model_function
 
 """
-SETTING UP A PARTICULAR EXAMPLE
+Settings and Parameters and Constants (oh My!)
 """
 # define the measurement setting space
 # 50 values between 1.5 and 4.5 (GHz)
@@ -119,25 +112,26 @@ myOBE.cons = (dtrue,)
 # Settings, parameters, constants and model all defined, so set it all up
 myOBE.config()
 
+
 """
 MEASUREMENT SIMULATION
 """
 
-# secret stuff - to be used only by the measurement simulator
-# pick the parameters of the true resonance
+# pick the parameters of the true resonance.  myOBE will have to "discover" these.
 x0true = (x0max - x0min) * np.random.rand() + x0min  # pick a random resonance x0
 Btrue = (Bmax - Bmin) * np.random.rand() + Bmin  # pick a random background
 # Btrue = 250000
-
 Atrue = (Amax - Amin) * np.random.rand() + Amin  # pick a random amplitude
 
+
+# A simulated experiment
 def simdata(x):
     """
     simulate a measurement at x
     :param x:  measurement setting
     """
     # calculate the theoretical output result
-    y = Lorentz(x, x0true, Atrue, Btrue, dtrue)
+    y = lorentz_peak(x, x0true, Atrue, Btrue, dtrue)
     # add 2% noise
     s = 0.02 * y
 
@@ -167,7 +161,7 @@ def batchdemo():
             xmeas, = myOBE.opt_setting()
         else:
             xmeas, = myOBE.good_setting(pickiness=pickiness)
-        xmeasure = reply[0]
+        xmeasure = xmeas[0]
         ymeasure = simdata(xmeasure)
         xdata[i] = xmeasure
         ydata[i] = ymeasure
@@ -179,10 +173,10 @@ def batchdemo():
 
         print(i, "sigma = {}".format(sig[i]))
 
-    plt.figure(figsize=(5,8))
+    plt.figure(figsize=(5, 8))
     plt.subplot(311)
     plt.plot(xdata, ydata, '.')
-    plt.plot(xvals, Lorentz(xvals, x0true, Atrue, Btrue, dtrue))
+    plt.plot(xvals, lorentz_peak(xvals, x0true, Atrue, Btrue, dtrue))
 
     plt.subplot(312)
     plt.hist(xdata, bins=20)
@@ -194,7 +188,6 @@ def batchdemo():
     plt.ylabel("sigma")
     plt.tight_layout()
     plt.show()
-
 
 
 fig, ax1 = plt.subplots(ncols=1, nrows=1, sharex=True)
@@ -209,7 +202,7 @@ def myinit():
     ax1.set_xlabel("xvalue")
     ax1.set_ylabel("photon count")
     line1, = ax1.plot([], [], 'k.', markersize=5.0)
-    line2, = ax1.plot(xvals, Lorentz(xvals, x0true, Atrue, Btrue, dtrue), 'r-', linewidth=2)
+    line2, = ax1.plot(xvals, lorentz_peak(xvals, x0true, Atrue, Btrue, dtrue), 'r-', linewidth=2)
 
     ax1.grid()
 
@@ -275,15 +268,17 @@ def livedemo():
     global xdata
     global ax2
     plt.rc('font', size=16)
-    ani = animation.FuncAnimation(fig, myfunc, frames=myframes, init_func=myinit, blit=True, interval=0, repeat=False)
+    ani = animation.FuncAnimation(fig, myfunc, frames=myframes, init_func=myinit,
+                                  blit=True, interval=0, repeat=False)
     plt.show()
     plt.hist(xdata, bins=40)
     plt.show()
 
+
 Nmeasure = 100
 smartmeasure = True
-optimum = False
-pickiness = 2
+optimum = True
+pickiness = 6
 
 livedemo()
 # batchdemo()
