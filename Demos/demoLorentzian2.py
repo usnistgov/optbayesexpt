@@ -159,7 +159,7 @@ def fititerate():
     return(Ntrail, x0sigtrail)
 
 
-def batchdata():
+def batchdata(runlabel=''):
     global Nmeasure
     global pickiness
     global optimum
@@ -170,10 +170,11 @@ def batchdata():
     truth.write('{}\t{}\t{}\t{}\n'.format(x0true, Atrue, Btrue, dtrue))
     truth.close()
 
-    N, x0 = fititerate()
-    fitfile = open('fitdata.txt', "w")
-    for anN, anx0 in zip(N, x0):
-        fitfile.write('{}\t{}\n'.format(anN, anx0))
+    N, xsig0 = fititerate()
+    fitfilename='fitdata'+runlabel+'.txt'
+    fitfile = open(fitfilename, "w")
+    for anN, anxsig0 in zip(N, xsig0):
+        fitfile.write('{}\t{}\n'.format(anN, anxsig0))
     fitfile.close()
     truth = open('truth.txt', 'w')
     truth.write('{}\t{}\t{}\t{}\n'.format(x0true, Atrue, Btrue, dtrue))
@@ -183,8 +184,10 @@ def batchdata():
     xtrace = []
     ytrace = []
     i = 0
-    obefile = open('obedata.txt', "w")
+    obefilename='obedata'+runlabel+'.txt'
+    obefile = open(obefilename, "w")
 
+    myOBE.set_pdf(flat=True)
     while i < Nmeasure*Nscans:
         """get the measurement seting"""
         if optimum:
@@ -328,7 +331,12 @@ pickiness = 10
 noiselevel = 1
 
 # data calculations stored in .txt files
+for i in np.arange(100):
+    runlabel='{:03d}'.format(i)
+    print(runlabel)
+    batchdata(runlabel=runlabel)
+
 # batchdata()
 
 # read .txt files and make plots
-batchplot()
+# batchplot()

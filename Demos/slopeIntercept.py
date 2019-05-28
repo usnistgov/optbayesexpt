@@ -5,44 +5,36 @@ Pi pulse tuner
 
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.optimize import curve_fit
 
 from OptBayesExpt import OptBayesExpt
 
-"""
-ESTABLISH THE EXPERIMENTAL MODEL
-"""
+# make the instance that we'll use
+myOBE = OptBayesExpt()
 
-# this is the model of our experiment - a straight line
+
+"""
+Establish the experimental model
+"""
 def mxplusb(x, m, b):
+    # a straight line
     return m*x+b
 
-# this is the part where we make use of the BayesOptExpt class
-# We inherit from that class and add a model for a particular use
-class OptBayesExpt_slopeIntercept(OptBayesExpt):
-    def __init__(self):
-        OptBayesExpt.__init__(self)
 
-    def model_function(self, sets, pars, cons):
+def mxplsub_wrapper(sets, pars, cons):
+    # unpack the experimental settings
+    x = sets[0]
+    # unpack model parameters
+    m = pars[0]
+    b=pars[1]
+    # unpack model constants
+    # N/A
+    return mxplusb(x, m, b)
 
-        # unpack the experimental settings
-        x = sets[0]
 
-        # unpack model parameters
-        m = pars[0]
-        b=pars[1]
+myOBE.model_function = mxplsub_wrapper
 
-        # unpack model constants
-        # N/A
+# settings, parameters and constants
 
-        return mxplusb(x, m, b)
-
-# make the instance that we'll use
-myOBE = OptBayesExpt_slopeIntercept()
-
-"""
-SETTING UP A PARTICULAR EXAMPLE
-"""
 # define the measurement setting space
 # 101 possible x values
 xsettings = np.linspace(0, 1, 201)
@@ -55,8 +47,9 @@ bvals = np.linspace(-1, 1, 501)
 # package as a tuple and send
 myOBE.pars = (mvals, bvals)
 
-# Settings, parameters, constants and model all defined, so set it all up
+# Settings, parameters, constants all defined, so set it all up
 myOBE.config()
+
 
 """
 MEASUREMENT SIMULATION
@@ -67,6 +60,7 @@ MEASUREMENT SIMULATION
 m_true = 2 * np.random.rand() -1  # pick a random slope betw. -1 and 1
 b_true = 2 * np.random.rand() -1  # pick a random intercept
 
+
 def simdata(x):
     """
     simulate a measurement at pulsetime pt and detuning df
@@ -75,31 +69,31 @@ def simdata(x):
     y = mxplusb(x, m_true, b_true)
     # add noise
     global noiselevel
-    s = noiselevel # noise level
+    s = noiselevel               # noise level
     if type(y) == np.ndarray:
         y += s * np.random.randn(len(y))
     else:
         y += s * np.random.randn()
     return y
 
+
 """ 
 RUN THE "EXPERIMENT" DEMO 
 """
+
 
 def batchplot(subplot):
     global Nmeasure
     global pickiness
     global optimum
     global noiselevel
-    global drawplots
 
     myOBE.set_pdf(flat=True)
     xdata = np.zeros(Nmeasure)
     ydata = np.zeros(Nmeasure)
-    mbar = np.zeros(Nmeasure)
-    bbar = np.zeros(Nmeasure)
+
     for i in np.arange(Nmeasure):
-        if optimum :
+        if optimum:
             xset, = myOBE.opt_setting()
         else:
             xset, = myOBE.good_setting(pickiness=pickiness)
@@ -124,7 +118,6 @@ def batchplot(subplot):
     ymax = Nmeasure/2 * 1.1
     subplot.set_ylim(0, ymax)
 
-
     axL.plot(xsettings, ytrue, 'r-')
     axL.errorbar(xdata, ydata, noiselevel, fmt='.', color='k')
     axL.yaxis.tick_left()
@@ -135,35 +128,34 @@ def batchplot(subplot):
     bottom -= .5
     top += .3
     axL.set_ylim((bottom, top))
-    y1 = bottom + .93 * (top - bottom)
-    y2 = bottom + .85 * (top - bottom)
-    plt.text(0.05, y1 , 'm = {:5.3f}$\pm${:5.3f}'.format(m_mean,sigm))
-    plt.text(0.05, y2 , 'b = {:5.3f}$\pm${:5.3f}'.format(b_mean,sigb))
+    y1 = bottom + 0.93 * (top - bottom)
+    y2 = bottom + 0.85 * (top - bottom)
+    plt.text(0.05, y1, 'm = {:5.3f}$\pm${:5.3f}'.format(m_mean, sigm))
+    plt.text(0.05, y2, 'b = {:5.3f}$\pm${:5.3f}'.format(b_mean, sigb))
 
     return subplot.yaxis, axL.yaxis
+
 
 Nmeasure = 40
 noiselevel = .1
 
 fig, axes = plt.subplots(1, 4, figsize=(12, 3))
 
-
 optimum = True
 batchplot(axes[0])
 plt.title('opt_setting()')
 
-
-optimum=False
+optimum = False
 pickiness = 9
 batchplot(axes[1])
 plt.title('good_setting(pickiness={})'.format(pickiness))
 
-optimum=False
+optimum = False
 pickiness = 4
 batchplot(axes[2])
 plt.title('good_setting(pickiness={})'.format(pickiness))
 
-optimum=False
+optimum = False
 pickiness = 1
 batchplot(axes[3])
 plt.title('good_setting(pickiness={})'.format(pickiness))
