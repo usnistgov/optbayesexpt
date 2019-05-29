@@ -219,8 +219,8 @@ def batchdata(runlabel=''):
 
 def batchplot():
 
-    # plt.rc('font', size=12)
-    # plt.rc('mathtext', fontset='stixsans')
+    plt.rc('font', size=12)
+    plt.rc('mathtext', fontset='stixsans')
 
     scantrace = np.loadtxt('trace10.txt', unpack=True)
     obetrace = np.loadtxt('obetrace.txt', unpack=True)
@@ -296,8 +296,21 @@ def batchplot():
     plt.arrow(3, -.45, .7, 0, facecolor="lightblue", edgecolor='None', width=.05)
 
     # Log-Log
-    plt.subplot(122)
 
+    axes = plt.subplot(122)
+    plot_many_runs(axes)
+    plt.tight_layout()
+    plt.show()
+
+import plotDemoL2 as dl2
+def plot_many_runs(axes):
+
+    obesig = dl2.readobe()
+    fitsig_masked = dl2.readfit()
+    axes = dl2.plotsigmas(axes, obesig, fitsig_masked)
+
+
+def plotone():
     obedata = np.loadtxt('obedata.txt', unpack=True)
     obe_i = obedata[0]
     obe_sig = obedata[2]
@@ -318,8 +331,7 @@ def batchplot():
     plt.text(1000, .017, "x 10")
 
 
-    plt.tight_layout()
-    plt.show()
+
 
 
 Nmeasure = 20
@@ -331,12 +343,12 @@ pickiness = 10
 noiselevel = 1
 
 # data calculations stored in .txt files
-for i in np.arange(100):
-    runlabel='{:03d}'.format(i)
-    print(runlabel)
-    batchdata(runlabel=runlabel)
+# for i in np.arange(100):
+#     runlabel='{:03d}'.format(i)
+#     print(runlabel)
+#     batchdata(runlabel=runlabel)
 
 # batchdata()
 
 # read .txt files and make plots
-# batchplot()
+batchplot()
