@@ -5,6 +5,7 @@ Pi pulse tuner
 
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
 
 from OptBayesExpt import OptBayesExpt
 
@@ -77,6 +78,7 @@ f_center = np.linspace(fc_min, fc_max , 71)
 # baseline = np.linspace(50000, 60000, 51)
 # contrast = np.linspace(.05, .15, 11)
 myOBE.pars = (B1, f_center)
+param_extent=(B1min, B1max, fc_min, fc_max)
 
 baseline = 100000
 contrast = .01
@@ -87,10 +89,10 @@ myOBE.cons = (baseline, contrast, T1)
 myOBE.config()
 
 # put in a prior
-B1prior = np.exp(-(B1-2.0)**2/2/2.0**2)
-fcprior = np.exp(-(f_center-3.0)**2/2/4.0**2)
+B1prior = np.exp(-(B1-3.0)**2/2/2.0**2)
+fcprior = np.exp(-(f_center)**2/2/4.0**2)
 
-# myOBE.set_pdf(probvalarrays=(B1prior, fcprior))
+myOBE.set_pdf(probvalarrays=(B1prior, fcprior))
 
 """
 MEASUREMENT SIMULATION
@@ -134,6 +136,14 @@ def batchdemo():
     dfdata = np.zeros(Nmeasure)
     bmeandata = np.zeros(Nmeasure)
     dfmeandata = np.zeros(Nmeasure)
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+    plt.subplots_adjust(wspace=.25)
+
+    gs = gridspec.GridSpecFromSubplotSpec(2, 3, ax2, hspace=0.05, wspace=0.05)
+    pdf_milestones = [0, 1, 2, 5, 20, 50]
+    pdf_marker = 0
+
     for i in np.arange(Nmeasure):
         if optimum:
             ptset, dfset = myOBE.opt_setting()
@@ -141,6 +151,16 @@ def batchdemo():
             ptset, dfset = myOBE.good_setting(pickiness=pickiness)
         ptdata[i] = ptset
         dfdata[i] = dfset
+
+        if i == pdf_milestones[pdf_marker]:
+            zpdf = myOBE.get_pdf().transpose()
+            print(int(pdf_marker/3), pdf_marker % 3, zpdf.max())
+            plt.subplot(gs[int(pdf_marker/3), pdf_marker % 3])
+            plt.imshow(zpdf, origin='bottom', extent=param_extent, aspect='auto',
+                       vmin=0, cmap='cubehelix')
+            plt.text(1.5, 5, "N = {}".format(i), color='orange')
+            plt.axis('off')
+            pdf_marker += 1
 
         measurement = simdata(ptset, dfset)
 
@@ -150,35 +170,35 @@ def batchdemo():
         dfmean, dfsig = myOBE.get_mean(1)
         bmeandata[i] = bmean
         dfmeandata[i] = dfmean
-        if i % 10 == 0:
-            print(i, 'B1 = {:5.3f} $\pm$ {:5.3f};  df = {:5.3f} $\pm$ {:5.3f}'.format(bmean, bsig,
-                   dfmean, dfsig))
+        # if i % 10 == 0:
+        #     print(i, 'B1 = {:5.3f} $\pm$ {:5.3f};  df = {:5.3f} $\pm$ {:5.3f}'.format(bmean, bsig,
+        #            dfmean, dfsig))
+
+
 
     print('B1_true = {:6.3f}; df_true = {:6.3f}'.format(B1_true, fc_true))
 
     ytrue = rabicounts(*myOBE.allsettings, B1_true, fc_true, baseline, contrast, T1)
     extent = (pulsetime[0], pulsetime[-1], detune[0], detune[-1])
-    plt.figure(figsize=(9, 4))
-    plt.subplot(121)
-    plt.imshow(ytrue.transpose(), origin='bottom', extent=extent, aspect='auto', cmap='cubehelix')
-    plt.colorbar()
-    plt.scatter(ptdata, dfdata, s=9, c=np.arange(len(ptdata)), cmap='Reds')
+
+    plt.sca(ax1)
     plt.xlabel('time ($\mu$s)')
     plt.ylabel('$\Delta$f (MHz)')
+    plt.imshow(ytrue.transpose(), origin='bottom', extent=extent, aspect='auto',
+               cmap='cubehelix', vmin=99000)
+    plt.colorbar(ticks=[99000, 100000])
+    plt.scatter(ptdata, dfdata, s=9, c=np.arange(len(ptdata)), cmap='Reds')
 
-    plt.subplot(122)
-    plt.imshow(myOBE.get_pdf().transpose(), origin='bottom',
-               extent=(B1min, B1max, fc_min, fc_max), aspect='auto', cmap='cubehelix_r')
-    plt.colorbar()
-    plt.plot(bmeandata, dfmeandata, color='#888888', alpha=.5)
-    plt.plot(B1_true, fc_true, 'r.')
+    plt.subplot(gs[1,0])
+    plt.axis('on')
     plt.xlabel('Rabi Frequency (MHz)')
     plt.ylabel('detuning (MHz)')
-    plt.tight_layout()
+
+
     plt.show()
 
 
-Nmeasure = 50
+Nmeasure = 51
 
 pickiness = 4
 optimum = True
