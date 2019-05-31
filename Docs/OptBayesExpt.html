@@ -13131,23 +13131,23 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h3><h4 id="myOBE.config()"><code>myOBE.config()</code><a class="anchor-link" href="#myOBE.config()">&#182;</a></h4><p>Configures the settings and parameters arrays and constants based on the <code>sets</code>, <code>params</code> and <code>cons</code> variables.  These variables must set up before running <code>config.</code></p>
-<h4 id="myOBE.pdf_update(onesetting,-ymeas,-sigma)"><code>myOBE.pdf_update(onesetting, ymeas, sigma)</code><a class="anchor-link" href="#myOBE.pdf_update(onesetting,-ymeas,-sigma)">&#182;</a></h4><p>Receives new measurement data, <code>ymeas</code> $\pm$ <code>sigma</code>, and updates the probability distribution function using Bayesian inference.  The model function is evaluated once for each possible combination of parameters.</p>
+<h3 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h3><h4 id="OptBayesExpt.config()"><code>OptBayesExpt.config()</code><a class="anchor-link" href="#OptBayesExpt.config()">&#182;</a></h4><p>Configures the settings and parameters arrays and constants based on the <code>settings</code>, <code>parameters</code> and <code>constants</code> variables.  These variables must set up before running <code>config</code>, using the</p>
+<h4 id="OptBayesExpt.pdf_update(onesetting,-ymeas,-sigma)"><code>OptBayesExpt.pdf_update(onesetting, ymeas, sigma)</code><a class="anchor-link" href="#OptBayesExpt.pdf_update(onesetting,-ymeas,-sigma)">&#182;</a></h4><p>Receives new measurement data, <code>ymeas</code> $\pm$ <code>sigma</code>, and updates the probability distribution function using Bayesian inference.  The model function is evaluated once for each possible combination of parameters.</p>
 <ul>
 <li><code>onesetting</code> a tuple representing the combination of settings used in the measurement. </li>
 <li><code>ymeas</code> a float, the measurement value.  Interpreted by the code as the mean of a Gaussian distribution.</li>
 <li><code>sigma</code> a one-standard-deviation estimate of the uncertainty.  Interpreted by the code as the standard deviation of a Gaussian distribution.</li>
 </ul>
-<h4 id="myOBE.opt_setting()"><code>myOBE.opt_setting()</code><a class="anchor-link" href="#myOBE.opt_setting()">&#182;</a></h4><p>Computes a utility function $U(x)$ for each possible combination of settings $x$. $U(x)$ is an estimate of how much "good" a measurement at settings $x$ will do in terms of refining the parameter distribution.  See the manual for details.  The calculation of $U(x)$ is the most computationally demanding part of a measurement cycle; For <code>myOBE.Ndraws</code> random parameter values, the model function is evaluated at every possible combination of settings.</p>
+<h4 id="OptBayesExpt.opt_setting()"><code>OptBayesExpt.opt_setting()</code><a class="anchor-link" href="#OptBayesExpt.opt_setting()">&#182;</a></h4><p>Computes a utility function $U(x)$ for each possible combination of settings $x$. $U(x)$ is an estimate of how much "good" a measurement at settings $x$ will do in terms of refining the parameter distribution.  See the manual for details.  The calculation of $U(x)$ is the most computationally demanding part of a measurement cycle; For <code>myOBE.Ndraws</code> random parameter values, the model function is evaluated at every possible combination of settings.</p>
 <ul>
 <li><code>return:</code> a tuple containing measurement settings that correspond to the maximum $\max[U(x)]$.</li>
 </ul>
-<h4 id="myOBE.good_setting(pickiness=1)"><code>myOBE.good_setting(pickiness=1)</code><a class="anchor-link" href="#myOBE.good_setting(pickiness=1)">&#182;</a></h4><p>Computes the utility function $U(x)$ as in <code>myOBE.optsetting()</code> and selects a setting $x$ with a probability proportional to $U(x)^n$ where the exponent $n$ is given by the <code>pickiness</code> parameter.</p>
+<h4 id="OptBayesExpt.good_setting(pickiness=1)"><code>OptBayesExpt.good_setting(pickiness=1)</code><a class="anchor-link" href="#OptBayesExpt.good_setting(pickiness=1)">&#182;</a></h4><p>Computes the utility function $U(x)$ as in <code>myOBE.optsetting()</code> and selects a setting $x$ with a probability proportional to $U(x)^n$ where the exponent $n$ is given by the <code>pickiness</code> parameter.  See Slope Inercept demonstration results in the Demos section of the manual<a href="manual.ipynb">[notebook]</a><a href="manual.html">[html]</a>.</p>
 <ul>
 <li><code>pickiness</code> a value that skews the setting selection away from small $U(x)$ and toward large values.</li>
 <li><code>return:</code> a tuple containing good - but maybe not the optimal - measurement settings.</li>
 </ul>
-<h4 id="myOBE.besty()"><code>myOBE.besty()</code><a class="anchor-link" href="#myOBE.besty()">&#182;</a></h4><p>Provides something like the best-fit curve.  Using parameters from the maximum of the parameter probability distribution, the model function is evaluated for every experimental setting.</p>
+<h4 id="OptBayesExpt.besty()"><code>OptBayesExpt.besty()</code><a class="anchor-link" href="#OptBayesExpt.besty()">&#182;</a></h4><p>Provides something like the best-fit curve.  Using parameters from the maximum of the parameter probability distribution, the model function is evaluated for every experimental setting.</p>
 <ul>
 <li><code>return:</code> a numpy array with the dimensions of parameter space.</li>
 </ul>
@@ -13159,7 +13159,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>There is also a batch of trivial functions that appear to be for use with OBETCP.py.  Maybe left over from development, and maybe vulnerable to getting removed.</p>
+<p>OptBayesExpt also provides batch of trivial functions that provide access to the OptBayeExpt data.</p>
 
 <pre><code>     # clearing data
     def clrsets(self):
