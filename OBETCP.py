@@ -4,7 +4,7 @@ from OptBayesExpt import OptBayesExpt
 
 
 class Socket:
-    def __init__(self, role, ip_address='127.0.0.1', port=796669):
+    def __init__(self, role, ip_address='127.0.0.1', port=20899):
         """
         Create a simplified TCP socket which can act as a server or client.
         :param role: 'server' tells the socket to wait and listen for someone to connect.
@@ -13,7 +13,7 @@ class Socket:
         The default of 127.0.0.1 means "the same computer I'm on". Sometimes you just have to
         talk to yourself.
         :param port: The server will listen on this TCP port for communication. The client will
-        connect to this port.  "OBE" is 79 66 69 in ASCII.
+        connect to this port.  ZIP of the NIST campus in MD: 20899.
         """
         self.role = role
         self.ip_address = ip_address
