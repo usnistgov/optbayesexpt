@@ -33,7 +33,7 @@ class Socket:
         """
         Send a message to the other computer. A server may only call this function after
         receive() is called.
-        The message has a 12 character header:  " + 10 chars describing length + "
+        The message has a 10 character header describing length
         """
         json = dumps(contents).encode()
         jdatalen = dumps('{:0>10d}'.format(len(json))).encode()
@@ -86,21 +86,6 @@ class BOE_Server(Socket, OptBayesExpt):
         self.noise = 1.0
         self.Ndraws = 100
 
-    def model_function(self, settings, parameters, constants):
-        # unpack our input tuples
-        # experimental settings
-        x = settings[0]
-        # model parameter
-        x0 = parameters[0]  # peak center
-        A =  parameters[1]  # peak amplitude
-        B =  parameters[2]  # background
-        # constants
-        d = constants[0]
-
-        # and now our model 'fitting function' for the experiment
-        return B + A / (((x - x0) / d) ** 2 + 1)
-        # OK, this is just a one-liner, but the model could be much more complex.
-
     def run(self):
         print()
         print('SERVER READY')
@@ -138,7 +123,7 @@ class BOE_Server(Socket, OptBayesExpt):
                 self.addpars(message['array'])
                 self.send('OK')
             elif 'addcon' in message['command']:
-                self.addcon(message['value'])
+                self.addcon(message['number'])
                 self.send('OK')
 
             # Finish configuration
@@ -168,5 +153,28 @@ class BOE_Server(Socket, OptBayesExpt):
 
 
 if __name__ == '__main__':
+
+
+    # define a model function
+    def lorentzian_model(self, settings, parameters, constants):
+        # unpack our input tuples
+        # experimental settings
+        x = settings[0]
+        # model parameter
+        x0 = parameters[0]  # peak center
+        A =  parameters[1]  # peak amplitude
+        B =  parameters[2]  # background
+        # constants
+        d = constants[0]
+
+        # and now our model 'fitting function' for the experiment
+        return B + A / (((x - x0) / d) ** 2 + 1)
+        # OK, this is just a one-liner, but the model could be much more complex.
+
+    # create a server
     nanny = BOE_Server()
+    # connect the model
+    nanny.model_function = lorentzian_model
+
+    # wait for commands over TCP & respond.
     nanny.run()
