@@ -1,6 +1,6 @@
 from json import dumps, loads
 from socket import socket, AF_INET, SOCK_STREAM
-from OptBayesExpt import OptBayesExpt
+from .OptBayesExpt import OptBayesExpt
 
 
 class Socket:
@@ -78,7 +78,7 @@ class Socket:
         self.connection = None
 
 
-class BOE_Server(Socket, OptBayesExpt):
+class OBE_Server(Socket, OptBayesExpt):
     def __init__(self, ip_address='127.0.0.1', port=31415):
         Socket.__init__(self, 'server', ip_address=ip_address, port=port)
         OptBayesExpt.__init__(self)
