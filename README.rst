@@ -1,5 +1,6 @@
-
-# OptBayesExpt Overview
+=====================
+OptBayesExpt Overview
+=====================
 
 R. D. McMichael
 `rmcmichael@nist.gov`  
@@ -7,7 +8,8 @@ National Institute of Standards and Technology
 May 6, 2019
 
 
-## What is it for?
+What is it for?
+===============
 
 It's for making smarter measurements. This repository offers an implementation of optimized Bayesian experimental design (OBED). It is an adaptive strategy for controlling experiments that chooses measurement settings based on accumulated data.  It is for cases with
 
@@ -22,7 +24,8 @@ It is not for fitting existing data, but if you're thinking about making more me
 
 Note that *Bayesian optimization* addresses a different problem: finding a maximum or minimum of an unknown function.  *Bayesian optimization* has proven to be useful for machine learning.
 
-## What does it do?
+What does it do?
+================
 
 The optimal Bayesian experimental design algorithms play the role of an impatient experimenter who monitors data from a running experiment and changes the measurement settings in order to get better, more meaningful data. Note the two
 steps here. The first step, looking at the data, is really an act of extracting meaning from the numbers, learning something about the system from the existing measurements. The second step is using that knowledge to improve the measurement strategy.
@@ -32,5 +35,7 @@ In the "looking at the data" role, the OBED routines use a user-supplied model f
 The most important role is the responsibility of the user. As delivered, the BayesOptExpt is ignorant of the world, and it's the user's responsibility to describe the world in terms of a model, reasonable parameters, and reasonable experimental settings. As with most computer programs, "the garbage in, garbage out" rule applies.
 
 
-### Disclaimer
+Disclaimer
+==========
+
 Certain commercial firms and trade names are identified in this document in order to specify the installation and usage procedures adequately. Such identification is not intended to imply recommendation or endorsement by the [National Institute of Standards and Technology](http://www.nist.gov), nor is it intended to imply that related products are necessarily the best available for the purpose.
