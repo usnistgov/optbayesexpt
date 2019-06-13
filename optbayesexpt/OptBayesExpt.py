@@ -1,9 +1,8 @@
 __author__ = 'Bob McMichael'
 
 import numpy as np
-from ExptModel_class import ExptModel
-from ProbDistFunc_class import ProbDistFunc
-
+from .ExptModel_class import ExptModel
+from .ProbDistFunc_class import ProbDistFunc
 
 class OptBayesExpt(ExptModel, ProbDistFunc):
     """
