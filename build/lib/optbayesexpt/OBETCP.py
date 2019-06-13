@@ -79,7 +79,7 @@ class Socket:
 
 
 class OBE_Server(Socket, OptBayesExpt):
-    def __init__(self, ip_address='127.0.0.1', port=31415):
+    def __init__(self, ip_address='127.0.0.1', port=20899):
         Socket.__init__(self, 'server', ip_address=ip_address, port=port)
         OptBayesExpt.__init__(self)
 
