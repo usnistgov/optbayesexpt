@@ -123,7 +123,7 @@ class OBE_Server(Socket, OptBayesExpt):
                 self.addpars(message['array'])
                 self.send('OK')
             elif 'addcon' in message['command']:
-                self.addcon(message['number'])
+                self.addcon(message['value'])
                 self.send('OK')
 
             # Finish configuration

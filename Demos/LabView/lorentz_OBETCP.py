@@ -1,10 +1,9 @@
 import sys
 
-sys.path.append()
-from OBETCP import BOE_Server
+import optbayesexpt as obe
 
 # define a model function
-def lorentzian_model(self, settings, parameters, constants):
+def lorentzian_model(settings, parameters, constants):
     # unpack our input tuples
     # experimental settings
     x = settings[0]
@@ -21,7 +20,7 @@ def lorentzian_model(self, settings, parameters, constants):
 
 
 # create a server
-nanny = BOE_Server()
+nanny = obe.OBE_Server()
 # connect the model
 nanny.model_function = lorentzian_model
 
