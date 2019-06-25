@@ -1,7 +1,6 @@
 from json import dumps, loads
 from socket import socket, AF_INET, SOCK_STREAM
-from .OptBayesExpt import OptBayesExpt
-
+from optbayesexpt import OptBayesExpt
 
 class Socket:
     def __init__(self, role, ip_address='127.0.0.1', port=20899):
@@ -123,7 +122,7 @@ class OBE_Server(Socket, OptBayesExpt):
                 self.addpars(message['array'])
                 self.send('OK')
             elif 'addcon' in message['command']:
-                self.addcon(message['number'])
+                self.addcon(message['value'])
                 self.send('OK')
 
             # Finish configuration
