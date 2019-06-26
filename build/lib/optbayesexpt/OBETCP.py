@@ -1,6 +1,7 @@
 from json import dumps, loads
 from socket import socket, AF_INET, SOCK_STREAM
-from optbayesexpt import OptBayesExpt
+from .OptBayesExpt import OptBayesExpt
+
 
 class Socket:
     def __init__(self, role, ip_address='127.0.0.1', port=20899):

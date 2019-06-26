@@ -4,11 +4,8 @@ from setuptools import setup, find_packages
 with open('M:\Software\OptBayesExptDesign\README.rst', "r") as f:
     long_description = f.read()
 
-# with open("M:\Software\OptBayesExptDesign\LICENSE.md") as lf:
-#     license = lf.read()
-
 setup(name='optbayesexpt',
-      version='0.1.6',
+      version='0.1.7',
       description="Optimal Bayesian Experimental Design",
       long_description=long_description,
       classifiers=[
