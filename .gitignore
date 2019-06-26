@@ -3,7 +3,6 @@ __pycache__/
 .ipynb_checkpoints/
 Data/.ipynb_checkpoints/
 Docs/images/Thumbs.db
-Demos/fitdata*
-Demos/obedata*
+Demos/multi_run_data/
+Docs/Untitled.ipynb
 localstuff/
-
