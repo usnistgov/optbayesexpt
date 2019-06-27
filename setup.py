@@ -1,7 +1,9 @@
 from setuptools import setup, find_packages
+import os
+
 
 # Fetches description from README.rst file
-with open('M:\Software\OptBayesExptDesign\README.rst', "r") as f:
+with open(os.path.join(os.getcwd(), 'README.rst'), "r") as f:
     long_description = f.read()
 
 setup(name='optbayesexpt',
