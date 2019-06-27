@@ -1,9 +1,9 @@
 from json import dumps, loads
 from socket import socket, AF_INET, SOCK_STREAM
-from .OptBayesExpt import OptBayesExpt
+from optbayesexpt import OptBayesExpt
 
 
-class Socket:
+class OBE_Socket():
     def __init__(self, role, ip_address='127.0.0.1', port=20899):
         """
         Create a simplified TCP socket which can act as a server or client.
@@ -19,10 +19,10 @@ class Socket:
         self.ip_address = ip_address
         self.port = port
         self.connection = None
-        if role == 'client':
-            self.connection = socket(AF_INET, SOCK_STREAM)
-            self.connection.connect((self.ip_address, self.port))
-        elif role == 'server':
+        if self.role == 'client':
+            pass
+            # Client will connect as needed.
+        elif self.role == 'server':
             self.server = socket(AF_INET, SOCK_STREAM)
             self.server.bind((self.ip_address, self.port))
             self.server.listen(1)
@@ -36,7 +36,7 @@ class Socket:
         The message has a 10 character header describing length
         """
         json = dumps(contents).encode()
-        jdatalen = dumps('{:0>10d}'.format(len(json))).encode()
+        jdatalen = '{:0>10d}'.format(len(json)).encode()
         message = jdatalen + json
         print(message)
         self.connection.sendall(message)
@@ -52,21 +52,25 @@ class Socket:
         while True:
             if self.role == 'server':
                 self.connection, address = self.server.accept()
-            # our protocol includes 10 bytes of message size
-            sizestr = self.connection.recv(10).decode()
-            if sizestr is not None:
-                bytestoread = int(sizestr)
-                raw_message = b''
-                nextgulp = gulp
-                while bytestoread > 0:
-                    if bytestoread < gulp:
-                        nextgulp = bytestoread
-                    newchunk = self.connection.recv(nextgulp)
-                    raw_message += newchunk
-                    bytestoread -= gulp
-                contents = loads(raw_message.decode())
-                print(contents)
-                return contents
+            bitcount = b''
+            bytes_recd = 0
+            while bytes_recd < 10:
+                chunk = self.connection.recv(10 - bytes_recd)
+                if chunk == b'':
+                    raise RuntimeError("socket connection broken")
+                bitcount += chunk
+                bytes_recd = bytes_recd + len(chunk)
+            message_len = int(bitcount)
+
+            raw_message = b''
+            bytes_recd = 0
+            while bytes_recd < message_len:
+                chunk = self.connection.recv(min(message_len - bytes_recd, gulp))
+                if chunk == b'':
+                    raise RuntimeError("socket connection broken")
+                raw_message += chunk
+                bytes_recd = bytes_recd + len(chunk)
+            return loads(raw_message.decode())
 
     def close(self):
         """
@@ -77,8 +81,15 @@ class Socket:
         self.connection.close()
         self.connection = None
 
+    def tcpcmd(self, command):
+        self.connection = socket(AF_INET, SOCK_STREAM)
+        self.connection.connect((self.ip_address, self.port))
+        self.send(command)
+        reply = self.receive()
+        self.connection.close()
+        return(reply)
 
-class OBE_Server(Socket, OptBayesExpt):
+class OBE_Server(OBE_Socket, OptBayesExpt):
     def __init__(self, ip_address='127.0.0.1', port=20899):
         Socket.__init__(self, 'server', ip_address=ip_address, port=port)
         OptBayesExpt.__init__(self)
@@ -136,7 +147,10 @@ class OBE_Server(Socket, OptBayesExpt):
             elif 'optset' in message['command']:
                 self.send(self.opt_setting())
             elif 'goodset' in message['command']:
-                self.send(self.good_setting())
+                if 'pickiness' in list(message):
+                    self.send(self.good_setting(pickiness=message['pickiness']))
+                else:
+                    self.send(self.good_setting())
             elif 'newdat' in message['command']:
                 self.pdf_update((message['x'],), message['y'], message['s'])
                 self.send('OK')
@@ -172,7 +186,7 @@ if __name__ == '__main__':
         # OK, this is just a one-liner, but the model could be much more complex.
 
     # create a server
-    nanny = BOE_Server()
+    nanny = OBE_Server()
     # connect the model
     nanny.model_function = lorentzian_model
 
