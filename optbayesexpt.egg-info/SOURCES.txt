@@ -2,10 +2,11 @@ README.md
 README.rst
 setup.py
 optbayesexpt/ExptModel_class.py
-optbayesexpt/OBETCP.py
 optbayesexpt/OptBayesExpt.py
 optbayesexpt/ProbDistFunc_class.py
 optbayesexpt/__init__.py
+optbayesexpt/obe_server.py
+optbayesexpt/obe_socket.py
 optbayesexpt.egg-info/PKG-INFO
 optbayesexpt.egg-info/SOURCES.txt
 optbayesexpt.egg-info/dependency_links.txt
