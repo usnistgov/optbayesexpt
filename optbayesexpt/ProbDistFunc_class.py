@@ -146,7 +146,7 @@ class ProbDistFunc:
     def get_mean(self, paraxis):
         """
         compute the standard deviation of the PDF collapsed down to 1 axis
-        :param paraxis: the axis of the pdf corresponding to the vaiable of interest.
+        :param paraxis: the axis of the pdf corresponding to the variable of interest.
         :return: standard deviation  (float)
         """
         # We need a list of axes to sum, i.e. all axes _except_ for the requested paraxis,
