@@ -1,7 +1,6 @@
 from .OptBayesExpt import OptBayesExpt
 from .obe_socket import Socket
 
-
 class OBE_Server(Socket, OptBayesExpt):
     def __init__(self, ip_address='127.0.0.1', port=20899):
         Socket.__init__(self, 'server', ip_address=ip_address, port=port)
@@ -9,6 +8,14 @@ class OBE_Server(Socket, OptBayesExpt):
 
         self.noise = 1.0
         self.Ndraws = 100
+
+    def newrun(self, *args):
+        # stub for a python script using data passed from client
+        pass
+
+    def getmean(self):
+        # stub for a python script handling data request from client
+        return self.getmean(0)
 
     def run(self):
         print()
@@ -57,6 +64,10 @@ class OBE_Server(Socket, OptBayesExpt):
                 self.send('OK')
 
             # run-time commands
+            elif 'newrun' in message['command']:
+                self.newrun(message['array'])
+                self.send('OK')
+
             elif 'optset' in message['command']:
                 self.send(self.opt_setting())
             elif 'goodset' in message['command']:
@@ -71,6 +82,8 @@ class OBE_Server(Socket, OptBayesExpt):
                 self.send(list(self.PDF))
             elif 'maxpdf' in message['command']:
                 self.send(self.max_params())
+            elif 'getmean' in message['command']:
+                self.send(self.getmean())
 
             elif 'done' in message['command']:
                 self.send('OK')
