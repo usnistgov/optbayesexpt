@@ -1,4 +1,4 @@
-from .OptBayesExpt import OptBayesExpt
+from .obe import OptBayesExpt
 from .obe_socket import Socket
 
 class OBE_Server(Socket, OptBayesExpt):

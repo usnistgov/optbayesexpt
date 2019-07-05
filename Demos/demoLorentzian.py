@@ -7,7 +7,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
-from OptBayesExpt import OptBayesExpt
+import optbayesexpt
+print(dir(optbayesexpt))
+
+from optbayesexpt import OptBayesExpt
 
 """
 ESTABLISH THE EXPERIMENTAL MODEL

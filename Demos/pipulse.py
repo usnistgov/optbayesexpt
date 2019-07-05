@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
-from OptBayesExpt import OptBayesExpt
+from optbayesexpt import OptBayesExpt
 
 myOBE = OptBayesExpt()
 """

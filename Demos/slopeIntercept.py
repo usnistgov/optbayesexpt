@@ -6,7 +6,7 @@ Pi pulse tuner
 import numpy as np
 import matplotlib.pyplot as plt
 
-from OptBayesExpt import OptBayesExpt
+from optbayesexpt import OptBayesExpt
 
 # make the instance that we'll use
 myOBE = OptBayesExpt()
