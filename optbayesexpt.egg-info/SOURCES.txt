@@ -1,13 +1,14 @@
 README.md
 README.rst
 setup.py
-optbayesexpt/ExptModel_class.py
-optbayesexpt/OptBayesExpt.py
-optbayesexpt/ProbDistFunc_class.py
 optbayesexpt/__init__.py
+optbayesexpt/exptmodel.py
+optbayesexpt/obe.py
 optbayesexpt/obe_server.py
 optbayesexpt/obe_socket.py
+optbayesexpt/probdistfunc.py
 optbayesexpt.egg-info/PKG-INFO
 optbayesexpt.egg-info/SOURCES.txt
 optbayesexpt.egg-info/dependency_links.txt
+optbayesexpt.egg-info/requires.txt
 optbayesexpt.egg-info/top_level.txt
