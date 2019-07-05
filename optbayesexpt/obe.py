@@ -4,6 +4,7 @@ import numpy as np
 from .exptmodel import ExptModel
 from .probdistfunc import ProbDistFunc
 
+
 class OptBayesExpt(ExptModel, ProbDistFunc):
     """
     combines an ExptModel class and a ProbDistFunc class to steer an experiment
