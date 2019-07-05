@@ -29,7 +29,6 @@ class ProbDistFunc:
 
     def pdf_config(self, paramvals):
         # paramvals is expected to be a tuple of arrays containing all possible parameter values
-        # nuisance is
         self.paramvals = paramvals
         # determine the shape of the PDF required to accommodate all of the paramvals
         shape = ()
@@ -42,35 +41,37 @@ class ProbDistFunc:
         self.lnPDF = np.zeros(self.pdfshape)
         self.PDF = np.ones(self.pdfshape)
 
-    def set_pdf(self, flat=False, probvalarrays=[], pdf=[], lnpdf=[]):
+    def set_pdf(self, flat=False, probvalarrays=None, pdf=None, lnpdf=None):
         # set the pdf with some initial guess or restore a saved version
-        done = 0
+
         if flat:
             self.lnPDF = np.zeros(self.pdfshape)
             self.PDF = np.ones(self.pdfshape)
-            done += 1
-        if probvalarrays != []:
+            flat = False
+            return
+        if probvalarrays is not None:
             # Used when the user initializes with a 1-D array of probabilities for each variable
             # parameter
             self.PDF = self.__multiply_probs(probvalarrays)
             self.lnPDF = np.log(self.PDF)
-            done += 1
-        if pdf != []:
+            probvalarrays = None
+            return
+        if pdf is not None:
             if np.array(pdf).shape != self.pdfshape:
                 pass  # TODO: raise an error - pdf shape doesn't fit parameter values
             else:
                 self.PDF = np.array(pdf)
                 self.lnPDF = np.log(pdf)
-                done += 1
-        if lnpdf != []:
+            pdf = None
+            return
+        if lnpdf is not None:
             if np.array(lnpdf).shape != self.pdfshape:
                 pass  # TODO: raise an error - pdf shape doesn't fit parameter values
             else:
                 self.lnPDF = np.array(lnpdf)
                 self.PDF = np.exp(lnpdf)
-                done += 1
-        if done != 1:  # the pdf should be set exactly once
-            pass  # raise an error
+            lnpdf = None
+            return
 
     def add_lnpdf(self, lnlikelihood):
         # add the log of likelihood of a measurement to update the PDF
@@ -107,7 +108,6 @@ class ProbDistFunc:
         # list comprehension to get the parameter values corresponding to the indices
         maxpars = [p[i] for p, i in zip(self.paramvals, ix)]
         # convert to tuple because our models expect tuples.
-        print(maxpars)
         return tuple(maxpars)
 
     def get_pdf(self, denuisance=(), normalize=True):
