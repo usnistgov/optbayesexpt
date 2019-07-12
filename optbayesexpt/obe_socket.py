@@ -33,6 +33,10 @@ class Socket:
         receive() is called.
         The message has a 10 character header describing length
         """
+        if self.role == 'client':
+            self.connection = socket(AF_INET, SOCK_STREAM)
+            self.connection.connect((self.ip_address, self.port))
+
         json = dumps(contents).encode()
         jdatalen = '{:0>10d}'.format(len(json)).encode()
         message = jdatalen + json
@@ -80,11 +84,10 @@ class Socket:
         self.connection = None
 
     def tcpcmd(self, command):
-        self.connection = socket(AF_INET, SOCK_STREAM)
-        self.connection.connect((self.ip_address, self.port))
-        self.send(command)
-        reply = self.receive()
-        self.connection.close()
-        return reply
+        if self.role == 'client':
+            self.send(command)
+            reply = self.receive()
+            self.connection.close()
+            return reply
 
 
