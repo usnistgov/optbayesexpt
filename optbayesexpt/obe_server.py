@@ -29,13 +29,13 @@ class OBE_Server(Socket, OptBayesExpt):
             # manipulate coinfiguration arrays for settings, params, consts.
             # clear commands
             if 'clrset' in message['command']:
-                self.clrsets()
+                self.sets = ()
                 self.send('OK')
             elif 'clrpar' in message['command']:
-                self.clrpars()
+                self.pars = ()
                 self.send('OK')
             elif 'clrcon' in message['command']:
-                self.clrcons()
+                self.cons = ()
                 self.send('OK')
 
             # get commands request arrays
@@ -44,22 +44,21 @@ class OBE_Server(Socket, OptBayesExpt):
             elif 'getpar' in message['command']:
                 self.send(self.pars)
             elif 'getcon' in message['command']:
-                self.send(dumps(self.cons))
+                self.send(self.cons)
 
-            # add arrays
+            # add arrays as new tuple elements
             elif 'addset' in message['command']:
-                self.addsets(message['array'])
+                self.sets += (message['array'], )
                 self.send('OK')
             elif 'addpar' in message['command']:
-                self.addpars(message['array'])
+                self.pars += (message['array'], )
                 self.send('OK')
             elif 'addcon' in message['command']:
-                self.addcon(message['value'])
+                self.cons += (message['value'], )
                 self.send('OK')
 
             # Finish configuration
             elif 'config' in message['command']:
-                # self.config(self.sets, self.pars, self.cons)
                 self.config()
                 self.send('OK')
 
