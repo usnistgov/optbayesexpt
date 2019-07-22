@@ -37,13 +37,19 @@ The most important role is the responsibility of the user. As delivered, the Bay
  
 The core files provide Python classes that implement optimal Bayesian experimental design.
 
-* **OptBayesExpt.py** provides the `OptBayesExpt` class with methods for the learning and deciding steps described above. This class inherits all methods and data from both ProbDistFunc and ExptModel, and it is the only class that a user will need to interact with directly.  Manual: [[notebook]](Docs/OptBayesExpt.ipynb)[[html]](Docs/OptBayesExpt.html)
+* **obe.py** provides the `OptBayesExpt` class with methods for the learning and deciding steps described above. This class inherits all methods and data from both ProbDistFunc and ExptModel, and it is the only class that a user will need to interact with directly.  Manual: [[notebook]](Docs/obe.ipynb)[[html]](Docs/obe.html)
   
-* **ProbDistFunc_class.py** provides the `ProbDistFunc` class with methods for handling probability distribution functions. Its methods are used to define the parameters and their respective ranges, perform basic mathematical functions, to supply random draws, basic statistics of the distribution, and the distribution itself. Manual: [[notebook]](Docs/ProbDistFunc_class.ipynb)[[html]](Docs/ProbDistFunc_class.html)
+* **probdistfunc.py** provides the `ProbDistFunc` class with methods for handling probability distribution functions. Its methods are used to define the parameters and their respective ranges, perform basic mathematical functions, to supply random draws, basic statistics of the distribution, and the distribution itself. Manual: [[notebook]](Docs/probdistfunc.ipynb)[[html]](Docs/probdistfunc.html)
 
-* **ExptModel_class.py** provides the `ExptModel` class with methods to define the experimental settings and to evaluate a model function. The model function itself must be provided by the user, preferably by adding it to an instance of the BayesOptExpt class. Manual: [[notebook]](Docs/ExptModel_class.ipynb)[[html]](Docs/ExptModel_class.html)
-  
-* **OBETCP.py** provides the `OBETCP` class which adds TCP socket communications to the `OptBayesExpt` class enabling it to interface with programs written in other languages. Configuration commands, measurement settings, and measurement data are sent as JSON-formatted strings over the TCP sockets.
+* **exptmodel.py** provides the `ExptModel` class with methods to define the experimental settings and to evaluate a model function. The model function itself must be provided by the user, preferably by adding it to an instance of the BayesOptExpt class. Manual: [[notebook]](Docs/exptmodel.ipynb)[[html]](Docs/exptmodel.html)
+
+### TCP communications
+
+These files add a TCP socket interface to OptBayesExpt so that non-python data acquisition code can interface with OptBayesExpt using JSON-formatted strings sent over TCP sockets.
+
+* **obe_server.py** provides the `OBE_Server` class, which adds TCP communication to the `optBayesExpt` class.  A mini-language uses label-value commands to configure an OptBayesExpt instance, to update probability distribution functions with new data, and to request efficient measurement settings.
+
+* **obe_socket.py** provides the `Socket` class, which handles opening and closing TCP connections and the JSON string encoding and decoding for the OBE_Server.
   
 ## What's next?
 
