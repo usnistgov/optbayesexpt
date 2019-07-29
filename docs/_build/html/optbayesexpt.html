@@ -1,0 +1,477 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>optbayesexpt package &#8212; OptBayesExpt 0.1.7 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Quick Start" href="quickstart.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="optbayesexpt-package">
+<h1>optbayesexpt package<a class="headerlink" href="#optbayesexpt-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-optbayesexpt.obe">
+<span id="optbayesexpt-obe-module"></span><h2>optbayesexpt.obe module<a class="headerlink" href="#module-optbayesexpt.obe" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="optbayesexpt.obe.OptBayesExpt">
+<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.obe.</code><code class="sig-name descname">OptBayesExpt</code><a class="headerlink" href="#optbayesexpt.obe.OptBayesExpt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#optbayesexpt.exptmodel.ExptModel" title="optbayesexpt.exptmodel.ExptModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">optbayesexpt.exptmodel.ExptModel</span></code></a>, <a class="reference internal" href="#optbayesexpt.probdistfunc.ProbDistFunc" title="optbayesexpt.probdistfunc.ProbDistFunc"><code class="xref py py-class docutils literal notranslate"><span class="pre">optbayesexpt.probdistfunc.ProbDistFunc</span></code></a></p>
+<p>combines an ExptModel class and a ProbDistFunc class to steer an experiment
+ExptModel provides methods for evaluating an experimental model</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Note that the actual model ins’t provided.</p></li>
+<li><p>To add the model, make a child class of BayesOptExpt and redefine the model_function</p></li>
+</ul>
+<p>method.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>ProbDistFunc provides a probability distribution function and methods for parameter</dt><dd><p>probabilities</p>
+</dd>
+<dt>Add-ons provided by BayesOptExpt include</dt><dd><ul class="simple">
+<li><p>a method to update the pdf based on a new measurement</p></li>
+<li><p>a method to estimate settings for the next measurement</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="optbayesexpt.obe.OptBayesExpt.besty">
+<code class="sig-name descname">besty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.obe.OptBayesExpt.besty" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.obe.OptBayesExpt.config">
+<code class="sig-name descname">config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.obe.OptBayesExpt.config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure the experimental model and the parameter pdf.
+This method should be called before either pdf_update or opt_setting
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.obe.OptBayesExpt.good_setting">
+<code class="sig-name descname">good_setting</code><span class="sig-paren">(</span><em class="sig-param">pickiness=1</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.obe.OptBayesExpt.good_setting" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Calculate a setting with a good probability of refining the pdf, but not necessarily</dt><dd><p>the best.</p>
+</dd>
+</dl>
+<p>In opt_setting method, the measurements often concentrate on a few settings,
+leaving much of setting space untouched.   How do you know you’re not missing something
+in that region?  By allowing some randomness in the setting selection, we allow
+non-optimum settings, covering setting space lightly while still emphasizing the
+settings that improve our parameter estimates.</p>
+<p>:param pickiness  - a setting selection tuning parameter.  Pickiness=0 produces random
+settingss.  Large pickiness values emphasize the optimum settings.
+:return:  a tuple of settings for the next measurement</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.obe.OptBayesExpt.opt_setting">
+<code class="sig-name descname">opt_setting</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.obe.OptBayesExpt.opt_setting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate a setting with the best probability of refining the pdf
+At what settings are we most uncertain about how an experiment will come out?
+That is where the next measurement will do the most good.
+So, we calculate model outputs for a bunch of possible model parameters and see where
+the output varies the most.
+We use our accumulated knowledge by drawing the possible parameters from the current
+parameter pdf.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A tuple of settings.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.obe.OptBayesExpt.pdf_update">
+<code class="sig-name descname">pdf_update</code><span class="sig-paren">(</span><em class="sig-param">onesetting</em>, <em class="sig-param">ymeas</em>, <em class="sig-param">sigma=1</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.obe.OptBayesExpt.pdf_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input a new measurement value and uncertainty (ymeas, sigma) make at a setting (
+onesetting) and update the pdf to incorporate the new information.
+Calculate the log(likelihood) for a result ymeas from a measurement made at onesetting
+And then update the pdf
+:param onesetting: Measurement settings
+:param ymeas:      Measurement result
+:param sigma:      Measurement std dev
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-optbayesexpt.exptmodel">
+<span id="optbayesexpt-exptmodel-module"></span><h2>optbayesexpt.exptmodel module<a class="headerlink" href="#module-optbayesexpt.exptmodel" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="optbayesexpt.exptmodel.ExptModel">
+<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.exptmodel.</code><code class="sig-name descname">ExptModel</code><a class="headerlink" href="#optbayesexpt.exptmodel.ExptModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class for an experimental model geared towards Bayesian optimal experimental design
+Data:</p>
+<blockquote>
+<div><p>allparams: an iterable covering all of model parameter space
+allsettings: an iterable covering all of experimental parameter space
+constants: model parameters that remain constant</p>
+</div></blockquote>
+<dl class="method">
+<dt id="optbayesexpt.exptmodel.ExptModel.eval_over_all_parameters">
+<code class="sig-name descname">eval_over_all_parameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.exptmodel.ExptModel.eval_over_all_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>wrapper to evaluate the model for every possible parameter</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.exptmodel.ExptModel.combination">
+<code class="sig-name descname">combination</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.exptmodel.ExptModel.combination" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.exptmodel.ExptModel.eval_aver_all_settings">
+<code class="sig-name descname">eval_aver_all_settings</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.exptmodel.ExptModel.eval_aver_all_settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>wrapper to evaluate the model for every possible setting</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.exptmodel.ExptModel.model_function">
+<code class="sig-name descname">model_function</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.exptmodel.ExptModel.model_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>the guts of the model calculation</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="sig-name descname">eval_over_all_parameters</code><span class="sig-paren">(</span><em class="sig-param">onesettingset</em><span class="sig-paren">)</span></dt>
+<dd><p>evaluate the experimental model over all possible model parameters for one set of
+measurement settings
+:param onesettingset: list of floats – measurement settings
+:return: array with dims of parameter space</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.exptmodel.ExptModel.eval_over_all_settings">
+<code class="sig-name descname">eval_over_all_settings</code><span class="sig-paren">(</span><em class="sig-param">oneparamset</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.exptmodel.ExptModel.eval_over_all_settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>evaluate the experimental model over all possible measurement settings for one set of
+parameters
+:param oneparamset:  list of model parameters
+:return: array with dims of setting space</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.exptmodel.ExptModel.model_config">
+<code class="sig-name descname">model_config</code><span class="sig-paren">(</span><em class="sig-param">settings</em>, <em class="sig-param">parameters</em>, <em class="sig-param">constants</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.exptmodel.ExptModel.model_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="sig-name descname">model_function</code><span class="sig-paren">(</span><em class="sig-param">settings</em>, <em class="sig-param">parameters</em>, <em class="sig-param">constants</em><span class="sig-paren">)</span></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> – list of arrays or list of floats – experimental settings</p></li>
+<li><p><strong>parameters</strong> – list of floats or list of arrays – model parameters</p></li>
+<li><p><strong>constants</strong> – list of floats  – constants in the model</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>an array with dims of setting space – or –
+an array with dims of parameter space – or –
+a float    – depending on the arguments</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="optbayesexpt.exptmodel.self_test">
+<code class="sig-prename descclassname">optbayesexpt.exptmodel.</code><code class="sig-name descname">self_test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.exptmodel.self_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Example Lorentzian Experimental model</p>
+<p>Pretend we have a spectrometer with a knob that goes from 0 to 1 in 100 steps.
+We’re measuring something that we think is going to produce a Lorentzian peak.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-optbayesexpt.probdistfunc">
+<span id="optbayesexpt-probdistfunc-module"></span><h2>optbayesexpt.probdistfunc module<a class="headerlink" href="#module-optbayesexpt.probdistfunc" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="optbayesexpt.probdistfunc.ProbDistFunc">
+<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.probdistfunc.</code><code class="sig-name descname">ProbDistFunc</code><a class="headerlink" href="#optbayesexpt.probdistfunc.ProbDistFunc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A probability distribution function class
+variables:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>lnPDF – an N-dimensional array, one axis for each variable parameter</dt><dd><p>contains nat.log of the probability, not normalized</p>
+</dd>
+</dl>
+<p>shape – tuple describing dimensions of pdf
+paramspace – a tuple of arrays and constants intended for iterating over all of</p>
+<blockquote>
+<div><p>parameter space</p>
+</div></blockquote>
+<p>paramisarray – which parameters are arrays, i.e. variables</p>
+</div></blockquote>
+<dl class="method">
+<dt>
+<code class="sig-name descname">__init__ -- determines the pdf's shape from lists/arrays of possible parameter values</code></dt>
+<dd><p>– creates paramspace for model evaluation over all parameter space
+– determines which parameters are variabls</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="sig-name descname">set_pdf -- initial value for the pdf</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="sig-name descname">update_pdf --  updates the lnPDF by (typically) adding a lnlikelyhood</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="sig-name descname">markov_draws -- generates an array of parameter sets using a random walk in the pdf.</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="sig-name descname">entropy  -- calculate the entropy of the pdf</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.probdistfunc.ProbDistFunc.add_lnpdf">
+<code class="sig-name descname">add_lnpdf</code><span class="sig-paren">(</span><em class="sig-param">lnlikelihood</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.probdistfunc.ProbDistFunc.add_lnpdf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.probdistfunc.ProbDistFunc.entropy">
+<code class="sig-name descname">entropy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.probdistfunc.ProbDistFunc.entropy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.probdistfunc.ProbDistFunc.get_mean">
+<code class="sig-name descname">get_mean</code><span class="sig-paren">(</span><em class="sig-param">paraxis</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.probdistfunc.ProbDistFunc.get_mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>compute the standard deviation of the PDF collapsed down to 1 axis
+:param paraxis: the axis of the pdf corresponding to the variable of interest.
+:return: standard deviation  (float)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.probdistfunc.ProbDistFunc.get_pdf">
+<code class="sig-name descname">get_pdf</code><span class="sig-paren">(</span><em class="sig-param">denuisance=()</em>, <em class="sig-param">normalize=True</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.probdistfunc.ProbDistFunc.get_pdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>packaging &amp; polishing the PDF
+Integrate over nuisance parameters, normalize and return the resulting pdf.
+:param denuisance: tuple identifying parameters to be integrated out of self.PDF (default none)
+:param normalize:  Boolean to normalize sum=1 (default yes)
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.probdistfunc.ProbDistFunc.get_std">
+<code class="sig-name descname">get_std</code><span class="sig-paren">(</span><em class="sig-param">paraxis</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.probdistfunc.ProbDistFunc.get_std" title="Permalink to this definition">¶</a></dt>
+<dd><p>compute the standard deviation of the PDF collapsed down to 1 axis
+:param paraxis: the axis of the pdf corresponding to the vaiable of interest.
+:return: standard deviation  (float)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.probdistfunc.ProbDistFunc.markov_draws">
+<code class="sig-name descname">markov_draws</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.probdistfunc.ProbDistFunc.markov_draws" title="Permalink to this definition">¶</a></dt>
+<dd><p>produce a number of samples from a probability distribution function
+using a Markov chain process
+:return: a list of parameter combinations</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.probdistfunc.ProbDistFunc.max_params">
+<code class="sig-name descname">max_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.probdistfunc.ProbDistFunc.max_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>find the parameters corresponding to the max probability
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.probdistfunc.ProbDistFunc.multiply_pdf">
+<code class="sig-name descname">multiply_pdf</code><span class="sig-paren">(</span><em class="sig-param">likelihood</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.probdistfunc.ProbDistFunc.multiply_pdf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.probdistfunc.ProbDistFunc.pdf_config">
+<code class="sig-name descname">pdf_config</code><span class="sig-paren">(</span><em class="sig-param">paramvals</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.probdistfunc.ProbDistFunc.pdf_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.probdistfunc.ProbDistFunc.set_pdf">
+<code class="sig-name descname">set_pdf</code><span class="sig-paren">(</span><em class="sig-param">flat=False</em>, <em class="sig-param">probvalarrays=None</em>, <em class="sig-param">pdf=None</em>, <em class="sig-param">lnpdf=None</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.probdistfunc.ProbDistFunc.set_pdf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="optbayesexpt.probdistfunc.self_test">
+<code class="sig-prename descclassname">optbayesexpt.probdistfunc.</code><code class="sig-name descname">self_test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.probdistfunc.self_test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-optbayesexpt.obe_server">
+<span id="optbayesexpt-obe-server-module"></span><h2>optbayesexpt.obe_server module<a class="headerlink" href="#module-optbayesexpt.obe_server" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="optbayesexpt.obe_server.OBE_Server">
+<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.obe_server.</code><code class="sig-name descname">OBE_Server</code><span class="sig-paren">(</span><em class="sig-param">ip_address='127.0.0.1'</em>, <em class="sig-param">port=61981</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#optbayesexpt.obe_socket.Socket" title="optbayesexpt.obe_socket.Socket"><code class="xref py py-class docutils literal notranslate"><span class="pre">optbayesexpt.obe_socket.Socket</span></code></a>, <a class="reference internal" href="#optbayesexpt.obe.OptBayesExpt" title="optbayesexpt.obe.OptBayesExpt"><code class="xref py py-class docutils literal notranslate"><span class="pre">optbayesexpt.obe.OptBayesExpt</span></code></a></p>
+<dl class="method">
+<dt id="optbayesexpt.obe_server.OBE_Server.getmean">
+<code class="sig-name descname">getmean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.getmean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.obe_server.OBE_Server.newrun">
+<code class="sig-name descname">newrun</code><span class="sig-paren">(</span><em class="sig-param">*args</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.newrun" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.obe_server.OBE_Server.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-optbayesexpt.obe_socket">
+<span id="optbayesexpt-obe-socket-module"></span><h2>optbayesexpt.obe_socket module<a class="headerlink" href="#module-optbayesexpt.obe_socket" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="optbayesexpt.obe_socket.Socket">
+<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.obe_socket.</code><code class="sig-name descname">Socket</code><span class="sig-paren">(</span><em class="sig-param">role</em>, <em class="sig-param">ip_address='127.0.0.1'</em>, <em class="sig-param">port=61981</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.obe_socket.Socket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="optbayesexpt.obe_socket.Socket.close">
+<code class="sig-name descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the communication connection. Only clients need to close connections once they’re
+done communicating.
+No need to call this for servers.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.obe_socket.Socket.receive">
+<code class="sig-name descname">receive</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.receive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receive a message from the other computer. If a connection to another computer does not
+exist then the function will wait until a connection is established.
+:return: Returns a message received from the other computer.</p>
+<blockquote>
+<div><p>This function will block until a message is received.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.obe_socket.Socket.send">
+<code class="sig-name descname">send</code><span class="sig-paren">(</span><em class="sig-param">contents</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.send" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a message to the other computer. A server may only call this function after
+receive() is called.
+The message has a 10 character header describing length</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.obe_socket.Socket.tcpcmd">
+<code class="sig-name descname">tcpcmd</code><span class="sig-paren">(</span><em class="sig-param">command</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.tcpcmd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">OptBayesExpt</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">optbayesexpt package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-optbayesexpt.obe">optbayesexpt.obe module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-optbayesexpt.exptmodel">optbayesexpt.exptmodel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-optbayesexpt.probdistfunc">optbayesexpt.probdistfunc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-optbayesexpt.obe_server">optbayesexpt.obe_server module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-optbayesexpt.obe_socket">optbayesexpt.obe_socket module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="quickstart.html" title="previous chapter">Quick Start</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Bob McMichael.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/optbayesexpt.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
