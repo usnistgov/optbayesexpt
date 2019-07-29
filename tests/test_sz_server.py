@@ -10,7 +10,7 @@ import os
 # This test focuses on testing communications with an OBE server
 
 
-server_script = os.path.join(os.getcwd(), "optbayesexpt/tests/server_script.py")
+server_script = os.path.join(os.getcwd(), "tests/server_script.py")
 server_pipe = Popen(['python', server_script])
 sleep(3)
 
