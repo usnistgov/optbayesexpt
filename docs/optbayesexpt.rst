@@ -1,13 +1,8 @@
 optbayesexpt package
 ====================
 
-optbayesexpt.obe module
------------------------
-
-.. automodule:: optbayesexpt.obe
-   :members:
-   :undoc-members:
-   :show-inheritance:
+Submodules
+----------
 
 optbayesexpt.exptmodel module
 -----------------------------
@@ -17,11 +12,10 @@ optbayesexpt.exptmodel module
    :undoc-members:
    :show-inheritance:
 
+optbayesexpt.obe module
+-----------------------
 
-optbayesexpt.probdistfunc module
---------------------------------
-
-.. automodule:: optbayesexpt.probdistfunc
+.. automodule:: optbayesexpt.obe
    :members:
    :undoc-members:
    :show-inheritance:
@@ -42,3 +36,19 @@ optbayesexpt.obe\_socket module
    :undoc-members:
    :show-inheritance:
 
+optbayesexpt.probdistfunc module
+--------------------------------
+
+.. automodule:: optbayesexpt.probdistfunc
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: optbayesexpt
+   :members:
+   :undoc-members:
+   :show-inheritance:
