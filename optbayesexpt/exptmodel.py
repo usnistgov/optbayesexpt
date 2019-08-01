@@ -13,12 +13,16 @@ class ExptModel:
         that's relevant to the application.
 
     Attributes:
-        constants (:obj:`list`, :obj:`tuple`, :obj:`array`): Constant parameters in the model
-            function.
         allsettings (:obj:`tuple` of :obj:`ndarray`): All possible combinations of setting values.
         allparams (:obj:`tuple` of :obj:`ndarray`): All possible combinations of parameter values.
+        constants (:obj:`list`, :obj:`tuple`, :obj:`array`): Constant parameters in the model
+            function.
     """
+
     def __init__(self):
+        self.constants = ()
+        self.allsettings = np.array([])
+        self.allparams = np.array([])
         pass
 
     def model_config(self, settings, parameters, constants):
@@ -122,11 +126,10 @@ class ExptModel:
         parameters.  Used by OptBayesExpt in predicting the utility of future measurement settings.
 
         Args:
-            onesettingset (:obj:`tuple` of :obj:`float`): a single set of model parameters.
+            oneparamset (:obj:`tuple` of :obj:`float`): a single set of model parameters.
 
         Returns:
             (:obj:`ndarray`) array of model values with dimensions of :obj:`allsettings.shape`.
         """
         return self.model_function(self.allsettings, oneparamset, self.constants)
-
 

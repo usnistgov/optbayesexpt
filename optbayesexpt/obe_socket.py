@@ -2,17 +2,42 @@ from json import dumps, loads
 from socket import socket, AF_INET, SOCK_STREAM
 
 class Socket:
+    """
+    Handles TCP communications
+
+    The :code:`Socket` can be configured either as a 'server' or a 'client'.  Server
+    sockets wait for connections, receive messages and send replies.  Client sockets initiate
+    connections and receive replies.
+
+    The message protocol uses messages formatted as JSON strings, each prependend by
+    the string length as a zero-padded, 10-digit decimal number.  The general form is
+
+        nnnnnnnnnn{"command": <command_str>[, <label_str>: <value_str>[, ...]]
+
+    Example messages
+        * :code:`0000000047{"command": "addset", "array": [1.0, 2.0, 3.0]}`
+        * :code:`0000000038{"command": "goodset", "pickiness": 4}`
+        * :code:`0000000019{"command": "done"}`
+        * :code:`0000000004"OK"`
+
+    Args:
+        role (str): either 'client' configures the Socket to initiate communications and 'server'
+            to will listen and then responsd.
+        ip_address (str): Identifies the computer host to communicate with. The default of
+            '127.0.0.1' is the localhost,  enabling communications between processes on the host
+            computer.
+        port (int): the TCP port used for communications.  The default value 61981 was chosen
+            chosen randomly in the unassigned port range 49152 to 65535.
+
+    Attributes:
+        server: for the 'server' role, a :code:`socket.socket` object configured to listen and accept
+            connections
+        connection: for the 'client' role, a :code:`socket.socket` object configured to initiate
+            connections and send messages
+    """
+
     def __init__(self, role, ip_address='127.0.0.1', port=61981):
-        """
-        Create a simplified TCP socket which can act as a server or client.
-        :param role: 'server' tells the socket to wait and listen for someone to connect.
-        'client' tells the socket to connect to a server.
-        :param ip_address: Which computer do you want to talk to? Specify its IP address.
-        The default of 127.0.0.1 means "the same computer I'm on". Sometimes you just have to
-        talk to yourself.
-        :param port: The server will listen on this TCP port for communication. The client will
-        connect to this port.  61981 was chosen randomly in the range 49152 to 65535
-        """
+
         self.role = role
         self.ip_address = ip_address
         self.port = port
@@ -25,14 +50,27 @@ class Socket:
             self.server.bind((self.ip_address, self.port))
             self.server.listen(1)
         else:
-            raise Exception('Invalid role. Valid choices are client or server.'.format(role))
+            raise Exception('Invalid role {}. Valid choices are client or server.'.format(role))
 
     def send(self, contents):
         """
-        Send a message to the other computer. A server may only call this function after
-        receive() is called.
-        The message has a 10 character header describing length
+        Format and send a message
+
+        This method formats the :code:`contents` argument into the message format,
+        opens a connection to a server and sends the message.
+
+        Args:
+            contents: Any JSON format-able object. Briefly, python's :obj:`str`, :obj:`int`,
+                :obj:`float`, :obj:`list`, :obj:`tuple`, and :obj:`dict` objects.
+
+        Important:
+            json.dumps() is not able to format numpy arrays.  To send numpy arrays, the
+            :code:`numpy.tolist()` method is a convenient way to list-ify a numpy array.  For
+            example::
+
+                mySocket.send(myarray.tolist())
         """
+
         if self.role == 'client':
             self.connection = socket(AF_INET, SOCK_STREAM)
             self.connection.connect((self.ip_address, self.port))
@@ -40,19 +78,24 @@ class Socket:
         json = dumps(contents).encode()
         jdatalen = '{:0>10d}'.format(len(json)).encode()
         message = jdatalen + json
-        print(message)
+        # print(message)
         self.connection.sendall(message)
 
     def receive(self):
+        """Wait for and process messages on the TCP port
+
+        Blocks until a connection is made, then reads the number of bytes specified in the first 10
+        characters.  Reads the connection until the full message is received, then decodes the
+        messages string.
+
+        Returns:
+            The message string decoded and repackaged as a python object
         """
-        Receive a message from the other computer. If a connection to another computer does not
-        exist then the function will wait until a connection is established.
-        :return: Returns a message received from the other computer.
-            This function will block until a message is received.
-        """
+
         gulp = 1024
         while True:
             if self.role == 'server':
+                # accept() method blocks until a connection is made
                 self.connection, address = self.server.accept()
             bitcount = b''
             bytes_recd = 0
@@ -75,15 +118,26 @@ class Socket:
             return loads(raw_message.decode())
 
     def close(self):
-        """
-        Close the communication connection. Only clients need to close connections once they're
-        done communicating.
+        """Close the communication connection.
+
+        Only clients need to close connections once they're done communicating.
         No need to call this for servers.
         """
         self.connection.close()
         self.connection = None
 
     def tcpcmd(self, command):
+        """A query-response conversation
+
+        Run from a client socket, this method sends a command and receives a response. The
+        connection is then closed.
+
+        Args:
+            command: a JSON-ifiable python object that will trigger a response from the other side.
+
+        Returns:
+            a pyhton object decoded from the reply message
+        """
         if self.role == 'client':
             self.send(command)
             reply = self.receive()

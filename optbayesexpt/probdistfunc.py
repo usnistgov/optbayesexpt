@@ -7,27 +7,34 @@ import numpy as np
 class ProbDistFunc:
     """
     A probability distribution function class
-    variables:
-        lnPDF -- an N-dimensional array, one axis for each variable parameter
-            contains nat.log of the probability, not normalized
-        shape -- tuple describing dimensions of pdf
-        paramspace -- a tuple of arrays and constants intended for iterating over all of
-            parameter space
-        paramisarray -- which parameters are arrays, i.e. variables
-    methods:
-        __init__ -- determines the pdf's shape from lists/arrays of possible parameter values
-             -- creates paramspace for model evaluation over all parameter space
-             -- determines which parameters are variabls
-        set_pdf -- initial value for the pdf
-        update_pdf --  updates the lnPDF by (typically) adding a lnlikelyhood
-        markov_draws -- generates an array of parameter sets using a random walk in the pdf.
-        entropy  -- calculate the entropy of the pdf
+
+    Attributes:
+        PDF (ndarray): an array representing a probability distribution function.  PDF will be
+            multidimensional for joint distributions, one axis for each parameter.
+        lnPDF (ndarray): The :code:`log` of :code:`PDF`.
+        paramvals (tuple of arrays): a tuple of 1D arrays, each containing discrete values of the
+            corresponding parameter.
+        shape (tuple): the lengths of the arrays in :code:`paramvals`.
+        dims (int): the number of parameters.
+
     """
 
     def __init__(self):
         self.Ndraws = 200
 
     def pdf_config(self, paramvals):
+        """initializes the probability distribution function
+
+        Sets up an N-dimensional numpy array as a discrete representation of a joint probability.
+        Assumes that the probability is zero outside the parameter space defined by
+        :code:`paramvals`.
+
+        Args:
+            paramvals (tuple of lists, required): Each list (or array) in paramvals contains
+                allowed values of a parameter. Individual lists may represent values of a naturally
+                discrete parameter, or they may be discrete approximations of continuous
+                parameters.
+        """
         # paramvals is expected to be a tuple of arrays containing all possible parameter values
         self.paramvals = paramvals
         # determine the shape of the PDF required to accommodate all of the paramvals
@@ -42,19 +49,32 @@ class ProbDistFunc:
         self.PDF = np.ones(self.pdfshape)
 
     def set_pdf(self, flat=False, probvalarrays=None, pdf=None, lnpdf=None):
-        # set the pdf with some initial guess or restore a saved version
+        """Initializes the probability distribution function
+
+        Initializes the distribution using the first non-default argument.  Normalization is not
+        enforced.  Initializes both :code:`PDF` and :code:`lnPDF`.
+
+        Args:
+            flat (bool): If :code:`True`, sets :code:`PDF` values to one and :code:`lnPDF`
+                values to zero.  Defaults to :code:`False`.
+            probvalarrays (tuple of arrays): Initializes :code:`PDF` to the outer product of the
+                input arrays.  Dimensions of probvalarrays members must match dimensions of
+                paramvals arrays. Defaults to :code:`None`.
+            pdf (list or ndarray):  Specifies the values of :code:`PDF` directly.
+                Defaults to :code:`None`.
+            lnpdf (list or ndarray): Specifies the values of :code:`lnPDF` directly.
+                Defaults to :code:`None`.
+        """
 
         if flat:
             self.lnPDF = np.zeros(self.pdfshape)
             self.PDF = np.ones(self.pdfshape)
-            flat = False
             return
         if probvalarrays is not None:
             # Used when the user initializes with a 1-D array of probabilities for each variable
             # parameter
             self.PDF = self.__multiply_probs(probvalarrays)
             self.lnPDF = np.log(self.PDF)
-            probvalarrays = None
             return
         if pdf is not None:
             if np.array(pdf).shape != self.pdfshape:
@@ -62,7 +82,6 @@ class ProbDistFunc:
             else:
                 self.PDF = np.array(pdf)
                 self.lnPDF = np.log(pdf)
-            pdf = None
             return
         if lnpdf is not None:
             if np.array(lnpdf).shape != self.pdfshape:
@@ -70,10 +89,19 @@ class ProbDistFunc:
             else:
                 self.lnPDF = np.array(lnpdf)
                 self.PDF = np.exp(lnpdf)
-            lnpdf = None
             return
 
     def add_lnpdf(self, lnlikelihood):
+        """Adds the argument to the log probability
+
+        A method of multiplying :code:`self.PDF` by another probability distribution by adding
+        the logarithms.  Useful in calculating Bayes rule, with a *likelihood* when its logarithm
+        is available.  Updates both :code:`PDF` and :code:`lnPDF`.  Normalization is not
+        enforced.  See also :code:`multiply_pdf()`.
+
+        Args:
+            lnlikelihood: An array representing the :code:`log` of a probability distribution.
+        """
         # add the log of likelihood of a measurement to update the PDF
         self.lnPDF += lnlikelihood
         # pseudo-normalize to max lnPDF=0 --> max PDF = 1
@@ -81,25 +109,38 @@ class ProbDistFunc:
         self.PDF = np.exp(self.lnPDF)
 
     def multiply_pdf(self, likelihood):
-        # multiply by another
+        """Multiplies the probability distribution by the argument.
+
+        Useful in calculating Bayes rule, with a *likelihood*.  Updates both :code:`PDF` and
+        :code:`lnPDF`.  Normalization is not enforced. See also :code:`add_lnpdf()`.
+
+        Args:
+             likelihood: An array representing probability distribution.
+        """
         self.lnPDF += np.log(likelihood)
         # pseudo-normalize to max lnPDF=0 --> max PDF = 1
         self.lnPDF -= self.lnPDF.max()
         self.PDF = np.exp(self.lnPDF)
 
     def markov_draws(self):
-        """
-        produce a number of samples from a probability distribution function
-        using a Markov chain process
-        :return: a list of parameter combinations
-        """
+        """Takes random draws from the probability distribution.
 
+        Produces :code:`self.Ndraws` samples from the probability distribution function
+        using a Markov chain process.
+
+        Returns:
+            numpy array: An array containing :code:`Ndraws` sets of parameters.
+
+        """
         return self.__markov_chain_gen_n_dims(self.Ndraws, self.Ndraws)
 
     def max_params(self):
-        """
-        find the parameters corresponding to the max probability
-        :return:
+        """Finds the maximum probability.
+
+        Returns:
+            tuple of floats: Parameter values corresponding to the maximum of the probability
+            distribution.
+
         """
         # argmax returns the index of the maximum of the flattened version of self.PDF
         maxindex = np.argmax(self.PDF)
@@ -107,24 +148,34 @@ class ProbDistFunc:
         ix = np.unravel_index(maxindex, self.pdfshape)
         # list comprehension to get the parameter values corresponding to the indices
         maxpars = [p[i] for p, i in zip(self.paramvals, ix)]
+
         # convert to tuple because our models expect tuples.
         return tuple(maxpars)
 
     def get_pdf(self, denuisance=(), normalize=True):
-        """
-        packaging & polishing the PDF
-        Integrate over nuisance parameters, normalize and return the resulting pdf.
-        :param denuisance: tuple identifying parameters to be integrated out of self.PDF (default none)
-        :param normalize:  Boolean to normalize sum=1 (default yes)
-        :return:
+        """Normalizes the probability distribution and integrates out nuisance parameters.
+
+        Args:
+            denuisance (tuple, optional): Parameters to be integrated out of self.PDF.
+                Defaults to :code:`None`.
+            normalize (bool, optional): If :code:`True`, normalize sum=1 (default yes)
+
+        Returns:
+            numpy array: The probability distribution
         """
         return self.__normalize(self.__denuisance_pdf(denuisance), normalize)
 
     def get_std(self, paraxis):
-        """
-        compute the standard deviation of the PDF collapsed down to 1 axis
-        :param paraxis: the axis of the pdf corresponding to the vaiable of interest.
-        :return: standard deviation  (float)
+        """Computes the standard deviation of the distribution along the specified axis.
+
+        Sums the probability distribution over all axes *except* parax, producing a 1D
+        distribution, then calculates the standard deviation of that 1D distribution.
+
+        Args:
+            paraxis (int, required): The axis index corresponding to the parameter of interest.
+
+        Returns:
+            float: The standard deviation along the :code:`paraxis` axis.
         """
         # We need a list of axes to sum, i.e. all axes _except_ for the requested paraxis,
         # all axes
@@ -144,10 +195,16 @@ class ProbDistFunc:
         return np.sqrt(ssquare)
 
     def get_mean(self, paraxis):
-        """
-        compute the standard deviation of the PDF collapsed down to 1 axis
-        :param paraxis: the axis of the pdf corresponding to the variable of interest.
-        :return: standard deviation  (float)
+        """Computes the mean and standard deviation of the distribution along the specified axis.
+
+        Sums the probability distribution over all axes *except* parax, producing a 1D
+        distribution, then calculates the mean standard deviation of that 1D distribution.
+
+        Args:
+            paraxis (int, required): The axis index corresponding to the parameter of interest.
+
+        Returns:
+            tuple of floats: The mean and standard deviation along the :code:`paraxis` axis.
         """
         # We need a list of axes to sum, i.e. all axes _except_ for the requested paraxis,
         # all axes
@@ -167,9 +224,20 @@ class ProbDistFunc:
         return pbar, np.sqrt(ssquare)
 
     def entropy(self):
+        """Evaluates the information entropy of the distribution.
+
+        Information entropy is a measure of the "sharpness" of the distribution, largest for a
+        uniform distribution and smallest when the probability is nonzero only in one array
+        element.
+
+        Returns:
+            float: The information entropy.
+        """
         return self.__calculate_discrete_entropy(self.PDF)
 
-    """The nitty-gritty details, in private methods"""
+    ##########################################################
+    # The nitty-gritty details, in private methods
+    ##########################################################
 
     def __denuisance_pdf(self, denuisance=()):
         """
@@ -325,59 +393,3 @@ class ProbDistFunc:
         # entropy integrand
         integrand = maskeddist * np.log2(maskeddist)
         return -integrand.sum() / norm + np.log2(norm)
-
-
-def self_test():
-    xmin, xmax, ymin, ymax = (-1, 1, -2, 2)
-    extent = [xmin, xmax, ymin, ymax]
-
-    xparam = np.linspace(xmin, xmax, 101)
-    yparam = np.linspace(ymin, ymax, 201)
-
-    mypdf = ProbDistFunc()
-    mypdf.pdf_config((xparam, yparam))
-
-    print('default mypdf.shape = {}'.format(mypdf.pdfshape))
-    print('default mypdf.lnPDF = {}'.format(mypdf.lnPDF))
-    print('default mypdf.PDF = {}'.format(mypdf.PDF))
-
-    import matplotlib.pyplot as plt
-
-    plt.figure()
-
-    plt.subplot(221)
-    plt.title('default')
-    plt.imshow(mypdf.PDF.T, extent=extent, cmap='cubehelix', aspect='auto')
-    plt.colorbar()
-
-    plt.subplot(222)
-    plt.title('probvalarrays')
-    xprobs = 1 - xparam * xparam / 1.1
-    yprobs = 1 - yparam * yparam / 8
-    mypdf.set_pdf(probvalarrays=[xprobs, yprobs])
-    plt.imshow(mypdf.PDF.T, extent=extent, cmap='cubehelix', aspect='auto')
-    plt.colorbar()
-
-    plt.subplot(223)
-    plt.title('exp')
-    XX, YY = np.meshgrid(xparam, yparam, indexing='ij')
-    print('XX.shape = {}'.format(XX.shape))
-    mypdf.set_pdf(pdf=np.exp(-(XX * XX + YY * YY + XX * YY) * 5))
-    plt.imshow(mypdf.PDF.T, origin='bottom', extent=extent, cmap='cubehelix', aspect='auto')
-    plt.colorbar()
-
-    plt.subplot(224)
-    plt.title('draws')
-    # mydraws = mypdf.markov_draws(500)
-    mydraws = mypdf.markov_draws()
-
-    plt.scatter(mydraws[:, 0], mydraws[:, 1], marker='.')
-    plt.xlim((xmin, xmax))
-    plt.ylim((ymin, ymax))
-
-    plt.tight_layout()
-    plt.show()
-
-
-if __name__ == '__main__':
-    self_test()
