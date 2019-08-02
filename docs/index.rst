@@ -5,13 +5,13 @@
 
 OptBayesExpt documentation
 ==========================
-
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+   manual
    quickstart
-   optbayesexpt   
+   optbayesexpt
 
 
 Indices and tables

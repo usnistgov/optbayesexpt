@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('../'))
 # -- Project information -----------------------------------------------------
 
 project = 'OptBayesExpt'
-copyright = '2019, Bob McMichael'
+copyright = '2019 Bob McMichael'
 author = 'Bob McMichael'
 
 # The full version, including alpha/beta/rc tags
@@ -31,9 +31,13 @@ release = '0.1.7'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = ['sphinx.ext.autodoc',
-              'sphinx.ext.napoleon'
+              'sphinx.ext.napoleon',
+              'sphinx.ext.githubpages',
+			  'sphinx.ext.coverage',
+			  'sphinx.ext.viewcode',
 ]
 
+napoleon_inclue_private_with_doc = True
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 

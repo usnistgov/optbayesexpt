@@ -1,7 +1,7 @@
-optbayesexpt package
-====================
+optbayesexpt modules -- API
+===========================
 
-optbayesexpt.obe module
+obe
 -----------------------
 
 .. automodule:: optbayesexpt.obe
@@ -9,7 +9,7 @@ optbayesexpt.obe module
    :undoc-members:
    :show-inheritance:
 
-optbayesexpt.probdistfunc module
+probdistfunc
 --------------------------------
 
 .. automodule:: optbayesexpt.probdistfunc
@@ -17,7 +17,7 @@ optbayesexpt.probdistfunc module
    :undoc-members:
    :show-inheritance:
 
-optbayesexpt.exptmodel module
+exptmodel
 -----------------------------
 
 .. automodule:: optbayesexpt.exptmodel
@@ -25,7 +25,7 @@ optbayesexpt.exptmodel module
    :undoc-members:
    :show-inheritance:
 
-optbayesexpt.obe\_server module
+obe\_server
 -------------------------------
 
 .. automodule:: optbayesexpt.obe_server
@@ -33,7 +33,7 @@ optbayesexpt.obe\_server module
    :undoc-members:
    :show-inheritance:
 
-optbayesexpt.obe\_socket module
+obe\_socket
 -------------------------------
 
 .. automodule:: optbayesexpt.obe_socket
