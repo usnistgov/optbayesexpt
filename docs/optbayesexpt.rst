@@ -1,44 +1,18 @@
-optbayesexpt modules -- API
-===========================
+optbayesexpt package
+====================
 
-obe
------------------------
-
-.. automodule:: optbayesexpt.obe
+.. automodule:: optbayesexpt
    :members:
    :undoc-members:
    :show-inheritance:
 
-probdistfunc
---------------------------------
+Submodules
+----------
 
-.. automodule:: optbayesexpt.probdistfunc
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. toctree::
 
-exptmodel
------------------------------
-
-.. automodule:: optbayesexpt.exptmodel
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-obe\_server
--------------------------------
-
-.. automodule:: optbayesexpt.obe_server
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-obe\_socket
--------------------------------
-
-.. automodule:: optbayesexpt.obe_socket
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
+   optbayesexpt.exptmodel
+   optbayesexpt.obe
+   optbayesexpt.obe_server
+   optbayesexpt.obe_socket
+   optbayesexpt.probdistfunc
