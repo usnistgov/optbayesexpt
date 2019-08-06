@@ -1,0 +1,602 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Manual &#8212; OptBayesExpt 0.1.7 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Quick Start" href="quickstart.html" />
+    <link rel="prev" title="OptBayesExpt documentation" href="index.html" />
+
+    <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+
+<script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Mark external (non-nist.gov) A tags with class "external"
+  //If the adress start with https and ends with nist.gov
+  var re_nist = new RegExp('^https?:\/\/((^\/)*\.)*nist\\.gov(\/|$)');
+  //Regex to find address that start with https
+  var re_absolute_address = new RegExp('^((https?:)?\/\/)');
+  $("a").each(function(){
+    var url=$(this).attr('href');
+    if(re_nist.test(url) || !re_absolute_address.test(url)){
+      $(this).addClass('local');
+    }else{
+      //This a href appears to be external, so tag it
+      $(this).addClass('external');
+    }
+  });
+  // Add leaveNotice to external A elements
+  $('a.external').leaveNotice();
+});
+</script>
+<link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quick Start"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="OptBayesExpt documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 0.1.7 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="manual">
+<h1>Manual<a class="headerlink" href="#manual" title="Permalink to this headline">¶</a></h1>
+<div class="line-block">
+<div class="line">R. D. McMichael <a class="reference external" href="mailto:rmcmichael&#37;&#52;&#48;nist&#46;gov">rmcmichael<span>&#64;</span>nist<span>&#46;</span>gov</a></div>
+<div class="line">National Institute of Standards and Technology</div>
+<div class="line">Gaithersburg, MD USA March 29, 2019</div>
+</div>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="#introduction">Introduction</a></p></li>
+<li><p><a class="reference external" href="#philosophy-and-goals">Philosophy and goals</a></p></li>
+<li><p><a class="reference external" href="#requirements-for-users">Requirements</a></p></li>
+<li><p><a class="reference external" href="#demos">Demos</a></p></li>
+<li><p><a class="reference external" href="#theory-of-operation">Theory of Operation</a></p></li>
+</ul>
+</div>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This manual describes an implementation of optimal Bayesian experimental
+design methods to control measurement settings in order to efficiently
+determine model parameters. In situations where parametric models would
+conventionally be fit to measurement data in order to obtain model
+parameters, these methods offer an adaptive measurement strategy capable
+of reduced uncertainty with fewer required measurements. These methods
+are therefore most beneficial in situations where measurements are
+expensive in terms of money, time, risk, labor or discomfort. The price
+for these benefits lies in the complexity of automating such
+measurements and in the computational load required. It is the goal of
+this package to assist potential users in overcoming at least the
+programming hurdles.</p>
+<p>Optimal Bayesian experimental design is not new, at least not in the
+statistics community. A review paper from 1995 by <a class="reference external" href="https://projecteuclid.org/euclid.ss/1177009939">Kathryn Chaloner and
+Isabella Verinelli</a>
+reveals that the basic methods had been worked out in preceding decades.
+The methods implemented here closely follow <a class="reference external" href="http://dx.doi.org/10.1016/j.jcp.2012.08.013">Xun Huan and Youssef M.
+Marzouk</a> which
+emphasizes simulation-based experimental design. Optimal Bayesian
+experimental design is also an active area of research.</p>
+<p>There are at least three important factors that encourage application of
+these methods today. First, the availability of flexible, modular
+computer languages such as Python. Second, availability of cheap
+computational power. Most of all though, an increased awareness of the
+benefits of code sharing and reuse is growing in scientific communities.</p>
+</div>
+<div class="section" id="philosophy-and-goals">
+<h2>Philosophy and goals<a class="headerlink" href="#philosophy-and-goals" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>If it sounds good, it is good &gt; Duke Ellington</p>
+</div></blockquote>
+<p>Jazz legend Duke Ellington was talking about music, where it’s all about
+the sound. For this package, it’s all about being useful. The goals are
+modest: to adapt some of the developments in optimal Bayeseian
+experimental design research for practical use in laboratory settings,
+giving users tools to make better measurements.</p>
+<ul class="simple">
+<li><p>If it’s a struggle to use, it can’t run good.</p></li>
+<li><p>If technical jargon is a barrier, it can’t run good</p></li>
+<li><p>If the user finds it useful, it runs good.</p></li>
+<li><p>If it runs good, it is good.</p></li>
+</ul>
+</div>
+<div class="section" id="requirements-for-users">
+<h2>Requirements for users<a class="headerlink" href="#requirements-for-users" title="Permalink to this headline">¶</a></h2>
+<p>It takes a little effort to get this software up and running. Here’s
+what a user will need to supply to get started.</p>
+<ol class="arabic simple">
+<li><p>Python 3.x with the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> python package</p></li>
+<li><p>An experiment that yields measurement results with uncertainty
+estimates.</p></li>
+<li><p>A parametric model for the experiment, typically a function with
+parameters to be determined.</p></li>
+<li><p>A working knowledge of Python programming, enough to follow examples
+and program a model function.</p></li>
+</ol>
+</div>
+<div class="section" id="demos">
+<h2>Demos<a class="headerlink" href="#demos" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="locating-a-lorentzian-peak">
+<h3>Locating a Lorentzian peak<a class="headerlink" href="#locating-a-lorentzian-peak" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-default" id="id1">
+<img alt="Comparison of measure-then-fit and OBED method" src="_images/demoLorentzfig1.png" />
+<p class="caption"><span class="caption-text">Comparison of measure-then-fit and OBED method</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>Figure 1: A comparison of measure-then-fit (left) and optimal Bayesian
+experimental design (right). Both methods measure the same “true” peak
+with Gaussian noise added (<span class="math notranslate nohighlight">\(\sigma = 1\)</span>) independently. The peak
+parameters are selected randomly: center between 2 and 4, height between
+2 and 5, background between -1 and 1 and peak width between 0.1 and 0.3.
+On the left, 30 evenly-spaced “measurements” are made and fit using
+<code class="docutils literal notranslate"><span class="pre">scipy.optimize.curve_fit()</span></code>. A curve using the best-fit parameters is
+plotted for comparison with the true curve. The diagonal element of the
+covariance matrix is taken as the square of the uncertainty. On the
+right, the optimal Bayes experimental design method is used
+sequentially. Iterations stop when the standard deviation of the <code class="docutils literal notranslate"><span class="pre">x0</span></code>
+peak center distribution is less than the uncertainty of the fit on the
+left. Green curves are generated from random draws from the parameter
+distribution at the stopping point. Typical runs of this example require
+approximately 1/4 to 1/2 as many measurements as the measure-then-fit
+method. See <code class="docutils literal notranslate"><span class="pre">Demos/demoLorentzian.py</span></code>.</p>
+</div>
+<div class="section" id="measurement-speedup">
+<h3>10 × measurement speedup<a class="headerlink" href="#measurement-speedup" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-default" id="id2">
+<img alt="Mechanism of speedup" src="_images/rootN_2080.png" />
+<p class="caption"><span class="caption-text">Mechanism of speedup</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<p>Figure 2: A different view of the Lorentzian peak problem, contrasting
+efficiency differences between methods. The left panel shows results
+after 1000 measurements of a spectrum. The simulated experimental noise
+is Gaussian with standard deviation <span class="math notranslate nohighlight">\(\sigma = 1\)</span>. In the “average
+&amp; fit” method, 50 simulated measurements are averaged at each of 20
+points, yielding a uniform uncertainty of
+<span class="math notranslate nohighlight">\(\sigma_y = 1/\sqrt{50}\)</span>. In the OptBayesExpt method, the
+algorithm focuses attention on the sides of the peak, as shown in the
+histogram. The symbol areas are proportional to the weights of the data
+points, <span class="math notranslate nohighlight">\(1/\sigma^2\)</span>. The smallest points correspond to
+<span class="math notranslate nohighlight">\(\sigma_y = 1.0\)</span>, and the largest to
+<span class="math notranslate nohighlight">\(\sigma_y \approx 0.055.\)</span></p>
+<p>The right panel plots the evolution of uncertainty in the peak center
+<span class="math notranslate nohighlight">\(x_0\)</span> with the number of accumulated measurements. Plotted values
+summarize the results of 100 runs, each with 1000 OptBayesExpt
+measurments and 20 000 average &amp; fit measurements. Solid lines are the
+mean uncertainty values and the shaded areas are bounded by the 20th and
+80th percentile of the uncertainty values. Both the average &amp; fit
+technique and the OptBayesExpt method scale like
+<span class="math notranslate nohighlight">\(\sigma_{x0} \propto 1/\sqrt{N}\)</span> (<span class="math notranslate nohighlight">\(N\)</span> = measurement number)
+for large <span class="math notranslate nohighlight">\(N\)</span>, but the OptBayesExpt requires approximately 10
+times fewer measurements to achieve the same uncertainty.</p>
+<p>Details: For the OptBayesExpt results, the uncertainty is the standard
+deviation of the parameter distribution function after integrating over
+peak height and peak width. The average and fit method used
+<code class="docutils literal notranslate"><span class="pre">scipy.optimize.curve_fit()</span></code>. The uncertainty plotted here is the
+square root of the diagonal element in the covariance matrix. The peak
+height, background level and peak center are treated as unknowns, and
+the half-width line width is fixed at 0.3. See
+<code class="docutils literal notranslate"><span class="pre">Demos/demoLorentzian2.py</span></code>.</p>
+</div>
+<div class="section" id="tuning-a-pi-pulse">
+<h3>Tuning a <span class="math notranslate nohighlight">\(\pi\)</span> pulse<a class="headerlink" href="#tuning-a-pi-pulse" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-default" id="id3">
+<img alt="measurements of transition probability vs pulse length and detuning" src="_images/pipulsefig.png" />
+<p class="caption"><span class="caption-text">measurements of transition probability vs pulse length and detuning</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<p>Figure 3: A <span class="math notranslate nohighlight">\(\pi\)</span> pulse is a method of inverting spins that is
+frequently used in nuclear magnetic resonance (NMR and MRI) and pulsed
+electron paramagnetic resonance (EPR). In order to be accurate, the
+duration and frequency of the radio-frequency pulse must be tuned. On
+the left, the background image displays the model photon counts for
+optically detected spin manipulation for different frequency detunings
+and pulse lengths. White indicates the expected result for spin up and
+black, spin down. Points indicate simulated measurement settings, with
+sequence in order from white to dark red. Simulated measurements have
+1<span class="math notranslate nohighlight">\(\sigma\)</span> uncertainties of 100. The right panel displays the
+evolution of the probability distribution function with the number “N”
+of measurements. See <code class="docutils literal notranslate"><span class="pre">Demos.pipulse.py</span></code>.</p>
+</div>
+<div class="section" id="slope-intercept">
+<h3>Slope Intercept<a class="headerlink" href="#slope-intercept" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-default" id="id4">
+<img alt="Straight line measurement examples" src="_images/slopeintercept.png" />
+<p class="caption"><span class="caption-text">Straight line measurement examples</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+<p>Figure 4: This demo uses a straight line model, a case where the “best”
+measurement settings are known in advance; measurements at the ends of a
+line are the most effective at reducing uncertainty in the slope and
+intercept values. For reassurance that the straight line model is
+appropriate, some measurements in the in the middle of the span might
+also be desired. The OptBayesExpt class provides two methods for
+flexibility in measurement selection. The <code class="docutils literal notranslate"><span class="pre">opt_setting()</span></code> method
+selects the setting with the highest <em>utility</em> <span class="math notranslate nohighlight">\(\max[U(x)]\)</span>. The
+first panel shows that it behaves as expected, choosing measurements at
+the ends of the line. The <code class="docutils literal notranslate"><span class="pre">good_setting()</span></code> method is more flexible,
+selecting settings with a probability based on the <em>utility</em> and the
+<code class="docutils literal notranslate"><span class="pre">pickiness</span></code> parameter. The 2nd through 4th panels show that the
+<code class="docutils literal notranslate"><span class="pre">good_setting()</span></code> algorithm selects more diverse setting values as the
+<code class="docutils literal notranslate"><span class="pre">pickiness</span></code> is reduced. Note also that the standard deviations
+increase from left to right as measurement resources are diverted away
+from reducing uncertainty. Each run uses 40 points. See
+<code class="docutils literal notranslate"><span class="pre">Demos/slopeintercept.py</span></code>.</p>
+</div>
+</div>
+<div class="section" id="theory-of-operation">
+<h2>Theory of operation<a class="headerlink" href="#theory-of-operation" title="Permalink to this headline">¶</a></h2>
+<p>The optimal Bayes experimental design method incorporates two main jobs,
+which we can describe as “learning fast” and “making good decisions”</p>
+<div class="section" id="learning-fast">
+<h3>Learning fast<a class="headerlink" href="#learning-fast" title="Permalink to this headline">¶</a></h3>
+<p>In terms of <em>when</em> new measurements become useful, there’s a sharp
+contrast between conventional measure-then-fit strategy and optimal
+Bayesian experimental design. Using the usual measure-then-fit strategy,
+a predetermined sequence of measurements are made and a least-squares
+fit is performed to extract model parameters. In this method, decisions
+based on the new results only become possible after the fitting is done
+in the last step. In contrast, the optimal Bayesian experimental design
+method updates our parameter knowledge with each measurement result, so
+that information-based decisions can be made as data is collected.</p>
+<p>The process of digesting new data uses Bayesian inference, which frames
+knowledge in terms of probability distributions. If this notion seems
+unfamiliar, consider that the notation <span class="math notranslate nohighlight">\(a\pm \sigma\)</span> is a
+shorthand description of a probability distribution. So, accumulated
+knowledge about model parameters <span class="math notranslate nohighlight">\(\theta\)</span> is expressed as a
+probability distribution function <span class="math notranslate nohighlight">\(p(\theta)\)</span>. If
+<span class="math notranslate nohighlight">\(p(\theta)\)</span> is a broad distribution, then we have a lot of
+uncertainty, and if <span class="math notranslate nohighlight">\(p(\theta)\)</span> is a narrow distribution, the
+uncertainty is small.</p>
+<p>When new measurement results <span class="math notranslate nohighlight">\(m\)</span> are available, we want to know
+the new probability distribution <span class="math notranslate nohighlight">\(p(\theta|m)\)</span> after <span class="math notranslate nohighlight">\(m\)</span> is
+taken into account. The vertical bar in the notation <span class="math notranslate nohighlight">\(p(\theta|m)\)</span>
+indicates a conditional probability, the distribution of <span class="math notranslate nohighlight">\(\theta\)</span>
+values given <span class="math notranslate nohighlight">\(m\)</span>.</p>
+<p>Bayes’ rule gives us</p>
+<div class="math notranslate nohighlight">
+\[p(\theta|m) = \frac{p(m|\theta) p(\theta)}{p(m)}.\]</div>
+<p>All of the terms here have technical names. The left side is the
+<em>posterior</em> distribution, i.e. the distribution of parameters
+<span class="math notranslate nohighlight">\(\theta\)</span> after we include <span class="math notranslate nohighlight">\(m\)</span>. On the right, distribution
+<span class="math notranslate nohighlight">\(p(\theta)\)</span> is the <em>prior</em>, representing what we knew about the
+parameters <span class="math notranslate nohighlight">\(\theta\)</span> before the measurement. In the denominator,
+<span class="math notranslate nohighlight">\(p(m)\)</span> is called the <em>evidence</em>. Because it has no <span class="math notranslate nohighlight">\(\theta\)</span>
+dependence, it’s not very important in this situation, and as wrong as
+it sounds, we will ignore the <em>evidence</em>.</p>
+<p>The term that we will focus on, <span class="math notranslate nohighlight">\(p(m|\theta)\)</span>, is called the
+<em>likelihood</em>. It’s the probability of getting measurement <span class="math notranslate nohighlight">\(m\)</span>
+given variable parameter values <span class="math notranslate nohighlight">\(\theta\)</span>. Just as any conditional
+probability <span class="math notranslate nohighlight">\(p(a|b)\)</span> depends on both <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>,
+<span class="math notranslate nohighlight">\(p(m |\theta)\)</span> depends on both <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(\theta\)</span>. But
+when we put it into practice, we’re going to have fixed measurement
+results <span class="math notranslate nohighlight">\(m_i\)</span> to “plug in” for <span class="math notranslate nohighlight">\(m\)</span>. It’s important to keep
+sight of the fact that <span class="math notranslate nohighlight">\(p(m_i|\theta)\)</span> is still a function of
+theta. Conceptually, we can try out different parameter values in our
+model to produce a variety of measurement predictions. Some parameter
+values (the more likely ones) will produce predictions closer to
+<span class="math notranslate nohighlight">\(m_i\)</span> and for other parameters (the less likely ones), model
+predictions will be further away.</p>
+<p>To go further, we need to specify what we mean by a measurement
+<span class="math notranslate nohighlight">\(m_i\)</span>. The measurement data includes the “value” <span class="math notranslate nohighlight">\(y_i\)</span>
+(which could be more than one number), but we also require it to include
+measurement settings <span class="math notranslate nohighlight">\(x_i\)</span> and an estimate of the uncertainties
+<span class="math notranslate nohighlight">\(\sigma_i\)</span>. Together, <span class="math notranslate nohighlight">\(y_i\)</span> and <span class="math notranslate nohighlight">\(\sigma_i\)</span> are more
+than fixed numbers; they are statements about distributions
+<span class="math notranslate nohighlight">\(p(y|y_i, \sigma_i)\)</span> of other possible measurement outcomes
+<span class="math notranslate nohighlight">\(y\)</span> given a mean value <span class="math notranslate nohighlight">\(y_i\)</span>. If this distribution is
+symmetric, like a Gaussian, for example, then
+<span class="math notranslate nohighlight">\(p(y|y_i, \sigma_i) = p(y_i|y, \sigma_i)\)</span> the probability of
+measuring <span class="math notranslate nohighlight">\(y_i\)</span> given a mean value <span class="math notranslate nohighlight">\(y\)</span> that’s provided by
+the experimental model <span class="math notranslate nohighlight">\(y=y(x_i,\theta)\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[p(m_i|\theta) = \frac{1}{\sqrt{2\pi}\sigma_i} \exp\left[-\frac{[y_i - y(x_i, \theta)]^2 }{ 2\sigma_i^2 } \right]\]</div>
+<p>.</p>
+<p>Now we know how to update our “knowledge” of parameters <span class="math notranslate nohighlight">\(\theta\)</span>
+expressed as a probability distribution <span class="math notranslate nohighlight">\(P(\theta)\)</span>. 1. Collect
+measurement data including settings, <span class="math notranslate nohighlight">\(x_i\)</span>, measurement values
+<span class="math notranslate nohighlight">\(y_i\)</span> and measurement uncertainties <span class="math notranslate nohighlight">\(\sigma_i\)</span>. 2. For all
+parameter combinations <span class="math notranslate nohighlight">\(\theta\)</span> calculate the model’s prediction
+of the mean measurement <span class="math notranslate nohighlight">\(y(x_i, \theta)\)</span> 3. For all parameter
+combinations <span class="math notranslate nohighlight">\(\theta\)</span> multiply <span class="math notranslate nohighlight">\(p(\theta)\)</span> by the likelihood
+<span class="math notranslate nohighlight">\(\exp[-(y_i-y(x, \theta))^2/2\sigma_i^2 ]\)</span></p>
+<p>As we make more measurements, we’ll update <span class="math notranslate nohighlight">\(p(\theta|m_i)\)</span> to
+<span class="math notranslate nohighlight">\(p(\theta|m_i, m_j, \ldots)\)</span> and so on. In order to keep the
+notation readable, we’ll adopt a convention that <span class="math notranslate nohighlight">\(p(\theta)\)</span>
+always represents the most up-to-date parameter distribution that we
+have.</p>
+<p>We just made several important assumptions: - That our model function
+<span class="math notranslate nohighlight">\(y(x, \theta)\)</span> is a good description of our system, and - that the
+noise in our measurement is Gaussian with standard deviation
+<span class="math notranslate nohighlight">\(\sigma_i\)</span>.</p>
+<p>On one hand we have to admit that these assumptions don’t allow us to
+address all important cases. On the other hand, these are the same
+assumptions we often make in doing least-squares curve fitting.</p>
+<p>The method described above puts the responsibility for determining
+measurement uncertainty on the experiment, allowing the model to be an
+easy-to-program, deterministic, scalar function that’s equivalent to the
+fit function in the more familiar measure-then-fit methods. The downside
+of this choice is that the current arrangement doesn’t handle important
+cases where the model <em>is</em> a probability distribution, such as when the
+uncertainty itself is a parameter to be determined.</p>
+</div>
+<div class="section" id="making-good-decisions">
+<h3>Making good decisions<a class="headerlink" href="#making-good-decisions" title="Permalink to this headline">¶</a></h3>
+<p>The next important job in the process is figuring out the settings for
+the next measurement that will best advance our goals. At least part of
+our goal is to make the parameter probability distribution
+<span class="math notranslate nohighlight">\(p(\theta)\)</span> narrow while minimizing cost or time spent. The
+challenge is to develop a <em>utility function</em> <span class="math notranslate nohighlight">\(U(x)\)</span> that helps us
+to predict and compare the relative benefits of measurements made with
+different possible experimental settings <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p>The mechanism for choosing measurement values hinges on the model,
+particularly on the connection between parameter values <span class="math notranslate nohighlight">\(\theta\)</span>
+and measurement results <span class="math notranslate nohighlight">\(y\)</span>. If we try out different parameter
+values as inputs, the model will predict different measurement outcomes.
+Intuitively, if we want to constrain the parameter values, it would do
+the most good to “pin down” the measurement by selecting the settings
+<span class="math notranslate nohighlight">\(x\)</span> where the predicted <span class="math notranslate nohighlight">\(y\)</span> has the largest variations due
+to parameter variations. The parameter distribution <span class="math notranslate nohighlight">\(p(\theta)\)</span> is
+used to focus attention on the relevant parts of parameter space. By
+using draws from <span class="math notranslate nohighlight">\(p(\theta)\)</span> as test parameter variations,
+unlikely parameter sets are avoided, and measurements become
+concentrated on refinement of <span class="math notranslate nohighlight">\(p(\theta)\)</span>.</p>
+<p>In broad strokes, our approach to making good decisions about
+measurement settings goes like this: 1. For random draws
+<span class="math notranslate nohighlight">\(\theta_i\)</span> of parameters from the distribution <span class="math notranslate nohighlight">\(p(\theta)\)</span>
+Use the model to predict <span class="math notranslate nohighlight">\(y_i = y(x,\theta_i)\)</span> for every possible
+setting <span class="math notranslate nohighlight">\(x\)</span>. 2. Calculate a measure of the spread in <span class="math notranslate nohighlight">\(y_i\)</span>
+values for every <span class="math notranslate nohighlight">\(x\)</span> 3. Pick a measurement setting with a large
+spread.</p>
+<div class="section" id="estimate-benefits">
+<h4>Estimate benefits<a class="headerlink" href="#estimate-benefits" title="Permalink to this headline">¶</a></h4>
+<p>To translate such a qualitative argument into code, a good place to
+start is to clarify the meaning of “doing the most good” in refining
+the parameter distribution <span class="math notranslate nohighlight">\(p(\theta)\)</span>. Usually, the goal in
+determining model parameters is to get results with small uncertainty.
+But <span class="math notranslate nohighlight">\(p(\theta)\)</span> is a possibly multidimensional distribution and
+parameters may have different units. Fortunately, information theory
+provides the information entropy as a way to quantify the sharpness of
+a probability distribution. The information entropy of a probability
+distribution <span class="math notranslate nohighlight">\(p(a)\)</span> is defined as</p>
+<div class="math notranslate nohighlight">
+\[E = -\int da\; p(a)\; \ln[p(a)].\]</div>
+<p>Note that the integrand above is zero for both <span class="math notranslate nohighlight">\(p(a) = 1\)</span> and
+<span class="math notranslate nohighlight">\(p(a)=0\)</span>. It’s the intermediate values encountered in a
+spread-out distribution where the information entropy accumulates. For
+common distributions, like rectangular or Gaussian, that have
+characteristic widths <span class="math notranslate nohighlight">\(w\)</span> the entropy goes like <span class="math notranslate nohighlight">\(\ln(w) + C\)</span>.</p>
+<p>By adopting the information entropy as the measure of
+<span class="math notranslate nohighlight">\(p(\theta)\)</span> sharpness, it is possible to estimate how much
+entropy change <span class="math notranslate nohighlight">\(E\)</span>(<em>posterior</em>) - <span class="math notranslate nohighlight">\(E\)</span>(<em>prior</em>) we
+might get for predicted measurement values <span class="math notranslate nohighlight">\(y\)</span> at different
+settings <span class="math notranslate nohighlight">\(x\)</span>. Actually, statisticians use something slightly
+different called the Kulback-Liebler divergence:</p>
+<div class="math notranslate nohighlight">
+\[D^{KL}(y,x) = \int d\theta\; p(\theta |y,x)
+\ln \left[ \frac{p(\theta | y,x)}{p(\theta)}\right].\]</div>
+<p>In this expression <span class="math notranslate nohighlight">\(p(\theta | y,x)\)</span> is a speculative parameter
+distribution we would get if we happened to measure a value <span class="math notranslate nohighlight">\(y\)</span>
+using settings <span class="math notranslate nohighlight">\(x\)</span>. By itself, <span class="math notranslate nohighlight">\(D^{KL}(y,x)\)</span> doesn’t work
+as a utility function <span class="math notranslate nohighlight">\(U(x)\)</span> because it depends on this
+arbitrary possible measurement value <span class="math notranslate nohighlight">\(y\)</span>. So we need to average
+<span class="math notranslate nohighlight">\(D^{KL}\)</span>, weighted by the probability of measuring <span class="math notranslate nohighlight">\(y\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[U(x) = \int dy \int d\theta\; p(y|x) p(\theta |y,x)
+\ln \left[ \frac{p(\theta | y,x)}{p(\theta)}\right].\]</div>
+<p>Two applications of Bayes rule and rearrangement ensue …</p>
+<p>The resulting utility <span class="math notranslate nohighlight">\(U(x)\)</span> for each potential setting <span class="math notranslate nohighlight">\(x\)</span>
+is the difference between two information entropy-like terms:</p>
+<ol class="arabic">
+<li><p>The information entropy of <span class="math notranslate nohighlight">\(p(y|x)\)</span>, the distribution of
+measurement values expected at setting <span class="math notranslate nohighlight">\(x\)</span>. An important
+property of <span class="math notranslate nohighlight">\(p(y|x)\)</span> doesn’t appear in the notation: that it
+includes likely variations of <span class="math notranslate nohighlight">\(\theta.\)</span> Explicitly,</p>
+<div class="math notranslate nohighlight">
+\[p(y|x) = \int d\theta'\; p(\theta') p(y|\theta',x)\]</div>
+</li>
+<li><p>In the other term, <span class="math notranslate nohighlight">\(p(y|\theta,x)\)</span> is the distribution when
+<span class="math notranslate nohighlight">\(\theta\)</span> and <span class="math notranslate nohighlight">\(x\)</span> are fixed. The entropy of this
+distribution is averaged over <span class="math notranslate nohighlight">\(\theta\)</span> values.</p>
+<div class="math notranslate nohighlight">
+\[\int d\theta\; p(\theta) \int dy\; p(y|\theta,x) \ln [ p(y|\theta, x) ]\]</div>
+</li>
+</ol>
+<p>Term 1 is the entropy of the <span class="math notranslate nohighlight">\(\theta\)</span>-averaged <span class="math notranslate nohighlight">\(y\)</span>
+distribution and Term 2 is the <span class="math notranslate nohighlight">\(\theta\)</span> average of the entropy of
+the <span class="math notranslate nohighlight">\(y\)</span> distribution. Loosely, Term 1 is a measure of the spread
+in <span class="math notranslate nohighlight">\(y\)</span> values due to both measurement noise and likely parameter
+variations, while term 2 is (mostly) just the measurement noise.</p>
+<p>Calculation of <span class="math notranslate nohighlight">\(U(x)\)</span> turns out to be a big computation if you use
+the expressions above. We would have to do integrals over all parameters
+and all possible measurement outcomes, once for every possible setting.
+So, in keeping with our “runs good” philosophy, let’s consider
+approximations. What are the risks? All we require of our
+decision-making algorithm is that is gives us smart, data-driven
+decisions. Is it critical that we make the absolute best measurement
+every single time? Probably not. We don’t need precise values, we just
+need to know if there are values of <span class="math notranslate nohighlight">\(x\)</span> where <span class="math notranslate nohighlight">\(U(x)\)</span> is
+comparatively large. Even if we don’t choose the absolute best setting,
+a “pretty good” choice will do more good than an uninformed choice. The
+only really bad possibility is the risk that the software will run too
+slowly to be useful.</p>
+<p>Since precise parameter decisions aren’t necessary, consider the case
+where all of the distributions are normal (Gaussian). The information
+entropy of the normal distribution has a term that goes like
+<span class="math notranslate nohighlight">\(\ln\)</span>(width). Term 1 from above is a convolution of the
+measurement noise distribution (width = <span class="math notranslate nohighlight">\(\sigma_y\)</span> and the
+distribution of model <span class="math notranslate nohighlight">\(y\)</span> values (width =
+<span class="math notranslate nohighlight">\(\sigma_{y,\theta}\)</span>) that reflects the connection to the parameter
+distribution. A property of normal distributions is that a convolution
+of normal distributions is another normal distribution with width =
+<span class="math notranslate nohighlight">\(\sqrt{\sigma_{y,\theta}^2 + \sigma_y^2}\)</span>. Under the assumption of
+normal distributions, we now have an approximate utility function</p>
+<div class="math notranslate nohighlight">
+\[U^*(x) \approx \ln(\sqrt{\sigma_\theta^2 + \sigma_y^2}) - \ln(\sigma_y)
+        = \frac{1}{2}\ln\left[\frac{\sigma_{y,\theta}(x)^2}{\sigma_y(x)^2}+1\right]\]</div>
+<p>This approximation has some reasonable properties. The dependence on
+<span class="math notranslate nohighlight">\(\sigma_{y,\theta}\)</span> matches our initial intuition that
+high-utility parameters are those where measurements vary a lot due to
+parameter variations. The dependence on measurement noise
+<span class="math notranslate nohighlight">\(\sigma_y\)</span> also has an intuitive interpretation: that it’s less
+useful to make measurements at settings <span class="math notranslate nohighlight">\(x\)</span> where the
+instrumental noise is larger. This approximate utility function is
+also positive, i.e. more data helps narrow a distribution.
+| Finally, <span class="math notranslate nohighlight">\(U^*(x)\)</span>, which is an approximate information entropy
+change, has the property that the parameter distribution width
+<span class="math notranslate nohighlight">\(\sigma_\theta\)</span> behaves asymptotically like <span class="math notranslate nohighlight">\(N^{-1/2}\)</span>
+after <span class="math notranslate nohighlight">\(N\)</span> iterations when noise dominates. At least in one
+dimension,</p>
+<div class="math notranslate nohighlight">
+\[d \ln(\sigma_\theta) = \frac{1}{2}
+\frac{\sigma_{y,\theta}(x)^2}{\sigma_y(x)^2}dN.\]</div>
+<p>The left side is the approximate entropy change in one iteration
+(<span class="math notranslate nohighlight">\(dN = 1\)</span>). If the parameter variations are small enough,
+<span class="math notranslate nohighlight">\(\sigma_{y,\theta} \approx dy/d\theta\; \sigma_\theta\)</span>. Then the
+differential equation implied above has the solution</p>
+<div class="math notranslate nohighlight">
+\[\sigma_\theta \propto N^{-1/2}\]</div>
+<p>which is typical “beating down the noise” behavior of long-term
+averaging.</p>
+</div>
+<div class="section" id="estimate-the-costs">
+<h4>Estimate the costs<a class="headerlink" href="#estimate-the-costs" title="Permalink to this headline">¶</a></h4>
+<p>There are two very important questions that we have left unresolved: 1.
+What if some settings are more difficult/time consuming/expensive than
+others? 2. When should I quit measuring?</p>
+</div>
+</div>
+</div>
+<div class="section" id="missing-pieces">
+<h2>Missing pieces<a class="headerlink" href="#missing-pieces" title="Permalink to this headline">¶</a></h2>
+<p>A. What if the output of the model is a probability distribution instead
+of a number, and the likelihood distribution <span class="math notranslate nohighlight">\(p(m|\theta)\)</span> is
+spread out by more than measurement uncertainty? Quantum mechanics for
+example. How do we handle those cases?</p>
+<p>B. There is room for computational efficiency improvements. Currently,
+the likelihood calculation evaluates the model for every possible
+parameter combination. Sequential Monte Carlo or “particle” methods
+could speed this up. Also, the Utility function currently evaluates the
+model for every possible setting combination times a number of draws
+from the parameter distribution. It might be more efficient to use a
+conjugate gradient method or even Bayesian optimization (!) to find the
+max utility setting with fewer</p>
+<p>C. How do we handle situations with multiple measurements at once, like
+voltage and current, with different scales, units and uncertainties?</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Manual</a><ul>
+<li><a class="reference internal" href="#contents">Contents</a></li>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#philosophy-and-goals">Philosophy and goals</a></li>
+<li><a class="reference internal" href="#requirements-for-users">Requirements for users</a></li>
+<li><a class="reference internal" href="#demos">Demos</a><ul>
+<li><a class="reference internal" href="#locating-a-lorentzian-peak">Locating a Lorentzian peak</a></li>
+<li><a class="reference internal" href="#measurement-speedup">10 × measurement speedup</a></li>
+<li><a class="reference internal" href="#tuning-a-pi-pulse">Tuning a <span class="math notranslate nohighlight">\(\pi\)</span> pulse</a></li>
+<li><a class="reference internal" href="#slope-intercept">Slope Intercept</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#theory-of-operation">Theory of operation</a><ul>
+<li><a class="reference internal" href="#learning-fast">Learning fast</a></li>
+<li><a class="reference internal" href="#making-good-decisions">Making good decisions</a><ul>
+<li><a class="reference internal" href="#estimate-benefits">Estimate benefits</a></li>
+<li><a class="reference internal" href="#estimate-the-costs">Estimate the costs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#missing-pieces">Missing pieces</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">OptBayesExpt documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="quickstart.html"
+                        title="next chapter">Quick Start</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/manual.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quick Start"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="OptBayesExpt documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 0.1.7 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019 Bob McMichael.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>

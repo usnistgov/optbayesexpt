@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>optbayesexpt.obe &#8212; OptBayesExpt 0.1.7 documentation</title>
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+
+    <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+
+<script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Mark external (non-nist.gov) A tags with class "external"
+  //If the adress start with https and ends with nist.gov
+  var re_nist = new RegExp('^https?:\/\/((^\/)*\.)*nist\\.gov(\/|$)');
+  //Regex to find address that start with https
+  var re_absolute_address = new RegExp('^((https?:)?\/\/)');
+  $("a").each(function(){
+    var url=$(this).attr('href');
+    if(re_nist.test(url) || !re_absolute_address.test(url)){
+      $(this).addClass('local');
+    }else{
+      //This a href appears to be external, so tag it
+      $(this).addClass('external');
+    }
+  });
+  // Add leaveNotice to external A elements
+  $('a.external').leaveNotice();
+});
+</script>
+<link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 0.1.7 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for optbayesexpt.obe</h1><div class="highlight"><pre>
+<span></span><span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Bob McMichael&#39;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.exptmodel</span> <span class="k">import</span> <span class="n">ExptModel</span>
+<span class="kn">from</span> <span class="nn">.probdistfunc</span> <span class="k">import</span> <span class="n">ProbDistFunc</span>
+
+
+<div class="viewcode-block" id="OptBayesExpt"><a class="viewcode-back" href="../../optbayesexpt.obe.html#optbayesexpt.obe.OptBayesExpt">[docs]</a><span class="k">class</span> <span class="nc">OptBayesExpt</span><span class="p">(</span><span class="n">ExptModel</span><span class="p">,</span> <span class="n">ProbDistFunc</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An implementation of Optimal Bayesian Experimental Design</span>
+
+<span class="sd">    OptBayesExpt provides an efficient alternative to the traditional measure-then-fit approach</span>
+<span class="sd">    to measurement.  Instead of fitting parameters of a model function to a existing data,</span>
+<span class="sd">    optimal Bayesian experimental design incorporates the model into the measurement process,</span>
+<span class="sd">    using it to determine an informed measurement strategy during the measurement process.</span>
+
+<span class="sd">    The method calculates a *utility function* of measurement settings, which is qualitatively a</span>
+<span class="sd">    measure of the predicted improvement to the parameter distribution.  See the manual for more</span>
+<span class="sd">    detail.</span>
+
+<span class="sd">    Important:</span>
+
+<span class="sd">        The :obj:`ExptModel.model_function()` method must be redefined to incorporate a model</span>
+<span class="sd">        that&#39;s relevant to the application.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        sets (:obj:`tuple` of :obj:`ndarray`): Each array in the :code:`sets` tuple contains the</span>
+<span class="sd">            possible discrete values of a measurement setting.  Applied voltage, excitation frequency,</span>
+<span class="sd">            and a knob that goes to eleven are all examples of settings.  For computational</span>
+<span class="sd">            speed, it is important to keep setting arrays as few and small as practical.</span>
+<span class="sd">            Settings arrays that cover unused setting values, or that use overly fine</span>
+<span class="sd">            disretization will slow the calculations.  Settings that are held constant belong in</span>
+<span class="sd">            the :code:`cons` array.</span>
+<span class="sd">        pars (:obj:`tuple` of :obj:`ndarray`):  Each array in the :code:`pars` tuple contains the</span>
+<span class="sd">            possible values of a model parameter.  In a simple example model, :code:`y = m * x +</span>
+<span class="sd">            b`, the parameters are :code:`m` and :code:`b`.  As with the :code:`sets`,</span>
+<span class="sd">            :code:`pars` arrays should be kept few and small.  Parameters that can be assumed</span>
+<span class="sd">            constant belong in the :code:`cons` array.  Discretization should only be fine enough</span>
+<span class="sd">            to support the needed measurement precision.  The parameter ranges must also be</span>
+<span class="sd">            limited: too broad, and the computation will be slow; too narrow, and the measurement</span>
+<span class="sd">            may have to be adjusted and repeated.</span>
+<span class="sd">        cons (:obj:`tuple` of :obj:`float`):  Model constants.  Examples include experimental</span>
+<span class="sd">            settings that are rarely changed, and model parameters that are well-known from previous</span>
+<span class="sd">            measurement results.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sets</span> <span class="o">=</span> <span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pars</span> <span class="o">=</span> <span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cons</span> <span class="o">=</span> <span class="p">()</span>
+
+        <span class="n">ExptModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="c1"># provides</span>
+        <span class="c1">#  self.allsettings</span>
+        <span class="c1">#  self.allparams</span>
+        <span class="c1">#  self.constants</span>
+        <span class="c1"># and methods for evaluating the model function</span>
+        <span class="c1">#  self.model_function  (empty!)</span>
+        <span class="c1">#  self.eval_over_all_parameters</span>
+        <span class="c1">#  self.eval_over_all_settings</span>
+
+        <span class="n">ProbDistFunc</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="c1"># provides</span>
+        <span class="c1">#  self.paramvals</span>
+        <span class="c1">#  self.pdfshape</span>
+        <span class="c1">#  self.PDF</span>
+        <span class="c1">#  self.lnPDF</span>
+        <span class="c1"># and methods</span>
+        <span class="c1">#  set_pdf</span>
+        <span class="c1">#  add_lnpdf</span>
+        <span class="c1">#  multiply_pdf</span>
+        <span class="c1">#  markov_draws</span>
+
+<div class="viewcode-block" id="OptBayesExpt.config"><a class="viewcode-back" href="../../optbayesexpt.obe.html#optbayesexpt.obe.OptBayesExpt.config">[docs]</a>    <span class="k">def</span> <span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Configure the experimental model and the parameter pdf.</span>
+
+<span class="sd">        This method should be called before either pdf_update or opt_setting</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_config</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sets</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cons</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pdf_config</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OptBayesExpt.pdf_update"><a class="viewcode-back" href="../../optbayesexpt.obe.html#optbayesexpt.obe.OptBayesExpt.pdf_update">[docs]</a>    <span class="k">def</span> <span class="nf">pdf_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onesetting</span><span class="p">,</span> <span class="n">ymeas</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Refines the parameters&#39; probability distribution function given a measurement result.</span>
+
+<span class="sd">        An implementation of Bayesian inference, uses the model to calculate the likelihood of</span>
+<span class="sd">        obtaining the measurement result :code:`ymeas` as a function of parameter values,</span>
+<span class="sd">        and uses that likelihood to generate a refined *posterior* (after-measurement) distribution</span>
+<span class="sd">        from the *prior* (pre-measurement) distribution.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            onesetting (:obj:`tuple` of :obj:`float`): The measurement settings.</span>
+<span class="sd">            ymeas: (:obj:`float`): The measurement mean value.</span>
+<span class="sd">            sigma: (:obj:`float`): The uncertainty of the measurement expressed as a standard</span>
+<span class="sd">            deviation.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># calculate the model for all values of the parameters</span>
+        <span class="n">ymodel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_over_all_parameters</span><span class="p">(</span><span class="n">onesetting</span><span class="p">)</span>
+
+        <span class="c1"># Assuming the measurement is drawn from a Gaussian(sigma) distribution of possible</span>
+        <span class="c1"># measurement results, the likelihood is the probability of getting that particular</span>
+        <span class="c1"># result given any parameter combination</span>
+        <span class="n">lnlikelihood</span> <span class="o">=</span> <span class="o">-</span><span class="p">((</span><span class="n">ymodel</span> <span class="o">-</span> <span class="n">ymeas</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span>
+
+        <span class="c1"># uptdate the pdf</span>
+        <span class="c1"># multiply the pdf by the likelihood or add the lnlikelihood</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_lnpdf</span><span class="p">(</span><span class="n">lnlikelihood</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OptBayesExpt.calc_exp_utility"><a class="viewcode-back" href="../../optbayesexpt.obe.html#optbayesexpt.obe.OptBayesExpt.calc_exp_utility">[docs]</a>    <span class="k">def</span> <span class="nf">calc_exp_utility</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimate the exponential of utility as a function of settings</span>
+
+<span class="sd">        Used in selecting measurement settings. For each setting combination, calculate the</span>
+<span class="sd">        standard deviation of model outputs produced</span>
+<span class="sd">        by modeling a set of random draws from the parameter distribution.  Loosely, the spread</span>
+<span class="sd">        in model outputs given the distribution of parameters.  In the theory, the *utility* is</span>
+<span class="sd">        the change in the information entropy of the distribution, which involves a :code:`log(</span>
+<span class="sd">        )`.  This function skips the :code:`log()`, and calculates :code:`exp` (*utility*).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            exp_utility as an :obj:`ndarray` with dimensions of :code:`allsettings`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># get parameter sets drawn from the pdf for a sampling of model outputs</span>
+        <span class="n">paramsets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">markov_draws</span><span class="p">()</span>
+
+        <span class="c1"># make space for model results</span>
+        <span class="n">ycalc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">Ndraws</span><span class="p">,</span> <span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="c1"># the default for the default number of draws is set in ProbDistFunc__init__()</span>
+        <span class="c1"># self.allsettings  is a tuple of meshgrid output arrays.  One is enough to determine the</span>
+        <span class="c1">#  shape of setting space.</span>
+
+        <span class="c1"># fill the model results for each drawn parameter set</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">oneparamset</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">paramsets</span><span class="p">):</span>
+            <span class="n">ycalc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_over_all_settings</span><span class="p">(</span><span class="n">oneparamset</span><span class="p">)</span>
+
+        <span class="c1"># Evaluate how much the model varies at each setting</span>
+        <span class="c1"># calculate the std for each setting</span>
+        <span class="n">exp_utility</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ycalc</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">exp_utility</span></div>
+
+<div class="viewcode-block" id="OptBayesExpt.opt_setting"><a class="viewcode-back" href="../../optbayesexpt.obe.html#optbayesexpt.obe.OptBayesExpt.opt_setting">[docs]</a>    <span class="k">def</span> <span class="nf">opt_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate a setting with the best probability of refining the pdf</span>
+
+<span class="sd">        At what settings are we most uncertain about how an experiment will come out? That is</span>
+<span class="sd">        where the next measurement will do the most good. So, we calculate model outputs</span>
+<span class="sd">        for a bunch of possible model parameters and see wherethe output varies the most.</span>
+<span class="sd">        We use our accumulated knowledge by drawing the possible parameters from the current</span>
+<span class="sd">        parameter pdf.</span>
+
+<span class="sd">        Returns:  A tuple of settings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">exp_utility</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_exp_utility</span><span class="p">()</span>
+
+        <span class="c1"># Find the settings with the maximum utility</span>
+        <span class="c1"># argmax returns an array of indices into the flattened array</span>
+        <span class="n">bestindices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">exp_utility</span><span class="p">)</span>
+
+        <span class="c1"># translate to setting values</span>
+        <span class="c1"># allsettings is a list of setting arrays generated by np.meshgrid, one for each &#39;knob&#39;</span>
+        <span class="n">bestvalues</span> <span class="o">=</span> <span class="p">[</span><span class="n">setting</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">bestindices</span><span class="p">]</span> <span class="k">for</span> <span class="n">setting</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">]</span>
+        <span class="c1"># list comprehension - woohoo!</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">bestvalues</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OptBayesExpt.good_setting"><a class="viewcode-back" href="../../optbayesexpt.obe.html#optbayesexpt.obe.OptBayesExpt.good_setting">[docs]</a>    <span class="k">def</span> <span class="nf">good_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pickiness</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate a setting with a good probability of refining the pdf</span>
+
+<span class="sd">        In comparison to the opt_setting method, where the measurements concentrate on the</span>
+<span class="sd">        settings,</span>
+<span class="sd">        leaving much of setting space untouched.   How do you know you&#39;re not missing something</span>
+<span class="sd">        in that region?  By allowing some randomness in the setting selection, we allow</span>
+<span class="sd">        non-optimum settings, covering setting space lightly while still emphasizing the</span>
+<span class="sd">        settings that improve our parameter estimates.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">           pickiness (float): A setting selection tuning parameter.  Pickiness=0 produces random</span>
+<span class="sd">              settingss.  With pickiness values greater than about 10 the behavior is similar to</span>
+<span class="sd">              :code:`opt_setting()`.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A tuple of settings for the next measurement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">exp_utility</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_exp_utility</span><span class="p">()</span>
+
+        <span class="c1"># the exponent &#39;pickiness&#39; is a tuning parameter</span>
+
+        <span class="c1"># yvar array should have dimensions of allsettings</span>
+        <span class="c1"># Now, we&#39;re going to treat yvar as a distribution and select a value</span>
+        <span class="c1"># cumsum flattens ystddev to 1-D</span>
+        <span class="c1"># We&#39;ll have to use np.unravel_index() to unflatten it</span>
+        <span class="n">cumsum_eu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">exp_utility</span><span class="p">)</span>
+        <span class="c1"># a random number, scaled to account for the un-normalized &quot;distribution&quot;</span>
+        <span class="n">rscaled</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span><span class="o">*</span><span class="n">cumsum_eu</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Next, find the index where cumsumYdev &gt; rscaled</span>
+        <span class="n">bigger</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">cumsum_eu</span> <span class="o">&gt;</span> <span class="n">rscaled</span><span class="p">))</span>
+        <span class="c1"># nonzero returns a tuple with the array of indices in the first element</span>
+        <span class="k">if</span> <span class="n">bigger</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">goodindex</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cumsum_eu</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;overflow&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">goodindex</span> <span class="o">=</span> <span class="n">bigger</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># find the corresponding indices of the unflattened settings arrays</span>
+        <span class="n">goodindices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">goodindex</span><span class="p">,</span> <span class="n">exp_utility</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+        <span class="c1"># translate to setting values</span>
+        <span class="c1"># allsettings is a tuple of setting arrays generated by np.meshgrid</span>
+        <span class="n">goodvalues</span> <span class="o">=</span> <span class="p">[</span><span class="n">setting</span><span class="p">[</span><span class="n">goodindices</span><span class="p">]</span> <span class="k">for</span> <span class="n">setting</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">]</span>
+        <span class="c1"># list comprehension - woohoo!</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">goodvalues</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OptBayesExpt.besty"><a class="viewcode-back" href="../../optbayesexpt.obe.html#optbayesexpt.obe.OptBayesExpt.besty">[docs]</a>    <span class="k">def</span> <span class="nf">besty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Evaluate the model function at the maximum-probability parameters</span>
+
+<span class="sd">        Similar in spirit to the &quot;best-fit curve&quot;, the :code:`model_function` is evaluated over</span>
+<span class="sd">        all settings value using the maximum-probability parameters.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            An array of :code:`model_function` outputs with dimensions</span>
+<span class="sd">            of :code:`ExptModel.allsettings`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bestparams</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_params</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_over_all_settings</span><span class="p">(</span><span class="n">bestparams</span><span class="p">)</span></div></div>
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 0.1.7 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019 Bob McMichael.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>

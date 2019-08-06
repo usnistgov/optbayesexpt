@@ -1,0 +1,373 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>optbayesexpt.obe_server module &#8212; OptBayesExpt 0.1.7 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="optbayesexpt.obe_socket module" href="optbayesexpt.obe_socket.html" />
+    <link rel="prev" title="optbayesexpt.obe module" href="optbayesexpt.obe.html" />
+
+    <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+
+<script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Mark external (non-nist.gov) A tags with class "external"
+  //If the adress start with https and ends with nist.gov
+  var re_nist = new RegExp('^https?:\/\/((^\/)*\.)*nist\\.gov(\/|$)');
+  //Regex to find address that start with https
+  var re_absolute_address = new RegExp('^((https?:)?\/\/)');
+  $("a").each(function(){
+    var url=$(this).attr('href');
+    if(re_nist.test(url) || !re_absolute_address.test(url)){
+      $(this).addClass('local');
+    }else{
+      //This a href appears to be external, so tag it
+      $(this).addClass('external');
+    }
+  });
+  // Add leaveNotice to external A elements
+  $('a.external').leaveNotice();
+});
+</script>
+<link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="optbayesexpt.obe_socket.html" title="optbayesexpt.obe_socket module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="optbayesexpt.obe.html" title="optbayesexpt.obe module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 0.1.7 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="optbayesexpt.html" accesskey="U">optbayesexpt API</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-optbayesexpt.obe_server">
+<span id="optbayesexpt-obe-server-module"></span><h1>optbayesexpt.obe_server module<a class="headerlink" href="#module-optbayesexpt.obe_server" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="optbayesexpt.obe_server.OBE_Server">
+<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.obe_server.</code><code class="sig-name descname">OBE_Server</code><span class="sig-paren">(</span><em class="sig-param">ip_address='127.0.0.1'</em>, <em class="sig-param">port=61981</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="optbayesexpt.obe_socket.html#optbayesexpt.obe_socket.Socket" title="optbayesexpt.obe_socket.Socket"><code class="xref py py-class docutils literal notranslate"><span class="pre">optbayesexpt.obe_socket.Socket</span></code></a>, <a class="reference internal" href="optbayesexpt.obe.html#optbayesexpt.obe.OptBayesExpt" title="optbayesexpt.obe.OptBayesExpt"><code class="xref py py-class docutils literal notranslate"><span class="pre">optbayesexpt.obe.OptBayesExpt</span></code></a></p>
+<p>A TCP socket interface for OptBayesExpt using TCP communications.</p>
+<p>This class provides a way to use OptBayesExpt from programs written in other languages.  A
+typical use would be to run OptBayesExpt from external instrument control software.  The
+external program must</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Launch a server script that configures and runs an <code class="code docutils literal notranslate"><span class="pre">OBE_Server</span></code>,</p></li>
+<li><p>Format command messages as JSON strings,</p></li>
+<li><p>Send and receive messages via TCP sockets,</p></li>
+<li><p>Close the server script when done.</p></li>
+</ol>
+</div></blockquote>
+<dl>
+<dt>Server Script:</dt><dd><p>The server script configures an instance of OptBayesExpt and then runs in the background,
+listening for commands and responding until a <code class="code docutils literal notranslate"><span class="pre">done</span></code> command is received.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>This server script is written for an application where we want to make several
+measurement runs, and we want to supply a setting range for each run.  The script
+creates an <code class="code docutils literal notranslate"><span class="pre">OBE_server</span></code> (<code class="code docutils literal notranslate"><span class="pre">nanny</span></code>, to take care of things).  The
+<code class="code docutils literal notranslate"><span class="pre">lorentz_model()</span></code> function defines the parametric model.  The other function,
+<code class="code docutils literal notranslate"><span class="pre">newrun_near_startpoint()</span></code>, customizes the behavior of the “newrun” TCP command
+in the <code class="code docutils literal notranslate"><span class="pre">OBE_server.run()</span></code> method.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optbayesexpt</span> <span class="k">as</span> <span class="nn">obe</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># create a server</span>
+<span class="n">nanny</span> <span class="o">=</span> <span class="n">obe</span><span class="o">.</span><span class="n">OBE_Server</span><span class="p">()</span>
+
+
+<span class="c1"># define the parametric model</span>
+<span class="k">def</span> <span class="nf">lorentz_model</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">constants</span><span class="p">):</span>
+    <span class="c1"># model for a Lorentzian peak</span>
+    <span class="c1"># unpack settings - pulsetime is the first in a 1-element tuple</span>
+    <span class="n">frequency</span><span class="p">,</span> <span class="o">=</span> <span class="n">settings</span>
+    <span class="c1"># unpack b1, scale and offset from a 3-element tuple</span>
+    <span class="n">f0</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="n">parameters</span>
+    <span class="c1"># calculate the model function</span>
+    <span class="k">return</span> <span class="n">amplitude</span> <span class="o">/</span> <span class="p">(((</span><span class="n">frequency</span> <span class="o">-</span> <span class="n">f0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">lw</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+
+<span class="c1"># customized *newrun* behavior</span>
+<span class="k">def</span> <span class="nf">newrun_near_startpoint</span><span class="p">(</span><span class="n">datatuple</span><span class="p">):</span>
+    <span class="c1">#  configures settings, parameters</span>
+
+    <span class="n">centerfreq</span><span class="p">,</span> <span class="n">span</span> <span class="o">=</span> <span class="n">datatuple</span>
+    <span class="n">f0vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">centerfreq</span><span class="o">-</span><span class="n">span</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">centerfreq</span><span class="o">+</span><span class="n">span</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+    <span class="n">amplitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">.</span><span class="mi">01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="n">lw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">.</span><span class="mi">003</span><span class="p">,</span> <span class="o">.</span><span class="mi">050</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span><span class="o">*</span><span class="mf">1e9</span>
+
+    <span class="n">nanny</span><span class="o">.</span><span class="n">sets</span> <span class="o">=</span> <span class="p">(</span><span class="n">f0vals</span><span class="p">,)</span>
+    <span class="n">nanny</span><span class="o">.</span><span class="n">pars</span> <span class="o">=</span> <span class="p">(</span><span class="n">f0vals</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">,</span> <span class="n">lw</span><span class="p">)</span>
+    <span class="n">nanny</span><span class="o">.</span><span class="n">cons</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="n">nanny</span><span class="o">.</span><span class="n">config</span><span class="p">()</span>
+
+
+<span class="c1"># connect the customized functions by redefining default stubs</span>
+<span class="n">nanny</span><span class="o">.</span><span class="n">model_function</span> <span class="o">=</span> <span class="n">lorentz_model</span>
+<span class="n">nanny</span><span class="o">.</span><span class="n">newrun</span> <span class="o">=</span> <span class="n">newrun_near_startpoint</span>
+
+<span class="c1"># wait for commands over TCP &amp; respond until a &#39;done&#39; command is received.</span>
+<span class="n">nanny</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd>
+<dt>Command Language</dt><dd><p>The messages sent from client to this server are JSON object strings, each prependend by the
+string length formatted as a 10-digit number.  See the obe_socket module docs for details.
+Unless otherwise stated the server will reply with <code class="code docutils literal notranslate"><span class="pre">'0000000004&quot;OK&quot;'</span></code> upon
+successful completion of the command.</p>
+<dl>
+<dt>Setup commands</dt><dd><p>These commands are used in defining the settings, parameters and constants,
+and in using these definitions to configure.</p>
+<dl>
+<dt>clrset</dt><dd><dl class="simple">
+<dt>clears the <code class="code docutils literal notranslate"><span class="pre">sets</span></code> tuple, <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt.sets</span> <span class="pre">=</span> <span class="pre">()</span></code>.</dt><dd><p><code class="code docutils literal notranslate"><span class="pre">{&quot;command&quot;:</span> <span class="pre">&quot;clrset&quot;}</span></code></p>
+</dd>
+</dl>
+</dd>
+<dt>clrpar</dt><dd><dl class="simple">
+<dt>clears the <code class="code docutils literal notranslate"><span class="pre">pars</span></code> tuple, <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt.cons</span> <span class="pre">=</span> <span class="pre">()</span></code>.</dt><dd><p><code class="code docutils literal notranslate"><span class="pre">{&quot;command&quot;:</span> <span class="pre">&quot;clrpar&quot;}</span></code></p>
+</dd>
+</dl>
+</dd>
+<dt>clrcon</dt><dd><dl class="simple">
+<dt>clears the <code class="code docutils literal notranslate"><span class="pre">cons</span></code> tuple, <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt.cons</span> <span class="pre">=</span> <span class="pre">()</span></code>.</dt><dd><p><code class="code docutils literal notranslate"><span class="pre">{&quot;command&quot;:</span> <span class="pre">&quot;clrcon&quot;}</span></code></p>
+</dd>
+</dl>
+</dd>
+<dt>addset</dt><dd><dl class="simple">
+<dt>appends a setting array to the <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt.sets</span></code> tuple.</dt><dd><p><code class="code docutils literal notranslate"><span class="pre">{&quot;command&quot;:</span> <span class="pre">&quot;addset&quot;,</span> <span class="pre">&quot;array&quot;:</span> <span class="pre">&lt;JSON</span> <span class="pre">list&gt;}</span></code></p>
+</dd>
+</dl>
+</dd>
+<dt>addpar</dt><dd><dl class="simple">
+<dt>appends a parameter array to the <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt.pars</span></code> tuple.</dt><dd><p><code class="code docutils literal notranslate"><span class="pre">{&quot;command&quot;:</span> <span class="pre">&quot;addpar&quot;,</span> <span class="pre">&quot;array&quot;:</span> <span class="pre">&lt;JSON</span> <span class="pre">list&gt;}</span></code></p>
+</dd>
+</dl>
+</dd>
+<dt>addcon</dt><dd><dl class="simple">
+<dt>appends a constant to the <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt.cons</span></code> tuple.</dt><dd><p><code class="code docutils literal notranslate"><span class="pre">{&quot;command&quot;:</span> <span class="pre">&quot;addcon&quot;,</span> <span class="pre">&quot;value&quot;:</span> <span class="pre">&lt;number&gt;}</span></code></p>
+</dd>
+</dl>
+</dd>
+<dt>getset</dt><dd><p>Reports the <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt.sets</span></code> attribute</p>
+<blockquote>
+<div><p><code class="code docutils literal notranslate"><span class="pre">{&quot;command&quot;:</span> <span class="pre">&quot;getset&quot;}</span></code></p>
+</div></blockquote>
+<p>Reply: a list of setting value lists.</p>
+</dd>
+<dt>getpar</dt><dd><p>Reports the <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt.pars</span></code> attribute</p>
+<blockquote>
+<div><p><code class="code docutils literal notranslate"><span class="pre">{&quot;command&quot;:</span> <span class="pre">&quot;getset&quot;}</span></code></p>
+</div></blockquote>
+<p>Reply: a list of parameter value lists.</p>
+</dd>
+<dt>getcon</dt><dd><p>Reports the <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt.cons</span></code> attribute</p>
+<blockquote>
+<div><p><code class="code docutils literal notranslate"><span class="pre">{&quot;command&quot;:</span> <span class="pre">&quot;getcon&quot;}</span></code></p>
+</div></blockquote>
+<p>Reply: a list of model constants.</p>
+</dd>
+<dt>config</dt><dd><p>configures the <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt</span></code> instance using the setting, parameter and
+constant tuples. Invokes <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt.config()</span></code></p>
+<blockquote>
+<div><p><code class="code docutils literal notranslate"><span class="pre">{&quot;command&quot;:</span> <span class="pre">&quot;config&quot;}</span></code></p>
+</div></blockquote>
+</dd>
+<dt>newrun</dt><dd><dl class="simple">
+<dt>a stub to run the <code class="code docutils literal notranslate"><span class="pre">newrun</span></code> method.</dt><dd><p><code class="code docutils literal notranslate"><span class="pre">{&quot;command&quot;:</span> <span class="pre">&quot;newrun&quot;,</span> <span class="pre">&quot;array&quot;:</span> <span class="pre">&lt;JSON</span> <span class="pre">list&gt;}</span></code></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Run time commands</p>
+<blockquote>
+<div><p>These  commands are used in every measurement cycle, generating measurement
+settings and processing measurement results.</p>
+<dl>
+<dt>optset</dt><dd><p>Genrates measurement settings.  Calculates the utility of possible settings and
+reports the settings having the maximum utility.
+Invokes <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt.opt_setting()</span></code></p>
+<blockquote>
+<div><p><code class="code docutils literal notranslate"><span class="pre">{&quot;command&quot;:</span> <span class="pre">&quot;optset&quot;}</span></code></p>
+</div></blockquote>
+</dd>
+<dt>goodset</dt><dd><p>Generated measurement settings. Calculates the utility of possible settings and
+reports a random selection that is weighted by the utility.
+Invokes <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt.good_setting()</span></code></p>
+<blockquote>
+<div><p><code class="code docutils literal notranslate"><span class="pre">{&quot;command&quot;:</span> <span class="pre">&quot;goodset&quot;[,</span> <span class="pre">&quot;pickiness&quot;,</span> <span class="pre">&lt;integer&gt;]}</span></code></p>
+</div></blockquote>
+</dd>
+<dt>newdat</dt><dd><p>Processes measurement results. Refines the parameter probability distribution
+based on the <em>likelihood</em> of measurement results reported in the command.
+Invokes <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt.pdf_update()</span></code>.  Required components include
+* “x”: a tuple containing the measurement settings
+* “y”: a measurement mean value
+* “s”: uncertainty of the measurement as a standard deviation</p>
+<blockquote>
+<div><p><code class="code docutils literal notranslate"><span class="pre">{&quot;command&quot;:</span> <span class="pre">&quot;newdat&quot;,</span> <span class="pre">&quot;x&quot;:</span> <span class="pre">&lt;settings</span> <span class="pre">tuple&gt;,</span> <span class="pre">&quot;y&quot;:</span> <span class="pre">&lt;float&gt;,</span> <span class="pre">&quot;s&quot;:</span> <span class="pre">&lt;float&gt;}</span></code></p>
+</div></blockquote>
+</dd>
+</dl>
+</div></blockquote>
+<p>Information requests</p>
+<blockquote>
+<div><p>These commands report cumulative measurement results based on the parameter
+probability distribution.</p>
+<dl>
+<dt>getpdf</dt><dd><p>Reports the entire probability distribution array</p>
+<blockquote>
+<div><p><code class="code docutils literal notranslate"><span class="pre">{&quot;command&quot;:</span> <span class="pre">&quot;getpdf&quot;}</span></code></p>
+</div></blockquote>
+<p>Reply: Probability distribution function array expressed as a JSON array [of arrays].</p>
+</dd>
+<dt>maxpdf</dt><dd><p>Reports the parameters corresponding to the maximum of the probability
+distribution. Invokes <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt.max_params()</span></code></p>
+<blockquote>
+<div><p><code class="code docutils literal notranslate"><span class="pre">{&quot;command&quot;:</span> <span class="pre">&quot;maxpdf&quot;}</span></code></p>
+</div></blockquote>
+<p>Reply: A single set of parameters packaged as a JSON array.</p>
+</dd>
+<dt>getmean</dt><dd><p>Reports a parameter mean value and standard deviation.  The parameter is
+selected by the “index” argument, which corresponds to the parameter’s position in
+the <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt.pars</span></code> tuple  The default “index” is <code class="code docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<blockquote>
+<div><p><code class="code docutils literal notranslate"><span class="pre">{&quot;command&quot;:</span> <span class="pre">&quot;getmean&quot;[,</span> <span class="pre">&quot;index&quot;:</span> <span class="pre">&lt;int&gt;</span> <span class="pre">]}</span></code></p>
+</div></blockquote>
+<p>Reply: <code class="code docutils literal notranslate"><span class="pre">{&quot;mean&quot;:</span> <span class="pre">&lt;float&gt;,</span> <span class="pre">&quot;sigma&quot;:</span> <span class="pre">&lt;float&gt;}</span></code></p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Cleaning up</p>
+<blockquote>
+<div><dl class="simple">
+<dt>done</dt><dd><dl class="simple">
+<dt>Stops the <code class="code docutils literal notranslate"><span class="pre">OBE_server</span></code> and allows the server script to complete.</dt><dd><p><code class="code docutils literal notranslate"><span class="pre">{&quot;command&quot;:</span> <span class="pre">&quot;done&quot;}</span></code></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It may be important to issue the <code class="code docutils literal notranslate"><span class="pre">done</span></code> command. If the server is allowed to run,
+it will continue to use the TCP socket it was assigned during initialization.  Later
+instances of <code class="code docutils literal notranslate"><span class="pre">OBE_Server</span></code> may conflict.</p>
+</div>
+<dl class="method">
+<dt id="optbayesexpt.obe_server.OBE_Server.newrun">
+<code class="sig-name descname">newrun</code><span class="sig-paren">(</span><em class="sig-param">*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server.newrun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.newrun" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stub to allow customized behavior of the <code class="code docutils literal notranslate"><span class="pre">&quot;newrun&quot;</span></code> TCP command</p>
+<p>The intent is to support a user-defined function that can reset <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt.sets</span></code>
+and <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt.params</span></code> arrays and to allow an <code class="code docutils literal notranslate"><span class="pre">OptBayesExpt</span></code> instance to
+be recycled for repeated measurement runs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.obe_server.OBE_Server.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Listen and respond to TCP messages</p>
+<p>Enters a continuous loop, responding to TCP command messages until a “done” command is
+received.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="optbayesexpt.obe.html"
+                        title="previous chapter">optbayesexpt.obe module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="optbayesexpt.obe_socket.html"
+                        title="next chapter">optbayesexpt.obe_socket module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/optbayesexpt.obe_server.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="optbayesexpt.obe_socket.html" title="optbayesexpt.obe_socket module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="optbayesexpt.obe.html" title="optbayesexpt.obe module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 0.1.7 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="optbayesexpt.html" >optbayesexpt API</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019 Bob McMichael.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>

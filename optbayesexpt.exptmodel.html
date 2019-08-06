@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>optbayesexpt.exptmodel module &#8212; OptBayesExpt 0.1.7 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="optbayesexpt.obe module" href="optbayesexpt.obe.html" />
+    <link rel="prev" title="optbayesexpt API" href="optbayesexpt.html" />
+
+    <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+
+<script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Mark external (non-nist.gov) A tags with class "external"
+  //If the adress start with https and ends with nist.gov
+  var re_nist = new RegExp('^https?:\/\/((^\/)*\.)*nist\\.gov(\/|$)');
+  //Regex to find address that start with https
+  var re_absolute_address = new RegExp('^((https?:)?\/\/)');
+  $("a").each(function(){
+    var url=$(this).attr('href');
+    if(re_nist.test(url) || !re_absolute_address.test(url)){
+      $(this).addClass('local');
+    }else{
+      //This a href appears to be external, so tag it
+      $(this).addClass('external');
+    }
+  });
+  // Add leaveNotice to external A elements
+  $('a.external').leaveNotice();
+});
+</script>
+<link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="optbayesexpt.obe.html" title="optbayesexpt.obe module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="optbayesexpt.html" title="optbayesexpt API"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 0.1.7 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="optbayesexpt.html" accesskey="U">optbayesexpt API</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-optbayesexpt.exptmodel">
+<span id="optbayesexpt-exptmodel-module"></span><h1>optbayesexpt.exptmodel module<a class="headerlink" href="#module-optbayesexpt.exptmodel" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="optbayesexpt.exptmodel.ExptModel">
+<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.exptmodel.</code><code class="sig-name descname">ExptModel</code><a class="reference internal" href="_modules/optbayesexpt/exptmodel.html#ExptModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.exptmodel.ExptModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class defining an experimental model and its evaluation.  Inherited by OptBayesExpt.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The <a class="reference internal" href="#optbayesexpt.exptmodel.ExptModel.model_function" title="optbayesexpt.exptmodel.ExptModel.model_function"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_function()</span></code></a> method must be redefined to incorporate a model
+that’s relevant to the application.</p>
+</div>
+<dl class="attribute">
+<dt id="optbayesexpt.exptmodel.ExptModel.allsettings">
+<code class="sig-name descname">allsettings</code><a class="headerlink" href="#optbayesexpt.exptmodel.ExptModel.allsettings" title="Permalink to this definition">¶</a></dt>
+<dd><p>All possible combinations of setting values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="optbayesexpt.exptmodel.ExptModel.allparams">
+<code class="sig-name descname">allparams</code><a class="headerlink" href="#optbayesexpt.exptmodel.ExptModel.allparams" title="Permalink to this definition">¶</a></dt>
+<dd><p>All possible combinations of parameter values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="optbayesexpt.exptmodel.ExptModel.constants">
+<code class="sig-name descname">constants</code><a class="headerlink" href="#optbayesexpt.exptmodel.ExptModel.constants" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant parameters in the model
+function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.exptmodel.ExptModel.eval_over_all_parameters">
+<code class="sig-name descname">eval_over_all_parameters</code><span class="sig-paren">(</span><em class="sig-param">onesettingset</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/exptmodel.html#ExptModel.eval_over_all_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.exptmodel.ExptModel.eval_over_all_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate the experimental model</p>
+<p>Evaluates the model for all possible model parameters and one set of
+measurement settings.  Used by OptBayesExpt in calculating likelihood of a measurement
+result see OptBayesExtp.update_pdf()</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>onesettingset</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>) – a single set of measurement settings</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) array of model values with dimensions of <code class="xref py py-obj docutils literal notranslate"><span class="pre">allparams.shape</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.exptmodel.ExptModel.eval_over_all_settings">
+<code class="sig-name descname">eval_over_all_settings</code><span class="sig-paren">(</span><em class="sig-param">oneparamset</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/exptmodel.html#ExptModel.eval_over_all_settings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.exptmodel.ExptModel.eval_over_all_settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate the experimental model</p>
+<p>Evaluates the model for all possible measurement settings one set of
+parameters.  Used by OptBayesExpt in predicting the utility of future measurement settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>oneparamset</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>) – a single set of model parameters.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) array of model values with dimensions of <code class="xref py py-obj docutils literal notranslate"><span class="pre">allsettings.shape</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.exptmodel.ExptModel.model_config">
+<code class="sig-name descname">model_config</code><span class="sig-paren">(</span><em class="sig-param">settings</em>, <em class="sig-param">parameters</em>, <em class="sig-param">constants</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/exptmodel.html#ExptModel.model_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.exptmodel.ExptModel.model_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates arrays for model evaluation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – Each array in the settings tuple
+represents the allowed values of an experimental control “knob.”</p></li>
+<li><p><strong>parameters</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – Each array in the parameters tuple
+represents the allowed values of a model parameter.</p></li>
+<li><p><strong>constants</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>) – Values corresponding to constants in the
+model</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.exptmodel.ExptModel.model_function">
+<code class="sig-name descname">model_function</code><span class="sig-paren">(</span><em class="sig-param">settings</em>, <em class="sig-param">parameters</em>, <em class="sig-param">constants</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/exptmodel.html#ExptModel.model_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.exptmodel.ExptModel.model_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the core parametric model</p>
+<p>“Out of the box,” this function is a stub, and it must be redefined by the
+user.  The model_function is called in two ways: In the Bayesian inference phase,
+model_function is called for one set of measurement settings, and many sets of
+parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>) – One set of measurement settings.</p></li>
+<li><p><strong>parameters</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – Combinations of parameter values.</p></li>
+<li><p><strong>constants</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>) – Model constants.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A numpy array with dimensions of the parameters arrays.</p>
+</dd>
+</dl>
+<p>In the setting optimization phase, <strong>model_function</strong> is called for many sets of
+measurement settings and one set of parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarrayfloat</span></code>) – Combinations of measurement settings.</p></li>
+<li><p><strong>parameters</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>) – One set of parameter values.</p></li>
+<li><p><strong>constants</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>) – Model constants.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A numpy array with dimensions of the settings arrays.</p>
+</dd>
+</dl>
+<p>A simple way to handle this polymorphic complication is to use pass tuples of numpy
+arrays as arguments to the model_function.  The <em>broadcasting</em> feature of numpy arrays
+allows simple code.</p>
+<p class="rubric">Example</p>
+<p>A function definition specifying the model for an experiment that generates a
+Lorentzian peak:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lorentz_model</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">constants</span><span class="p">):</span>
+<span class="c1"># unpack settings</span>
+<span class="c1">#   frequency is the first element in a one-element tuple.</span>
+<span class="n">frequency</span><span class="p">,</span> <span class="o">=</span> <span class="n">settings</span>
+
+<span class="c1"># unpack parameters</span>
+<span class="c1">#   center frequency, amplitude and line width from a 3-element tuple</span>
+<span class="n">f0</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="n">parameters</span>
+
+<span class="c1"># calculate the model function</span>
+<span class="k">return</span> <span class="n">amplitude</span> <span class="o">/</span> <span class="p">(((</span><span class="n">frequency</span> <span class="o">-</span> <span class="n">f0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">lw</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Typically, the user will create an OptBayesExpt instance, which inherits EptModel.
+The user-defined model, (<code class="code docutils literal notranslate"><span class="pre">lorentz_model</span></code> in this case), can be incorporated by
+redefining the
+<a class="reference internal" href="#optbayesexpt.exptmodel.ExptModel.model_function" title="optbayesexpt.exptmodel.ExptModel.model_function"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_function</span></code></a> method like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">obe_one</span> <span class="o">=</span> <span class="n">OptBayesExpt</span><span class="p">()</span>
+<span class="n">obe_one</span><span class="o">.</span><span class="n">model_function</span> <span class="o">=</span> <span class="n">lorentz_model</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="optbayesexpt.html"
+                        title="previous chapter">optbayesexpt API</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="optbayesexpt.obe.html"
+                        title="next chapter">optbayesexpt.obe module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/optbayesexpt.exptmodel.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="optbayesexpt.obe.html" title="optbayesexpt.obe module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="optbayesexpt.html" title="optbayesexpt API"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 0.1.7 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="optbayesexpt.html" >optbayesexpt API</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019 Bob McMichael.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>
