@@ -1,4 +1,4 @@
-optbayesexpt package
+optbayesexpt API
 ====================
 
 .. automodule:: optbayesexpt
