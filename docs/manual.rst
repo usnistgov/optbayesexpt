@@ -82,7 +82,7 @@ Demos
 Locating a Lorentzian peak
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. figure:: images/demoLorentzfig1.png
+.. figure:: _images/demoLorentzfig1.png
    :alt: Comparison of measure-then-fit and OBED method
 
    Comparison of measure-then-fit and OBED method
@@ -107,7 +107,7 @@ method. See ``Demos/demoLorentzian.py``.
 10 × measurement speedup
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. figure:: images/rootN_2080.png
+.. figure:: _images/rootN_2080.png
    :alt: Mechanism of speedup
 
    Mechanism of speedup
@@ -148,9 +148,8 @@ the half-width line width is fixed at 0.3. See
 Tuning a :math:`\pi` pulse
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. figure:: images/pipulsefig.png
-   :alt: measurements of transition probability vs pulse length and
-   detuning
+.. figure:: _images/pipulsefig.png
+   :alt: measurements of transition probability vs pulse length and detuning
 
    measurements of transition probability vs pulse length and detuning
 
@@ -170,7 +169,7 @@ of measurements. See ``Demos.pipulse.py``.
 Slope Intercept
 ~~~~~~~~~~~~~~~
 
-.. figure:: images/slopeintercept.png
+.. figure:: _images/slopeintercept.png
    :alt: Straight line measurement examples
 
    Straight line measurement examples
