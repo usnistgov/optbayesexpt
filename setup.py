@@ -3,11 +3,11 @@ import os
 
 
 # Fetches description from README.rst file
-with open(os.path.join(os.getcwd(), 'README.rst'), "r") as f:
+with open(os.path.join(os.getcwd(), 'README.md'), "r") as f:
     long_description = f.read()
 
 setup(name='optbayesexpt',
-      version='0.1.7',
+      version='0.1.8',
       description="Optimal Bayesian Experimental Design",
       long_description=long_description,
       classifiers=[
@@ -21,7 +21,7 @@ setup(name='optbayesexpt',
           "Topic :: Software Development :: Libraries :: Python Modules",
           'Development Status :: 4 - Beta'
       ],
-      install_requires=['numpy', 'scipy'],
+      install_requires=['numpy', 'scipy', 'matplotlib'],
       setup_requires=['pytest-runner'],
       tests_require=['pytest'],
       keywords='bayesian measurement physics experimental design',
