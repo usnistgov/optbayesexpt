@@ -109,7 +109,7 @@ class OptBayesExpt(ExptModel, ProbDistFunc):
         # multiply the pdf by the likelihood or add the lnlikelihood
         self.add_lnpdf(lnlikelihood)
 
-    def calc_exp_utility(self):
+    def calculate_exp_utility(self):
         """
         Estimate the exponential of utility as a function of settings
 
