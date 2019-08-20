@@ -304,7 +304,7 @@ class OBE_Server(Socket, OptBayesExpt):
                     mean, std = self.get_mean(message['index'])
                 else:
                     mean, std = self.get_mean(0)
-                self.send(self.getmean())
+                self.send((mean, std))
 
             elif 'done' in message['command']:
                 self.send('OK')
