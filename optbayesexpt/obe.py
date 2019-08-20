@@ -109,7 +109,7 @@ class OptBayesExpt(ExptModel, ProbDistFunc):
         # multiply the pdf by the likelihood or add the lnlikelihood
         self.add_lnpdf(lnlikelihood)
 
-    def calculate_exp_utility(self):
+    def calc_exp_utility(self):
         """
         Estimate the exponential of utility as a function of settings
 
@@ -154,7 +154,7 @@ class OptBayesExpt(ExptModel, ProbDistFunc):
         Returns:  A tuple of settings.
         """
 
-        exp_utility = self.calculate_exp_utility()
+        exp_utility = self.calc_exp_utility()
 
         # Find the settings with the maximum utility
         # argmax returns an array of indices into the flattened array
@@ -186,7 +186,7 @@ class OptBayesExpt(ExptModel, ProbDistFunc):
             A tuple of settings for the next measurement
         """
 
-        exp_utility = self.calculate_exp_utility()
+        exp_utility = self.calc_exp_utility()
 
         # the exponent 'pickiness' is a tuning parameter
 
