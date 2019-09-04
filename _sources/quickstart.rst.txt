@@ -25,7 +25,7 @@ Setting up
     import numpy as np
     from optbayesexpt import OptBayesExpt
     
-    myOBE = OptBayes()          # initiate a class
+    myOBE = OptBayesExpt()          # initiate a class
 
 Specify the experimental settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

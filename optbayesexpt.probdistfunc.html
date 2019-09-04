@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>optbayesexpt.probdistfunc module &#8212; OptBayesExpt 0.1.7 documentation</title>
+    <title>optbayesexpt.probdistfunc module &#8212; OptBayesExpt 0.1.8 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -58,7 +58,7 @@ $(document).ready(function(){
         <li class="right" >
           <a href="optbayesexpt.obe_socket.html" title="optbayesexpt.obe_socket module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 0.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 0.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="optbayesexpt.html" accesskey="U">optbayesexpt API</a> &#187;</li> 
       </ul>
     </div>  
@@ -130,6 +130,50 @@ corresponding parameter.</p>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.probdistfunc.ProbDistFunc._ProbDistFunc__calculate_discrete_entropy">
+<code class="sig-name descname">_ProbDistFunc__calculate_discrete_entropy</code><span class="sig-paren">(</span><em class="sig-param">a_pdf</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.probdistfunc.ProbDistFunc._ProbDistFunc__calculate_discrete_entropy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the entropy of a discrete distribution.
+:param a_pdf: an array of probability density possibly unnormalized
+:return: sum of x * log2(x)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.probdistfunc.ProbDistFunc._ProbDistFunc__denuisance_pdf">
+<code class="sig-name descname">_ProbDistFunc__denuisance_pdf</code><span class="sig-paren">(</span><em class="sig-param">denuisance=()</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.probdistfunc.ProbDistFunc._ProbDistFunc__denuisance_pdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>take the PDF and sum over axes indicated by the nuisance tuple
+then reshape
+:param denuisance:  a tuple indicating axes to be ‘integrated’ out
+:return: nparray with collapsed, de-nuisanceified pdf</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.probdistfunc.ProbDistFunc._ProbDistFunc__markov_chain_gen_n_dims">
+<code class="sig-name descname">_ProbDistFunc__markov_chain_gen_n_dims</code><span class="sig-paren">(</span><em class="sig-param">n_draws</em>, <em class="sig-param">n_burn=100</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.probdistfunc.ProbDistFunc._ProbDistFunc__markov_chain_gen_n_dims" title="Permalink to this definition">¶</a></dt>
+<dd><p>produce a number of samples from a probability distribution function
+using a Markov chain process
+:param n_draws:     the number of samples to generate
+:param n_burn:    desired number of “pre-randomizing” moves
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.probdistfunc.ProbDistFunc._ProbDistFunc__normalize">
+<code class="sig-name descname">_ProbDistFunc__normalize</code><span class="sig-paren">(</span><em class="sig-param">a_pdf</em>, <em class="sig-param">normalize=True</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.probdistfunc.ProbDistFunc._ProbDistFunc__normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize the input array
+:param a_pdf:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="optbayesexpt.probdistfunc.ProbDistFunc._ProbDistFunc__randdraw">
+<code class="sig-name descname">_ProbDistFunc__randdraw</code><span class="sig-paren">(</span><em class="sig-param">r</em>, <em class="sig-param">dist</em><span class="sig-paren">)</span><a class="headerlink" href="#optbayesexpt.probdistfunc.ProbDistFunc._ProbDistFunc__randdraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a random index value from a 1-D distribution
+:param r: a random number btw 0:1
+:param dist:  a distribution “function” as a 1-D array, maybe unnormalized
+:return: randomly drawn index from dist</p>
 </dd></dl>
 
 <dl class="method">
@@ -353,12 +397,12 @@ Defaults to <code class="code docutils literal notranslate"><span class="pre">No
         <li class="right" >
           <a href="optbayesexpt.obe_socket.html" title="optbayesexpt.obe_socket module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 0.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 0.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="optbayesexpt.html" >optbayesexpt API</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2019 Bob McMichael.
+        &#169; Copyright National Institute of Standards and Technology.  Not subject to copyright in the United States.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
