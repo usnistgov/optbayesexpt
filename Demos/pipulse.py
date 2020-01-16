@@ -142,6 +142,7 @@ def batchdemo():
 
     gs = gridspec.GridSpecFromSubplotSpec(2, 3, ax2, hspace=0.05, wspace=0.05)
     pdf_milestones = [0, 1, 2, 5, 20, 50]
+    gridlist = []
     pdf_marker = 0
 
     for i in np.arange(Nmeasure):
@@ -154,8 +155,8 @@ def batchdemo():
 
         if i == pdf_milestones[pdf_marker]:
             zpdf = myOBE.get_pdf().transpose()
-            print(int(pdf_marker/3), pdf_marker % 3, zpdf.max())
-            plt.subplot(gs[int(pdf_marker/3), pdf_marker % 3])
+            ax = plt.subplot(gs[int(pdf_marker/3), pdf_marker % 3])
+            gridlist.append(ax)
             plt.imshow(zpdf, origin='bottom', extent=param_extent, aspect='auto',
                        vmin=0, cmap='cubehelix')
             plt.text(1.5, 5, "N = {}".format(i), color='orange')
@@ -189,7 +190,7 @@ def batchdemo():
     plt.colorbar(ticks=[99000, 100000])
     plt.scatter(ptdata, dfdata, s=9, c=np.arange(len(ptdata)), cmap='Reds')
 
-    plt.subplot(gs[1,0])
+    plt.sca(gridlist[3])
     plt.axis('on')
     plt.xlabel('Rabi Frequency (MHz)')
     plt.ylabel('detuning (MHz)')
