@@ -4,7 +4,7 @@
 R. D. McMichael
 `rmcmichael@nist.gov`  
 National Institute of Standards and Technology  
-May 6, 2019
+Jan 16, 2020
 
 
 ## What is it for?
@@ -37,11 +37,11 @@ The most important role is the responsibility of the user. As delivered, the Bay
  
 The core files provide Python classes that implement optimal Bayesian experimental design.
 
-* **obe.py** provides the `OptBayesExpt` class with methods for the learning and deciding steps described above. This class inherits all methods and data from both ProbDistFunc and ExptModel, and it is the only class that a user will need to interact with directly.  Manual: [[notebook]](Docs/obe.ipynb)[[html]](Docs/obe.html)
+* **obe.py** provides the `OptBayesExpt` class with methods for the learning and deciding steps described above. This class inherits all methods and data from both ProbDistFunc and ExptModel, and it is the only class that a user will need to interact with directly.
   
-* **probdistfunc.py** provides the `ProbDistFunc` class with methods for handling probability distribution functions. Its methods are used to define the parameters and their respective ranges, perform basic mathematical functions, to supply random draws, basic statistics of the distribution, and the distribution itself. Manual: [[notebook]](Docs/probdistfunc.ipynb)[[html]](Docs/probdistfunc.html)
+* **probdistfunc.py** provides the `ProbDistFunc` class with methods for handling probability distribution functions. Its methods are used to define the parameters and their respective ranges, perform basic mathematical functions, to supply random draws, basic statistics of the distribution, and the distribution itself.
 
-* **exptmodel.py** provides the `ExptModel` class with methods to define the experimental settings and to evaluate a model function. The model function itself must be provided by the user, preferably by adding it to an instance of the BayesOptExpt class. Manual: [[notebook]](Docs/exptmodel.ipynb)[[html]](Docs/exptmodel.html)
+* **exptmodel.py** provides the `ExptModel` class with methods to define the experimental settings and to evaluate a model function. The model function itself must be provided by the user, preferably by adding it to an instance of the BayesOptExpt class. 
 
 ### TCP communications
 
@@ -55,24 +55,28 @@ These files add a TCP socket interface to OptBayesExpt so that non-python data a
 
 ### Tutorials
 
-* **Docs/sequentialLorentzian.ipynb** [[notebook]](Docs/sequentialLorentzian.ipynb) [[html]](Docs/sequentialLorentzian.html) provides a tutorial introduction to the OptBayesExpt software including setup and use of `OptBayesExpt` in a simulated "measurement" of a Lorentzian peak.  The `ipynb` file is live code that can be run from inside the Jupyter Notebook environment.  See also **sequentialLorentzian.py**.
+* **Demos/sequentialLorentzian.ipynb** [[notebook]](Demos/sequentialLorentzian.ipynb) provides a tutorial introduction to the OptBayesExpt software including setup and use of `OptBayesExpt` in a simulated "measurement" of a Lorentzian peak.  The `ipynb` file is live code that can be run from inside the Jupyter Notebook environment.  See also **sequentialLorentzian.py**.
 
-* **Docs/manual.ipynb** [[notebook]](Docs/manual.html)[[html]](Docs/manual.html) outlines the "if it works good, it is good" philosophy of the project and provides a tutorial-level description of the theory behind optimal Bayesian experimental design.
+* **docs/manual.ipynb** [[notebook]](docs/manual.ipynb)[[html]](https://pages.nist.gov/optbayesexpt/manual.html) outlines the "if it works good, it is good" philosophy of the project and provides a tutorial-level description of the theory behind optimal Bayesian experimental design.
 
 ### Demos
 
 A brief discussion of these demos is included in the manual. 
-[[notebook]](Docs/manual.ipynb) [[html]](Docs/manual.html)
+[[notebook]](docs/manual.ipynb) [manual](https://pages.nist.gov/optbayesexpt/manual.html)
 
-* **demoLorentzian.py**  demonstrates how to incorporate a simple model into a BayesOptExpt. A simulation takes the place of a real measurement, supplying noisy "measurement results" that the BayesOptExpt uses to locate and measure a randomly placed Lorentzian peak.  One setting, several model parameters.  Also see **Docs/sequentialLorentzian.ipynb** [[notebook]](Docs/sequentialLorentzian.ipynb)[[html]](Demos/sequentialLorentzian.html) is a Jupyter Notebook with a step-by-step walk-through of the `sequentialLorentzian.py` code.  
+* **demoLorentzian.py**  demonstrates how to incorporate a simple model into a BayesOptExpt. A simulation takes the place of a real measurement, supplying noisy "measurement results" that the BayesOptExpt uses to locate and measure a randomly placed Lorentzian peak.  One setting, several model parameters.  Also see **Docs/sequentialLorentzian.ipynb** [[notebook]](Demos/sequentialLorentzian.ipynb) is a Jupyter Notebook with a step-by-step walk-through of the `Demos/sequentialLorentzian.py` code.  
 
-* **demoLorentzian2.py** uses the Lorentzian peak experimental model to demonstrate 10 &times; improved measurement efficiency of BayesOptExpt relative to an average & fit method.
+* **fit_vs_obe_makedata.py**  and **fit_vs_obe_plot.py** use the simulated Lorentzian peak measurements to compare measurement efficiency of BayesOptExpt with a scan, average & fit method.
 
-* **pipulse.py** is a slightly more complicated demo featuring multiple (two!) experimental settings and the process for including pre-existing information, a _prior_.
+* **pipulse.py** is a slightly more complicated demo featuring multiple (two!) experimental settings and the process for including pre-existing information as a Bayesian _prior_.
 
 * **slopeIntercept.py** demonstrates measurement of straight lines, $y = m x + B$.  The demonstration presents options in the decision-making part of the code.
 
 * **LabView/OBE_ODMR_demo.vi** demonstrates how OBETCP.py can be used from Labview. Like the sequentialLorentzian.py example, it's about finding and measuring a Lorentzian peak.
+
+### Documentation
+
+The documentation for optbayesexpt, including the manual and module API is published at [https://pages.nist.gov/optbayesexpt](https://pages.nist.gov/optbayesexpt).
 
 ## Legal stuff
 
@@ -87,7 +91,3 @@ copy, modify, create derivative works, and distribute this software and its docu
 THE SOFTWARE IS PROVIDED 'AS IS' WITHOUT ANY WARRANTY OF ANY KIND, EITHER EXPRESSED, IMPLIED, OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, ANY WARRANTY THAT THE SOFTWARE WILL CONFORM TO SPECIFICATIONS, ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND FREEDOM FROM INFRINGEMENT, AND ANY WARRANTY THAT THE DOCUMENTATION WILL CONFORM TO THE SOFTWARE, OR ANY WARRANTY THAT THE SOFTWARE WILL BE ERROR FREE. IN NO EVENT SHALL NIST BE LIABLE FOR ANY DAMAGES, INCLUDING,
 BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR CONSEQUENTIAL DAMAGES, ARISING OUT OF, RESULTING FROM, OR IN ANY WAY CONNECTED WITH THIS SOFTWARE, WHETHER OR NOT BASED UPON WARRANTY, CONTRACT, TORT, OR OTHERWISE, WHETHER OR NOT INJURY WAS SUSTAINED BY PERSONS OR PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
 
-
-```python
-
-```
