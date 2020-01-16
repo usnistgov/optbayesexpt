@@ -336,7 +336,7 @@ class ProbDistFunc:
                 location[axis] = ...
                 # pdf[location] will now return a 1D array that we interpret as a pdf,
                 # and we make a random draw for the new location along the axis
-                location[axis] = self.__randdraw(rand_bucket[i, axis], self.PDF[location])
+                location[axis] = self.__randdraw(rand_bucket[i, axis], self.PDF[tuple(location)])
 
         # Now that the Markov chain has been initialized, we move to generating the actual draws
         # from the pdf each full move generates Ndims draws, so we'll need this many moves.
@@ -353,7 +353,7 @@ class ProbDistFunc:
             # make one step along each axis as before
             for axis in np.arange(ndims):
                 location[axis] = ...
-                location[axis] = self.__randdraw(rand_pail[i, axis], self.PDF[location])
+                location[axis] = self.__randdraw(rand_pail[i, axis], self.PDF[tuple(location)])
                 # store the new location
                 draws[i_draw, :] = np.array(location)
                 i_draw += 1
