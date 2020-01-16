@@ -4,9 +4,9 @@ __pycache__/
 .pytest_cache/
 optbayesexpt.egg-info/
 Data/.ipynb_checkpoints/
-Docs/images/Thumbs.db
+*Thumbs.db
 Demos/multi_run_data/
-Docs/Untitled.ipynb
+docs/Untitled.ipynb
 localstuff/
 build/
 dist/
