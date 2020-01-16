@@ -35,7 +35,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-from OptBayesExpt import OptBayesExpt
+from optbayesexpt import OptBayesExpt
+
+
+# Global variables
+# number of measurement iterations to simulate
+Nmeasure = 100
+# use optbayesexpt (False uses least-squares fitting
+smartmeasure = True
+# optimum = True --> always measure at the maximum utility
+# optimum = False --> select a high value of utility using the pickiness factor
+optimum = False
+pickiness = 6
 
 """
 Create an instance of the OptBayesExpt class for our use
@@ -275,10 +286,7 @@ def livedemo():
     plt.show()
 
 
-Nmeasure = 100
-smartmeasure = True
-optimum = True
-pickiness = 6
+
 
 livedemo()
 # batchdemo()
