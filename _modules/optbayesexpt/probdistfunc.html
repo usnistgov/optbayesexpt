@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>optbayesexpt.probdistfunc &#8212; OptBayesExpt 0.1.8 documentation</title>
+    <title>optbayesexpt.probdistfunc &#8212; OptBayesExpt 0.1.9 documentation</title>
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -54,7 +54,7 @@ $(document).ready(function(){
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 0.1.8 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 0.1.9 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -403,7 +403,7 @@ $(document).ready(function(){
                 <span class="n">location</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="o">...</span>
                 <span class="c1"># pdf[location] will now return a 1D array that we interpret as a pdf,</span>
                 <span class="c1"># and we make a random draw for the new location along the axis</span>
-                <span class="n">location</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__randdraw</span><span class="p">(</span><span class="n">rand_bucket</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">axis</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">PDF</span><span class="p">[</span><span class="n">location</span><span class="p">])</span>
+                <span class="n">location</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__randdraw</span><span class="p">(</span><span class="n">rand_bucket</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">axis</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">PDF</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">location</span><span class="p">)])</span>
 
         <span class="c1"># Now that the Markov chain has been initialized, we move to generating the actual draws</span>
         <span class="c1"># from the pdf each full move generates Ndims draws, so we&#39;ll need this many moves.</span>
@@ -420,7 +420,7 @@ $(document).ready(function(){
             <span class="c1"># make one step along each axis as before</span>
             <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">ndims</span><span class="p">):</span>
                 <span class="n">location</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="o">...</span>
-                <span class="n">location</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__randdraw</span><span class="p">(</span><span class="n">rand_pail</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">axis</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">PDF</span><span class="p">[</span><span class="n">location</span><span class="p">])</span>
+                <span class="n">location</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__randdraw</span><span class="p">(</span><span class="n">rand_pail</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">axis</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">PDF</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">location</span><span class="p">)])</span>
                 <span class="c1"># store the new location</span>
                 <span class="n">draws</span><span class="p">[</span><span class="n">i_draw</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
                 <span class="n">i_draw</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -490,12 +490,12 @@ $(document).ready(function(){
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 0.1.8 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 0.1.9 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright National Institute of Standards and Technology.  Not subject to copyright in the United States.
+        &#169; Copyright Copyright National Institute of Standards and Technology. Not subject to copyright in the United States.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

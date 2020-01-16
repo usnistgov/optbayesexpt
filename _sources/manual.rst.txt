@@ -1,19 +1,21 @@
 
-Manual
-======
+Optimal Bayesian Experimental Design
+====================================
 
 | R. D. McMichael rmcmichael@nist.gov
 | National Institute of Standards and Technology
-| Gaithersburg, MD USA March 29, 2019
+| Gaithersburg, MD USA Jan 16, 2020
 
 Contents
 --------
 
--  `Introduction <#introduction>`__
--  `Philosophy and goals <#philosophy-and-goals>`__
--  `Requirements <#requirements-for-users>`__
--  `Demos <#demos>`__
--  `Theory of Operation <#theory-of-operation>`__
+-  Introduction_
+-  `Philosophy and goals`_
+-  Requirements_
+-  Demos_
+-  `Theory of Operation`_
+
+.. _Introduction:
 
 Introduction
 ------------
@@ -46,6 +48,8 @@ computer languages such as Python. Second, availability of cheap
 computational power. Most of all though, an increased awareness of the
 benefits of code sharing and reuse is growing in scientific communities.
 
+.. _Philosophy and goals:
+
 Philosophy and goals
 --------------------
 
@@ -62,6 +66,8 @@ giving users tools to make better measurements.
 -  If the user finds it useful, it runs good.
 -  If it runs good, it is good.
 
+.. _Requirements:
+
 Requirements for users
 ----------------------
 
@@ -75,6 +81,10 @@ what a user will need to supply to get started.
    parameters to be determined.
 4. A working knowledge of Python programming, enough to follow examples
    and program a model function.
+5. ``Matplotlib.pyplot`` and ``Matplotlib.gridspec`` modules for running
+   demo programs.
+
+.. _Demos:
 
 Demos
 -----
@@ -104,52 +114,51 @@ distribution at the stopping point. Typical runs of this example require
 approximately 1/4 to 1/2 as many measurements as the measure-then-fit
 method. See ``Demos/demoLorentzian.py``.
 
-10 × measurement speedup
-~~~~~~~~~~~~~~~~~~~~~~~~
+Measurement speedup
+~~~~~~~~~~~~~~~~~~~
 
-.. figure:: _images/rootN_2080.png
+.. figure:: _images/rootN.png
    :alt: Mechanism of speedup
 
    Mechanism of speedup
 
 Figure 2: A different view of the Lorentzian peak problem, contrasting
 efficiency differences between methods. The left panel shows results
-after 1000 measurements of a spectrum. The simulated experimental noise
+after 3000 measurements of a spectrum. The simulated experimental noise
 is Gaussian with standard deviation :math:`\sigma = 1`. In the “average
-& fit” method, 50 simulated measurements are averaged at each of 20
-points, yielding a uniform uncertainty of
-:math:`\sigma_y = 1/\sqrt{50}`. In the OptBayesExpt method, the
-algorithm focuses attention on the sides of the peak, as shown in the
-histogram. The symbol areas are proportional to the weights of the data
-points, :math:`1/\sigma^2`. The smallest points correspond to
-:math:`\sigma_y = 1.0`, and the largest to
-:math:`\sigma_y \approx 0.055.`
+& fit” method, 100 simulated measurements are averaged at each of 30
+points, yielding a uniform uncertainty of :math:`\sigma_y = 0.1`. In the
+OptBayesExpt method, the algorithm focuses attention on the sides of the
+peak, as shown in the histogram. The symbol areas are proportional to
+the weights of the data points, :math:`1/\sigma^2`. The largest points
+correspond to :math:`\sigma_y \approx 0.035.`
 
-The right panel plots the evolution of uncertainty in the peak center
-:math:`x_0` with the number of accumulated measurements. Plotted values
-summarize the results of 100 runs, each with 1000 OptBayesExpt
-measurments and 20 000 average & fit measurements. Solid lines are the
-mean uncertainty values and the shaded areas are bounded by the 20th and
-80th percentile of the uncertainty values. Both the average & fit
-technique and the OptBayesExpt method scale like
+The right panel plots the evolution of error and uncertainty in the peak
+center :math:`x_0` with the number of accumulated measurements. Plotted
+values summarize the results of 100 runs, each with 3000 OptBayesExpt
+measurments and 15 000 average & fit measurements. Dark lines are the
+rms measurement errors, i.e. differences between the known peak position
+in the simulated measurement data, and the best-fit or distribution
+means of the analyses. Light traces show the evolution of the estimated
+uncertainties for the methods, either the uncertainty of the fit, or the
+standard deviation of the parameter probability distribution. Both the
+average & fit technique and the OptBayesExpt method scale like
 :math:`\sigma_{x0} \propto 1/\sqrt{N}` (:math:`N` = measurement number)
-for large :math:`N`, but the OptBayesExpt requires approximately 10
-times fewer measurements to achieve the same uncertainty.
+for large :math:`N`, but the OptBayesExpt requires approximately 4 times
+fewer measurements to achieve the same levels of uncertainty and error.
 
-Details: For the OptBayesExpt results, the uncertainty is the standard
-deviation of the parameter distribution function after integrating over
-peak height and peak width. The average and fit method used
-``scipy.optimize.curve_fit()``. The uncertainty plotted here is the
-square root of the diagonal element in the covariance matrix. The peak
-height, background level and peak center are treated as unknowns, and
-the half-width line width is fixed at 0.3. See
-``Demos/demoLorentzian2.py``.
+Details: In both methods, the peak center, baseline value and the peak
+height were treated as unknowns, and the line width was fixed ad 0.15.
+The average and fit method used ``scipy.optimize.curve_fit()``. See
+``Demos/fit_vs_obe_makedata.py`` and ``Demos/fit_vs_obe_plots.py`` for
+the calculation and plotting of this demo.
 
 Tuning a :math:`\pi` pulse
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. figure:: _images/pipulsefig.png
-   :alt: measurements of transition probability vs pulse length and detuning
+   :alt: measurements of transition probability vs pulse length and
+    detuning
 
    measurements of transition probability vs pulse length and detuning
 
@@ -192,8 +201,11 @@ increase from left to right as measurement resources are diverted away
 from reducing uncertainty. Each run uses 40 points. See
 ``Demos/slopeintercept.py``.
 
+.. _Theory of Operation:
+
 Theory of operation
 -------------------
+
 The optimal Bayes experimental design method incorporates two main jobs,
 which we can describe as “learning fast” and “making good decisions”
 
@@ -266,9 +278,8 @@ symmetric, like a Gaussian, for example, then
 measuring :math:`y_i` given a mean value :math:`y` that’s provided by
 the experimental model :math:`y=y(x_i,\theta)`.
 
-.. math::  p(m_i|\theta) = \frac{1}{\sqrt{2\pi}\sigma_i} \exp\left[-\frac{[y_i - y(x_i, \theta)]^2 }{ 2\sigma_i^2 } \right]
-
-.
+.. math::  p(m_i|\theta) = \frac{1}{\sqrt{2\pi}\sigma_i}
+    \exp\left[-\frac{[y_i - y(x_i, \theta)]^2 }{ 2\sigma_i^2 } \right]
 
 Now we know how to update our “knowledge” of parameters :math:`\theta`
 expressed as a probability distribution :math:`P(\theta)`. 1. Collect
@@ -338,42 +349,40 @@ Estimate benefits
 ^^^^^^^^^^^^^^^^^
 
 To translate such a qualitative argument into code, a good place to
-start is to clarify the meaning of "doing the most good" in refining
-the parameter distribution :math:`p(\theta)`. Usually, the goal in
+start is to clarify the meaning of “doing the most good” in refining the
+parameter distribution :math:`p(\theta)`. Usually, the goal in
 determining model parameters is to get results with small uncertainty.
 But :math:`p(\theta)` is a possibly multidimensional distribution and
 parameters may have different units. Fortunately, information theory
-provides the information entropy as a way to quantify the sharpness of
-a probability distribution. The information entropy of a probability
+provides the information entropy as a way to quantify the sharpness of a
+probability distribution. The information entropy of a probability
 distribution :math:`p(a)` is defined as
 
-.. math::  E = -\int da\; p(a)\; \ln[p(a)].
+.. math::  E = -\int da\; p(a)\; \ln[p(a)]. 
 
 Note that the integrand above is zero for both :math:`p(a) = 1` and
-:math:`p(a)=0`. It’s the intermediate values encountered in a
-spread-out distribution where the information entropy accumulates. For
-common distributions, like rectangular or Gaussian, that have
-characteristic widths :math:`w` the entropy goes like :math:`\ln(w) + C`.
+:math:`p(a)=0`. It’s the intermediate values encountered in a spread-out
+distribution where the information entropy accumulates. For common
+distributions, like rectangular or Gaussian, that have characteristic
+widths :math:`w` the entropy goes like :math:`\ln(w) + C`.
 
-By adopting the information entropy as the measure of
-:math:`p(\theta)` sharpness, it is possible to estimate how much
-entropy change :math:`E`\ (*posterior*) - :math:`E`\ (*prior*) we
-might get for predicted measurement values :math:`y` at different
-settings :math:`x`. Actually, statisticians use something slightly
-different called the Kulback-Liebler divergence:
+By adopting the information entropy as the measure of :math:`p(\theta)`
+sharpness, it is possible to estimate how much entropy change
+:math:`E`\ (*posterior*) - :math:`E`\ (*prior*) we might get for
+predicted measurement values :math:`y` at different settings :math:`x`.
+Actually, statisticians use something slightly different called the
+Kulback-Liebler divergence:
 
-.. math::  D^{KL}(y,x) = \int d\theta\; p(\theta |y,x)
-    \ln \left[ \frac{p(\theta | y,x)}{p(\theta)}\right].
+.. math::  D^{KL}(y,x) = \int d\theta\; p(\theta |y,x)\ln \left[ \frac{p(\theta | y,x)}{p(\theta)}\right]. 
 
 In this expression :math:`p(\theta | y,x)` is a speculative parameter
 distribution we would get if we happened to measure a value :math:`y`
-using settings :math:`x`. By itself, :math:`D^{KL}(y,x)` doesn’t work
-as a utility function :math:`U(x)` because it depends on this
-arbitrary possible measurement value :math:`y`. So we need to average
+using settings :math:`x`. By itself, :math:`D^{KL}(y,x)` doesn’t work as
+a utility function :math:`U(x)` because it depends on this arbitrary
+possible measurement value :math:`y`. So we need to average
 :math:`D^{KL}`, weighted by the probability of measuring :math:`y`.
 
-.. math::  U(x) = \int dy \int d\theta\; p(y|x) p(\theta |y,x)
-    \ln \left[ \frac{p(\theta | y,x)}{p(\theta)}\right].
+.. math::  U(x) = \int dy \int d\theta\; p(y|x) p(\theta |y,x)\ln \left[ \frac{p(\theta | y,x)}{p(\theta)}\right]. 
 
 Two applications of Bayes rule and rearrangement ensue …
 
@@ -438,14 +447,14 @@ parameter variations. The dependence on measurement noise
 useful to make measurements at settings :math:`x` where the
 instrumental noise is larger. This approximate utility function is
 also positive, i.e. more data helps narrow a distribution.
-| Finally, :math:`U^*(x)`, which is an approximate information entropy
+
+Finally, :math:`U^*(x)`, which is an approximate information entropy
 change, has the property that the parameter distribution width
 :math:`\sigma_\theta` behaves asymptotically like :math:`N^{-1/2}`
 after :math:`N` iterations when noise dominates. At least in one
 dimension,
 
-.. math::  d \ln(\sigma_\theta) = \frac{1}{2}
-    \frac{\sigma_{y,\theta}(x)^2}{\sigma_y(x)^2}dN.
+.. math::  d \ln(\sigma_\theta) = \frac{1}{2}\frac{\sigma_{y,\theta}(x)^2}{\sigma_y(x)^2}dN.
 
 The left side is the approximate entropy change in one iteration
 (:math:`dN = 1`). If the parameter variations are small enough,

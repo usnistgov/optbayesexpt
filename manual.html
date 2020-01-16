@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Manual &#8212; OptBayesExpt 0.1.8 documentation</title>
+    <title>Optimal Bayesian Experimental Design &#8212; OptBayesExpt 0.1.9 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -62,7 +62,7 @@ $(document).ready(function(){
         <li class="right" >
           <a href="index.html" title="OptBayesExpt documentation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 0.1.8 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 0.1.9 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -71,25 +71,25 @@ $(document).ready(function(){
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="manual">
-<h1>Manual<a class="headerlink" href="#manual" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="optimal-bayesian-experimental-design">
+<h1>Optimal Bayesian Experimental Design<a class="headerlink" href="#optimal-bayesian-experimental-design" title="Permalink to this headline">¶</a></h1>
 <div class="line-block">
 <div class="line">R. D. McMichael <a class="reference external" href="mailto:rmcmichael&#37;&#52;&#48;nist&#46;gov">rmcmichael<span>&#64;</span>nist<span>&#46;</span>gov</a></div>
 <div class="line">National Institute of Standards and Technology</div>
-<div class="line">Gaithersburg, MD USA March 29, 2019</div>
+<div class="line">Gaithersburg, MD USA Jan 16, 2020</div>
 </div>
 <div class="section" id="contents">
 <h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="#introduction">Introduction</a></p></li>
-<li><p><a class="reference external" href="#philosophy-and-goals">Philosophy and goals</a></p></li>
-<li><p><a class="reference external" href="#requirements-for-users">Requirements</a></p></li>
-<li><p><a class="reference external" href="#demos">Demos</a></p></li>
-<li><p><a class="reference external" href="#theory-of-operation">Theory of Operation</a></p></li>
+<li><p><a class="reference internal" href="#introduction">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#philosophy-and-goals">Philosophy and goals</a></p></li>
+<li><p><a class="reference internal" href="#requirements">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#demos">Demos</a></p></li>
+<li><p><a class="reference internal" href="#theory-of-operation">Theory of Operation</a></p></li>
 </ul>
 </div>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>This manual describes an implementation of optimal Bayesian experimental
 design methods to control measurement settings in order to efficiently
 determine model parameters. In situations where parametric models would
@@ -117,7 +117,7 @@ computational power. Most of all though, an increased awareness of the
 benefits of code sharing and reuse is growing in scientific communities.</p>
 </div>
 <div class="section" id="philosophy-and-goals">
-<h2>Philosophy and goals<a class="headerlink" href="#philosophy-and-goals" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2>Philosophy and goals<a class="headerlink" href="#philosophy-and-goals" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><p>If it sounds good, it is good &gt; Duke Ellington</p>
 </div></blockquote>
@@ -134,7 +134,7 @@ giving users tools to make better measurements.</p>
 </ul>
 </div>
 <div class="section" id="requirements-for-users">
-<h2>Requirements for users<a class="headerlink" href="#requirements-for-users" title="Permalink to this headline">¶</a></h2>
+<span id="requirements"></span><h2>Requirements for users<a class="headerlink" href="#requirements-for-users" title="Permalink to this headline">¶</a></h2>
 <p>It takes a little effort to get this software up and running. Here’s
 what a user will need to supply to get started.</p>
 <ol class="arabic simple">
@@ -145,15 +145,17 @@ estimates.</p></li>
 parameters to be determined.</p></li>
 <li><p>A working knowledge of Python programming, enough to follow examples
 and program a model function.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Matplotlib.pyplot</span></code> and <code class="docutils literal notranslate"><span class="pre">Matplotlib.gridspec</span></code> modules for running
+demo programs.</p></li>
 </ol>
 </div>
 <div class="section" id="demos">
-<h2>Demos<a class="headerlink" href="#demos" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2>Demos<a class="headerlink" href="#demos" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="locating-a-lorentzian-peak">
 <h3>Locating a Lorentzian peak<a class="headerlink" href="#locating-a-lorentzian-peak" title="Permalink to this headline">¶</a></h3>
-<div class="figure align-default" id="id1">
+<div class="figure align-default" id="id5">
 <img alt="Comparison of measure-then-fit and OBED method" src="_images/demoLorentzfig1.png" />
-<p class="caption"><span class="caption-text">Comparison of measure-then-fit and OBED method</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Comparison of measure-then-fit and OBED method</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
 </div>
 <p>Figure 1: A comparison of measure-then-fit (left) and optimal Bayesian
 experimental design (right). Both methods measure the same “true” peak
@@ -173,47 +175,45 @@ approximately 1/4 to 1/2 as many measurements as the measure-then-fit
 method. See <code class="docutils literal notranslate"><span class="pre">Demos/demoLorentzian.py</span></code>.</p>
 </div>
 <div class="section" id="measurement-speedup">
-<h3>10 × measurement speedup<a class="headerlink" href="#measurement-speedup" title="Permalink to this headline">¶</a></h3>
-<div class="figure align-default" id="id2">
-<img alt="Mechanism of speedup" src="_images/rootN_2080.png" />
-<p class="caption"><span class="caption-text">Mechanism of speedup</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+<h3>Measurement speedup<a class="headerlink" href="#measurement-speedup" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-default" id="id6">
+<img alt="Mechanism of speedup" src="_images/rootN.png" />
+<p class="caption"><span class="caption-text">Mechanism of speedup</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
 </div>
 <p>Figure 2: A different view of the Lorentzian peak problem, contrasting
 efficiency differences between methods. The left panel shows results
-after 1000 measurements of a spectrum. The simulated experimental noise
+after 3000 measurements of a spectrum. The simulated experimental noise
 is Gaussian with standard deviation <span class="math notranslate nohighlight">\(\sigma = 1\)</span>. In the “average
-&amp; fit” method, 50 simulated measurements are averaged at each of 20
-points, yielding a uniform uncertainty of
-<span class="math notranslate nohighlight">\(\sigma_y = 1/\sqrt{50}\)</span>. In the OptBayesExpt method, the
-algorithm focuses attention on the sides of the peak, as shown in the
-histogram. The symbol areas are proportional to the weights of the data
-points, <span class="math notranslate nohighlight">\(1/\sigma^2\)</span>. The smallest points correspond to
-<span class="math notranslate nohighlight">\(\sigma_y = 1.0\)</span>, and the largest to
-<span class="math notranslate nohighlight">\(\sigma_y \approx 0.055.\)</span></p>
-<p>The right panel plots the evolution of uncertainty in the peak center
-<span class="math notranslate nohighlight">\(x_0\)</span> with the number of accumulated measurements. Plotted values
-summarize the results of 100 runs, each with 1000 OptBayesExpt
-measurments and 20 000 average &amp; fit measurements. Solid lines are the
-mean uncertainty values and the shaded areas are bounded by the 20th and
-80th percentile of the uncertainty values. Both the average &amp; fit
-technique and the OptBayesExpt method scale like
+&amp; fit” method, 100 simulated measurements are averaged at each of 30
+points, yielding a uniform uncertainty of <span class="math notranslate nohighlight">\(\sigma_y = 0.1\)</span>. In the
+OptBayesExpt method, the algorithm focuses attention on the sides of the
+peak, as shown in the histogram. The symbol areas are proportional to
+the weights of the data points, <span class="math notranslate nohighlight">\(1/\sigma^2\)</span>. The largest points
+correspond to <span class="math notranslate nohighlight">\(\sigma_y \approx 0.035.\)</span></p>
+<p>The right panel plots the evolution of error and uncertainty in the peak
+center <span class="math notranslate nohighlight">\(x_0\)</span> with the number of accumulated measurements. Plotted
+values summarize the results of 100 runs, each with 3000 OptBayesExpt
+measurments and 15 000 average &amp; fit measurements. Dark lines are the
+rms measurement errors, i.e. differences between the known peak position
+in the simulated measurement data, and the best-fit or distribution
+means of the analyses. Light traces show the evolution of the estimated
+uncertainties for the methods, either the uncertainty of the fit, or the
+standard deviation of the parameter probability distribution. Both the
+average &amp; fit technique and the OptBayesExpt method scale like
 <span class="math notranslate nohighlight">\(\sigma_{x0} \propto 1/\sqrt{N}\)</span> (<span class="math notranslate nohighlight">\(N\)</span> = measurement number)
-for large <span class="math notranslate nohighlight">\(N\)</span>, but the OptBayesExpt requires approximately 10
-times fewer measurements to achieve the same uncertainty.</p>
-<p>Details: For the OptBayesExpt results, the uncertainty is the standard
-deviation of the parameter distribution function after integrating over
-peak height and peak width. The average and fit method used
-<code class="docutils literal notranslate"><span class="pre">scipy.optimize.curve_fit()</span></code>. The uncertainty plotted here is the
-square root of the diagonal element in the covariance matrix. The peak
-height, background level and peak center are treated as unknowns, and
-the half-width line width is fixed at 0.3. See
-<code class="docutils literal notranslate"><span class="pre">Demos/demoLorentzian2.py</span></code>.</p>
+for large <span class="math notranslate nohighlight">\(N\)</span>, but the OptBayesExpt requires approximately 4 times
+fewer measurements to achieve the same levels of uncertainty and error.</p>
+<p>Details: In both methods, the peak center, baseline value and the peak
+height were treated as unknowns, and the line width was fixed ad 0.15.
+The average and fit method used <code class="docutils literal notranslate"><span class="pre">scipy.optimize.curve_fit()</span></code>. See
+<code class="docutils literal notranslate"><span class="pre">Demos/fit_vs_obe_makedata.py</span></code> and <code class="docutils literal notranslate"><span class="pre">Demos/fit_vs_obe_plots.py</span></code> for
+the calculation and plotting of this demo.</p>
 </div>
 <div class="section" id="tuning-a-pi-pulse">
 <h3>Tuning a <span class="math notranslate nohighlight">\(\pi\)</span> pulse<a class="headerlink" href="#tuning-a-pi-pulse" title="Permalink to this headline">¶</a></h3>
-<div class="figure align-default" id="id3">
+<div class="figure align-default" id="id7">
 <img alt="measurements of transition probability vs pulse length and detuning" src="_images/pipulsefig.png" />
-<p class="caption"><span class="caption-text">measurements of transition probability vs pulse length and detuning</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">measurements of transition probability vs pulse length and detuning</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
 </div>
 <p>Figure 3: A <span class="math notranslate nohighlight">\(\pi\)</span> pulse is a method of inverting spins that is
 frequently used in nuclear magnetic resonance (NMR and MRI) and pulsed
@@ -230,9 +230,9 @@ of measurements. See <code class="docutils literal notranslate"><span class="pre
 </div>
 <div class="section" id="slope-intercept">
 <h3>Slope Intercept<a class="headerlink" href="#slope-intercept" title="Permalink to this headline">¶</a></h3>
-<div class="figure align-default" id="id4">
+<div class="figure align-default" id="id8">
 <img alt="Straight line measurement examples" src="_images/slopeintercept.png" />
-<p class="caption"><span class="caption-text">Straight line measurement examples</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Straight line measurement examples</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
 </div>
 <p>Figure 4: This demo uses a straight line model, a case where the “best”
 measurement settings are known in advance; measurements at the ends of a
@@ -254,7 +254,7 @@ from reducing uncertainty. Each run uses 40 points. See
 </div>
 </div>
 <div class="section" id="theory-of-operation">
-<h2>Theory of operation<a class="headerlink" href="#theory-of-operation" title="Permalink to this headline">¶</a></h2>
+<span id="id4"></span><h2>Theory of operation<a class="headerlink" href="#theory-of-operation" title="Permalink to this headline">¶</a></h2>
 <p>The optimal Bayes experimental design method incorporates two main jobs,
 which we can describe as “learning fast” and “making good decisions”</p>
 <div class="section" id="learning-fast">
@@ -319,8 +319,8 @@ symmetric, like a Gaussian, for example, then
 measuring <span class="math notranslate nohighlight">\(y_i\)</span> given a mean value <span class="math notranslate nohighlight">\(y\)</span> that’s provided by
 the experimental model <span class="math notranslate nohighlight">\(y=y(x_i,\theta)\)</span>.</p>
 <div class="math notranslate nohighlight">
-\[p(m_i|\theta) = \frac{1}{\sqrt{2\pi}\sigma_i} \exp\left[-\frac{[y_i - y(x_i, \theta)]^2 }{ 2\sigma_i^2 } \right]\]</div>
-<p>.</p>
+\[p(m_i|\theta) = \frac{1}{\sqrt{2\pi}\sigma_i}
+\exp\left[-\frac{[y_i - y(x_i, \theta)]^2 }{ 2\sigma_i^2 } \right]\]</div>
 <p>Now we know how to update our “knowledge” of parameters <span class="math notranslate nohighlight">\(\theta\)</span>
 expressed as a probability distribution <span class="math notranslate nohighlight">\(P(\theta)\)</span>. 1. Collect
 measurement data including settings, <span class="math notranslate nohighlight">\(x_i\)</span>, measurement values
@@ -380,39 +380,37 @@ spread.</p>
 <div class="section" id="estimate-benefits">
 <h4>Estimate benefits<a class="headerlink" href="#estimate-benefits" title="Permalink to this headline">¶</a></h4>
 <p>To translate such a qualitative argument into code, a good place to
-start is to clarify the meaning of “doing the most good” in refining
-the parameter distribution <span class="math notranslate nohighlight">\(p(\theta)\)</span>. Usually, the goal in
+start is to clarify the meaning of “doing the most good” in refining the
+parameter distribution <span class="math notranslate nohighlight">\(p(\theta)\)</span>. Usually, the goal in
 determining model parameters is to get results with small uncertainty.
 But <span class="math notranslate nohighlight">\(p(\theta)\)</span> is a possibly multidimensional distribution and
 parameters may have different units. Fortunately, information theory
-provides the information entropy as a way to quantify the sharpness of
-a probability distribution. The information entropy of a probability
+provides the information entropy as a way to quantify the sharpness of a
+probability distribution. The information entropy of a probability
 distribution <span class="math notranslate nohighlight">\(p(a)\)</span> is defined as</p>
 <div class="math notranslate nohighlight">
 \[E = -\int da\; p(a)\; \ln[p(a)].\]</div>
 <p>Note that the integrand above is zero for both <span class="math notranslate nohighlight">\(p(a) = 1\)</span> and
-<span class="math notranslate nohighlight">\(p(a)=0\)</span>. It’s the intermediate values encountered in a
-spread-out distribution where the information entropy accumulates. For
-common distributions, like rectangular or Gaussian, that have
-characteristic widths <span class="math notranslate nohighlight">\(w\)</span> the entropy goes like <span class="math notranslate nohighlight">\(\ln(w) + C\)</span>.</p>
-<p>By adopting the information entropy as the measure of
-<span class="math notranslate nohighlight">\(p(\theta)\)</span> sharpness, it is possible to estimate how much
-entropy change <span class="math notranslate nohighlight">\(E\)</span>(<em>posterior</em>) - <span class="math notranslate nohighlight">\(E\)</span>(<em>prior</em>) we
-might get for predicted measurement values <span class="math notranslate nohighlight">\(y\)</span> at different
-settings <span class="math notranslate nohighlight">\(x\)</span>. Actually, statisticians use something slightly
-different called the Kulback-Liebler divergence:</p>
+<span class="math notranslate nohighlight">\(p(a)=0\)</span>. It’s the intermediate values encountered in a spread-out
+distribution where the information entropy accumulates. For common
+distributions, like rectangular or Gaussian, that have characteristic
+widths <span class="math notranslate nohighlight">\(w\)</span> the entropy goes like <span class="math notranslate nohighlight">\(\ln(w) + C\)</span>.</p>
+<p>By adopting the information entropy as the measure of <span class="math notranslate nohighlight">\(p(\theta)\)</span>
+sharpness, it is possible to estimate how much entropy change
+<span class="math notranslate nohighlight">\(E\)</span>(<em>posterior</em>) - <span class="math notranslate nohighlight">\(E\)</span>(<em>prior</em>) we might get for
+predicted measurement values <span class="math notranslate nohighlight">\(y\)</span> at different settings <span class="math notranslate nohighlight">\(x\)</span>.
+Actually, statisticians use something slightly different called the
+Kulback-Liebler divergence:</p>
 <div class="math notranslate nohighlight">
-\[D^{KL}(y,x) = \int d\theta\; p(\theta |y,x)
-\ln \left[ \frac{p(\theta | y,x)}{p(\theta)}\right].\]</div>
+\[D^{KL}(y,x) = \int d\theta\; p(\theta |y,x)\ln \left[ \frac{p(\theta | y,x)}{p(\theta)}\right].\]</div>
 <p>In this expression <span class="math notranslate nohighlight">\(p(\theta | y,x)\)</span> is a speculative parameter
 distribution we would get if we happened to measure a value <span class="math notranslate nohighlight">\(y\)</span>
-using settings <span class="math notranslate nohighlight">\(x\)</span>. By itself, <span class="math notranslate nohighlight">\(D^{KL}(y,x)\)</span> doesn’t work
-as a utility function <span class="math notranslate nohighlight">\(U(x)\)</span> because it depends on this
-arbitrary possible measurement value <span class="math notranslate nohighlight">\(y\)</span>. So we need to average
+using settings <span class="math notranslate nohighlight">\(x\)</span>. By itself, <span class="math notranslate nohighlight">\(D^{KL}(y,x)\)</span> doesn’t work as
+a utility function <span class="math notranslate nohighlight">\(U(x)\)</span> because it depends on this arbitrary
+possible measurement value <span class="math notranslate nohighlight">\(y\)</span>. So we need to average
 <span class="math notranslate nohighlight">\(D^{KL}\)</span>, weighted by the probability of measuring <span class="math notranslate nohighlight">\(y\)</span>.</p>
 <div class="math notranslate nohighlight">
-\[U(x) = \int dy \int d\theta\; p(y|x) p(\theta |y,x)
-\ln \left[ \frac{p(\theta | y,x)}{p(\theta)}\right].\]</div>
+\[U(x) = \int dy \int d\theta\; p(y|x) p(\theta |y,x)\ln \left[ \frac{p(\theta | y,x)}{p(\theta)}\right].\]</div>
 <p>Two applications of Bayes rule and rearrangement ensue …</p>
 <p>The resulting utility <span class="math notranslate nohighlight">\(U(x)\)</span> for each potential setting <span class="math notranslate nohighlight">\(x\)</span>
 is the difference between two information entropy-like terms:</p>
@@ -470,15 +468,14 @@ parameter variations. The dependence on measurement noise
 <span class="math notranslate nohighlight">\(\sigma_y\)</span> also has an intuitive interpretation: that it’s less
 useful to make measurements at settings <span class="math notranslate nohighlight">\(x\)</span> where the
 instrumental noise is larger. This approximate utility function is
-also positive, i.e. more data helps narrow a distribution.
-| Finally, <span class="math notranslate nohighlight">\(U^*(x)\)</span>, which is an approximate information entropy
+also positive, i.e. more data helps narrow a distribution.</p>
+<p>Finally, <span class="math notranslate nohighlight">\(U^*(x)\)</span>, which is an approximate information entropy
 change, has the property that the parameter distribution width
 <span class="math notranslate nohighlight">\(\sigma_\theta\)</span> behaves asymptotically like <span class="math notranslate nohighlight">\(N^{-1/2}\)</span>
 after <span class="math notranslate nohighlight">\(N\)</span> iterations when noise dominates. At least in one
 dimension,</p>
 <div class="math notranslate nohighlight">
-\[d \ln(\sigma_\theta) = \frac{1}{2}
-\frac{\sigma_{y,\theta}(x)^2}{\sigma_y(x)^2}dN.\]</div>
+\[d \ln(\sigma_\theta) = \frac{1}{2}\frac{\sigma_{y,\theta}(x)^2}{\sigma_y(x)^2}dN.\]</div>
 <p>The left side is the approximate entropy change in one iteration
 (<span class="math notranslate nohighlight">\(dN = 1\)</span>). If the parameter variations are small enough,
 <span class="math notranslate nohighlight">\(\sigma_{y,\theta} \approx dy/d\theta\; \sigma_\theta\)</span>. Then the
@@ -523,14 +520,14 @@ voltage and current, with different scales, units and uncertainties?</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Manual</a><ul>
+<li><a class="reference internal" href="#">Optimal Bayesian Experimental Design</a><ul>
 <li><a class="reference internal" href="#contents">Contents</a></li>
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
 <li><a class="reference internal" href="#philosophy-and-goals">Philosophy and goals</a></li>
 <li><a class="reference internal" href="#requirements-for-users">Requirements for users</a></li>
 <li><a class="reference internal" href="#demos">Demos</a><ul>
 <li><a class="reference internal" href="#locating-a-lorentzian-peak">Locating a Lorentzian peak</a></li>
-<li><a class="reference internal" href="#measurement-speedup">10 × measurement speedup</a></li>
+<li><a class="reference internal" href="#measurement-speedup">Measurement speedup</a></li>
 <li><a class="reference internal" href="#tuning-a-pi-pulse">Tuning a <span class="math notranslate nohighlight">\(\pi\)</span> pulse</a></li>
 <li><a class="reference internal" href="#slope-intercept">Slope Intercept</a></li>
 </ul>
@@ -591,11 +588,11 @@ voltage and current, with different scales, units and uncertainties?</p>
         <li class="right" >
           <a href="index.html" title="OptBayesExpt documentation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 0.1.8 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 0.1.9 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright National Institute of Standards and Technology.  Not subject to copyright in the United States.
+        &#169; Copyright Copyright National Institute of Standards and Technology. Not subject to copyright in the United States.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
