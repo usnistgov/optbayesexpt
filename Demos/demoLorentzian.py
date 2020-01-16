@@ -7,9 +7,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
-import optbayesexpt
-print(dir(optbayesexpt))
-
 from optbayesexpt import OptBayesExpt
 
 """
@@ -143,7 +140,6 @@ def batchdemo():
     xmax = xseries[np.argmax(yseries)]
 
     popt, pcov = curve_fit(ymodel, xseries, yseries, [xmax, 1, 0, .1])
-    print(popt, pcov)
 
     x0fit, Afit, Bfit, dfit = popt
     x0sigma = np.sqrt(pcov[0,0])
@@ -163,7 +159,7 @@ def batchdemo():
     plt.xlim((1.5, 4.5))
     plt.text(1.6, .93*ytop, '{} measurements'.format(Nmeasure))
     plt.text(1.6, .85*ytop, 'fit: x0 = {:6.4f} $\pm$ {:6.4f}'.format(x0fit, x0sigma))
-    plt.text(1.6, .80*ytop, 'true x0 = {:6.4f}'.format(x0true))
+    plt.text(1.6, .78*ytop, 'true x0 = {:6.4f}'.format(x0true))
     plt.xlabel('x setting')
     plt.ylabel('y result')
 
@@ -216,19 +212,19 @@ def batchdemo():
     plt.xlim((1.5, 4.5))
     plt.text(1.6, .93*ytop, '{} measurements'.format(i+1))
     plt.text(1.6, .85*ytop, 'fit: x0 = {:6.4f} $\pm$ {:6.4f}'.format(x0, sig[i]))
-    plt.text(1.6, .80*ytop, 'true x0 = {:6.4f}'.format(x0true))
+    plt.text(1.6, .78*ytop, 'true x0 = {:6.4f}'.format(x0true))
     plt.xlabel('x setting')
 
     plt.tight_layout()
     plt.show()
 
+if __name__ == "__main__":
+    Nmeasure = 30
 
-Nmeasure = 30
+    smartmeasure = True
+    optimum = True
+    pickiness = 7
+    noiselevel = 1
+    drawplots = 50
 
-smartmeasure = True
-optimum = True
-pickiness = 7
-noiselevel = 1
-drawplots = 50
-
-batchdemo()
+    batchdemo()
