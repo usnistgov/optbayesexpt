@@ -2,11 +2,12 @@
 __pycache__/
 .ipynb_checkpoints/
 .pytest_cache/
+.gitignore
 optbayesexpt.egg-info/
 Data/.ipynb_checkpoints/
-*Thumbs.db
+Docs/images/Thumbs.db
 Demos/multi_run_data/
-docs/Untitled.ipynb
+Docs/Untitled.ipynb
 localstuff/
 build/
 dist/
