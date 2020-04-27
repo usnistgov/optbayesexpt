@@ -36,7 +36,7 @@ def test_send_receive_dict():
     assert received == contents
 
 """
-The tcpcmd() method is tested in test_server.py
+The tcpcmd() method is tested in helpme_test_server.py
 """
 if __name__ == '__main__':
     test_send_recieve_text()

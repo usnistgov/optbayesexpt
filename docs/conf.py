@@ -19,12 +19,12 @@ sys.path.insert(0, os.path.abspath('../'))
 # -- Project information -----------------------------------------------------
 
 project = 'OptBayesExpt'
-copyright = '2019 Bob McMichael'
+copyright = 'National Institute of Standards and Technology.' \
+            'Not subject to copyright in the United States.'
 author = 'Bob McMichael'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1.9'
-
+release = '1.0.0'
 
 # -- General configuration ---------------------------------------------------
 
@@ -34,11 +34,11 @@ release = '0.1.9'
 extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.napoleon',
               'sphinx.ext.githubpages',
-			  'sphinx.ext.coverage',
-			  'sphinx.ext.viewcode'
+              'sphinx.ext.coverage',
+              'sphinx.ext.viewcode'
 ]
 
-napoleon_inclue_private_with_doc = True
+napoleon_include_private_with_doc = True
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
@@ -61,4 +61,4 @@ html_theme = 'nature'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+# html_static_path = ['_static']
