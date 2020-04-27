@@ -1,0 +1,253 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Guided Tour &#8212; OptBayesExpt 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+
+    <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+
+<script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Mark external (non-nist.gov) A tags with class "external"
+  //If the adress start with https and ends with nist.gov
+  var re_nist = new RegExp('^https?:\/\/((^\/)*\.)*nist\\.gov(\/|$)');
+  //Regex to find address that start with https
+  var re_absolute_address = new RegExp('^((https?:)?\/\/)');
+  $("a").each(function(){
+    var url=$(this).attr('href');
+    if(re_nist.test(url) || !re_absolute_address.test(url)){
+      $(this).addClass('local');
+    }else{
+      //This a href appears to be external, so tag it
+      $(this).addClass('external');
+    }
+  });
+  // Add leaveNotice to external A elements
+  $('a.external').leaveNotice();
+});
+</script>
+<link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+<script async type="text/javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=NIST&subagency=github&pua=UA-42404149-54&yt=true&exts=ppsx,pps,f90,sch,rtf,wrl,txz,m1v,xlsm,msi,xsd,f,tif,eps,mpg,xml,pl,xlt,c">
+</script>
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="guided-tour">
+<h1>Guided Tour<a class="headerlink" href="#guided-tour" title="Permalink to this headline">¶</a></h1>
+<p>Where the section above treats the theory of Bayesian experimental design,
+this section provides an introduction to the algorithms and methods in the
+<code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code>
+class that perform the “learn fast” and “make good decisions” tasks.
+An additional subsection describes how the parameter probability
+distribution is implemented.</p>
+<div class="section" id="learn-fast-routine">
+<h2>Learn fast routine<a class="headerlink" href="#learn-fast-routine" title="Permalink to this headline">¶</a></h2>
+<p>To input measurement data, the user script invokes
+<code class="docutils literal notranslate"><span class="pre">pdf_update(measurement_result)</span></code>.  The events that follow are illustrated
+in the sidebar.  <code class="docutils literal notranslate"><span class="pre">OptBaesExpt</span></code> requires the user to provide a
+<code class="docutils literal notranslate"><span class="pre">measurement_result</span></code> that represents a complete measurement record with
+the settings, the value and the uncertainty. The settings are required since
+actual settings may differ from suggested settings. The settings are used to
+evaluate the model function for every parameter sample in the
+parameter probability distribution to produce <code class="docutils literal notranslate"><span class="pre">y_model_data</span></code>. For each
+parameter sample the difference between the model value and the reported
+measurement value is used to calculate the likelihood of that parameter
+sample, assuming a Gaussian noise distribution.</p>
+<p>The uncertainty deserves some attention. By requiring the measurement
+uncertainty, OptBayesExpt places the burden of determining the uncertainty
+on the experimenter. Bluntly, the reason for this requirement is that it makes
+the programming easier. But often, the noise is one of the things one would
+like to learn from an experiment.</p>
+<p>To include the raw measurement uncertainty as an unknown, it is
+convenient to create a child class that inherits from OptBayesExpt.
+<code class="docutils literal notranslate"><span class="pre">ChildClass</span></code> may include the uncertainty alongside the
+actual model parameters in the <code class="docutils literal notranslate"><span class="pre">parameter_samples</span></code> tuple, as suggested by
+the dashed arrow in the sidebar. In this arrangement, the
+uncertainty parameter is not used in the
+model function, but it does enter the likelihood calculation.  After all,
+some values of uncertainty explain the data better than others. For examples of
+this approach, see</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">demos/obe_line_plus_noise.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">demos/obe_lockin.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">demos/obe_sweeper.py</span></code></p></li>
+</ul>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">ParticlePdf.bayesian_update()</span></code> adjusts the parameter distribution
+(including the uncertainty part) based on the likelihood.</p>
+</div>
+<div class="section" id="make-good-decisions-routine">
+<h2>Make good decisions routine<a class="headerlink" href="#make-good-decisions-routine" title="Permalink to this headline">¶</a></h2>
+<div class="sidebar">
+<p class="sidebar-title">Setting selection</p>
+<a class="reference internal image-reference" href="_images/utility.png"><img alt="_images/utility.png" src="_images/utility.png" style="width: 317.79999999999995px; height: 349.29999999999995px;" /></a>
+</div>
+<p>Measurement settings are selected by <code class="docutils literal notranslate"><span class="pre">opt_setting()</span></code> and <code class="docutils literal notranslate"><span class="pre">good_setting</span></code>,
+and both of these rely on <code class="docutils literal notranslate"><span class="pre">utility()</span></code>.  The sidebar illustrates the inner
+workings of <code class="docutils literal notranslate"><span class="pre">utility()</span></code>, where the most time-consuming part is
+<code class="docutils literal notranslate"><span class="pre">yvar_from_parameter_draws()</span></code>.  For each of <code class="docutils literal notranslate"><span class="pre">N_DRAWS</span></code> samples from
+the parameter distribution the model function is evaluated for every
+possible setting combination, yielding a set of outputs for each setting.  The
+variance of these outputs is compared to the model experimental noise which
+is a constant by default.  The examples listed above for unknown
+uncertainties include the mean of the variance as a model of experimental
+noise.</p>
+<p>In the deoniminator, the cost of a potential experiment may depend on
+settings, or predicted value or distance to the next setting.  There are
+many possibilities.  In <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code> the cost is constant by default but
+customized cost models can be programmed into child classes.
+In <code class="docutils literal notranslate"><span class="pre">demos/obe_lockin.py</span></code> for example, the cost model includes the additional
+cost of a settling time if the setting is changed from its current value.  In
+<code class="docutils literal notranslate"><span class="pre">demos/obe_sweeper.py</span></code>, the cost model includes a cost of setting up a
+sweep plus a cost proportional to the length of the sweep.</p>
+<p>Once the utility is computed, <code class="docutils literal notranslate"><span class="pre">opt_setting()</span></code> and <code class="docutils literal notranslate"><span class="pre">good_setting()</span></code>
+offer different strategies for selecting settings for the next measurement.
+The <code class="docutils literal notranslate"><span class="pre">opt_setting()</span></code> method implements a “greedy” strategy, always
+selecting the setting that generates the maximum utility.  The
+resulting measurements tend to cluster strongly around a few settings. The
+<code class="docutils literal notranslate"><span class="pre">good_setting()</span></code> method uses the utility as a weighting function for a
+random setting selection. To tilt the odds toward selecting settings
+with higher utility, the contrast between high and low utility is stretched
+by raising utility to a power, <code class="docutils literal notranslate"><span class="pre">pickiness</span></code>.  The contrasting behavior of
+<code class="docutils literal notranslate"><span class="pre">opt_settting()</span></code> and <code class="docutils literal notranslate"><span class="pre">good_setting()</span></code> with different <code class="docutils literal notranslate"><span class="pre">pickiness</span></code>
+values are illustrated by <code class="docutils literal notranslate"><span class="pre">demos/line_plus_noise.py</span></code></p>
+</div>
+<div class="section" id="probability-distribution-class">
+<h2>Probability distribution class<a class="headerlink" href="#probability-distribution-class" title="Permalink to this headline">¶</a></h2>
+<div class="sidebar">
+<p class="sidebar-title">Probability distributions</p>
+<a class="reference internal image-reference" href="_images/particleFilter.png"><img alt="_images/particleFilter.png" src="_images/particleFilter.png" style="width: 320.0px; height: 240.0px;" /></a>
+</div>
+<p>The probability distribution over the model parameters is at the core of
+<code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code>.  As of version 1.0, the optbayesexpt package uses the
+<code class="docutils literal notranslate"><span class="pre">particlePDF</span></code> class to implement the distribution function for <em>N</em>
+parameters as a cloud or swarm of particles in <em>N</em>-dimensional parameter
+space.  This approach has been given several names, but “sequential Monte
+Carlo” seems to be gaining traction.  Each point in the cloud has
+coordinates corresponding to parameter values, and also a weight, normalized
+so that the sum of the weights is 1. The
+density of particles in a small region and the weights of those particles
+together provide a flexible representation of the probability density.  The
+figure in the sidebar illustrates how this works for a 1-D normal (Gaussian)
+distribution. Panel (a) plots 100 draws from the normal distribution, each
+with a weight of 0.01. The probability distribution is represented only
+by the density of points in this case. Panel (b) represents the same normal
+distribution using only the weights.  The points are 100 draws from a
+<em>uniform</em> distribution, but the weights represent the normal distribution.</p>
+<p>In the learning fast stage, the distribution is modified based on new data.
+The likelihood is calculated for every point in
+the distribution cloud, and then ParticlePdf.bayesian_update() multiplies
+the particle’s weight by its likelihood.  So the distribution is easily
+modified by adjusting weight values.</p>
+<p>In the decision making stage, random draws of parameters from the
+probability distribution are used to calculate utility.  Draws are made by
+random selection of points with probability determined by weights.  In panel
+(a) values at the center are more likely to be chosen because the density is
+higher there.  In panel (b), values at the center are more likely to be
+chosen because the weights are higher there.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ParticlePdf</span></code> also performs a self-maintenance function, <code class="docutils literal notranslate"><span class="pre">resample()</span></code>.
+As the incoming data is used to modify the
+distribution, some regions of parameter space may develop very low
+probabilities. The points near the ends of the plot in panel (b) illustrate
+the issue. These low-weight points will almost never be chosen in
+random draws, but they consume computational resources.  In resampling, <em>N</em>
+draws are taken from an <em>N</em>-particle distribution, so some high-weight
+particles will be chosen more than once and low-weight particles may not be
+chosen at all. Each particle is then given a small random nudge to separate
+copies of the same original particle, the cloud of points is shrunk
+slightly to compensate for the one-step diffusion, and the weight is divided
+evenly between particles as shown in panel (c). Resampling relocates
+low-weight particles to higher-weight neighborhoods so that as measurements
+narrow the distributions of parameter values, the representation adapts.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Guided Tour</a><ul>
+<li><a class="reference internal" href="#learn-fast-routine">Learn fast routine</a></li>
+<li><a class="reference internal" href="#make-good-decisions-routine">Make good decisions routine</a></li>
+<li><a class="reference internal" href="#probability-distribution-class">Probability distribution class</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/manual_tour.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+    </div>
+  </body>
+</html>

@@ -15,8 +15,6 @@
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Quick Start" href="quickstart.html" />
-    <link rel="prev" title="OptBayesExpt documentation" href="index.html" />
 
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
@@ -58,12 +56,6 @@ $(document).ready(function(){
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="quickstart.html" title="Quick Start"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="OptBayesExpt documentation"
-             accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
@@ -79,7 +71,17 @@ $(document).ready(function(){
 <div class="line">R. D. McMichael <a class="reference external" href="mailto:rmcmichael&#37;&#52;&#48;nist&#46;gov">rmcmichael<span>&#64;</span>nist<span>&#46;</span>gov</a></div>
 <div class="line">National Institute of Standards and Technology</div>
 <div class="line">Gaithersburg, MD USA</div>
-<div class="line">April 7, 2020</div>
+<div class="line">March 29, 2020</div>
+</div>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="#introduction">Introduction</a></p></li>
+<li><p><a class="reference external" href="#philosophy-and-goals">Philosophy and goals</a></p></li>
+<li><p><a class="reference external" href="#requirements-for-users">Requirements</a></p></li>
+<li><p><a class="reference external" href="#demos">Demos</a></p></li>
+<li><p><a class="reference external" href="#theory-of-operation">Theory of Operation</a></p></li>
+</ul>
 </div>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
@@ -90,7 +92,7 @@ conventionally be fit to measurement data in order to obtain model
 parameters, these methods offer an adaptive measurement strategy capable
 of reduced uncertainty with fewer required measurements. These methods
 are therefore most beneficial in situations where measurements are
-expensive in terms of money, time, risk, labor or other cost. The price
+expensive in terms of money, time, risk, labor or discomfort. The price
 for these benefits lies in the complexity of automating such
 measurements and in the computational load required. It is the goal of
 this package to assist potential users in overcoming at least the
@@ -108,28 +110,37 @@ these methods today. First, the availability of flexible, modular
 computer languages such as Python. Second, availability of cheap
 computational power. Most of all though, an increased awareness of the
 benefits of code sharing and reuse is growing in scientific communities.</p>
+</div>
 <div class="section" id="philosophy-and-goals">
-<h3>Philosophy and goals<a class="headerlink" href="#philosophy-and-goals" title="Permalink to this headline">¶</a></h3>
-<blockquote class="epigraph">
-<div><p>If it sounds good, it is good.</p>
-<p class="attribution">—Duke Ellington</p>
-</div></blockquote>
+<h2>Philosophy and goals<a class="headerlink" href="#philosophy-and-goals" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><dl class="simple">
+<dt>If it sounds good, it is good.</dt><dd><p>– Duke Ellington</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 <p>Jazz legend Duke Ellington was talking about music, where it’s all about
-the sound. For this package, it’s all about being useful, so we have adopted
-a “runs good” philosophy:</p>
+the sound. For this package, it’s all about being useful. The goals are
+modest: to adapt some of the developments in optimal Bayeseian
+experimental design research for practical use in laboratory settings,
+giving users tools to make better measurements.  This project adopts a
+“runs good” philosophy:</p>
 <ul class="simple">
 <li><p>If it’s a struggle to use, it can’t run good.</p></li>
 <li><p>If technical jargon is a barrier, it can’t run good</p></li>
 <li><p>If the user finds it useful, it runs good.</p></li>
 <li><p>If it runs good, it is good.</p></li>
 </ul>
-<p>The goals are
-modest: to adapt some of the developments in optimal Bayeseian
-experimental design research for practical use in laboratory settings,
-giving users tools to make better measurements.</p>
 </div>
 <div class="section" id="requirements-for-users">
-<h3>Requirements for users<a class="headerlink" href="#requirements-for-users" title="Permalink to this headline">¶</a></h3>
+<h2>Requirements for users<a class="headerlink" href="#requirements-for-users" title="Permalink to this headline">¶</a></h2>
 <p>It takes a little effort to get this software up and running. Here’s
 what a user will need to supply to get started.</p>
 <ol class="arabic simple">
@@ -141,6 +152,129 @@ parameters to be determined.</p></li>
 <li><p>A working knowledge of Python programming, enough to follow examples
 and program a model function.</p></li>
 </ol>
+</div>
+<div class="section" id="demos">
+<h2>Demos<a class="headerlink" href="#demos" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="locating-a-lorentzian-peak">
+<h3>Locating a Lorentzian peak<a class="headerlink" href="#locating-a-lorentzian-peak" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-default" id="id2">
+<img alt="Comparison of measure-then-fit and OBED method" src="_images/demoLorentzfig1.png" />
+<p class="caption"><span class="caption-text">Comparison of measure-then-fit and OBED method</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<p>Figure 1: A comparison of measure-then-fit (left) and optimal Bayesian
+experimental design (right). Both methods measure the same “true” peak
+with Gaussian noise added (<span class="math notranslate nohighlight">\(\sigma = 1\)</span>) independently. The peak
+parameters are selected randomly: center between 2 and 4, height between
+2 and 5, background between -1 and 1 and peak width between 0.1 and 0.3.
+On the left, 30 evenly-spaced “measurements” are made and fit using
+<code class="docutils literal notranslate"><span class="pre">scipy.optimize.curve_fit()</span></code>. A curve using the best-fit parameters is
+plotted for comparison with the true curve. The diagonal element of the
+covariance matrix is taken as the square of the uncertainty. On the
+right, the optimal Bayes experimental design method is used
+sequentially. Iterations stop when the standard deviation of the <code class="docutils literal notranslate"><span class="pre">x0</span></code>
+peak center distribution is less than the uncertainty of the fit on the
+left. Green curves are generated from random draws from the parameter
+distribution at the stopping point. Typical runs of this example require
+approximately 1/4 to 1/2 as many measurements as the measure-then-fit
+method. See <code class="docutils literal notranslate"><span class="pre">Demos/demoLorentzian.py</span></code>.</p>
+</div>
+<div class="section" id="id1">
+<h3>Locating a Lorentzian peak<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-default">
+<img alt="Behavior and results of a sequential Bayesian experimental design approach to measurement a Lorentzian peak." src="_images/sequentialLorentzian.png" />
+</div>
+<p>Figure 1.  Behavior and results of a sequential Bayesian experimental design
+approach to measurement of a Lorentzian peak. The unknown parameters are
+the peak position and amplitude and the background level, and the peak
+width is fixed. Panel (a) shows the true curve in red and the simulated
+measurement data after 500 measurements. The signal to noise ratio is
+approximately 1.0.  The algorithm focuses measurement resources near the
+peak as quantified by the histogram in (c). Measurements far from the peak
+reduce uncertainty in the background level.  Panels (b) and (d) illustrate
+how the process evolves.  (b) plots the standard deviation of the peak
+center, and (d) plots the measurement settings. For the first 50-ish
+measurements, the settings are scattered and the standard deviation drops
+slowly. After 50-ish measurements, the standard deviation drops quickly and
+the settings concentrate on the peak level.  At around 150 measurements, the
+system enters a steady-state pattern of settings near the peak with less
+frequent measurements of the background.  In this stage, the standard
+deviation typically reduces proportional to <span class="math notranslate nohighlight">\(1/\sqrt{N}\)</span>.</p>
+</div>
+<div class="section" id="measurement-speedup">
+<h3>Measurement speedup<a class="headerlink" href="#measurement-speedup" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-default">
+<img alt="Mechanism of speedup" src="_images/rootN.png" />
+</div>
+<p>Figure 2: A different view of the Lorentzian peak problem, contrasting
+efficiency differences between methods. The left panel shows results
+after 3000 measurements of a spectrum. The simulated experimental noise
+is Gaussian with standard deviation <span class="math notranslate nohighlight">\(\sigma = 1\)</span>. In the “average
+&amp; fit” method, 100 simulated measurements are averaged at each of 30
+points, yielding a uniform uncertainty of
+<span class="math notranslate nohighlight">\(\sigma_y = 1/\sqrt{100}\)</span>. In the OptBayesExpt method, the
+algorithm focuses attention on the sides of the peak, as shown in the
+histogram. The symbol areas are proportional to the weights of the data
+points, <span class="math notranslate nohighlight">\(1/\sigma^2\)</span>. The smallest points correspond to
+<span class="math notranslate nohighlight">\(\sigma_y = 0.258\)</span>, and the largest to
+<span class="math notranslate nohighlight">\(\sigma_y \approx 0.037.\)</span></p>
+<p>The right panel plots the evolution of uncertainty in the peak center
+<span class="math notranslate nohighlight">\(x_0\)</span> with the number of accumulated measurements. Plotted values
+summarize the results of 100 runs, each with 3000 OptBayesExpt
+measurments and 15 000 average &amp; fit measurements. Dark lines plot the difference between ‘best’
+values and the ‘true’ values as an rms error.  Faint lines plot the standard deviation and
+standard uncertainty of individual runs.  Both the average &amp; fit
+technique and the OptBayesExpt method scale like
+<span class="math notranslate nohighlight">\(\sigma_{x0} \propto 1/\sqrt{N}\)</span> (<span class="math notranslate nohighlight">\(N\)</span> = measurement number)
+for large <span class="math notranslate nohighlight">\(N\)</span>, but the OptBayesExpt requires approximately 4
+times fewer measurements to achieve the same uncertainty.</p>
+<p>Details: The average and fit method used <code class="docutils literal notranslate"><span class="pre">scipy.optimize.curve_fit()</span></code>. The uncertainty plotted
+here is the square root of the diagonal element in the covariance matrix. For both methods, the peak
+height, background level and peak center are treated as unknowns, and
+the half-width line width is fixed at 0.3. See <code class="docutils literal notranslate"><span class="pre">demos/fit_vs_obe_makedata.py</span></code> and
+<code class="docutils literal notranslate"><span class="pre">demos/fit_vs_obe_plots.py</span></code></p>
+</div>
+<div class="section" id="tuning-a-pi-pulse">
+<h3>Tuning a <span class="math notranslate nohighlight">\(\pi\)</span> pulse<a class="headerlink" href="#tuning-a-pi-pulse" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-default" id="id3">
+<img alt="measurements of transition probability vs pulse length and detuning" src="_images/pipulsefig.png" />
+<p class="caption"><span class="caption-text">measurements of transition probability vs pulse length and detuning</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<p>Figure 3: A <span class="math notranslate nohighlight">\(\pi\)</span> pulse is a method of inverting spins that is
+frequently used in nuclear magnetic resonance (NMR and MRI) and pulsed
+electron paramagnetic resonance (EPR). In order to be accurate, the
+duration and frequency of the radio-frequency pulse must be tuned. On
+the left, the background image displays the model photon counts for
+optically detected spin manipulation for different frequency detunings
+and pulse lengths. White indicates the expected result for spin up and
+black, spin down. Points indicate simulated measurement settings, with
+sequence in order from white to dark red. Simulated measurements have
+1<span class="math notranslate nohighlight">\(\sigma\)</span> uncertainties of <span class="math notranslate nohighlight">\(\sqrt{N} \approx 316\)</span>. The right panel displays the
+evolution of the probability distribution function with the number “N”
+of measurements. See <code class="docutils literal notranslate"><span class="pre">Demos.pipulse.py</span></code>.</p>
+</div>
+<div class="section" id="slope-intercept">
+<h3>Slope Intercept<a class="headerlink" href="#slope-intercept" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-default" id="id4">
+<img alt="Straight line measurement examples" src="_images/slopeintercept.png" />
+<p class="caption"><span class="caption-text">Straight line measurement examples</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+<p>Figure 4: This demo uses a straight line model, a case where the “best”
+measurement settings are known in advance; measurements at the ends of a
+line are the most effective at reducing uncertainty in the slope and
+intercept values. For reassurance that the straight line model is
+appropriate, some measurements in the in the middle of the span might
+also be desired. The OptBayesExpt class provides two methods for
+flexibility in measurement selection. The <code class="docutils literal notranslate"><span class="pre">opt_setting()</span></code> method
+selects the setting with the highest <em>utility</em> <span class="math notranslate nohighlight">\(\max[U(x)]\)</span>. The
+first panel shows that it behaves as expected, choosing measurements at
+the ends of the line. The <code class="docutils literal notranslate"><span class="pre">good_setting()</span></code> method is more flexible,
+selecting settings with a probability based on the <em>utility</em> and the
+<code class="docutils literal notranslate"><span class="pre">pickiness</span></code> parameter. The 2nd through 4th panels show that the
+<code class="docutils literal notranslate"><span class="pre">good_setting()</span></code> algorithm selects more diverse setting values as the
+<code class="docutils literal notranslate"><span class="pre">pickiness</span></code> is reduced. Note also that the standard deviations
+increase from left to right as measurement resources are diverted away
+from reducing uncertainty. Each run uses 100 points. See
+<code class="docutils literal notranslate"><span class="pre">demos/line_plus_noise.py</span></code>.</p>
 </div>
 </div>
 <div class="section" id="theory-of-operation">
@@ -330,145 +464,16 @@ also positive, i.e. more data helps narrow a distribution.</p>
 </div>
 <div class="section" id="estimate-the-costs">
 <h4>Estimate the costs<a class="headerlink" href="#estimate-the-costs" title="Permalink to this headline">¶</a></h4>
-<p>The utility as described above focuses on the information entropy change,
-but if the question is about making efficient measurements, the cost of the
-measurements is fully half of the problem.  In the simplest situations, the
-time spent measuring is the only cost.  In more “interesting” situations,
-there may be a cost associated with changing settings, the cost of a
-measurement may depend on the likelihood of damage. So in contrast to the
-general approach to predicting information entropy change, the cost closely
-associated with local conditions.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Don’t forget the cost</p>
 </div>
+<p>It is also important to consider the cost associated with different settings,
+including possible “travel costs” of moving between settings.  The <em>utility</em> should be divided
+by the cost to make setting decisions based on benefit/cost ratios rather than on benefit alone.</p>
+<p>In principle, the cost function is as important as the entropy change term detailed above, but
+there’s not much to write about it.</p>
 </div>
-</div>
-<div class="section" id="guided-tour">
-<h2>Guided Tour<a class="headerlink" href="#guided-tour" title="Permalink to this headline">¶</a></h2>
-<p>Where the section above treats the theory of Bayesian experimental design,
-this section provides an introduction to the algorithms and methods in the
-<code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code>
-class that perform the “learn fast” and “make good decisions” tasks.
-An additional subsection describes how the parameter probability
-distribution is implemented.</p>
-<div class="section" id="learn-fast-routine">
-<h3>Learn fast routine<a class="headerlink" href="#learn-fast-routine" title="Permalink to this headline">¶</a></h3>
-<p>To input measurement data, the user script invokes
-<code class="docutils literal notranslate"><span class="pre">pdf_update(measurement_result)</span></code>.  The events that follow are illustrated
-in the sidebar.  <code class="docutils literal notranslate"><span class="pre">OptBaesExpt</span></code> requires the user to provide a
-<code class="docutils literal notranslate"><span class="pre">measurement_result</span></code> that represents a complete measurement record with
-the settings, the value and the uncertainty. The settings are required since
-actual settings may differ from suggested settings. The settings are used to
-evaluate the model function for every parameter sample in the
-parameter probability distribution to produce <code class="docutils literal notranslate"><span class="pre">y_model_data</span></code>. For each
-parameter sample the difference between the model value and the reported
-measurement value is used to calculate the likelihood of that parameter
-sample, assuming a Gaussian noise distribution.</p>
-<p>The uncertainty deserves some attention. By requiring the measurement
-uncertainty, OptBayesExpt places the burden of determining the uncertainty
-on the experimenter. Bluntly, the reason for this requirement is that it makes
-the programming easier. But often, the noise is one of the things one would
-like to learn from an experiment.</p>
-<p>To include the raw measurement uncertainty as an unknown, it is
-convenient to create a child class that inherits from OptBayesExpt.
-<code class="docutils literal notranslate"><span class="pre">ChildClass</span></code> may include the uncertainty alongside the
-actual model parameters in the <code class="docutils literal notranslate"><span class="pre">parameter_samples</span></code> tuple, as suggested by
-the dashed arrow in the sidebar. In this arrangement, the
-uncertainty parameter is not used in the
-model function, but it does enter the likelihood calculation.  After all,
-some values of uncertainty explain the data better than others. For examples of
-this approach, see</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">demos/obe_line_plus_noise.py</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">demos/obe_lockin.py</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">demos/obe_sweeper.py</span></code></p></li>
-</ul>
-</div></blockquote>
-<p><code class="docutils literal notranslate"><span class="pre">ParticlePdf.bayesian_update()</span></code> adjusts the parameter distribution
-(including the uncertainty part) based on the likelihood.</p>
-</div>
-<div class="section" id="make-good-decisions-routine">
-<h3>Make good decisions routine<a class="headerlink" href="#make-good-decisions-routine" title="Permalink to this headline">¶</a></h3>
-<div class="sidebar">
-<p class="sidebar-title">Setting selection</p>
-<a class="reference internal image-reference" href="_images/utility.png"><img alt="_images/utility.png" src="_images/utility.png" style="width: 317.79999999999995px; height: 349.29999999999995px;" /></a>
-</div>
-<p>Measurement settings are selected by <code class="docutils literal notranslate"><span class="pre">opt_setting()</span></code> and <code class="docutils literal notranslate"><span class="pre">good_setting</span></code>,
-and both of these rely on <code class="docutils literal notranslate"><span class="pre">utility()</span></code>.  The sidebar illustrates the inner
-workings of <code class="docutils literal notranslate"><span class="pre">utility()</span></code>, where the most time-consuming part is
-<code class="docutils literal notranslate"><span class="pre">yvar_from_parameter_draws()</span></code>.  For each of <code class="docutils literal notranslate"><span class="pre">N_DRAWS</span></code> samples from
-the parameter distribution the model function is evaluated for every
-possible setting combination, yielding a set of outputs for each setting.  The
-variance of these outputs is compared to the model experimental noise which
-is a constant by default.  The examples listed above for unknown
-uncertainties include the mean of the variance as a model of experimental
-noise.</p>
-<p>In the deoniminator, the cost of a potential experiment may depend on
-settings, or predicted value or distance to the next setting.  There are
-many possibilities.  In <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code> the cost is constant by default but
-customized cost models can be programmed into child classes.
-In <code class="docutils literal notranslate"><span class="pre">demos/obe_lockin.py</span></code> for example, the cost model includes the additional
-cost of a settling time if the setting is changed from its current value.  In
-<code class="docutils literal notranslate"><span class="pre">demos/obe_sweeper.py</span></code>, the cost model includes a cost of setting up a
-sweep plus a cost proportional to the length of the sweep.</p>
-<p>Once the utility is computed, <code class="docutils literal notranslate"><span class="pre">opt_setting()</span></code> and <code class="docutils literal notranslate"><span class="pre">good_setting()</span></code>
-offer different strategies for selecting settings for the next measurement.
-The <code class="docutils literal notranslate"><span class="pre">opt_setting()</span></code> method implements a “greedy” strategy, always
-selecting the setting that generates the maximum utility.  The
-resulting measurements tend to cluster strongly around a few settings. The
-<code class="docutils literal notranslate"><span class="pre">good_setting()</span></code> method uses the utility as a weighting function for a
-random setting selection. To tilt the odds toward selecting settings
-with higher utility, the contrast between high and low utility is stretched
-by raising utility to a power, <code class="docutils literal notranslate"><span class="pre">pickiness</span></code>.  The contrasting behavior of
-<code class="docutils literal notranslate"><span class="pre">opt_settting()</span></code> and <code class="docutils literal notranslate"><span class="pre">good_setting()</span></code> with different <code class="docutils literal notranslate"><span class="pre">pickiness</span></code>
-values are illustrated by <code class="docutils literal notranslate"><span class="pre">demos/line_plus_noise.py</span></code></p>
-</div>
-<div class="section" id="probability-distribution-class">
-<h3>Probability distribution class<a class="headerlink" href="#probability-distribution-class" title="Permalink to this headline">¶</a></h3>
-<div class="sidebar">
-<p class="sidebar-title">Probability distributions</p>
-<a class="reference internal image-reference" href="_images/particleFilter.png"><img alt="_images/particleFilter.png" src="_images/particleFilter.png" style="width: 320.0px; height: 240.0px;" /></a>
-</div>
-<p>The probability distribution over the model parameters is at the core of
-<code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code>.  As of version 1.0, the optbayesexpt package uses the
-<code class="docutils literal notranslate"><span class="pre">particlePDF</span></code> class to implement the distribution function for <em>N</em>
-parameters as a cloud or swarm of particles in <em>N</em>-dimensional parameter
-space.  This approach has been given several names, but “sequential Monte
-Carlo” seems to be gaining traction.  Each point in the cloud has
-coordinates corresponding to parameter values, and also a weight, normalized
-so that the sum of the weights is 1. The
-density of particles in a small region and the weights of those particles
-together provide a flexible representation of the probability density.  The
-figure in the sidebar illustrates how this works for a 1-D normal (Gaussian)
-distribution. Panel (a) plots 100 draws from the normal distribution, each
-with a weight of 0.01. The probability distribution is represented only
-by the density of points in this case. Panel (b) represents the same normal
-distribution using only the weights.  The points are 100 draws from a
-<em>uniform</em> distribution, but the weights represent the normal distribution.</p>
-<p>In the learning fast stage, the distribution is modified based on new data.
-The likelihood is calculated for every point in
-the distribution cloud, and then ParticlePdf.bayesian_update() multiplies
-the particle’s weight by its likelihood.  So the distribution is easily
-modified by adjusting weight values.</p>
-<p>In the decision making stage, random draws of parameters from the
-probability distribution are used to calculate utility.  Draws are made by
-random selection of points with probability determined by weights.  In panel
-(a) values at the center are more likely to be chosen because the density is
-higher there.  In panel (b), values at the center are more likely to be
-chosen because the weights are higher there.</p>
-<p><code class="docutils literal notranslate"><span class="pre">ParticlePdf</span></code> also performs a self-maintenance function, <code class="docutils literal notranslate"><span class="pre">resample()</span></code>.
-As the incoming data is used to modify the
-distribution, some regions of parameter space may develop very low
-probabilities. The points near the ends of the plot in panel (b) illustrate
-the issue. These low-weight points will almost never be chosen in
-random draws, but they consume computational resources.  In resampling, <em>N</em>
-draws are taken from an <em>N</em>-particle distribution, so some high-weight
-particles will be chosen more than once and low-weight particles may not be
-chosen at all. Each particle is then given a small random nudge to separate
-copies of the same original particle, the cloud of points is shrunk
-slightly to compensate for the one-step diffusion, and the weight is divided
-evenly between particles as shown in panel (c). Resampling relocates
-low-weight particles to higher-weight neighborhoods so that as measurements
-narrow the distributions of parameter values, the representation adapts.</p>
 </div>
 </div>
 </div>
@@ -482,9 +487,16 @@ narrow the distributions of parameter values, the representation adapts.</p>
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Manual</a><ul>
-<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#contents">Contents</a></li>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
 <li><a class="reference internal" href="#philosophy-and-goals">Philosophy and goals</a></li>
 <li><a class="reference internal" href="#requirements-for-users">Requirements for users</a></li>
+<li><a class="reference internal" href="#demos">Demos</a><ul>
+<li><a class="reference internal" href="#locating-a-lorentzian-peak">Locating a Lorentzian peak</a></li>
+<li><a class="reference internal" href="#id1">Locating a Lorentzian peak</a></li>
+<li><a class="reference internal" href="#measurement-speedup">Measurement speedup</a></li>
+<li><a class="reference internal" href="#tuning-a-pi-pulse">Tuning a <span class="math notranslate nohighlight">\(\pi\)</span> pulse</a></li>
+<li><a class="reference internal" href="#slope-intercept">Slope Intercept</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#theory-of-operation">Theory of operation</a><ul>
@@ -496,26 +508,14 @@ narrow the distributions of parameter values, the representation adapts.</p>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#guided-tour">Guided Tour</a><ul>
-<li><a class="reference internal" href="#learn-fast-routine">Learn fast routine</a></li>
-<li><a class="reference internal" href="#make-good-decisions-routine">Make good decisions routine</a></li>
-<li><a class="reference internal" href="#probability-distribution-class">Probability distribution class</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">OptBayesExpt documentation</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="quickstart.html"
-                        title="next chapter">Quick Start</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/manual.rst.txt"
+      <li><a href="_sources/manual.old.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -542,12 +542,6 @@ narrow the distributions of parameter values, the representation adapts.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="quickstart.html" title="Quick Start"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="OptBayesExpt documentation"
-             >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>

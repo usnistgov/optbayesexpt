@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>optbayesexpt &#8212; OptBayesExpt 1.0.0 documentation</title>
+    <title>Introduction &#8212; OptBayesExpt 1.0.0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -65,20 +65,66 @@ $(document).ready(function(){
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="optbayesexpt">
-<h1>optbayesexpt<a class="headerlink" href="#optbayesexpt" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="optbayesexpt.html">optbayesexpt API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.obe_base">OptBayesExpt class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.obe_server">OBE_Server class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.obe_socket">OBE_Socket class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.particlepdf">ParticlePDF class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.obe_utils">Utilities</a></li>
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>This manual describes an implementation of optimal Bayesian experimental
+design methods to control measurement settings in order to efficiently
+determine model parameters. In situations where parametric models would
+conventionally be fit to measurement data in order to obtain model
+parameters, these methods offer an adaptive measurement strategy capable
+of reduced uncertainty with fewer required measurements. These methods
+are therefore most beneficial in situations where measurements are
+expensive in terms of money, time, risk, labor or other cost. The price
+for these benefits lies in the complexity of automating such
+measurements and in the computational load required. It is the goal of
+this package to assist potential users in overcoming at least the
+programming hurdles.</p>
+<p>Optimal Bayesian experimental design is not new, at least not in the
+statistics community. A review paper from 1995 by <a class="reference external" href="https://projecteuclid.org/euclid.ss/1177009939">Kathryn Chaloner and
+Isabella Verinelli</a>
+reveals that the basic methods had been worked out in preceding decades.
+The methods implemented here closely follow <a class="reference external" href="http://dx.doi.org/10.1016/j.jcp.2012.08.013">Xun Huan and Youssef M.
+Marzouk</a> which
+emphasizes simulation-based experimental design. Optimal Bayesian
+experimental design is also an active area of research.</p>
+<p>There are at least three important factors that encourage application of
+these methods today. First, the availability of flexible, modular
+computer languages such as Python. Second, availability of cheap
+computational power. Most of all though, an increased awareness of the
+benefits of code sharing and reuse is growing in scientific communities.</p>
+<div class="section" id="philosophy-and-goals">
+<h2>Philosophy and goals<a class="headerlink" href="#philosophy-and-goals" title="Permalink to this headline">¶</a></h2>
+<blockquote class="epigraph">
+<div><p>If it sounds good, it is good.</p>
+<p class="attribution">—Duke Ellington</p>
+</div></blockquote>
+<p>Jazz legend Duke Ellington was talking about music, where it’s all about
+the sound. For this package, it’s all about being useful, so we have adopted
+a “runs good” philosophy:</p>
+<ul class="simple">
+<li><p>If it’s a struggle to use, it can’t run good.</p></li>
+<li><p>If technical jargon is a barrier, it can’t run good</p></li>
+<li><p>If the user finds it useful, it runs good.</p></li>
+<li><p>If it runs good, it is good.</p></li>
 </ul>
-</li>
-</ul>
+<p>The goals are
+modest: to adapt some of the developments in optimal Bayeseian
+experimental design research for practical use in laboratory settings,
+giving users tools to make better measurements.</p>
+</div>
+<div class="section" id="requirements-for-users">
+<h2>Requirements for users<a class="headerlink" href="#requirements-for-users" title="Permalink to this headline">¶</a></h2>
+<p>It takes a little effort to get this software up and running. Here’s
+what a user will need to supply to get started.</p>
+<ol class="arabic simple">
+<li><p>Python 3.x with the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> python package</p></li>
+<li><p>An experiment that yields measurement results with uncertainty
+estimates.</p></li>
+<li><p>A reliable parametric model for the experiment, typically a function with
+parameters to be determined.</p></li>
+<li><p>A working knowledge of Python programming, enough to follow examples
+and program a model function.</p></li>
+</ol>
 </div>
 </div>
 
@@ -88,10 +134,19 @@ $(document).ready(function(){
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#philosophy-and-goals">Philosophy and goals</a></li>
+<li><a class="reference internal" href="#requirements-for-users">Requirements for users</a></li>
+</ul>
+</li>
+</ul>
+
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/modules.rst.txt"
+      <li><a href="_sources/manual_introduction.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>

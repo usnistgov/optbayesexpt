@@ -4,19 +4,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Quick Start &#8212; OptBayesExpt 0.1.9 documentation</title>
+    <title>Quick Start &#8212; OptBayesExpt 1.0.0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="optbayesexpt API" href="optbayesexpt.html" />
-    <link rel="prev" title="Optimal Bayesian Experimental Design" href="manual.html" />
+    <link rel="next" title="Demos" href="manual_demos.html" />
+    <link rel="prev" title="Manual" href="manual.html" />
 
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
@@ -45,6 +45,8 @@ $(document).ready(function(){
 </script>
 <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
 
+<script async type="text/javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=NIST&subagency=github&pua=UA-42404149-54&yt=true&exts=ppsx,pps,f90,sch,rtf,wrl,txz,m1v,xlsm,msi,xsd,f,tif,eps,mpg,xml,pl,xlt,c">
+</script>
 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -57,12 +59,12 @@ $(document).ready(function(){
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="optbayesexpt.html" title="optbayesexpt API"
+          <a href="manual_demos.html" title="Demos"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="manual.html" title="Optimal Bayesian Experimental Design"
+          <a href="manual.html" title="Manual"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 0.1.9 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -73,127 +75,205 @@ $(document).ready(function(){
             
   <div class="section" id="quick-start">
 <h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="software-requirements">
+<h2>Software Requirements<a class="headerlink" href="#software-requirements" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>git</p></li>
+<li><dl class="simple">
+<dt>python3.X</dt><dd><ul class="simple">
+<li><p>numpy module</p></li>
+<li><p>scipy module (for some demos)</p></li>
+<li><p>matplotlib.pyplot module (for demos)</p></li>
+<li><p>pytest (for testing)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>Clone the <code class="docutils literal notranslate"><span class="pre">optbayesexpt</span></code> repository from github. Starting in an empty
-diretory,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">usnistgov</span><span class="o">/</span><span class="n">optbayesexpt</span> <span class="o">.</span>
-<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build</span>
-<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+<p>Create an empty directory/folder for the <code class="docutils literal notranslate"><span class="pre">optbayesexpt</span></code> repo.  Then, from
+a command line, run the following command to
+download the software. Note the trailing “.”</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">usnistgov</span><span class="o">/</span><span class="n">optbayesexpt</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>Now install the optbayesexpt modules by one of these methods:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>–or–</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build</span>
+<span class="o">&gt;</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<p>Test the installation for basic functionality with the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">py</span><span class="o">.</span><span class="n">test</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="scripting">
 <h2>Scripting<a class="headerlink" href="#scripting" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">*.py</span></code> files in the <code class="docutils literal notranslate"><span class="pre">demos/</span></code> folder offer several examples of working
+scripts that may be adapted for different applications. This <em>Quick Start</em>
+offers an overview of the essentials.</p>
 <div class="section" id="setting-up">
 <h3>Setting up<a class="headerlink" href="#setting-up" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">optbayesexpt</span> <span class="k">import</span> <span class="n">OptBayesExpt</span>
+<p>In the python script, import the necessary modules.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">optbayesexpt</span> <span class="kn">import</span> <span class="n">OptBayesExpt</span>
+</pre></div>
+</div>
+<p>“Out of the box,” OptBayesExpt is ignorant, and
+it must be educated about the little universe where it will do its work.
+The “Specify …” sections below show how this education process is done.</p>
+<div class="section" id="specify-the-model">
+<h4>Specify the model<a class="headerlink" href="#specify-the-model" title="Permalink to this headline">¶</a></h4>
+<p>OPtBayesExpt requires a <code class="docutils literal notranslate"><span class="pre">model_function()</span></code> to describe the relationships
+between experimental controls, parameters and measurement results. The
+model_function is trusted to tell the truth, the whole truth and nothing but
+the truth about how the experiment will behave, so it’s important for the
+model function to allow for any real but extraneous “features” of the data,
+e.g. sloped backgrounds, extra peaks, etc.</p>
+<p>The model function is required to accept three tuples as arguments:
+<code class="docutils literal notranslate"><span class="pre">settings</span></code>, <code class="docutils literal notranslate"><span class="pre">parameters</span></code> and <code class="docutils literal notranslate"><span class="pre">constants</span></code>, representing
+experimental controls, parameters to be determined, and infrerquently changed
+values. When this function is called, either <code class="docutils literal notranslate"><span class="pre">settings</span></code> or <code class="docutils literal notranslate"><span class="pre">parameters</span></code>
+will be a tuple of numpy arrays.  The other two arguments will be tuples of
+floats.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_model_function</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">constants</span><span class="p">):</span>
+   <span class="sd">&quot;&quot;&quot;Example model function</span>
 
-<span class="n">myOBE</span> <span class="o">=</span> <span class="n">OptBayesExpt</span><span class="p">()</span>          <span class="c1"># initiate a class</span>
+<span class="sd">   The ``(settings, parameters, constants)`` argument structure is required</span>
+<span class="sd">   Args:</span>
+<span class="sd">       settings (tuple or tuple of array(s)): knob settings</span>
+<span class="sd">       parameters (tuple of arrays, or tuple): parameter distribution sample(s)</span>
+<span class="sd">       constants (tuple): infrequently changed values</span>
+
+<span class="sd">   Returns: a noise-free model value</span>
+<span class="sd">   &quot;&quot;&quot;</span>
+   <span class="c1"># Unpack the arguments.  See the &quot;Specify ...&quot; sections in the text.</span>
+   <span class="n">knob</span><span class="p">,</span> <span class="o">=</span> <span class="n">settings</span>
+   <span class="n">phase</span><span class="p">,</span> <span class="n">delay</span> <span class="o">=</span> <span class="n">parameters</span>
+   <span class="n">temperature</span><span class="p">,</span> <span class="o">=</span> <span class="n">constants</span>
+
+   <span class="c1"># This is where the model calculation goes.  It could be defined as a separate</span>
+   <span class="c1"># function as suggested here, or the raw math expressions could go here.</span>
+   <span class="n">model_result</span> <span class="o">=</span> <span class="n">my_model_calculation</span><span class="p">(</span><span class="n">knob</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">delay</span><span class="p">,</span> <span class="n">temperature</span><span class="p">)</span>
+
+   <span class="k">return</span> <span class="n">model_result</span>
 </pre></div>
 </div>
+<p>Hint: The <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays offer convenience and computation speed.
+Also, iIterations over numpy array elements are handled automatically using
+broadcasting. See the Numpy User Guide for information on
+<a class="reference external" href="https://docs.scipy.org/doc/numpy/user/basics.broadcasting.html">broadcasting</a>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">(settings,</span> <span class="pre">parameters,</span> <span class="pre">constants)</span></code> arguments are required for
+compatibility, and the example code above shows how they are unpacked. The
+following sections describe what these arguments should contain.</p>
 </div>
-<div class="section" id="specify-the-experimental-settings">
-<h3>Specify the experimental settings<a class="headerlink" href="#specify-the-experimental-settings" title="Permalink to this headline">¶</a></h3>
-<p>For example, we specify a setting called <code class="docutils literal notranslate"><span class="pre">knob</span></code> to vary between 1 and
-10. Continuous variables must be discretized, and here we set 100
-values.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">knob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-<span class="n">myOBE</span><span class="o">.</span><span class="n">sets</span> <span class="o">=</span> <span class="p">(</span><span class="n">knob</span><span class="p">,</span> <span class="p">)</span>
+<div class="section" id="specify-the-allowed-experimental-settings">
+<h4>Specify the allowed experimental settings<a class="headerlink" href="#specify-the-allowed-experimental-settings" title="Permalink to this headline">¶</a></h4>
+<p>Generally, there can be more than one setting, so the convention is that
+settings are always part of a tuple., i.e. <code class="docutils literal notranslate"><span class="pre">(setting_1_values,</span>
+<span class="pre">[setting_2_values,</span> <span class="pre">[</span> <span class="pre">...</span> <span class="pre">]])</span></code> with array-like lists of values for each
+setting. Continuous settings must be discretized. The arrays in the settings
+tuple may have different lengths. This example specifies a single setting,
+a <code class="docutils literal notranslate"><span class="pre">knob</span></code> that goes to 11 with a resolution of 0.1.  In choosing settings,
+<code class="docutils literal notranslate"><span class="pre">optbayesexpt</span></code> will evaluate the experimental model function several times
+for every combination of setting values included in the
+<code class="docutils literal notranslate"><span class="pre">setting_N_values</span></code> arrays.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">knob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">111</span><span class="p">)</span>
+<span class="n">setting_values</span> <span class="o">=</span> <span class="p">(</span><span class="n">knob</span><span class="p">,</span> <span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">OptBayesExpt.sets</span></code> must be a tuple of numerical lists as
-<code class="docutils literal notranslate"><span class="pre">(list_1,</span> <span class="pre">[list_2],</span> <span class="pre">...)</span></code>.</p>
+<p>The first line here creates an array called <code class="docutils literal notranslate"><span class="pre">knob</span></code> that contains possible
+knob settings, and the second line above packs <code class="docutils literal notranslate"><span class="pre">knob</span></code> as the first item in
+a one-item tuple.</p>
 </div>
-<div class="section" id="specify-parameter-space">
-<h3>Specify parameter space<a class="headerlink" href="#specify-parameter-space" title="Permalink to this headline">¶</a></h3>
-<p>Suppose there’s a <code class="docutils literal notranslate"><span class="pre">foo_phase</span></code> and a <code class="docutils literal notranslate"><span class="pre">bar_coeff</span></code> that the
-measurements are to determine. Specify ranges and discretization.
-Importantly, specifying a parameter range asserts that there is zero
-probability that the true value will be outside the range.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">foo_phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">180</span><span class="p">)</span>
-<span class="n">bar_coeff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
-<span class="n">myOBE</span><span class="o">.</span><span class="n">pars</span> <span class="o">=</span> <span class="p">(</span><span class="n">foo_phase</span><span class="p">,</span> <span class="n">bar_coeff</span><span class="p">)</span>
+<div class="section" id="specify-the-model-parameters">
+<h4>Specify the model parameters<a class="headerlink" href="#specify-the-model-parameters" title="Permalink to this headline">¶</a></h4>
+<p>Parameters are specified by describing their initial or <em>prior</em> probability
+distributions, each described by a generous sampling of draws from the
+distribution.  It’s easier to demonstrate than to explain.  For example,
+suppose there’s a <em>phase</em> parameter that the measurements are to determine.
+Let’s say that the phase could be anywhere between <span class="math notranslate nohighlight">\(-\pi/2\)</span> and
+<span class="math notranslate nohighlight">\(\pi/2\)</span> but that values outside this range are forbidden.  We
+represent this <em>prior</em> knowledge with samples from a uniform distribution.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n_samples</span> <span class="o">=</span> <span class="mi">50000</span>
+<span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">OptBayesExpt.pars</span></code> must be a tuple of numerical lists as
-<code class="docutils literal notranslate"><span class="pre">(list_a,</span> <span class="pre">[list_b],</span> <span class="pre">...)</span></code>.</p>
+<p>Suppose also that there is an unknown <em>delay</em> parameter, and that there is
+<em>prior</em> information that <em>delay</em> is 3, more or less<span class="math notranslate nohighlight">\(^*\)</span>, but there
+aren’t and hard limits.  We might represent this <em>prior</em> using a normal
+distribution with a width of 2.0</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">limit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">)</span>
+<span class="n">parameter_samples</span> <span class="o">=</span> <span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">limit</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The 2nd line above packs the parameter samples in a tuple.</p>
+<p>Opinion:</p>
+<blockquote>
+<div><p>In order to generate independent results, I find it helpful to think of
+the <em>prior</em> as a generous expression of willingness to consider, rather
+than as a concise summary of preconceived notions. Narrow <em>prior</em>
+distributions risk biasing the results. A minimally biased result can
+always be compared and combined with independent results afterwards.</p>
+</div></blockquote>
 </div>
 <div class="section" id="specify-constants">
-<h3>Specify constants<a class="headerlink" href="#specify-constants" title="Permalink to this headline">¶</a></h3>
-<p>An optional definition for parameters that are held constant for the
-duration of an experiment, but that might change between runs.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">temperature</span> <span class="o">=</span> <span class="mi">19</span>   <span class="c1"># degrees C</span>
-<span class="n">myOBE</span><span class="o">.</span><span class="n">cons</span> <span class="o">=</span> <span class="p">(</span><span class="n">temperature</span><span class="p">,</span> <span class="p">)</span>
+<h4>Specify constants<a class="headerlink" href="#specify-constants" title="Permalink to this headline">¶</a></h4>
+<p>A definition for values (settings or parameters) that are constant for the
+duration of an experiment, but that might change at some later time.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">temperature</span> <span class="o">=</span> <span class="mi">19</span>   <span class="c1"># degrees C</span>
+<span class="n">constants</span> <span class="o">=</span> <span class="p">(</span><span class="n">temperature</span><span class="p">,</span> <span class="p">)</span>
 </pre></div>
 </div>
-<p>OptBayesExpt.cons must be a tuple of numerical values.</p>
 </div>
 <div class="section" id="configure">
-<h3>Configure<a class="headerlink" href="#configure" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">myOBE</span><span class="o">.</span><span class="n">config</span><span class="p">()</span>
+<h4>Configure<a class="headerlink" href="#configure" title="Permalink to this headline">¶</a></h4>
+<p>The final part of preparation is to create an instance of the OptBayesExpt class</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_obe</span> <span class="o">=</span> <span class="n">OptBayesExpt</span><span class="p">(</span><span class="n">model_function</span><span class="p">,</span> <span class="n">setting_values</span><span class="p">,</span> <span class="n">parameter_samples</span><span class="p">,</span> <span class="n">constants</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">config</span></code> function creates numpy arrays from the <code class="docutils literal notranslate"><span class="pre">sets</span></code> and
-<code class="docutils literal notranslate"><span class="pre">pars</span></code> tuples, For <span class="math notranslate nohighlight">\(n\)</span> settings in <code class="docutils literal notranslate"><span class="pre">sets</span></code>, there will be
-<span class="math notranslate nohighlight">\(n\)</span> of <span class="math notranslate nohighlight">\(n\)</span>-dimensional arrays to describe all possible
-settings. For <span class="math notranslate nohighlight">\(m\)</span> parameters, the probability distribution will be
-an <span class="math notranslate nohighlight">\(m\)</span>-dimensional array. Array sizes in each dimension correspond
-to lengths of arrays in <code class="docutils literal notranslate"><span class="pre">sets</span></code> and <code class="docutils literal notranslate"><span class="pre">pars</span></code>.</p>
 </div>
-<div class="section" id="specify-the-model">
-<h3>Specify the model<a class="headerlink" href="#specify-the-model" title="Permalink to this headline">¶</a></h3>
-<p>BayesOptExpt requires a <code class="docutils literal notranslate"><span class="pre">model_function()</span></code> to be supplied by the user.
-BayesOptExpt will call this function with three tuple arguments.
-OptBayesExpt will iterate over all possible combinations of setting
-values, and separately, over all possible parameters.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_model_function</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">constants</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    User-supplied code</span>
-<span class="sd">    :param settings:   either a tuple of setting values</span>
-<span class="sd">                         -or- a tuple of 1D numpy arrays of settings</span>
-<span class="sd">    :param parameters: either a tuple of numpy arrays of parameters</span>
-<span class="sd">                         -or- a tuple of parameter values</span>
-<span class="sd">    :param contants:   a tuple of constants</span>
-<span class="sd">    :return:           a measurement prediction</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># user-defined code</span>
-    <span class="c1"># ...</span>
-
-<span class="c1"># Incorporate the model into myOBE</span>
-<span class="n">myOBE</span><span class="o">.</span><span class="n">model_function</span> <span class="o">=</span> <span class="n">my_model_function</span>
-</pre></div>
-</div>
-<p>Using <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays, iterations over array elements are handled
-automatically using broadcasting. See the Numpy User Guide for
-information on
-<a class="reference external" href="https://docs.scipy.org/doc/numpy/user/basics.broadcasting.html">broadcasting</a>.</p>
 </div>
 </div>
 <div class="section" id="running">
 <h2>Running<a class="headerlink" href="#running" title="Permalink to this headline">¶</a></h2>
 <p>BayesOptExpt participates at two stages in the measurement loop as shown
-in the following pseudocode.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="n">still_measuring</span><span class="p">:</span>
+in the following <strong>pseudocode</strong>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="n">still_measuring</span><span class="p">:</span>
 
-    <span class="c1"># myOBE picks settings - there&#39;s a choice of methods</span>
-    <span class="c1"># settings = myOBE.opt_setting()</span>
-    <span class="n">settings</span> <span class="o">=</span> <span class="n">myOBE</span><span class="o">.</span><span class="n">good_setting</span><span class="p">(</span><span class="n">pickiness</span><span class="o">=</span><span class="n">a_value_between_1_and_10</span><span class="p">)</span>
+    <span class="c1"># (1) my_obe picks a single combination of settings - there&#39;s a choice of methods.</span>
+    <span class="c1"># settings = my_obe.opt_setting()</span>
+    <span class="c1">#   --  or --</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="n">my_obe</span><span class="o">.</span><span class="n">good_setting</span><span class="p">(</span><span class="n">pickiness</span><span class="o">=</span><span class="n">a_value_between_1_and_10</span><span class="p">)</span>
 
-    <span class="c1"># The experiment makes a measurement and returns results</span>
-    <span class="n">new_result</span> <span class="o">=</span> <span class="n">measurement_results_determined_using</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
-
-    <span class="c1"># myOBE uses the new results to update the parameter</span>
-    <span class="c1"># probability distribution function (pdf)</span>
-    <span class="n">myOBE</span><span class="o">.</span><span class="n">pdf_update</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">new_result</span><span class="p">,</span> <span class="n">uncertainties</span><span class="p">)</span>
+    <span class="c1"># The experiment makes a measurement using settings and returns a result</span>
+    <span class="c1"># (Machine goes &quot;bing!&quot;)</span>
+    <span class="c1"># measurement results are reported as tuples</span>
+    <span class="n">measurement</span> <span class="o">=</span> <span class="p">(</span><span class="n">actual_settings</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">uncertainty</span><span class="p">)</span>
+    <span class="c1"># (2) report the measurement</span>
+    <span class="n">my_obe</span><span class="o">.</span><span class="n">pdf_update</span><span class="p">(</span><span class="n">measurement</span><span class="p">)</span>
 
 <span class="c1"># end while loop</span>
 
-<span class="c1"># get the results</span>
-<span class="n">parameter_distribution</span> <span class="o">=</span> <span class="n">myOBE</span><span class="o">.</span><span class="n">get_pdf</span><span class="p">()</span>
+<span class="c1"># get results from the parameter distribution</span>
+<span class="c1">#</span>
+<span class="n">mean_values</span> <span class="o">=</span> <span class="n">my_obe</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">std_deviaion_values</span> <span class="o">=</span> <span class="n">my_obe</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">covariance_matrix</span> <span class="o">=</span> <span class="n">my_obe</span><span class="o">.</span><span class="n">covariance</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>Footnote:</p>
+<p><span class="math notranslate nohighlight">\(^*\)</span> Previous work has suggested that a <em>delay</em> parameter value of 2 is
+transitional and that 5 is “right out.”</p>
 </div>
 </div>
 
@@ -206,14 +286,18 @@ in the following pseudocode.</p>
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Quick Start</a><ul>
+<li><a class="reference internal" href="#software-requirements">Software Requirements</a></li>
 <li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#testing">Testing</a></li>
 <li><a class="reference internal" href="#scripting">Scripting</a><ul>
-<li><a class="reference internal" href="#setting-up">Setting up</a></li>
-<li><a class="reference internal" href="#specify-the-experimental-settings">Specify the experimental settings</a></li>
-<li><a class="reference internal" href="#specify-parameter-space">Specify parameter space</a></li>
+<li><a class="reference internal" href="#setting-up">Setting up</a><ul>
+<li><a class="reference internal" href="#specify-the-model">Specify the model</a></li>
+<li><a class="reference internal" href="#specify-the-allowed-experimental-settings">Specify the allowed experimental settings</a></li>
+<li><a class="reference internal" href="#specify-the-model-parameters">Specify the model parameters</a></li>
 <li><a class="reference internal" href="#specify-constants">Specify constants</a></li>
 <li><a class="reference internal" href="#configure">Configure</a></li>
-<li><a class="reference internal" href="#specify-the-model">Specify the model</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#running">Running</a></li>
@@ -223,10 +307,10 @@ in the following pseudocode.</p>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="manual.html"
-                        title="previous chapter">Optimal Bayesian Experimental Design</a></p>
+                        title="previous chapter">Manual</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="optbayesexpt.html"
-                        title="next chapter">optbayesexpt API</a></p>
+  <p class="topless"><a href="manual_demos.html"
+                        title="next chapter">Demos</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -243,7 +327,7 @@ in the following pseudocode.</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -258,17 +342,17 @@ in the following pseudocode.</p>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="optbayesexpt.html" title="optbayesexpt API"
+          <a href="manual_demos.html" title="Demos"
              >next</a> |</li>
         <li class="right" >
-          <a href="manual.html" title="Optimal Bayesian Experimental Design"
+          <a href="manual.html" title="Manual"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 0.1.9 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright Copyright National Institute of Standards and Technology. Not subject to copyright in the United States.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
     </div>
   </body>
 </html>

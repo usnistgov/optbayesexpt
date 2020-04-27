@@ -4,18 +4,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>OptBayesExpt documentation &#8212; OptBayesExpt 0.1.9 documentation</title>
+    <title>OptBayesExpt documentation &#8212; OptBayesExpt 1.0.0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Optimal Bayesian Experimental Design" href="manual.html" />
+    <link rel="next" title="Manual" href="manual.html" />
 
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
@@ -44,6 +44,8 @@ $(document).ready(function(){
 </script>
 <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
 
+<script async type="text/javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=NIST&subagency=github&pua=UA-42404149-54&yt=true&exts=ppsx,pps,f90,sch,rtf,wrl,txz,m1v,xlsm,msi,xsd,f,tif,eps,mpg,xml,pl,xlt,c">
+</script>
 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -56,9 +58,9 @@ $(document).ready(function(){
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="manual.html" title="Optimal Bayesian Experimental Design"
+          <a href="manual.html" title="Manual"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">OptBayesExpt 0.1.9 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">OptBayesExpt 1.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -72,24 +74,37 @@ $(document).ready(function(){
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="manual.html">Optimal Bayesian Experimental Design</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="manual.html#contents">Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual.html">Manual</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="manual.html#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manual.html#philosophy-and-goals">Philosophy and goals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manual.html#requirements-for-users">Requirements for users</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manual.html#demos">Demos</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual.html#theory-of-operation">Theory of operation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manual.html#missing-pieces">Missing pieces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual.html#guided-tour">Guided Tour</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#software-requirements">Software Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#testing">Testing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#scripting">Scripting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#running">Running</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="manual_demos.html">Demos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="manual_demos.html#finding-a-lorentzian-peak">Finding a Lorentzian peak</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_demos.html#measurement-speedup">Measurement speedup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_demos.html#server">Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_demos.html#tuning-a-pi-pulse">Tuning a <span class="math notranslate nohighlight">\(\pi\)</span> pulse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_demos.html#slope-intercept">Slope Intercept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_demos.html#a-lockin-amplifier">A Lockin Amplifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_demos.html#a-sweeper">A Sweeper</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="optbayesexpt.html">optbayesexpt API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.obe_base">OptBayesExpt class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.obe_server">OBE_Server class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.obe_socket">OBE_Socket class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.particlepdf">ParticlePDF class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.obe_utils">Utilities</a></li>
 </ul>
 </li>
 </ul>
@@ -118,7 +133,7 @@ $(document).ready(function(){
 
   <h4>Next topic</h4>
   <p class="topless"><a href="manual.html"
-                        title="next chapter">Optimal Bayesian Experimental Design</a></p>
+                        title="next chapter">Manual</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -135,7 +150,7 @@ $(document).ready(function(){
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -150,14 +165,14 @@ $(document).ready(function(){
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="manual.html" title="Optimal Bayesian Experimental Design"
+          <a href="manual.html" title="Manual"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">OptBayesExpt 0.1.9 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">OptBayesExpt 1.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright Copyright National Institute of Standards and Technology. Not subject to copyright in the United States.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
     </div>
   </body>
 </html>

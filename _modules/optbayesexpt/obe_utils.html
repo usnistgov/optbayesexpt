@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>optbayesexpt.obe_utils &#8212; OptBayesExpt 1.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+
+    <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+
+<script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Mark external (non-nist.gov) A tags with class "external"
+  //If the adress start with https and ends with nist.gov
+  var re_nist = new RegExp('^https?:\/\/((^\/)*\.)*nist\\.gov(\/|$)');
+  //Regex to find address that start with https
+  var re_absolute_address = new RegExp('^((https?:)?\/\/)');
+  $("a").each(function(){
+    var url=$(this).attr('href');
+    if(re_nist.test(url) || !re_absolute_address.test(url)){
+      $(this).addClass('local');
+    }else{
+      //This a href appears to be external, so tag it
+      $(this).addClass('external');
+    }
+  });
+  // Add leaveNotice to external A elements
+  $('a.external').leaveNotice();
+});
+</script>
+<link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+<script async type="text/javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=NIST&subagency=github&pua=UA-42404149-54&yt=true&exts=ppsx,pps,f90,sch,rtf,wrl,txz,m1v,xlsm,msi,xsd,f,tif,eps,mpg,xml,pl,xlt,c">
+</script>
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for optbayesexpt.obe_utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+
+<div class="viewcode-block" id="MeasurementSimulator"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_utils.MeasurementSimulator">[docs]</a><span class="k">class</span> <span class="nc">MeasurementSimulator</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Provides simulated measurement data</span>
+
+<span class="sd">    Evaluates the model function and adds noise.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model_function (func): Generally the same as the function used</span>
+<span class="sd">            by OptBayesExpt</span>
+<span class="sd">        true_params (tuple): Parameter values, typically the &quot;true values&quot;</span>
+<span class="sd">            of the simulated experiment.</span>
+<span class="sd">        cons (tuple): The constants.</span>
+<span class="sd">        noise_level (float): standard deviation of the added noise.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_function</span><span class="p">,</span> <span class="n">true_params</span><span class="p">,</span> <span class="n">cons</span><span class="p">,</span> <span class="n">noise_level</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_function</span> <span class="o">=</span> <span class="n">model_function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">true_params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cons</span> <span class="o">=</span> <span class="n">cons</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">noise_level</span> <span class="o">=</span> <span class="n">noise_level</span>
+
+<div class="viewcode-block" id="MeasurementSimulator.simdata"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_utils.MeasurementSimulator.simdata">[docs]</a>    <span class="k">def</span> <span class="nf">simdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">setting</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">noise_level</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Simulate a measurement</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            setting (tuple of floats): The setting values</span>
+<span class="sd">            params (tuple of floats): if not ``None``, temporarily used</span>
+<span class="sd">                instead of the initial values. (opt)</span>
+<span class="sd">            noise_level (float): if not ``None``, temporarily used instead of</span>
+<span class="sd">                the initial value. (opt)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Simulated measurement value(s)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">use_params</span> <span class="o">=</span> <span class="n">params</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">use_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span>
+
+        <span class="k">if</span> <span class="n">noise_level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">use_noise</span> <span class="o">=</span> <span class="n">noise_level</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">use_noise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_level</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_function</span><span class="p">(</span><span class="n">setting</span><span class="p">,</span> <span class="n">use_params</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cons</span><span class="p">)</span>
+
+        <span class="c1"># add noise</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">use_noise</span>
+
+        <span class="c1"># try:</span>
+        <span class="n">y</span> <span class="o">+=</span> <span class="n">s</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">y</span></div></div>
+
+
+<div class="viewcode-block" id="trace_sort"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_utils.trace_sort">[docs]</a><span class="k">def</span> <span class="nf">trace_sort</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">measurements</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Combine measurements at identical settings values</span>
+
+<span class="sd">    Analyzes input arrays of setttings and corresponding measurement</span>
+<span class="sd">    values, data where settings values may repeat, i. e. more than one</span>
+<span class="sd">    measurement was done at some of the settings.  The function</span>
+<span class="sd">    bins the measurements by setting value and calculates some statistics</span>
+<span class="sd">    for measurments in each bin.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        settings: (ndarray) Setting values</span>
+<span class="sd">        measurements: (ndarray) measurement values</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A tuple, (sorted_settings, m_average, m_std, n_of_m)</span>
+<span class="sd">            - sorted_settings (list): setting values (sorted, none repeated)</span>
+<span class="sd">            - m_average (list): average measurement value at each setting</span>
+<span class="sd">            - m_sigma (list): standard deviation of measurement values at</span>
+<span class="sd">              each setting</span>
+<span class="sd">            - n_of_m (list): number of measurements at each setting.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Sort the arrays by the setting values</span>
+    <span class="n">sortindices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+    <span class="n">sarr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">settings</span><span class="p">)[</span><span class="n">sortindices</span><span class="p">]</span>
+    <span class="n">marr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">measurements</span><span class="p">)[</span><span class="n">sortindices</span><span class="p">]</span>
+
+    <span class="n">oldx</span> <span class="o">=</span> <span class="n">sarr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">sorted_settings</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">m_average</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">m_std</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">n_of_m</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">m_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sarr</span><span class="p">,</span> <span class="n">marr</span><span class="p">):</span>
+        <span class="c1"># accumulate batches having the same x</span>
+        <span class="c1"># check if the new x value is different</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">oldx</span><span class="p">:</span>
+            <span class="c1"># new x value, so batch is complete</span>
+            <span class="c1"># process the accumulated data for the old x value</span>
+            <span class="n">sorted_settings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">oldx</span><span class="p">)</span>
+            <span class="n">m_average</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">m_list</span><span class="p">)))</span>
+            <span class="n">m_std</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">m_list</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">m_list</span><span class="p">)))</span>
+            <span class="n">n_of_m</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">m_list</span><span class="p">))</span>
+            <span class="c1"># reset accumulation &amp; start a new batch</span>
+            <span class="n">oldx</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="n">m_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># same setting value, so just accumulate the y value</span>
+            <span class="n">m_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="c1"># process the last accumulated batch</span>
+    <span class="n">sorted_settings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">oldx</span><span class="p">)</span>
+    <span class="n">m_average</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">m_list</span><span class="p">)))</span>
+    <span class="n">n_of_m</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">m_list</span><span class="p">))</span>
+    <span class="n">m_std</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">m_list</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">m_list</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="n">sorted_settings</span><span class="p">,</span> <span class="n">m_average</span><span class="p">,</span> <span class="n">m_std</span><span class="p">,</span> <span class="n">n_of_m</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+    </div>
+  </body>
+</html>

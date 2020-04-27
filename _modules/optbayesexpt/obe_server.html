@@ -4,15 +4,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>optbayesexpt.obe_server &#8212; OptBayesExpt 0.1.9 documentation</title>
+    <title>optbayesexpt.obe_server &#8212; OptBayesExpt 1.0.0 documentation</title>
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 
@@ -43,6 +43,8 @@ $(document).ready(function(){
 </script>
 <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
 
+<script async type="text/javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=NIST&subagency=github&pua=UA-42404149-54&yt=true&exts=ppsx,pps,f90,sch,rtf,wrl,txz,m1v,xlsm,msi,xsd,f,tif,eps,mpg,xml,pl,xlt,c">
+</script>
 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -54,7 +56,7 @@ $(document).ready(function(){
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 0.1.9 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.0.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -65,319 +67,294 @@ $(document).ready(function(){
           <div class="body" role="main">
             
   <h1>Source code for optbayesexpt.obe_server</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">.obe</span> <span class="k">import</span> <span class="n">OptBayesExpt</span>
-<span class="kn">from</span> <span class="nn">.obe_socket</span> <span class="k">import</span> <span class="n">Socket</span>
-
-
-<div class="viewcode-block" id="OBE_Server"><a class="viewcode-back" href="../../optbayesexpt.obe_server.html#optbayesexpt.obe_server.OBE_Server">[docs]</a><span class="k">class</span> <span class="nc">OBE_Server</span><span class="p">(</span><span class="n">Socket</span><span class="p">,</span> <span class="n">OptBayesExpt</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A TCP socket interface for OptBayesExpt using TCP communications.</span>
-
-<span class="sd">    This class provides a way to use OptBayesExpt from programs written in other languages.  A</span>
-<span class="sd">    typical use would be to run OptBayesExpt from external instrument control software.  The</span>
-<span class="sd">    external program must</span>
-
-<span class="sd">        1. Launch a server script that configures and runs an :code:`OBE_Server`,</span>
-<span class="sd">        2. Format command messages as JSON strings,</span>
-<span class="sd">        3. Send and receive messages via TCP sockets,</span>
-<span class="sd">        4. Close the server script when done.</span>
-
-<span class="sd">    Server Script:</span>
-<span class="sd">        The server script configures an instance of OptBayesExpt and then runs in the background,</span>
-<span class="sd">        listening for commands and responding until a :code:`done` command is received.</span>
-
-<span class="sd">        Example:</span>
-
-<span class="sd">            This server script is written for an application where we want to make several</span>
-<span class="sd">            measurement runs, and we want to supply a setting range for each run.  The script</span>
-<span class="sd">            creates an :code:`OBE_server` (:code:`nanny`, to take care of things).  The</span>
-<span class="sd">            :code:`lorentz_model()` function defines the parametric model.  The other function,</span>
-<span class="sd">            :code:`newrun_near_startpoint()`, customizes the behavior of the &quot;newrun&quot; TCP command</span>
-<span class="sd">            in the :code:`OBE_server.run()` method.::</span>
-
-<span class="sd">                import optbayesexpt as obe</span>
-<span class="sd">                import numpy as np</span>
-
-<span class="sd">                # create a server</span>
-<span class="sd">                nanny = obe.OBE_Server()</span>
-
-
-<span class="sd">                # define the parametric model</span>
-<span class="sd">                def lorentz_model(settings, parameters, constants):</span>
-<span class="sd">                    # model for a Lorentzian peak</span>
-<span class="sd">                    # unpack settings - pulsetime is the first in a 1-element tuple</span>
-<span class="sd">                    frequency, = settings</span>
-<span class="sd">                    # unpack b1, scale and offset from a 3-element tuple</span>
-<span class="sd">                    f0, amplitude, lw = parameters</span>
-<span class="sd">                    # calculate the model function</span>
-<span class="sd">                    return amplitude / (((frequency - f0) * 2 / lw)**2 + 1)</span>
-
-
-<span class="sd">                # customized *newrun* behavior</span>
-<span class="sd">                def newrun_near_startpoint(datatuple):</span>
-<span class="sd">                    #  configures settings, parameters</span>
-
-<span class="sd">                    centerfreq, span = datatuple</span>
-<span class="sd">                    f0vals = np.linspace(centerfreq-span/2, centerfreq+span/2, 400)</span>
-<span class="sd">                    amplitude = np.linspace(.01, 0.1, 50)</span>
-<span class="sd">                    lw = np.linspace(.003, .050, 50)*1e9</span>
-
-<span class="sd">                    nanny.sets = (f0vals,)</span>
-<span class="sd">                    nanny.pars = (f0vals, amplitude, lw)</span>
-<span class="sd">                    nanny.cons = ()</span>
-
-<span class="sd">                    nanny.config()</span>
-
-
-<span class="sd">                # connect the customized functions by redefining default stubs</span>
-<span class="sd">                nanny.model_function = lorentz_model</span>
-<span class="sd">                nanny.newrun = newrun_near_startpoint</span>
-
-<span class="sd">                # wait for commands over TCP &amp; respond until a &#39;done&#39; command is received.</span>
-<span class="sd">                nanny.run()</span>
-
-
-<span class="sd">    Command Language</span>
-<span class="sd">        The messages sent from client to this server are JSON object strings, each prependend by the</span>
-<span class="sd">        string length formatted as a 10-digit number.  See the obe_socket module docs for details.</span>
-<span class="sd">        Unless otherwise stated the server will reply with :code:`&#39;0000000004&quot;OK&quot;&#39;` upon</span>
-<span class="sd">        successful completion of the command.</span>
-
-<span class="sd">        Setup commands</span>
-<span class="sd">            These commands are used in defining the settings, parameters and constants,</span>
-<span class="sd">            and in using these definitions to configure.</span>
-
-<span class="sd">            clrset</span>
-<span class="sd">                clears the :code:`sets` tuple, :code:`OptBayesExpt.sets = ()`.</span>
-<span class="sd">                    :code:`{&quot;command&quot;: &quot;clrset&quot;}`</span>
-
-<span class="sd">            clrpar</span>
-<span class="sd">                clears the :code:`pars` tuple, :code:`OptBayesExpt.cons = ()`.</span>
-<span class="sd">                    :code:`{&quot;command&quot;: &quot;clrpar&quot;}`</span>
-
-<span class="sd">            clrcon</span>
-<span class="sd">                clears the :code:`cons` tuple, :code:`OptBayesExpt.cons = ()`.</span>
-<span class="sd">                    :code:`{&quot;command&quot;: &quot;clrcon&quot;}`</span>
-
-<span class="sd">            addset</span>
-<span class="sd">                appends a setting array to the :code:`OptBayesExpt.sets` tuple.</span>
-<span class="sd">                    :code:`{&quot;command&quot;: &quot;addset&quot;, &quot;array&quot;: &lt;JSON list&gt;}`</span>
-
-<span class="sd">            addpar</span>
-<span class="sd">                appends a parameter array to the :code:`OptBayesExpt.pars` tuple.</span>
-<span class="sd">                    :code:`{&quot;command&quot;: &quot;addpar&quot;, &quot;array&quot;: &lt;JSON list&gt;}`</span>
-
-<span class="sd">            addcon</span>
-<span class="sd">                appends a constant to the :code:`OptBayesExpt.cons` tuple.</span>
-<span class="sd">                    :code:`{&quot;command&quot;: &quot;addcon&quot;, &quot;value&quot;: &lt;number&gt;}`</span>
-
-<span class="sd">            getset</span>
-<span class="sd">                Reports the :code:`OptBayesExpt.sets` attribute</span>
-
-<span class="sd">                    :code:`{&quot;command&quot;: &quot;getset&quot;}`</span>
-
-<span class="sd">                Reply: a list of setting value lists.</span>
-
-<span class="sd">            getpar</span>
-<span class="sd">                Reports the :code:`OptBayesExpt.pars` attribute</span>
-
-<span class="sd">                    :code:`{&quot;command&quot;: &quot;getset&quot;}`</span>
-
-<span class="sd">                Reply: a list of parameter value lists.</span>
-
-<span class="sd">            getcon</span>
-<span class="sd">                Reports the :code:`OptBayesExpt.cons` attribute</span>
-
-<span class="sd">                    :code:`{&quot;command&quot;: &quot;getcon&quot;}`</span>
-
-<span class="sd">                Reply: a list of model constants.</span>
-
-<span class="sd">            config</span>
-<span class="sd">                configures the :code:`OptBayesExpt` instance using the setting, parameter and</span>
-<span class="sd">                constant tuples. Invokes :code:`OptBayesExpt.config()`</span>
-
-<span class="sd">                    :code:`{&quot;command&quot;: &quot;config&quot;}`</span>
-
-<span class="sd">            newrun</span>
-<span class="sd">                a stub to run the :code:`newrun` method.</span>
-<span class="sd">                    :code:`{&quot;command&quot;: &quot;newrun&quot;, &quot;array&quot;: &lt;JSON list&gt;}`</span>
-
-
-<span class="sd">        Run time commands</span>
-
-<span class="sd">            These  commands are used in every measurement cycle, generating measurement</span>
-<span class="sd">            settings and processing measurement results.</span>
-
-<span class="sd">            optset</span>
-<span class="sd">                Genrates measurement settings.  Calculates the utility of possible settings and</span>
-<span class="sd">                reports the settings having the maximum utility.</span>
-<span class="sd">                Invokes :code:`OptBayesExpt.opt_setting()`</span>
-
-<span class="sd">                    :code:`{&quot;command&quot;: &quot;optset&quot;}`</span>
-
-<span class="sd">            goodset</span>
-<span class="sd">                Generated measurement settings. Calculates the utility of possible settings and</span>
-<span class="sd">                reports a random selection that is weighted by the utility.</span>
-<span class="sd">                Invokes :code:`OptBayesExpt.good_setting()`</span>
-
-<span class="sd">                    :code:`{&quot;command&quot;: &quot;goodset&quot;[, &quot;pickiness&quot;, &lt;integer&gt;]}`</span>
-
-<span class="sd">            newdat</span>
-<span class="sd">                Processes measurement results. Refines the parameter probability distribution</span>
-<span class="sd">                based on the *likelihood* of measurement results reported in the command.</span>
-<span class="sd">                Invokes :code:`OptBayesExpt.pdf_update()`.  Required components include</span>
-<span class="sd">                * &quot;x&quot;: a tuple containing the measurement settings</span>
-<span class="sd">                * &quot;y&quot;: a measurement mean value</span>
-<span class="sd">                * &quot;s&quot;: uncertainty of the measurement as a standard deviation</span>
-
-<span class="sd">                    :code:`{&quot;command&quot;: &quot;newdat&quot;, &quot;x&quot;: &lt;settings tuple&gt;, &quot;y&quot;: &lt;float&gt;, &quot;s&quot;: &lt;float&gt;}`</span>
-
-
-<span class="sd">        Information requests</span>
-
-<span class="sd">            These commands report cumulative measurement results based on the parameter</span>
-<span class="sd">            probability distribution.</span>
-
-<span class="sd">            getpdf</span>
-<span class="sd">                Reports the entire probability distribution array</span>
-
-<span class="sd">                    :code:`{&quot;command&quot;: &quot;getpdf&quot;}`</span>
-
-<span class="sd">                Reply: Probability distribution function array expressed as a JSON array [of arrays].</span>
-
-<span class="sd">            maxpdf</span>
-<span class="sd">                Reports the parameters corresponding to the maximum of the probability</span>
-<span class="sd">                distribution. Invokes :code:`OptBayesExpt.max_params()`</span>
-
-<span class="sd">                    :code:`{&quot;command&quot;: &quot;maxpdf&quot;}`</span>
-
-<span class="sd">                Reply: A single set of parameters packaged as a JSON array.</span>
-
-<span class="sd">            getmean</span>
-<span class="sd">                Reports a parameter mean value and standard deviation.  The parameter is</span>
-<span class="sd">                selected by the &quot;index&quot; argument, which corresponds to the parameter&#39;s position in</span>
-<span class="sd">                the :code:`OptBayesExpt.pars` tuple  The default &quot;index&quot; is :code:`0`.</span>
-
-<span class="sd">                    :code:`{&quot;command&quot;: &quot;getmean&quot;[, &quot;index&quot;: &lt;int&gt; ]}`</span>
-
-<span class="sd">                Reply: :code:`{&quot;mean&quot;: &lt;float&gt;, &quot;sigma&quot;: &lt;float&gt;}`</span>
-
-
-<span class="sd">        Cleaning up</span>
-
-<span class="sd">            done</span>
-<span class="sd">                Stops the :code:`OBE_server` and allows the server script to complete.</span>
-<span class="sd">                    :code:`{&quot;command&quot;: &quot;done&quot;}`</span>
-
-
-<span class="sd">    Warning:</span>
-
-<span class="sd">        It may be important to issue the :code:`done` command. If the server is allowed to run,</span>
-<span class="sd">        it will continue to use the TCP socket it was assigned during initialization.  Later</span>
-<span class="sd">        instances of :code:`OBE_Server` may conflict.</span>
-
+<span></span><span class="kn">from</span> <span class="nn">.obe_socket</span> <span class="kn">import</span> <span class="n">Socket</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<div class="viewcode-block" id="OBE_Server"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_server.OBE_Server">[docs]</a><span class="k">class</span> <span class="nc">OBE_Server</span><span class="p">(</span><span class="n">Socket</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A TCP socket interface for OptBayesExpt using JSON strings</span>
+
+<span class="sd">    This class provides communication between an OptBayesExpt object and</span>
+<span class="sd">    user software running in a separate process. Instrumentation software is</span>
+<span class="sd">    not always written in python; the idea of this class is to allow</span>
+<span class="sd">    experiments to use OptBayesExpt from their native languages by issuing</span>
+<span class="sd">    command messages in JSON :obj:`object` format through TCP sockets. The</span>
+<span class="sd">    available commands are documented below in the ``run()`` method.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        initial_args (:obj:`tuple`) Information needed for making OBE objects.</span>
+<span class="sd">        ip_address(:obj:`str`): an IP address for TCP communications.</span>
+<span class="sd">            Default &#39;127.0.0.1&#39;.</span>
+<span class="sd">        port(:obj:`int`): a TCP port number to use for communications.</span>
+<span class="sd">            Default 61981.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        obe_engine (:obj:`OptBayesExpt`): The disembodied brains of the</span>
+<span class="sd">            experimental design scheme. ``OBE_server`` provides TCP</span>
+<span class="sd">            communication between ``obe_engine`` and a client program.</span>
+<span class="sd">        initial_args (:obj:`tuple`): Stored samples from an</span>
+<span class="sd">            initial parameter distribution.  Initialized by ``self.__init__()``</span>
+<span class="sd">            and ``self.make_obe()``.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        1. The messages sent between the client and this server are expected</span>
+<span class="sd">           to be JSON strings, each prependend by the string length formatted</span>
+<span class="sd">           as a 10-digit number.  See the obe_socket module docs for</span>
+<span class="sd">           details. Unless otherwise stated the server will reply with</span>
+<span class="sd">           :code:`&#39;0000000004&quot;OK&quot;&#39;` upon successful completion of the command.</span>
+
+<span class="sd">        2. The previous version of ``OBE_Server`` was a child class of</span>
+<span class="sd">           ``OptBayesExpt``.  In this version, the ``OptBayesExpt`` is an</span>
+<span class="sd">           attribute of ``OBE_Server``.  The advantage of the new</span>
+<span class="sd">           arrangement is that OBE_Server can manage a sequence of</span>
+<span class="sd">           experimental runs with differently configured</span>
+<span class="sd">           ``OptBayesExpt`` objects.  See ``demos/magnetometer_demo.py`` and</span>
+<span class="sd">           ``demos/magnetometer_server.py``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip_address</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">61981</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_args</span><span class="o">=</span><span class="p">(),</span> <span class="n">ip_address</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">61981</span><span class="p">):</span>
+
         <span class="n">Socket</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;server&#39;</span><span class="p">,</span> <span class="n">ip_address</span><span class="o">=</span><span class="n">ip_address</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
-        <span class="n">OptBayesExpt</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">Ndraws</span> <span class="o">=</span> <span class="mi">100</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_args</span> <span class="o">=</span> <span class="n">initial_args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="OBE_Server.newrun"><a class="viewcode-back" href="../../optbayesexpt.obe_server.html#optbayesexpt.obe_server.OBE_Server.newrun">[docs]</a>    <span class="k">def</span> <span class="nf">newrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Stub to allow customized behavior of the :code:`&quot;newrun&quot;` TCP command</span>
+<div class="viewcode-block" id="OBE_Server.make_obe"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_server.OBE_Server.make_obe">[docs]</a>    <span class="k">def</span> <span class="nf">make_obe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obe_class</span><span class="p">,</span> <span class="n">class_args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates and attaches a new OptBayesExpt-like object</span>
 
-<span class="sd">        The intent is to support a user-defined function that can reset :code:`OptBayesExpt.sets`</span>
-<span class="sd">        and :code:`OptBayesExpt.params` arrays and to allow an :code:`OptBayesExpt` instance to</span>
-<span class="sd">        be recycled for repeated measurement runs.</span>
+<span class="sd">        A server may need to handle several runs. This function allows</span>
+<span class="sd">        OBE_Server to instantiate new OptBayesExpt objects from scratch.</span>
+<span class="sd">        Enables a server to start a new experimental run with modified</span>
+<span class="sd">        starting conditions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obe_class (:obj:`OptBayesExpt`-like) A class reference,</span>
+<span class="sd">                e.g. ``optbayesexpt.OptBayesExpt`` without parentheses</span>
+<span class="sd">            class_args (:obj:`tuple`): the arguments to the obe_class. For</span>
+<span class="sd">                example, ``(model_function, settings, parameters, cons)``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># save the arguments for possible reuse</span>
+        <span class="c1"># these are owned by the OBE_Server instance as a &quot;birth record&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_args</span> <span class="o">=</span> <span class="n">class_args</span>
+
+        <span class="c1"># create a new OptBayesExpt and attach it as the obe_engine attribute.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span> <span class="o">=</span> <span class="n">obe_class</span><span class="p">(</span><span class="o">*</span><span class="n">class_args</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OBE_Server.newrun"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_server.OBE_Server.newrun">[docs]</a>    <span class="k">def</span> <span class="nf">newrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A stub to allow customized TCP commands</span>
+
+<span class="sd">        Invoked by the ``run`` method when a message with a ``&#39;newrun&#39;``</span>
+<span class="sd">        command string is received. The idea is to provide flexible control</span>
+<span class="sd">        from the experiment program. The original intent was to provide a</span>
+<span class="sd">        way for the user program to start a fresh measurement, perhaps with</span>
+<span class="sd">        different setting ranges or a different prior.  However, with access</span>
+<span class="sd">        to the OBE_Server and its OptBayesExpt through the ``self``</span>
+<span class="sd">        argument, and with any information the user chooses to send from the</span>
+<span class="sd">        client program, there are many more possibilities.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            self (:obj:`optbayesexpt.OBE_Server`):  provides access to the</span>
+<span class="sd">                attributes of ``self`` and also its OptBayesExpt attribute.</span>
+<span class="sd">            message (:obj:`tuple`): User defined information passed from the</span>
+<span class="sd">                client program.</span>
+
+<span class="sd">        Returns:  User defined.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="OBE_Server.run"><a class="viewcode-back" href="../../optbayesexpt.obe_server.html#optbayesexpt.obe_server.OBE_Server.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Listen and respond to TCP messages</span>
+<div class="viewcode-block" id="OBE_Server.run"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_server.OBE_Server.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Listens and responds to TCP messages</span>
 
-<span class="sd">        Enters a continuous loop, responding to TCP command messages until a &quot;done&quot; command is</span>
-<span class="sd">        received.</span>
+<span class="sd">        Enters a continuous loop, interpreting incoming messages as python</span>
+<span class="sd">        :obj:`dict` objects and responding to command strings found in</span>
+<span class="sd">        ``message[ &quot;command&quot;]``.  Only one command string is allowed in each</span>
+<span class="sd">        message. Valid command strings are listed below.</span>
+
+<span class="sd">        **&#39;done&#39;**</span>
+<span class="sd">            Stops the :code:`OBE_server` and allows the server script to</span>
+<span class="sd">            complete.</span>
+
+<span class="sd">                :code:`{&quot;command&quot;: &quot;done&quot;}`</span>
+
+<span class="sd">        Warning:</span>
+
+<span class="sd">            It may be important for the client to issue the :code:`done`</span>
+<span class="sd">            command. If the server is allowed to run, it will continue to</span>
+<span class="sd">            use the TCP socket it was assigned during initialization.  Later</span>
+<span class="sd">            instances of :code:`OBE_Server` may conflict.</span>
+
+<span class="sd">        **&#39;getcon&#39;**</span>
+<span class="sd">            Reports the :code:`OptBayesExpt.cons` attribute.  See also</span>
+<span class="sd">            getset and getpar</span>
+
+<span class="sd">                :code:`{&quot;command&quot;: &quot;getcon&quot;}`</span>
+
+<span class="sd">            Reply: a list of model constants.</span>
+
+<span class="sd">        **&#39;getcov&#39;**</span>
+<span class="sd">            Reports the covariance matrix of the parameter distribution as a</span>
+<span class="sd">            JSON array of arrays.</span>
+
+<span class="sd">                  :code:`{&quot;command&quot;: &quot;getcov&quot;}`</span>
+
+<span class="sd">            Reply: JSON formatted array of arrays</span>
+
+<span class="sd">        **&#39;getmean&#39;**</span>
+<span class="sd">            Reports the mean value of the parameter distribution as a JSON</span>
+<span class="sd">            array.  See also getstd and getcov</span>
+
+<span class="sd">                :code:`{&quot;command&quot;: &quot;getmean&quot;}`</span>
+
+<span class="sd">            Reply: JSON formatted array.</span>
+
+<span class="sd">        **&#39;getpar&#39;**</span>
+<span class="sd">            Reports the :code:`OptBayesExpt.parameters` arrays representing</span>
+<span class="sd">            samples from the probability distribution.</span>
+
+<span class="sd">                :code:`{&quot;command&quot;: &quot;getset&quot;}`</span>
+
+<span class="sd">            Reply: a list of parameter value lists.</span>
+
+<span class="sd">        **&#39;getset&#39;**</span>
+<span class="sd">            Reports the :code:`OptBayesExpt.sets` attribute</span>
+
+<span class="sd">                :code:`{&quot;command&quot;: &quot;getset&quot;}`</span>
+
+<span class="sd">            Reply: a list of setting value lists.</span>
+
+<span class="sd">        **&#39;getstd&#39;**</span>
+<span class="sd">            Reports the standard deviation of the parameter distribution as</span>
+<span class="sd">            a JSON array.</span>
+
+<span class="sd">                :code:`{&quot;command&quot;: &quot;getstd&quot;}`</span>
+
+<span class="sd">            Reply: JSON formatted array</span>
+
+<span class="sd">        **&#39;getwgt&#39;**</span>
+<span class="sd">            Reports the particle weights of the probability distribution as</span>
+<span class="sd">            a JSON array.</span>
+
+<span class="sd">                :code:`{&quot;command&quot;: &quot;getwgt&quot;}`</span>
+
+<span class="sd">            Reply: particle weights as a JSON formatted array</span>
+
+<span class="sd">        **&#39;goodset&#39;**</span>
+<span class="sd">            Generated measurement settings. Calculates the utility of</span>
+<span class="sd">            possible settings and reports a random selection that is</span>
+<span class="sd">            weighted by the utility. Invokes</span>
+<span class="sd">            :code:`OptBayesExpt.good_setting()`. See also optset.</span>
+
+<span class="sd">                :code:`{&quot;command&quot;: &quot;goodset&quot;[, &quot;pickiness&quot;, &lt;integer&gt;]}`</span>
+
+<span class="sd">            Reply: a list of setting values.</span>
+
+<span class="sd">        **&#39;newdat&#39;**</span>
+<span class="sd">            Processes measurement results. Refines the parameter probability</span>
+<span class="sd">            distribution based on the *likelihood* of measurement results</span>
+<span class="sd">            reported in the command. Invokes :code:`OptBayesExpt.pdf_update()`.</span>
+
+<span class="sd">                :code:`{&quot;command&quot;: &quot;newdat&quot;, &quot;x&quot;: &lt;settings tuple&gt;,</span>
+<span class="sd">                &quot;y&quot;: &lt;measured values tuple&gt;, &quot;s&quot;: &lt;uncertainty tuple&gt;}`</span>
+
+<span class="sd">            Required components include:</span>
+
+<span class="sd">            * &quot;x&quot;: a tuple containing the measurement settings.</span>
+<span class="sd">            * &quot;y&quot;: a tuple of measurement mean values.</span>
+<span class="sd">            * &quot;s&quot;: uncertainty of the measurement as a standard deviation.</span>
+
+<span class="sd">        **&#39;newrun&#39;**</span>
+<span class="sd">            A command string to run the user-defined</span>
+<span class="sd">            :code:`OBE_Server.newrun()` method.  The message string must</span>
+<span class="sd">            conform to the 10 digits + JSON object format, and it must avoid</span>
+<span class="sd">            using other defined command strings.  Except for those</span>
+<span class="sd">            restrictions, any ``&lt;keyword&gt;: &lt;string&gt;`` pairs are allowed.</span>
+
+<span class="sd">                :code:`{&quot;command&quot;: &quot;newrun&quot;[, ...]}`</span>
+
+<span class="sd">            See the ``newrun()`` method documentation, above.</span>
+
+<span class="sd">        **&#39;optset&#39;**</span>
+<span class="sd">            Requests optimal measurement settings.  Calculates the utility</span>
+<span class="sd">            of possible settings and reports the settings having the maximum</span>
+<span class="sd">            utility. Invokes :code:`OptBayesExpt.opt_setting()`.  See also</span>
+<span class="sd">            goodset.</span>
+
+<span class="sd">                :code:`{&quot;command&quot;: &quot;optset&quot;}`</span>
+
+<span class="sd">            Reply: a list of setting values.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SERVER READY&#39;</span><span class="p">)</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="c1"># use the Socket.receive() method to get the incoming message from client</span>
+            <span class="c1"># use the Socket.receive() method to get the incoming message</span>
+            <span class="c1"># from client</span>
             <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">receive</span><span class="p">()</span>
-            <span class="c1"># the messages we get from Labview are Labview clusters encoded as json objects</span>
-            <span class="c1"># Decoded, they are python dicts.</span>
+            <span class="c1"># the messages sent by the client are encoded as json objects</span>
+            <span class="c1"># Decoded, by the ``receive``() method, they are python dicts.</span>
 
-            <span class="c1"># manipulate coinfiguration arrays for settings, params, consts.</span>
-            <span class="c1"># clear commands</span>
-            <span class="k">if</span> <span class="s1">&#39;clrset&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">sets</span> <span class="o">=</span> <span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;OK&#39;</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="s1">&#39;clrpar&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">pars</span> <span class="o">=</span> <span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;OK&#39;</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="s1">&#39;clrcon&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">cons</span> <span class="o">=</span> <span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;OK&#39;</span><span class="p">)</span>
-
-            <span class="c1"># get commands request arrays</span>
-            <span class="k">elif</span> <span class="s1">&#39;getset&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sets</span><span class="p">)</span>
+            <span class="c1"># These get* commands request arrays.  Numpy arrays must be</span>
+            <span class="c1"># converted to lists</span>
+            <span class="k">if</span> <span class="s1">&#39;getset&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span><span class="o">.</span><span class="n">allsettings</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
             <span class="k">elif</span> <span class="s1">&#39;getpar&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pars</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
             <span class="k">elif</span> <span class="s1">&#39;getcon&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cons</span><span class="p">)</span>
-
-            <span class="c1"># add arrays as new tuple elements</span>
-            <span class="k">elif</span> <span class="s1">&#39;addset&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">sets</span> <span class="o">+=</span> <span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s1">&#39;array&#39;</span><span class="p">],)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;OK&#39;</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="s1">&#39;addpar&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">pars</span> <span class="o">+=</span> <span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s1">&#39;array&#39;</span><span class="p">],)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;OK&#39;</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="s1">&#39;addcon&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">cons</span> <span class="o">+=</span> <span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;OK&#39;</span><span class="p">)</span>
-
-            <span class="c1"># Finish configuration</span>
-            <span class="k">elif</span> <span class="s1">&#39;config&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;OK&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span><span class="o">.</span><span class="n">cons</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s1">&#39;getwgt&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span><span class="o">.</span><span class="n">particle_weights</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 
             <span class="c1"># run-time commands</span>
             <span class="k">elif</span> <span class="s1">&#39;newrun&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">newrun</span><span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s1">&#39;array&#39;</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">newrun</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;OK&#39;</span><span class="p">)</span>
 
             <span class="k">elif</span> <span class="s1">&#39;optset&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">opt_setting</span><span class="p">())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span><span class="o">.</span><span class="n">opt_setting</span><span class="p">())</span>
             <span class="k">elif</span> <span class="s1">&#39;goodset&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
                 <span class="k">if</span> <span class="s1">&#39;pickiness&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">good_setting</span><span class="p">(</span><span class="n">pickiness</span><span class="o">=</span><span class="n">message</span><span class="p">[</span><span class="s1">&#39;pickiness&#39;</span><span class="p">]))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span><span class="o">.</span><span class="n">good_setting</span><span class="p">(</span>
+                        <span class="n">pickiness</span><span class="o">=</span><span class="n">message</span><span class="p">[</span><span class="s1">&#39;pickiness&#39;</span><span class="p">]))</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">good_setting</span><span class="p">())</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span><span class="o">.</span><span class="n">good_setting</span><span class="p">())</span>
+
             <span class="k">elif</span> <span class="s1">&#39;newdat&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">pdf_update</span><span class="p">((</span><span class="n">message</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],),</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span><span class="o">.</span><span class="n">pdf_update</span><span class="p">(</span>
+                    <span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">]))</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;OK&#39;</span><span class="p">)</span>
 
-            <span class="c1"># report</span>
+            <span class="c1"># report statistics</span>
+            <span class="c1"># Note: json.dumps() is not able to format numpy arrays.  To</span>
+            <span class="c1"># send numpy arrays, the :code:`numpy.tolist()` is used to</span>
+            <span class="c1"># list-ify a numpy arrays.</span>
             <span class="k">elif</span> <span class="s1">&#39;getpdf&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PDF</span><span class="p">))</span>
-            <span class="k">elif</span> <span class="s1">&#39;maxpdf&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_params</span><span class="p">())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+            <span class="k">elif</span> <span class="s1">&#39;getwgt&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span><span class="o">.</span><span class="n">particle_weights</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
             <span class="k">elif</span> <span class="s1">&#39;getmean&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
-                <span class="k">if</span> <span class="s1">&#39;index&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
-                    <span class="n">mean</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_mean</span><span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">])</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">mean</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">((</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">))</span>
+                <span class="n">mean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">mean</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+            <span class="k">elif</span> <span class="s1">&#39;getstd&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
+                <span class="n">std</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">std</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+            <span class="k">elif</span> <span class="s1">&#39;getcov&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
+                <span class="n">cov</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span><span class="o">.</span><span class="n">covariance</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">cov</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
 
             <span class="k">elif</span> <span class="s1">&#39;done&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;OK&#39;</span><span class="p">)</span>
                 <span class="k">break</span>
             <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># the incoming message wasn&#39;t interpreted</span>
                 <span class="k">pass</span></div></div>
+
+    <span class="c1"># end of run() method.</span>
+<span class="c1"># end of OBE_Server definition</span>
 </pre></div>
 
           </div>
@@ -394,7 +371,7 @@ $(document).ready(function(){
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -408,13 +385,13 @@ $(document).ready(function(){
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 0.1.9 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.0.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright Copyright National Institute of Standards and Technology. Not subject to copyright in the United States.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
     </div>
   </body>
 </html>
