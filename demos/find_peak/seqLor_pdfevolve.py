@@ -2,7 +2,6 @@
 Provides an animation of the measurement process for a Lorentzain peak
 """
 
-
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
@@ -65,7 +64,7 @@ A_samples = np.random.uniform(0, 2, n_samples)
 
 # background parameter B
 B_mean, B_sigma = 0, .5
-Blimits = (B_mean-B_sigma, B_mean + B_sigma)
+Blimits = (B_mean - B_sigma, B_mean + B_sigma)
 B_samples = np.random.uniform(*Blimits, n_samples)
 
 # full width half max linewidth
@@ -89,9 +88,9 @@ MEASUREMENT SIMULATION
 # secret stuff - to be used only by the measurement simulator
 # pick the parameters of the true resonance
 x0true = np.random.choice(x0_samples)  # pick a random resonance x0
-Atrue = np.random.choice(A_samples)    # pick a random Amplitude
-Btrue = np.random.choice(B_samples)    # pick a random Background
-dtrue = np.random.choice(d_samples)    # pick a random width
+Atrue = np.random.choice(A_samples)  # pick a random Amplitude
+Btrue = np.random.choice(B_samples)  # pick a random Background
+dtrue = np.random.choice(d_samples)  # pick a random width
 
 
 def simdata(x):
@@ -115,33 +114,35 @@ def simdata(x):
 """ 
 THE ANIMATION 
 """
+ax1, ax2, ax3 = (None, None, None)
 
 
 def plotinit():
-    """  Called for an initial plot to create the background and set scales, labels, etc.
-    Data will get replaced in the animation
-
+    """  Called for an initial plot to create the background and set scales,
+    labels, etc. Data will get replaced in the animation
     """
     global fig, line1, line3, line4, line5, line6
-
-    print('plotinit() gets called twice, and that may cause a few '
-          'MatplotlibDeprecationWarning)')
+    global ax1, ax2, ax3
 
     # create 3 axes to house the plots
     spacing = 0.005
     margin = 0.12
-    bottom, height = margin,  .5 - spacing/2 - margin
-    left, width = margin, .45 - spacing/2 - margin
-    right = .5 + spacing/2 + margin
+    bottom, height = margin, .5 - spacing / 2 - margin
+    left, width = margin, .45 - spacing / 2 - margin
+    right = .5 + spacing / 2 + margin
 
     leftrect = [left, bottom, width, height]
     rightrect = [right, bottom, width, height]
     toprect = [left, margin + height + spacing + margin,
-               .95-left, .95-(margin + height + spacing + margin)]
+               .95 - left, .95 - (margin + height + spacing + margin)]
 
-    ax1 = fig.add_axes(toprect)
-    ax2 = fig.add_axes(leftrect)
-    ax3 = fig.add_axes(rightrect)
+    # Somehow, the ax* were getting created twice, triggering warnings
+    if ax1 is None:
+        ax1 = fig.add_axes(toprect)
+    if ax2 is None:
+        ax2 = fig.add_axes(leftrect)
+    if ax3 is None:
+        ax3 = fig.add_axes(rightrect)
 
     # Plot the "true curve" and data
     ytrue = lorentz(xvals, x0true, Atrue, Btrue, dtrue)
@@ -163,8 +164,8 @@ def plotinit():
     # Code weights as opacity through the alpha channel
     # make array of (0, 0, 0, alpha)
     color = np.zeros(weights.shape + (4,))
-    color[:, -1] = weights*n_samples*myOBE.tuning_parameters[
-        'resample_threshold']/10
+    color[:, -1] = weights * n_samples * myOBE.tuning_parameters[
+        'resample_threshold'] / 10
 
     line3 = ax2.scatter(pdf[0], pdf[3], c=color, s=10)
     line5 = ax2.scatter(x0true, dtrue, c='red', s=10)
@@ -172,12 +173,11 @@ def plotinit():
     ax2.set_xlabel("peak center")
     ax2.set_ylabel("Peak width")
 
-    line4 = ax3.scatter(pdf[2, :n_plot], pdf[1, :n_plot], c = color, s=10)
+    line4 = ax3.scatter(pdf[2, :n_plot], pdf[1, :n_plot], c=color, s=10)
     line6 = ax3.scatter(Btrue, Atrue, c='red', s=10)
     ax3.set_xlim(*Blimits)
     ax3.set_xlabel("background")
     ax3.set_ylabel("Peak height")
-    plt.tight_layout()
 
     return line1, line3, line4, line5, line6
 
@@ -218,7 +218,7 @@ def myframes():
     while cnt < Nmeasure:
         cnt += 1
         if cnt % 100 == 0:
-            print(cnt)
+            print('Iteration {}'.format(cnt))
         """ Get the new measurement setting by Bayes Optimization  """
         if optimum:
             xmeas, = myOBE.opt_setting()
@@ -248,6 +248,7 @@ def livedemo():
                                   repeat=False)
     plt.show()
 
+
 if __name__ == "__main__":
     plt.rc('font', size=14)
     Nmeasure = 1000
@@ -257,4 +258,3 @@ if __name__ == "__main__":
     pickiness = 10
 
     livedemo()
-
