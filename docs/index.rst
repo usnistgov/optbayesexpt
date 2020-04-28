@@ -13,6 +13,7 @@ OptBayesExpt documentation
    manual
    quickstart
    manual_demos
+   versions
    optbayesexpt
 
 Indices and tables
