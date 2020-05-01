@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Version Notes &#8212; OptBayesExpt 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="optbayesexpt API" href="optbayesexpt.html" />
+    <link rel="prev" title="Demos" href="manual_demos.html" />
+
+    <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+
+<script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Mark external (non-nist.gov) A tags with class "external"
+  //If the adress start with https and ends with nist.gov
+  var re_nist = new RegExp('^https?:\/\/((^\/)*\.)*nist\\.gov(\/|$)');
+  //Regex to find address that start with https
+  var re_absolute_address = new RegExp('^((https?:)?\/\/)');
+  $("a").each(function(){
+    var url=$(this).attr('href');
+    if(re_nist.test(url) || !re_absolute_address.test(url)){
+      $(this).addClass('local');
+    }else{
+      //This a href appears to be external, so tag it
+      $(this).addClass('external');
+    }
+  });
+  // Add leaveNotice to external A elements
+  $('a.external').leaveNotice();
+});
+</script>
+<link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+<script async type="text/javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=NIST&subagency=github&pua=UA-42404149-54&yt=true&exts=ppsx,pps,f90,sch,rtf,wrl,txz,m1v,xlsm,msi,xsd,f,tif,eps,mpg,xml,pl,xlt,c">
+</script>
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="optbayesexpt.html" title="optbayesexpt API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="manual_demos.html" title="Demos"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="version-notes">
+<h1>Version Notes<a class="headerlink" href="#version-notes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="version-1-0-0">
+<h2>Version 1.0.0<a class="headerlink" href="#version-1-0-0" title="Permalink to this headline">¶</a></h2>
+<p>April 27, 2020.</p>
+<p>Version 1.0.0 represents an overhaul of the optbayesexpt python package.  It
+is not compatible with earlier versions, but only minor changes are needed to
+adapt script to use the new version.
+The most significant changes are briefly described here. Please consult the
+documentation at <a class="reference external" href="https://pages.nist.gov/optbayesexpt">https://pages.nist.gov/optbayesexpt</a> for more detail.</p>
+<dl>
+<dt>Probability Distribution Function:</dt><dd><p>Starting with V.1.0.0, the probability distribution function over
+parameter values is implemented using a sequential
+Monte Carlo scheme in <code class="docutils literal notranslate"><span class="pre">ParticlePDF()</span></code>, replacing the
+N-dimensional array representation used in <code class="docutils literal notranslate"><span class="pre">ProbDistFunc()</span></code>. This
+change boosts speed and allows more parameters in the model function.</p>
+</dd>
+<dt>Experiment Model:</dt><dd><p>Starting with V.1.0.0, the <code class="docutils literal notranslate"><span class="pre">ExptModel</span></code> class is no longer used. Methods
+of the <code class="docutils literal notranslate"><span class="pre">ExptModel</span></code> class are incorporated into <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code>.</p>
+</dd>
+<dt>OptBayesExpt class:</dt><dd><p>The OptBayesExpt class has been rewritten with reuse in mind.
+As much as possible, the calculations have been split out into separate
+methods.  The goal was to make is easier to determine how to create
+customized child classes for different applications.</p>
+<p>Creation of a functioning <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code> object has been simplified
+by including the model function, settings, parameters and constants as
+arguments to <code class="docutils literal notranslate"><span class="pre">__init__()</span></code>.  In earlier versions, the object was created
+and then configured in separate steps.</p>
+</dd>
+<dt>Server:</dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">OBE_Server</span> <span class="pre">class</span></code> has been redesigned to be a caretaker and TCP
+communication interface for OptBayesExpt objects.  With this new design
+a OBE_Server object can initialize a series of OptBayesExpt objects
+with different configurations, e.g. for a series of measurement runs.</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Version Notes</a><ul>
+<li><a class="reference internal" href="#version-1-0-0">Version 1.0.0</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="manual_demos.html"
+                        title="previous chapter">Demos</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="optbayesexpt.html"
+                        title="next chapter">optbayesexpt API</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/versions.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="optbayesexpt.html" title="optbayesexpt API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="manual_demos.html" title="Demos"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+    </div>
+  </body>
+</html>

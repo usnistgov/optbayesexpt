@@ -12,7 +12,6 @@ Learn fast routine
 ~~~~~~~~~~~~~~~~~~
 
 .. sidebar:: Measurement inputs
-   :color: #FFFFFF
 
     .. image:: _images/obe_pdf_update_flowchart.png
        :scale: 35 %
