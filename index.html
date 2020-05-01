@@ -15,7 +15,7 @@
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Manual" href="manual.html" />
+    <link rel="next" title="Quick Start" href="quickstart.html" />
 
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
@@ -58,7 +58,7 @@ $(document).ready(function(){
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="manual.html" title="Manual"
+          <a href="quickstart.html" title="Quick Start"
              accesskey="N">next</a> |</li>
         <li class="nav-item nav-item-0"><a href="#">OptBayesExpt 1.0.0 documentation</a> &#187;</li> 
       </ul>
@@ -71,21 +71,92 @@ $(document).ready(function(){
             
   <div class="section" id="optbayesexpt-documentation">
 <h1>OptBayesExpt documentation<a class="headerlink" href="#optbayesexpt-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="manual.html">Manual</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="manual.html#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manual.html#theory-of-operation">Theory of operation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manual.html#guided-tour">Guided Tour</a></li>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>R. D. McMichael</p>
+</dd>
+<dt class="field-even">Email</dt>
+<dd class="field-even"><p><a class="reference external" href="mailto:rmcmichael&#37;&#52;&#48;nist&#46;gov">rmcmichael<span>&#64;</span>nist<span>&#46;</span>gov</a></p>
+</dd>
+<dt class="field-odd">Affiliation</dt>
+<dd class="field-odd"><p>National Institute of Standards and Technology</p>
+</dd>
+<dt class="field-even">Version</dt>
+<dd class="field-even"><p>1.0.0</p>
+</dd>
+<dt class="field-odd">Date</dt>
+<dd class="field-odd"><p>May 1, 2020</p>
+</dd>
+</dl>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>This package offers an implementation of sequential Bayesian experiment
+design, an adaptive strategy for controlling experiments.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">optbayesexpt</span></code> package is avaiable on github.
+<a class="reference external" href="https://www.github.com/usnistgov/optbayesexpt">https://www.github.com/usnistgov/optbayesexpt</a>.</p>
+<div class="section" id="what-is-it-for">
+<h3>What is it for?<a class="headerlink" href="#what-is-it-for" title="Permalink to this headline">¶</a></h3>
+<p>It’s for making smart setting choices in measurements that determine
+the parameters of a model. It is for cases with</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>a known parametric model, i.e. an equation that relates unknown parameters
+and experimental settings to measurement predictions. Fitting functions used
+in least-squares fitting are good examples of parametric models.</p></li>
+<li><p>an experiment (possibly computational) that uses a set-measure-repeat
+sequence with opportunities to change settings between measurements.</p></li>
 </ul>
-</li>
+</div></blockquote>
+<p>The benefit of these methods is that they provide settings choices
+that have the best chance of making the parameter estimates more precise.
+This feature is very helpful in situations where the measurements are
+expensive.</p>
+<p>It is not primarily designed for analyzing existing data, but some of the
+code could be used with existing data to do Bayesian inference of parameter
+values.</p>
+<p>Note that <em>Bayesian optimization</em> addresses a different problem: finding a
+maximum or minimum of an unknown function.</p>
+</div>
+<div class="section" id="what-does-it-do">
+<h3>What does it do?<a class="headerlink" href="#what-does-it-do" title="Permalink to this headline">¶</a></h3>
+<p>It chooses measurement settings “live” based on accumulated data.</p>
+<p>The sequential Bayesian experimental design algorithms play the role of an
+impatient experimenter who monitors data from a running experiment and
+changes the measurement settings in order to get better, more meaningful
+data. Note the two steps here. The first step, looking at the data, is
+really an act of extracting meaning from the numbers, learning something
+about the system from the existing measurements. The second step, a
+decision-making step, is using that knowledge to improve the measurement
+strategy.</p>
+<p>In the “looking at the data” role, the method uses Bayesian inference to
+extract and update information about model parameters as new measurement
+data arrives.  Then, in the
+“decision making” role, the methods use the updated parameter knowledge
+to select settings that have the best chance of refining the parameters.</p>
+<p>The most important role is the responsibility of the user. As delivered, the
+BayesOptExpt is ignorant of the world, and it’s the user’s responsibility
+to describe the world in terms of a reliable model, reasonable parameters, and
+reasonable experimental settings. As with most computer programs, “the
+garbage in, garbage out” rule applies.</p>
+</div>
+</div>
+</div>
+<div class="section" id="contents">
+<h1>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#software-requirements">Software Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#testing">Testing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#scripting">Scripting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#running">Running</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="manual.html">Manual</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="manual.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual.html#theory-of-operation">Theory of operation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual.html#guided-tour">Guided Tour</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="manual_demos.html">Demos</a><ul>
@@ -96,6 +167,10 @@ $(document).ready(function(){
 <li class="toctree-l2"><a class="reference internal" href="manual_demos.html#slope-intercept">Slope Intercept</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_demos.html#a-lockin-amplifier">A Lockin Amplifier</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_demos.html#a-sweeper">A Sweeper</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="versions.html">Version Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="versions.html#version-1-0-0">Version 1.0.0</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="optbayesexpt.html">optbayesexpt API</a><ul>
@@ -114,7 +189,6 @@ $(document).ready(function(){
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
 </div>
@@ -127,13 +201,21 @@ $(document).ready(function(){
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Table of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">OptBayesExpt documentation</a></li>
+<li><a class="reference internal" href="#">OptBayesExpt documentation</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a><ul>
+<li><a class="reference internal" href="#what-is-it-for">What is it for?</a></li>
+<li><a class="reference internal" href="#what-does-it-do">What does it do?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#contents">Contents</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
   <h4>Next topic</h4>
-  <p class="topless"><a href="manual.html"
-                        title="next chapter">Manual</a></p>
+  <p class="topless"><a href="quickstart.html"
+                        title="next chapter">Quick Start</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -165,7 +247,7 @@ $(document).ready(function(){
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="manual.html" title="Manual"
+          <a href="quickstart.html" title="Quick Start"
              >next</a> |</li>
         <li class="nav-item nav-item-0"><a href="#">OptBayesExpt 1.0.0 documentation</a> &#187;</li> 
       </ul>
