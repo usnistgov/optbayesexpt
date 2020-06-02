@@ -127,10 +127,12 @@ def batchdemo():
     bmeandata = np.zeros(n_measure)
     dfmeandata = np.zeros(n_measure)
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
-    plt.subplots_adjust(wspace=.25)
 
-    gs = gridspec.GridSpecFromSubplotSpec(2, 3, ax2, hspace=0.05, wspace=0.05)
+    plt.figure(figsize=(10, 4))
+    # fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+    # plt.subplots_adjust(wspace=.25)
+
+    # gs = gridspec.GridSpecFromSubplotSpec(2, 3, subplot_spec=ax2, hspace=0.05, wspace=0.05)
 
     pdf_marker = 0
     axlist = []
@@ -147,8 +149,9 @@ def batchdemo():
             zpdf = myOBE.parameters
             weights = myOBE.particle_weights
             row = int(pdf_marker/3)
-            column = pdf_marker % 3
-            axlist.append(plt.subplot(gs[row, column]))
+            column = pdf_marker % 3 + 4
+            ax = plt.subplot(2, 6, 6*row + column)
+            axlist.append(ax.axes)
             # plt.xlim(B1min, B1max)
             # plt.ylim(fc_min, fc_max)
             plt.xlim(.5, 5.5)
@@ -179,7 +182,7 @@ def batchdemo():
     extent = (pulsetime[0], pulsetime[-1], detune[0], detune[-1])
     yshape = tuple([len(arr) for arr in sets])
     ytrue_plotted = ytrue.reshape(yshape).transpose()
-    plt.sca(ax1)
+    plt.subplot(121)
     plt.xlabel('time ($\mu$s)')
     plt.ylabel('$\Delta$f (MHz)')
     plt.imshow(ytrue_plotted, origin='bottom', extent=extent, aspect='auto',
@@ -187,11 +190,10 @@ def batchdemo():
     plt.colorbar(ticks=[99000, 100000])
     plt.scatter(ptdata, dfdata, s=9, c=np.arange(len(ptdata)), cmap='Reds')
 
-    # plt.subplot(gs[1,0])
-
-    plt.sca(axlist[3])
+    plt.sca(axlist[3].axes)
     plt.axis('on')
     plt.xlabel('Rabi Frequency (MHz)')
+    plt.yticks([-10, 0, 10])
     plt.ylabel('detuning (MHz)')
 
     plt.show()
