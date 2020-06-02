@@ -35,7 +35,10 @@ def main():
     # Start the server script in a separate process
     ##################################################################
     server_script = os.path.join(os.getcwd(), "server_script.py")
-    server_pipe = Popen(['python', server_script])
+    try:
+        server_pipe = Popen(['python3', server_script])
+    except FileNotFoundError:
+        server_pipe = Popen(['python', server_script])
     ##################################################################
 
     # measure & plot 3 runs
