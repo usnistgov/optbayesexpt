@@ -32,7 +32,10 @@ noise_level = 500
 n_measure = 500
 
 # random number generator
-rng = np.random.default_rng()
+try:
+    rng = np.random.default_rng()
+except:
+    rng = np.random
 
 # Tuning the OptBayesExpt behavior
 #
