@@ -13,6 +13,7 @@ datadir = "fit_vs_obe_data"
 if path.isdir(datadir) is not True:
     raise IOError(f'Directory {datadir} not found. Maybe unzip fit_vs_obe_data.zip?')
 
+
 def lorentz(x, x0, a, b, d):
     """
     Calculate a Lorentzian function of x
