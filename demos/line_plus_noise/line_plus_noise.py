@@ -24,8 +24,10 @@ n_samples = 50000
 # quit measuring after n_measure measurement iterations
 n_measure = 100
 # random number generator
-rng = np.random.default_rng()
-
+try:
+    rng = np.random.default_rng()
+except AttributeError:
+    rng = np.random
 
 ########################################################################
 #           OptBayesExpt SETUP
