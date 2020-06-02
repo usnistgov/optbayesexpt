@@ -1,6 +1,9 @@
 import numpy as np
-rng = np.random.default_rng()
-
+try:
+    rng = np.random.default_rng()
+except AttributeError:
+    rng = np.random
+    
 class MeasurementSimulator():
     """
     Provides simulated measurement data

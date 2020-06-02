@@ -80,7 +80,10 @@ class ParticlePDF:
 
         self.particle_weights = np.ones(self.n_particles) / self.n_particles
         self.just_resampled = False
-        self.rng = np.random.default_rng()
+        try:
+            self.rng = np.random.default_rng()
+        except AttributeError:
+            self.rng = np.random
 
     def set_pdf(self, samples, weights=None):
         """Re-initializes the probability distribution
@@ -240,8 +243,18 @@ class ParticlePDF:
             An ``n_dims`` X ``N_DRAWS`` :obj:`ndarray` of parameter draws.
         """
 
-        draws = self.rng.choice(self.particles, size=n_draws,
-                                p=self.particle_weights, axis=1)
+        # draws = self.rng.choice(self.particles, size=n_draws,
+        # p=self.particle_weights, axis=1)
+        draws = np.zeros((self.n_dims, n_draws))
+
+        indices = self.rng.choice(self.n_particles, size=n_draws,\
+                                p=self.particle_weights)
+
+        for i, param in enumerate(self.particles):
+            # for j, selected_index in enumerate(indices):
+            #     draws[i,j] = param[selected_index]
+            draws[i] = param[indices]
+
         return draws
 
 
