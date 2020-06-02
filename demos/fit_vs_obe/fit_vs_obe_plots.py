@@ -11,10 +11,7 @@ from optbayesexpt import trace_sort
 datadir = "fit_vs_obe_data"
 
 if path.isdir(datadir) is not True:
-    errmsg = "Directory %s not found." % datadir
-    if path.isfile("fit_vs_obe_data.zip"):
-        errmsg += " Maybe unzip fit_vs_obe_data.zip?"
-    raise IOError(errmsg)
+    raise IOError(f'Directory {datadir} not found. Maybe unzip fit_vs_obe_data.zip?')
 
 def lorentz(x, x0, a, b, d):
     """
@@ -40,7 +37,8 @@ def readobesigs():
 
     obefiles = glob.glob(datadir + '/obe???.txt')
 
-    n_trace = np.loadtxt(obefiles[0], unpack=True, dtype=int)[0]
+    n_trace  = np.loadtxt(obefiles[0], unpack=True)[0]
+    
     sigdata = []
     x0data = []
     for file in obefiles:
@@ -58,7 +56,7 @@ def readscansigs():
 
     scanfiles = glob.glob(datadir + '/scan???.txt')
 
-    n_trace = np.loadtxt(scanfiles[0], unpack=True, dtype=int)[0]
+    n_trace = np.loadtxt(scanfiles[0], unpack=True, )[0]
 
     sigdata = []
     x0data = []

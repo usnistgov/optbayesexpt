@@ -30,7 +30,10 @@ pickiness = 20         # ignored when optimal == True
 # measurement simulation added noise level
 noise_level = 2000
 # random number generator
-rng = np.random.default_rng()
+try:
+    rng = np.random.default_rng()
+except AttributeError:
+    rng = np.random
 
 ########################################################################
 #           OptBayesExpt SETUP

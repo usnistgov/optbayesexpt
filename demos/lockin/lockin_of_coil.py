@@ -48,7 +48,11 @@ pickiness = 1            # selectivity parameter, ignored for optimal == True
 # changing the setting requires 5 t
 cost_of_moving = 5
 # using numpy's new style of random number generator
-rng = np.random.default_rng()
+try:
+    rng = np.random.default_rng()
+except AttributeError:
+    # ... or not
+    rng = np.random
 
 
 ########################################################################

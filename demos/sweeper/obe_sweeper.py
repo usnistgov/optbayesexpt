@@ -1,6 +1,10 @@
 import numpy as np
 from optbayesexpt import OptBayesExpt
-rng = np.random.default_rng()
+try:
+    rng = np.random.default_rng()
+except AttributeError:
+    rng = np.random
+
 
 
 class OptBayesExptSweeper(OptBayesExpt):
