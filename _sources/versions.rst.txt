@@ -1,10 +1,19 @@
 Version Notes
 =============
 
+Version 1.0.1
+-------------
+
+June 2, 2020
+
+* Provides backwards compatibility to numpy.random usage for numpy versions
+  pre-1.17.0.
+* Fixes some plotting problems.
+
 Version 1.0.0
 -------------
 
-April 27, 2020.
+April 27, 2020
 
 Version 1.0.0 represents an overhaul of the optbayesexpt python package.  It
 is not compatible with earlier versions, but only minor changes are needed to

@@ -149,7 +149,10 @@ $(document).ready(function(){
 
         <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_particles</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_particles</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">just_resampled</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span>
 
 <div class="viewcode-block" id="ParticlePDF.set_pdf"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.particlepdf.ParticlePDF.set_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">set_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Re-initializes the probability distribution</span>
@@ -309,8 +312,18 @@ $(document).ready(function(){
 <span class="sd">            An ``n_dims`` X ``N_DRAWS`` :obj:`ndarray` of parameter draws.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">draws</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_draws</span><span class="p">,</span>
-                                <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># draws = self.rng.choice(self.particles, size=n_draws,</span>
+        <span class="c1"># p=self.particle_weights, axis=1)</span>
+        <span class="n">draws</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">,</span> <span class="n">n_draws</span><span class="p">))</span>
+
+        <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_particles</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_draws</span><span class="p">,</span>\
+                                <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">):</span>
+            <span class="c1"># for j, selected_index in enumerate(indices):</span>
+            <span class="c1">#     draws[i,j] = param[selected_index]</span>
+            <span class="n">draws</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
+
         <span class="k">return</span> <span class="n">draws</span></div></div>
 
 

@@ -68,8 +68,11 @@ $(document).ready(function(){
             
   <h1>Source code for optbayesexpt.obe_utils</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
-
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span>
+    
 <div class="viewcode-block" id="MeasurementSimulator"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_utils.MeasurementSimulator">[docs]</a><span class="k">class</span> <span class="nc">MeasurementSimulator</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Provides simulated measurement data</span>
