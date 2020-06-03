@@ -10,8 +10,8 @@ OptBayesExpt documentation
 :Author: R.\  D.\  McMichael
 :Email: rmcmichael@nist.gov
 :Affiliation: National Institute of Standards and Technology
-:Version: 1.0.0
-:Date: May 1, 2020
+:Version: 1.0.1
+:Date: June 2, 2020
 
 Overview
 --------
