@@ -6,9 +6,9 @@ Version 1.0.1
 
 June 2, 2020
 
-* Provides backwards compatibility to numpy.random usage for numpy versions
-  pre-1.17.0.
-* Fixes some plotting problems.
+* Provides backwards compatibility to numpy.random usage for numpy versions pre-1.17.0.
+
+* Fixes some plotting problems
 
 Version 1.0.0
 -------------
