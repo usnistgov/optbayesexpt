@@ -10,6 +10,8 @@ June 2, 2020
 
 * Fixes some plotting problems
 
+* Adds 'ready' command to OBE_Server.run() for communication checks.
+
 Version 1.0.0
 -------------
 

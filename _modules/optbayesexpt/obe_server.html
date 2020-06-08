@@ -283,7 +283,10 @@ $(document).ready(function(){
 
 <span class="sd">            Reply: a list of setting values.</span>
 
+<span class="sd">        **&#39;ready&#39;**</span>
+<span class="sd">            Returns &#39;OK&#39;.  Useful for checking communication.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="nb">print</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SERVER READY&#39;</span><span class="p">)</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -345,10 +348,13 @@ $(document).ready(function(){
                 <span class="n">cov</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span><span class="o">.</span><span class="n">covariance</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">cov</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 
+            <span class="k">elif</span> <span class="s1">&#39;ready&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;OK&#39;</span><span class="p">)</span>
 
             <span class="k">elif</span> <span class="s1">&#39;done&#39;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;OK&#39;</span><span class="p">)</span>
                 <span class="k">break</span>
+
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># the incoming message wasn&#39;t interpreted</span>
                 <span class="k">pass</span></div></div>
