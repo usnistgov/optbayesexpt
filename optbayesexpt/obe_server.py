@@ -214,7 +214,10 @@ class OBE_Server(Socket):
 
             Reply: a list of setting values.
 
+        **'ready'**
+            Returns 'OK'.  Useful for checking communication.
         """
+
         print()
         print('SERVER READY')
         while True:
@@ -276,10 +279,13 @@ class OBE_Server(Socket):
                 cov = self.obe_engine.covariance()
                 self.send(cov.tolist())
 
+            elif 'ready' in message['command']:
+                self.send('OK')
 
             elif 'done' in message['command']:
                 self.send('OK')
                 break
+
             else:
                 # the incoming message wasn't interpreted
                 pass
