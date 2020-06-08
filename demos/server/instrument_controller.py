@@ -41,6 +41,13 @@ def main():
         server_pipe = Popen(['python', server_script])
     ##################################################################
 
+    while True:
+        try:
+            tcpcmd({'command': 'ready'})
+            break
+        except ConnectionRefusedError:
+            sleep(.1)
+
     # measure & plot 3 runs
     print(
         "3 runs, each measuring a randomly located peak and specified "
