@@ -20,7 +20,7 @@ download the software. Note the trailing "."
 
 ::
 
-     > git clone https://www.github.com/usnistgov/optbayesexpt .
+     > git clone https://github.com/usnistgov/optbayesexpt.git .
 
 Now install the optbayesexpt modules by one of these methods:
 
