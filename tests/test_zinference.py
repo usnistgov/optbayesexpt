@@ -86,15 +86,36 @@ def do_a_run():
     return passed
 
 
-# iterate over runs
-passes = 0
-for i in np.arange(n_runs):
-    if do_a_run():
-        passes += 1
-
 def test_infer():
-    assert 94 < passes < 96, f'{passes} out of {n_runs} inference tests ' \
+    # set up a case where the posterior distribution is calculable.
+    # known x values & sigma values
+    x_samples = np.linspace(-5, 5, n_particles)
+    sigma_samples = np.ones(n_particles) * true_sigma
+    parameters = (x_samples, sigma_samples)
+
+    # create an OBE.
+    myinferobe = MyObe(model_function, settings, parameters, constants)
+    # turn off resampling
+    myinferobe.tuning_parameters['resample_threshold'] = 0
+
+    measurement = ((), true_mean, true_sigma)
+    myinferobe.pdf_update(measurement)
+
+    known_posterior = np.exp(-(true_mean - x_samples)**2 / (2*true_sigma**2))\
+                             / (np.sqrt(2*np.pi) * true_sigma)
+    known_posterior /= np.sum(known_posterior)
+    np.testing.assert_allclose(myinferobe.particle_weights, known_posterior,
+                               atol=1e-15, rtol=1e-15)
+
+
+def test_experiment():
+    passes = 0
+    for i in np.arange(n_runs):
+        if do_a_run():
+            passes += 1
+
+    assert 92 < passes < 98, f'{passes} out of {n_runs} inference tests ' \
                              f'fall in 95 % credible interval. \nExpected '\
-                               '95.'
+                               '95 with standard deviation 2.1'
 
 
