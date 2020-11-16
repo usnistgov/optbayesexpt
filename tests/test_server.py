@@ -141,7 +141,7 @@ def test_run_pdf():
     # on a non-default port
     # start the script
     cwd = os.getcwd()
-    server_script = os.path.join(cwd, "tests\\server_script_61984.py")
+    server_script = os.path.join(cwd, "tests", "server_script_61984.py")
     server_pipe = Popen(['python', server_script], cwd=cwd)
 
     sock = Socket('client', port=61984)
@@ -160,3 +160,5 @@ def test_run_pdf():
     reply = sock.tcpcmd({'command': 'getcov'})
     assert_array_almost_equal(right_cov, reply,
                        err_msg='incorrect covariance returned')
+
+    sock.tcpcmd({'command': 'done'})
