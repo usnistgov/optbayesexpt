@@ -257,12 +257,13 @@ ax = plt.subplot(223)
 plt.text(0.02, .9, "(c)", transform=ax.transAxes)
 # digested measurement data
 x, y, std, n_of_m = trace_sort(frequency_trace, x_trace)
-size = n_of_m * 50
+size = np.array(n_of_m) * 5
+
 plt.scatter(x, y, marker='.', c='r', s=size, alpha=0.5)
 
 x, y, std, n_of_m = trace_sort(frequency_trace, y_trace)
-size = n_of_m * 50
 plt.scatter(x, y, marker='.', c='g', s=size, alpha=0.5)
+
 # true curve
 xvals = sets[0] / 2 / np.pi
 plt.semilogx(xvals, truecurve[0], 'r-', label="Real")
