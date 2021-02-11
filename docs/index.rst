@@ -22,6 +22,14 @@ design, an adaptive strategy for controlling experiments.
 The ``optbayesexpt`` package is avaiable on github.
 https://www.github.com/usnistgov/optbayesexpt.
 
+In publications using ``optbayesexpt``, please cite
+
+   Robert D. McMichael, Sean M. Blakley, and Sergey Dushenko,
+   *Optbayesexpt: Sequential Bayesian Experiment Design for Adaptive
+   Measurements*,
+   Journal of Research of National Institute of Standards and Technology,
+   **126**, 126002 (2021),   https://doi.org/10.6028/jres.126.002.
+
 What is it for?
 ^^^^^^^^^^^^^^^
 
