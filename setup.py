@@ -7,7 +7,7 @@ with open(os.path.join(os.getcwd(), 'README.md'), "r") as f:
     long_description = f.read()
 
 setup(name='optbayesexpt',
-      version='1.0.1',
+      version='1.1.0',
       description="Optimal Bayesian Experimental Design",
       long_description=long_description,
       classifiers=[
@@ -15,7 +15,7 @@ setup(name='optbayesexpt',
           "License :: Public Domain",
           "Natural Language :: English",
           "Operating System :: OS Independent",
-          "Programming Language :: Python :: 3.6",
+          "Programming Language :: Python :: 3.8",
           "Topic :: Scientific/Engineering :: Mathematics",
           "Topic :: Scientific/Engineering :: Physics",
           "Topic :: Software Development :: Libraries :: Python Modules",
