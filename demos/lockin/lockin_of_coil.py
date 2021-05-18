@@ -32,7 +32,7 @@ features not covered by OptBayesExpt:
 import numpy as np
 import matplotlib.pyplot as plt
 from optbayesexpt import MeasurementSimulator, trace_sort
-from obe_lockin import OptBayesExptLockin
+from optbayesexpt import OptBayesExptNoiseParameter
 
 # script parameters
 #
@@ -102,12 +102,13 @@ def coil_model(sets, pars, cons):
     return np.array((np.real(Z), np.imag(Z)))
 
 
-# define a subclass of OptBayesExptLockin with a
-# enforce_parameter_constraints() method that actually does something
-class OptBayesExptLockinCleanParams(OptBayesExptLockin):
+# define a subclass of OptBayesExptNoiseParameter with a
+# enforce_parameter_constraints() method for all parameters
+class OptBayesExptLockinCleanParams(OptBayesExptNoiseParameter):
 
     def __init__(self, coil_model, sets, params, cons):
-        OptBayesExptLockin.__init__(self, coil_model, sets, params, cons)
+        OptBayesExptNoiseParameter.__init__(self, coil_model, sets, params,
+                                           cons)
 
     def enforce_parameter_constraints(self):
         """

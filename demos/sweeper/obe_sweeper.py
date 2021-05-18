@@ -1,13 +1,12 @@
 import numpy as np
-from optbayesexpt import OptBayesExpt
+from optbayesexpt import OptBayesExptNoiseParameter
 try:
     rng = np.random.default_rng()
 except AttributeError:
     rng = np.random
 
 
-
-class OptBayesExptSweeper(OptBayesExpt):
+class OptBayesExptSweeper(OptBayesExptNoiseParameter):
     """ An OptBayesExpt class for instruments that sweep a parameter
 
     This class provides (start, stop) pairs as measurement settings,
@@ -66,7 +65,7 @@ class OptBayesExptSweeper(OptBayesExpt):
 
     def __init__(self, model_function, setting_values, parameter_samples,
                  constants):
-        OptBayesExpt.__init__(self, model_function, setting_values,
+        OptBayesExptNoiseParameter.__init__(self, model_function, setting_values,
                                   parameter_samples, constants)
 
         self.noise_parameter_index = 3
@@ -93,85 +92,13 @@ class OptBayesExptSweeper(OptBayesExpt):
         if y_model_data is None:
             # Iterate through the settings and results, calculating y_model
             for setting, result in zip(setting_values, result_values):
-                # calculate the model values for all parameters
-                # model expects setting value in a tuple
-                y_model_data = self.eval_over_all_parameters((setting,))
-
-                # Calculate the *likelihood* of measuring
-                # ``measurement_result`` for all parameter combinations
-                likyhd = self.likelihood(y_model_data, ((setting,), result))
-
-                # update the pdf using a method inherited from ParticlePDF()
-                self.bayesian_update(likyhd)
-                self.parameters = self.particles
-                if self.just_resampled:
-                    self.enforce_parameter_constraints()
-
-    def likelihood(self, y_model, measurement_record):
-        """
-        Calculates the likelihood of a measurement result.
-
-        For each parameter combination, estimate the probability of
-        obtaining the results provided in :code:`measurement_result`.  This
-        default method relies on several assumptions:
-
-        Args:
-            y_model (:obj:`ndarray`): ``model_function()`` results evaluated
-                for all parameters.
-            measurement_record (:obj:`tuple`): The measurement conditions
-                and results, supplied by the user to ``update_pdf()``. The
-                elements of ``measurement_record`` are:
-
-                    - settings (tuple)
-                    - measurement value (float)
-
-        Returns:
-            an array of probabilities corresponding to the parameters in
-            :code:`self.allparameters`.
-        """
-        # unpack the measurement_record
-        onesetting, y_meas = measurement_record
-        # get the noise parameter samples
-        sigma = self.parameters[self.noise_parameter_index]
-        # Assuming Gaussian noise with sigma parameter
-        return np.exp(-((y_model - y_meas) / sigma) ** 2 / 2) / sigma
-
-    def enforce_parameter_constraints(self):
-        """ Enforces constraints on noise parameter
-
-        The measurement noise must be greater than zero.  Failure to enforce
-        this constraint occasionally leads to negative probabilities.
-        Returns:
-        """
-        # find the violators
-        sigmas = self.parameters[self.noise_parameter_index]
-        bad_ones = tuple(np.argwhere(sigmas < 0))
-
-        for violator in bad_ones:
-            # effective death penalty.  Next resample will remove
-            self.particle_weights[violator] = 0
-
-        # rescale the particle weights
-        self.particle_weights = self.particle_weights \
-            / np.sum(self.particle_weights)
-
-    def y_var_noise_model(self):
-        """
-        Models the measurement variance solely due to measurement noise.
-
-        A model of measurement variance (noise) as a function of settings,
-        averaged over parameters if parameter-dependent.  Used in the
-        *utility* calculation.
-
-        Returns:
-            If measurement noise is independent of settings, a :obj:`float`,
-            otherwise an :obj:`ndarray` with the shape of an
-            element of `allsettings`
-        """
-        sigma = self.parameters[self.noise_parameter_index]
-        sigvar = np.sum(self.particle_weights * sigma ** 2)
-
-        return sigvar
+                # # calculate the model values for all parameters
+                # # model expects setting value in a tuple
+                # y_model_data = self.eval_over_all_parameters((setting,))
+                # package the noise parameter as a sigma
+                sigma = (self.parameters[self.noise_parameter_index],)
+                measurement_package = ((setting,), result, sigma)
+                super().pdf_update(measurement_package)
 
     def cost_estimate(self):
         """
