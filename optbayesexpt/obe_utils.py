@@ -39,25 +39,17 @@ class MeasurementSimulator():
         Returns:
             Simulated measurement value(s)
         """
-        if params is not None:
-            use_params = params
-        else:
-            use_params = self.params
+        if params is None:
+            params = self.params
 
-        if noise_level is not None:
-            use_noise = noise_level
-        else:
-            use_noise = self.noise_level
+        if noise_level is None:
+            noise_level = self.noise_level
 
-        y = self.model_function(setting, use_params, self.cons)
+        y = np.array(self.model_function(setting, params, self.cons))
+        tmpnoise = rng.standard_normal(y.shape) * noise_level
+        yn = y + tmpnoise
 
-        # add noise
-        s = use_noise
-
-        # try:
-        y += s * rng.standard_normal(y.shape)
-
-        return y
+        return yn
 
 
 def trace_sort(settings, measurements):

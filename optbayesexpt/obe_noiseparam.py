@@ -36,30 +36,40 @@ class OptBayesExptNoiseParameter(OptBayesExpt):
         # identify the measurement noise parameter.
         self.noise_parameter_index = 3
 
-    def likelihood(self, y_model, measurement_result):
-        """Calculate the likelihood with measurement uncertainty as a
-        parameter.
-
-        Assumes that experimental noise is Gaussian noise and that sigma is
-        "packed" as the third parameter.
-        Args:
-            y_model: modeled measurement mean values for all parameter
-                combos. The result of a self.evaluate_ove_all_parameters()
-                call.
-            measurement_result: A tuple of (settings, measured values). Note
-                that the user's script must call self.pdf_update() with an
-                argument that fits this format.
-
-        Returns: likelihood values for all parameters
-
+    def pdf_update(self, measurement_record, y_model_data=None):
         """
-        # unpacking
-        sigma = self.parameters[self.noise_parameter_index]
-        setting, yvalue = measurement_result
-        # calculate likelihood assuming Gaussian noise.
-        likyhd = np.exp(-(y_model - yvalue) ** 2 / (2 * sigma ** 2)) / np.abs(
-            sigma)
-        return likyhd
+        Adds the noise parameter array as the measurement_record[3]
+        :param measurement_record:
+        :param y_model_data:
+        :return:
+        """
+
+        onesetting, y_meas = measurement_record[:2]
+        # package sigma parameter array as uncertainty
+        sigma = (self.parameters[self.noise_parameter_index],)
+        new_record = (onesetting, y_meas,
+                      (self.parameters[self.noise_parameter_index],))
+
+        return super().pdf_update(new_record, y_model_data)
+
+    def enforce_parameter_constraints(self):
+        """
+        All of the coil parameters and noise values must be > 0.  Assign
+        zero probability to any violators.
+        """
+        changes = False
+        param = self.parameters[self.noise_parameter_index]
+        bad_ones = np.argwhere(param < 0).flatten()
+        if len(bad_ones) > 0:
+            changes = True
+            for violator in bad_ones:
+                # effective death penalty.  Next resample will remove
+                self.particle_weights[violator] = 0
+
+        if changes is True:
+            # rescale the particle weights
+            self.particle_weights = self.particle_weights \
+                                    / np.sum(self.particle_weights)
 
     def y_var_noise_model(self):
         """Calculates the mean variance for noise as a parameter

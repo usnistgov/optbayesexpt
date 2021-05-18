@@ -115,29 +115,50 @@ class OptBayesExpt(ParticlePDF):
             parameter distribution.  Default: 30
    """
 
-    def __init__(self, model_function, setting_values, parameter_samples,
-                 constants):
-
-        self.model_function = model_function
+    def __init__(self, user_model, setting_values, parameter_samples,
+                 constants, n_draws=30):
+        print('v 1.1.y, under construction')
+        self.model_function = user_model
         self.setting_values = setting_values
         self.allsettings = [s.flatten() for s in
                             np.meshgrid(*setting_values, indexing='ij')]
         self.setting_indices = np.arange(len(self.allsettings[0]))
         ParticlePDF.__init__(self, parameter_samples)
+        # make parameters a 'view' of the particlepdf.particles
         self.parameters = self.particles
-
         self.cons = constants
 
         # A noise level estimate used in setting selection
         # used by ``y_var_noise_model()``.
-        self.default_noise_std = 1.0
         # A list containing records of accumulated measurement results
         self.measurement_results = []
         # Indices of most recent requested setting
         self.last_setting_index = 0
         # The number of parameter draws to use in the utility calculation.
         # Default: 30
-        self.N_DRAWS = 30
+        self.N_DRAWS = n_draws
+
+        # Test the supplied model
+        # n_channels = values per measurement = model output values
+        self.n_channels = self._model_output_len()
+
+        # In order to handle single-channel and multi-channel measurements
+        # the same way, make single-channel model outputs iterable over
+        # channels.
+        if self.n_channels == 1:
+            def wrapped_function(s, p, c):
+                y = user_model(s, p, c)
+                return (y,)
+            self._model_function = wrapped_function
+        else:
+            self._model_function = self.model_function
+
+        self.utility_y_space = np.zeros((self.N_DRAWS,
+                                        self.n_channels,
+                                        len(self.allsettings[0])))
+
+        self.default_noise_std = np.ones((self.n_channels, 1)) * 1.0
+        # self.default_noise_std = np.ones(self.n_channels) * 1.0
 
     def eval_over_all_parameters(self, onesettingset):
         """Evaluates the experimental model.
@@ -161,7 +182,7 @@ class OptBayesExpt(ParticlePDF):
             (:obj:`ndarray`) array of model values with dimensions of one
             element of :obj:`self.allparams`.
         """
-        return self.model_function(onesettingset, self.parameters, self.cons)
+        return self._model_function(onesettingset, self.parameters, self.cons)
 
     def eval_over_all_settings(self, oneparamset):
         """Evaluates the experimental model.
@@ -179,7 +200,7 @@ class OptBayesExpt(ParticlePDF):
             (:obj:`ndarray`) array of model values with dimensions of one
             element of :code:`self.allsettings`.
         """
-        return self.model_function(self.allsettings, oneparamset, self.cons)
+        return self._model_function(self.allsettings, oneparamset, self.cons)
 
     def pdf_update(self, measurement_record, y_model_data=None):
         """
@@ -216,13 +237,17 @@ class OptBayesExpt(ParticlePDF):
 
         # Calculate the *likelihood* of measuring `measurmennt_result` for
         # all parameter combinations
+        # Product of likelihoods from the different channels
         likyhd = self.likelihood(y_model_data, measurement_record)
 
         # update the pdf using a method inherited from ParticlePDF()
+
         self.bayesian_update(likyhd)
         self.parameters = self.particles
         if self.just_resampled:
             self.enforce_parameter_constraints()
+
+        return self.particles, self.particle_weights
 
     def enforce_parameter_constraints(self):
         """Enforces constraints on parameters
@@ -276,8 +301,14 @@ class OptBayesExpt(ParticlePDF):
         """
         # unpack the measurement_record
         onesetting, y_meas, sigma = measurement_record
+        lky = 1.0
+        for y_m, y, s in zip(y_model,
+                             np.atleast_1d(y_meas),
+                             np.atleast_1d(sigma)):
+            lky *= np.exp(-((y_m - y) / s) ** 2 / 2) / s
 
-        return np.exp(-((y_model - y_meas) / sigma) ** 2 / 2) / sigma
+
+        return lky
 
     def yvar_from_parameter_draws(self):
         """Models the measurement variance solely due to parameter
@@ -297,17 +328,15 @@ class OptBayesExpt(ParticlePDF):
         """
 
         paramsets = self.randdraw(self.N_DRAWS).T
-        # make space for model results
-        ycalc = np.zeros((self.N_DRAWS,) + self.allsettings[0].shape)
-        # the default for the default number of draws is set in __init__()
 
         # fill the model results for each drawn parameter set
         for i, oneparamset in enumerate(paramsets):
-            ycalc[i] = self.eval_over_all_settings(oneparamset)
+            self.utility_y_space[i] = self.eval_over_all_settings(oneparamset)
 
         # Evaluate how much the model varies at each setting
         # calculate the variance of results for each setting
-        return np.var(ycalc, axis=0)
+        yvar = np.var(self.utility_y_space, axis=0)
+        return yvar
 
     def y_var_noise_model(self):
         """
@@ -364,10 +393,8 @@ class OptBayesExpt(ParticlePDF):
         var_p = self.yvar_from_parameter_draws()
         var_n = self.y_var_noise_model()
         cost = self.cost_estimate()
-
-        utility = np.log(1 + var_p / var_n) / cost
-
-        return utility
+        utility = np.sum(np.log(1 + var_p / var_n), axis=0)
+        return utility / cost
 
     def opt_setting(self):
         """Find the setting with maximum predicted impact on the parameter
@@ -385,7 +412,6 @@ class OptBayesExpt(ParticlePDF):
         """
 
         utility = self.utility()
-
         # Find the settings with the maximum utility
         # argmax returns an array of indices into the flattened array
         bestindex = np.argmax(utility)
@@ -424,7 +450,27 @@ class OptBayesExpt(ParticlePDF):
 
         utility /= np.sum(utility)
         goodindex = self.rng.choice(self.setting_indices, p=utility)
-        goodvalues = [set[goodindex] for set in self.allsettings]
+        goodvalues = [s[goodindex] for s in self.allsettings]
 
         self.last_setting_index = goodindex
         return tuple(goodvalues)
+
+    def _model_output_len(self):
+        """Detect the number of model outputs
+
+        :return:
+        """
+
+        try:
+            rng = np.random.default_rng()
+        except AttributeError:
+            rng = np.random
+
+        settingindex = rng.choice(self.setting_indices)
+        one_setting = np.array([s[settingindex] for s in self.allsettings])
+        one_param_set = self.randdraw(n_draws=1)
+
+        singleshot = self.model_function(one_setting, one_param_set, self.cons)
+
+        return len(np.atleast_1d(singleshot))
+
