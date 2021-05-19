@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>optbayesexpt.obe_noiseparam &#8212; OptBayesExpt 1.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+
+    <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+
+<script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Mark external (non-nist.gov) A tags with class "external"
+  //If the adress start with https and ends with nist.gov
+  var re_nist = new RegExp('^https?:\/\/((^\/)*\.)*nist\\.gov(\/|$)');
+  //Regex to find address that start with https
+  var re_absolute_address = new RegExp('^((https?:)?\/\/)');
+  $("a").each(function(){
+    var url=$(this).attr('href');
+    if(re_nist.test(url) || !re_absolute_address.test(url)){
+      $(this).addClass('local');
+    }else{
+      //This a href appears to be external, so tag it
+      $(this).addClass('external');
+    }
+  });
+  // Add leaveNotice to external A elements
+  $('a.external').leaveNotice();
+});
+</script>
+<link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+<script async type="text/javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=NIST&subagency=github&pua=UA-42404149-54&yt=true&exts=ppsx,pps,f90,sch,rtf,wrl,txz,m1v,xlsm,msi,xsd,f,tif,eps,mpg,xml,pl,xlt,c">
+</script>
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for optbayesexpt.obe_noiseparam</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">optbayesexpt</span> <span class="kn">import</span> <span class="n">OptBayesExpt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="OptBayesExptNoiseParameter"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter">[docs]</a><span class="k">class</span> <span class="nc">OptBayesExptNoiseParameter</span><span class="p">(</span><span class="n">OptBayesExpt</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sequential Bayesian experiment design for with measurement</span>
+<span class="sd">    uncertainty as random parameters to estimate.</span>
+
+<span class="sd">    OptBayesExptNoiseParameter is designed for cases where the experimental</span>
+<span class="sd">    uncertainty is an unknown, and the standard deviation of the measurement</span>
+<span class="sd">    noise as one of the parameters.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model_function (function): the experimental model.  Function</span>
+<span class="sd">            must accept (settings, parameters, constants) arguments and</span>
+<span class="sd">            return arrays (or ``n``-tuples of arrays for ``n``-channel cases)</span>
+<span class="sd">            corresponding to input dimensions.</span>
+<span class="sd">        setting_values (tuple of arrays): the allowed setting values.</span>
+<span class="sd">        parameter_samples (tuple of arrays): random draws of each model</span>
+<span class="sd">            parameter representing the prior probability distribution.</span>
+<span class="sd">        constants (tuple): settings or parameters that are assumed constant</span>
+<span class="sd">            for the duration of the measurement.</span>
+<span class="sd">        noise_parameter_index (int): identifies which of the arrays in the</span>
+<span class="sd">            ``paramter_samples`` input is the uncertainty parameter. Default</span>
+<span class="sd">            ``None``.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        noise_parameter_index (int): identifies which parameter</span>
+<span class="sd">            array contains the measurement sigma parameter.  The value may</span>
+<span class="sd">            be assigned after instantiation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_function</span><span class="p">,</span> <span class="n">setting_values</span><span class="p">,</span> <span class="n">parameter_samples</span><span class="p">,</span>
+                 <span class="n">constants</span><span class="p">,</span> <span class="n">noise_parameter_index</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">OptBayesExpt</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_function</span><span class="p">,</span> <span class="n">setting_values</span><span class="p">,</span>
+                                  <span class="n">parameter_samples</span><span class="p">,</span> <span class="n">constants</span><span class="p">)</span>
+
+        <span class="c1"># identify the measurement noise parameter.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">noise_parameter_index</span> <span class="o">=</span> <span class="n">noise_parameter_index</span>
+
+<div class="viewcode-block" id="OptBayesExptNoiseParameter.pdf_update"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.pdf_update">[docs]</a>    <span class="k">def</span> <span class="nf">pdf_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measurement_record</span><span class="p">,</span> <span class="n">y_model_data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Refines the parameters&#39; probability distribution function given a</span>
+<span class="sd">        measurement result.</span>
+
+<span class="sd">        Incorporates a measurement result, allowing for measurement</span>
+<span class="sd">        uncertainty as random variable to be estimated.  Packages</span>
+<span class="sd">        measurement_record with the noise parameter array as the third</span>
+<span class="sd">        element of the  measurement_record and calls</span>
+<span class="sd">        OptBayesExpt.pdf_update() to calculate likelihood and generate a</span>
+<span class="sd">        *posterior* parameter distribution.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            measurement_record (:obj:`tuple`): A record of the measurement</span>
+<span class="sd">                containing at least the settings and the measured value(s).</span>
+<span class="sd">                The first element of ``measurement_record`` gets passed as a</span>
+<span class="sd">                settings tuple to ``evaluate_over_all_parameters()`` The</span>
+<span class="sd">                entire ``measurement_result`` tuple gets forwarded to</span>
+<span class="sd">                ``likelihood()``.</span>
+
+<span class="sd">            y_model_data (:obj:`ndarray`): The result of</span>
+<span class="sd">                :code:`self.eval_over_all_parameters()` This argument allows</span>
+<span class="sd">                model evaluation to run before measurement data is</span>
+<span class="sd">                available, e.g. while measurements are being made. Default =</span>
+<span class="sd">                ``None``.</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">onesetting</span><span class="p">,</span> <span class="n">y_meas</span> <span class="o">=</span> <span class="n">measurement_record</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="c1"># package sigma parameter array as uncertainty</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_parameter_index</span><span class="p">],)</span>
+        <span class="n">new_record</span> <span class="o">=</span> <span class="p">(</span><span class="n">onesetting</span><span class="p">,</span> <span class="n">y_meas</span><span class="p">,</span>
+                      <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_parameter_index</span><span class="p">],))</span>
+
+        <span class="c1"># With a repackaged measurement record, use the pdf_update from the</span>
+        <span class="c1"># parent class, ``OptBayesExpt``, which is invokes using ``super()``.</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">pdf_update</span><span class="p">(</span><span class="n">new_record</span><span class="p">,</span> <span class="n">y_model_data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OptBayesExptNoiseParameter.enforce_parameter_constraints"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.enforce_parameter_constraints">[docs]</a>    <span class="k">def</span> <span class="nf">enforce_parameter_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constrains the noise parameter to be positive. Negative</span>
+<span class="sd">        uncertainties lead to negative likelihoods, negative particle</span>
+<span class="sd">        weights and other abominations.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">changes</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_parameter_index</span><span class="p">]</span>
+        <span class="c1"># np.nonzero identifies negative values</span>
+        <span class="n">bad_ones</span><span class="p">,</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">param</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bad_ones</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">changes</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span><span class="p">[</span><span class="n">bad_ones</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1">#</span>
+        <span class="c1">#  other parameter checks may be added here</span>
+        <span class="c1">#</span>
+        <span class="c1"># renormalize ``particle_weights`` if weights have been changed.</span>
+        <span class="k">if</span> <span class="n">changes</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1"># rescale the particle weights</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span> \
+                                    <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OptBayesExptNoiseParameter.y_var_noise_model"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.y_var_noise_model">[docs]</a>    <span class="k">def</span> <span class="nf">y_var_noise_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculates the mean variance for noise as a parameter</span>
+
+<span class="sd">        The self.opt_setting() and self.good_setting() methods calculate</span>
+<span class="sd">        utility, which depends on the relative magnitudes of variance in</span>
+<span class="sd">        measurement outcomes due to parameter distribution and variance due</span>
+<span class="sd">        to measurement noise.</span>
+
+<span class="sd">        Returns: (float) average variance.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># square the sigma samples</span>
+        <span class="n">sigma_squared</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_parameter_index</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="c1"># weighted average</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">sigma_squared</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+    </div>
+  </body>
+</html>

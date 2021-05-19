@@ -1,6 +1,44 @@
 Version Notes
 =============
 
+Version 1.1.0
+-------------
+
+May 11, 2021
+
+Plans for version 1.1.0
+
+* Add transparent support for multi-channel measurements. Examples might be
+  X, Y outputs from lockin amplifiers, IQ mixer channels, or multiple photon
+  counters.
+
+* Accelerate computation-heavy functions using numba on systems where the
+  numba package is installed.
+
+* Add keyword arguments to OptBayesExpt() class
+
+  - noiseparam (``int``): Provides an index into the parameters array,
+    identifying the parameter
+    as an uncertainty to be determined alongside the model_function
+    parameters. If ``noiseparam is not None``, likelihood calculations use
+    this parameter instead of uncertainties provided with measurement values.
+    Default ``None``.
+
+  - scale (``boolean``): In particle resampling, ``scale=True`` compensates
+    for a small, distribution-broadening, random-walk step by shrinking the
+    distribution towards its mean. This scaling preserves the standard
+    deviation of Gaussian distributions under resampling, but distorts
+    non-Gaussian distributions.  Default is ``scale=True`` for backward
+    compatibility, but ``scale=False`` is recommended.
+
+  - choke (``float``): Occasionally, simulated measurement runs will "get
+    stuck," and converge to incorrect parameter values. The ``choke`` argument
+    provides a heuristic fix for better reliability at the expense of speed.
+    For ``0.0 < choke < 1.0``, the likelihood is raised to the ``choke`` power.
+    This change reduces the max/min ratio of the likelihood and allows more
+    data to influence the parameter distribution between resampling events.
+    Default ``choke=1.0``.
+
 Version 1.0.1
 -------------
 

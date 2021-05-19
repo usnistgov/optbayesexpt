@@ -108,25 +108,17 @@ $(document).ready(function(){
 <span class="sd">        Returns:</span>
 <span class="sd">            Simulated measurement value(s)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">use_params</span> <span class="o">=</span> <span class="n">params</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">use_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span>
 
-        <span class="k">if</span> <span class="n">noise_level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">use_noise</span> <span class="o">=</span> <span class="n">noise_level</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">use_noise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_level</span>
+        <span class="k">if</span> <span class="n">noise_level</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">noise_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_level</span>
 
-        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_function</span><span class="p">(</span><span class="n">setting</span><span class="p">,</span> <span class="n">use_params</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cons</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_function</span><span class="p">(</span><span class="n">setting</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cons</span><span class="p">))</span>
+        <span class="n">tmpnoise</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="n">noise_level</span>
+        <span class="n">yn</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">tmpnoise</span>
 
-        <span class="c1"># add noise</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="n">use_noise</span>
-
-        <span class="c1"># try:</span>
-        <span class="n">y</span> <span class="o">+=</span> <span class="n">s</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">y</span></div></div>
+        <span class="k">return</span> <span class="n">yn</span></div></div>
 
 
 <div class="viewcode-block" id="trace_sort"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_utils.trace_sort">[docs]</a><span class="k">def</span> <span class="nf">trace_sort</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">measurements</span><span class="p">):</span>
