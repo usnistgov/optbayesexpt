@@ -295,7 +295,5 @@ for name, true, mean, std, unit in \
     plt.text(delta_x, top, info)
     top -= delta_y
 
-
-
 plt.tight_layout()
 plt.show()
