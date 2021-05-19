@@ -50,6 +50,10 @@ class OptBayesExpt(ParticlePDF):
             The broadcasting feature of numpy arrays provides a convenient
             way to write this type of function for simple analytical models.
 
+            Version 1.1.0 and later support model functions that return
+            multiple output channels, e. g. real and imaginary parts or vectors
+            expressed as tuples, lists or arrays.
+
         setting_values (:obj:`tuple` of :obj:`ndarray`):
             Each array in the :code:`setting_values` tuple contains the
             allowed discrete values of a measurement setting.  Applied

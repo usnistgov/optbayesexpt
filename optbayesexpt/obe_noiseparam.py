@@ -6,30 +6,28 @@ class OptBayesExptNoiseParameter(OptBayesExpt):
     """Sequential Bayesian experiment design for with measurement
     uncertainty as random parameters to estimate.
 
-    OptBayesExptNoiseParameter inherits attributes from OptBayesExpt,
-
-    This class demonstrates three things:
-
-        - Using the OptBayesExptBase class
-        - Incorporating a noise characteristic as an unknown
-
-    Often, the experimental uncertainty is an unknown, and it would be
-    useful to have the "sigma" of the measurement noise as one of the
-    parameters.
+    OptBayesExptNoiseParameter is designed for cases where the experimental
+    uncertainty is an unknown, and the standard deviation of the measurement
+    noise as one of the parameters.
 
     Args:
         model_function (function): the experimental model.  Function
             must accept (settings, parameters, constants) arguments and
-            return an array of 2 floats or of 2 arrays.
+            return arrays (or ``n``-tuples of arrays for ``n``-channel cases)
+            corresponding to input dimensions.
         setting_values (tuple of arrays): the allowed setting values.
         parameter_samples (tuple of arrays): random draws of each model
             parameter representing the prior probability distribution.
         constants (tuple): settings or parameters that are assumed constant
             for the duration of the measurement.
+        noise_parameter_index (int): identifies which of the arrays in the
+            ``paramter_samples`` input is the uncertainty parameter. Default
+            ``None``.
 
     Attributes:
         noise_parameter_index (int): identifies which parameter
-            array contains the measurement sigma parameter.
+            array contains the measurement sigma parameter.  The value may
+            be assigned after instantiation.
     """
 
     def __init__(self, model_function, setting_values, parameter_samples,

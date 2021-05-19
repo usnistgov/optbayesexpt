@@ -8,6 +8,10 @@ Overview
   and selects measurement settings. Typically, it is the only
   class that a user will need to interact with directly.
 
+* :obj:`OptBayesExptNoiseParameter` is similar to :obj:`OptBayesExpt` but
+  is designed for cases where the measurement uncertainty is a parameter to
+  be estimated.
+
 * :obj:`ParticlePDF` is inherited by :obj:`OptBayesExpt` to handle the
   duties of a probability distribution functions.
 
@@ -27,6 +31,14 @@ OptBayesExpt class
 ------------------
 
 .. automodule:: optbayesexpt.obe_base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+OptBayesExptNoiseParam class
+----------------------------
+
+.. automodule:: optbayesexpt.obe_noiseparam
    :members:
    :undoc-members:
    :show-inheritance:
