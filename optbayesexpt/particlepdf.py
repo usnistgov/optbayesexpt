@@ -23,12 +23,42 @@ class ParticlePDF:
         ``resample()`` method documentation for details.
 
     Args:
-        prior (2D array-like): The Bayesian *prior*, which initializes the
+        prior (:obj:`2D array-like`): The Bayesian *prior*, which initializes the
             :obj:`ParticlePDF` distribution. Each of ``n_dims`` sub-arrays
             contains ``n_particles`` values of a single parameter, so that
             the *j*\ _th elements of the sub-arrays determine the coordinates
             of a point in parameter space. Users are encouraged to experiment
             with different ``n_particles`` sizes to assure consistent results.
+
+    Keyword Args:
+        a_param: (float) In resampling, determines the scale of random
+            diffusion relative to the distribution covariance.  After
+            weighted sampling, some parameter values may have been
+            chosen multiple times. To make the new distribution smoother,
+            the parameters are given small 'nudges', random displacements
+            much smaller than the overall parameter distribution, but with
+            the same shape as the overall distribution.  More precisely,
+            the covariance of the nudge distribution is :code:`(1 -
+            a_param ** 2)` times the covariance of the parameter distribution.
+            Default ``0.98``.
+
+        scale (:obj:`bool`): determines whether resampling includes a
+            contraction of the parameter distribution toward the
+            distribution mean.  The idea of this contraction is to
+            compensate for the overall expansion of the distribution
+            that is a by-product of random displacements.  If true,
+            parameter samples (particles) move a fraction ``a_param`` of
+            the distance to the distribution mean.  Default is ``True``,
+            but ``False`` is recommended.
+
+        resample_threshold (:obj:`float`): Sets a threshold for automatic
+            resampling. Resampling is triggered when the effective fraction of
+            particles, :math:`1 / (N\\sum_i^N w_i^2)`, is smaller than
+            ``resample_threshold``.  Default ``0.5``.
+
+        auto_resample (:obj:`bool`): Determines whether threshold testing and
+            resampling are performed when ``bayesian_update()`` is called.
+            Default ``True``.
 
     Attributes:
         n_dims (int): The number of parameters, i.e. the dimensionality of
@@ -48,31 +78,34 @@ class ParticlePDF:
         tuning_parameters (dict): A :obj:`dict` of parameters affecting the
             resampling algorithm
 
-            - ``'a_param'`` (:obj:`float`): determines the size of random
-              displacements of the particles during a resampling.  The
-              covariance of the displacements is scaled by :math:`1 - a^2`
-              relative to the covariance of the probability distribution. See
-              ``resample()``.  Default 0.98.
+            - ``'a_param'`` (:obj:`float`): Initially, the value of the
+              ``a_param`` keyword argument.  Default ``0.98``
 
-            - ``'resample_threshold'`` (:obj:`float`):  When the effective
-              number of particles falls below this fraction of
-              ``n_particles``, resampling is triggered.  See
-              ``resample_test()``. Default 0.5.
+            - ``'scale'`` (:obj:`bool`): Initially, the value of the
+              ``scale`` keyword argument. Default ``True``
 
-            - ``'auto_resample'`` (:obj:`bool`): Determines whether the
-              ``resample_test()`` check is executed automatically after
-              each Bayesian update to the distribution. Default `True`.
+            - ``'resample_threshold'`` (:obj:`float`):  Initially,
+              the value of the ``resample_threshold`` keyword argument.
+              Default ``0.5``.
+
+            - ``'auto_resample'`` (:obj:`bool`): Initially, the value of the
+              ``auto_resample`` keyword argument. Default ```True``.
 
         just_resampled (:obj:`bool`): A flag set by the
             ``resample_test()`` function.  ``True`` if the last call
             to ``resample_test()`` resulted in resampling, else ``False``.
+
+
+    Methods:
     """
 
-    def __init__(self, prior):
+    def __init__(self, prior, a_param=0.98, resample_threshold=0.5,
+                 auto_resample=True, scale=True):
 
-        self.tuning_parameters = {'a_param': 0.98,
-                                  'resample_threshold': 0.5,
-                                  'auto_resample': True}
+        self.tuning_parameters = {'a_param': a_param,
+                                  'resample_threshold': resample_threshold,
+                                  'auto_resample': auto_resample,
+                                  'scale': scale}
 
         self.particles = np.asarray(prior)
         self.n_particles = self.particles.shape[-1]
@@ -237,10 +270,10 @@ class ParticlePDF:
 
         Args:
             n_draws (:obj:`int`): the number of draws requested.  Default
-            ``1``.
+              ``1``.
 
         Returns:
-            An ``n_dims`` X ``N_DRAWS`` :obj:`ndarray` of parameter draws.
+            An ``n_dims`` x ``N_DRAWS`` :obj:`ndarray` of parameter draws.
         """
 
         # draws = self.rng.choice(self.particles, size=n_draws,
