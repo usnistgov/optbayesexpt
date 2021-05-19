@@ -5,7 +5,7 @@ from .particlepdf import ParticlePDF
 
 
 class OptBayesExpt(ParticlePDF):
-    """An implementation of sequential Bayesian experimental design.
+    """An implementation of sequential Bayesian experiment design.
 
     OptBayesExpt is a manager that calculates strategies for efficient
     measurement runs. OptBayesExpt incorporates measurement data, and uses
@@ -17,7 +17,7 @@ class OptBayesExpt(ParticlePDF):
 
     The primary functions of this class are to interpret measurement data
     and to calculate effective settings. The corresponding methods that
-    perform these functions are ``OptBayesExpt.update_pdf()`` for
+    perform these functions are ``OptBayesExpt.pdf_update()`` for
     interpretation of new data and either ``OptBayesExpt.opt_setting()`` or
     ``OptBayesExpt.good_setting()`` for calculation of effective settings.
 
@@ -120,11 +120,11 @@ class OptBayesExpt(ParticlePDF):
         print('v 1.1.y, under construction')
         self.model_function = user_model
         self.setting_values = setting_values
-        self.allsettings = [s.flatten() for s in
-                            np.meshgrid(*setting_values, indexing='ij')]
+        self.allsettings = np.array([s.flatten() for s in
+                            np.meshgrid(*setting_values, indexing='ij')])
         self.setting_indices = np.arange(len(self.allsettings[0]))
         ParticlePDF.__init__(self, parameter_samples)
-        # make parameters a 'view' of the particlepdf.particles
+
         self.parameters = self.particles
         self.cons = constants
 
@@ -259,8 +259,7 @@ class OptBayesExpt(ParticlePDF):
                 for index in bad_ones:
                     self.particle_weights[index] = 0
             # renormalize
-            self.particle_weights = self.particle_weights \
-                / np.sum(self.particle_weights)
+            self.particle_weights = self.particle_weights / np.sum(self.particle_weights)
 
         Returns:
         """
@@ -450,7 +449,7 @@ class OptBayesExpt(ParticlePDF):
 
         utility /= np.sum(utility)
         goodindex = self.rng.choice(self.setting_indices, p=utility)
-        goodvalues = [s[goodindex] for s in self.allsettings]
+        goodvalues = self.allsettings[:, goodindex]
 
         self.last_setting_index = goodindex
         return tuple(goodvalues)
@@ -458,7 +457,7 @@ class OptBayesExpt(ParticlePDF):
     def _model_output_len(self):
         """Detect the number of model outputs
 
-        :return:
+        :return: int
         """
 
         try:
@@ -467,7 +466,7 @@ class OptBayesExpt(ParticlePDF):
             rng = np.random
 
         settingindex = rng.choice(self.setting_indices)
-        one_setting = np.array([s[settingindex] for s in self.allsettings])
+        one_setting = self.allsettings[:, settingindex]
         one_param_set = self.randdraw(n_draws=1)
 
         singleshot = self.model_function(one_setting, one_param_set, self.cons)
