@@ -3,7 +3,10 @@ import numpy as np
 
 
 class OptBayesExptNoiseParameter(OptBayesExpt):
-    """Creates an obe class for a linear model with noise as parameter
+    """Sequential Bayesian experiment design for with measurement
+    uncertainty as random parameters to estimate.
+
+    OptBayesExptNoiseParameter inherits attributes from OptBayesExpt,
 
     This class demonstrates three things:
 
@@ -30,18 +33,41 @@ class OptBayesExptNoiseParameter(OptBayesExpt):
     """
 
     def __init__(self, model_function, setting_values, parameter_samples,
-                 constants):
+                 constants, noise_parameter_index=None):
         OptBayesExpt.__init__(self, model_function, setting_values,
                                   parameter_samples, constants)
+
         # identify the measurement noise parameter.
-        self.noise_parameter_index = 3
+        self.noise_parameter_index = noise_parameter_index
 
     def pdf_update(self, measurement_record, y_model_data=None):
         """
-        Adds the noise parameter array as the measurement_record[3]
-        :param measurement_record:
-        :param y_model_data:
-        :return:
+        Refines the parameters' probability distribution function given a
+        measurement result.
+
+        Incorporates a measurement result, allowing for measurement
+        uncertainty as random variable to be estimated.  Packages
+        measurement_record with the noise parameter array as the third
+        element of the  measurement_record and calls
+        OptBayesExpt.pdf_update() to calculate likelihood and generate a
+        *posterior* parameter distribution.
+
+        Args:
+            measurement_record (:obj:`tuple`): A record of the measurement
+                containing at least the settings and the measured value(s).
+                The first element of ``measurement_record`` gets passed as a
+                settings tuple to ``evaluate_over_all_parameters()`` The
+                entire ``measurement_result`` tuple gets forwarded to
+                ``likelihood()``.
+
+            y_model_data (:obj:`ndarray`): The result of
+                :code:`self.eval_over_all_parameters()` This argument allows
+                model evaluation to run before measurement data is
+                available, e.g. while measurements are being made. Default =
+                ``None``.
+
+        Returns:
+
         """
 
         onesetting, y_meas = measurement_record[:2]
@@ -50,22 +76,29 @@ class OptBayesExptNoiseParameter(OptBayesExpt):
         new_record = (onesetting, y_meas,
                       (self.parameters[self.noise_parameter_index],))
 
+        # With a repackaged measurement record, use the pdf_update from the
+        # parent class, ``OptBayesExpt``, which is invokes using ``super()``.
         return super().pdf_update(new_record, y_model_data)
 
     def enforce_parameter_constraints(self):
+        """Constrains the noise parameter to be positive. Negative
+        uncertainties lead to negative likelihoods, negative particle
+        weights and other abominations.
+
+        Returns:
         """
-        All of the coil parameters and noise values must be > 0.  Assign
-        zero probability to any violators.
-        """
+
         changes = False
         param = self.parameters[self.noise_parameter_index]
-        bad_ones = np.argwhere(param < 0).flatten()
+        # np.nonzero identifies negative values
+        bad_ones, = np.nonzero(param <= 0)
         if len(bad_ones) > 0:
             changes = True
-            for violator in bad_ones:
-                # effective death penalty.  Next resample will remove
-                self.particle_weights[violator] = 0
-
+            self.particle_weights[bad_ones] = 0
+        #
+        #  other parameter checks may be added here
+        #
+        # renormalize ``particle_weights`` if weights have been changed.
         if changes is True:
             # rescale the particle weights
             self.particle_weights = self.particle_weights \
@@ -77,8 +110,7 @@ class OptBayesExptNoiseParameter(OptBayesExpt):
         The self.opt_setting() and self.good_setting() methods calculate
         utility, which depends on the relative magnitudes of variance in
         measurement outcomes due to parameter distribution and variance due
-        to measurement noise.  Here, we assume that the noise is independent
-        of setting values and values of other parameters.
+        to measurement noise.
 
         Returns: (float) average variance.
 
