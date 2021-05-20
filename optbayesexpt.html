@@ -1016,7 +1016,7 @@ receives a response. The connection is then closed.</p>
 <span id="particlepdf-class"></span><h2>ParticlePDF class<a class="headerlink" href="#module-optbayesexpt.particlepdf" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="optbayesexpt.particlepdf.ParticlePDF">
-<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.particlepdf.</code><code class="sig-name descname">ParticlePDF</code><span class="sig-paren">(</span><em class="sig-param">prior</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.particlepdf.</code><code class="sig-name descname">ParticlePDF</code><span class="sig-paren">(</span><em class="sig-param">prior</em>, <em class="sig-param">a_param=0.98</em>, <em class="sig-param">resample_threshold=0.5</em>, <em class="sig-param">auto_resample=True</em>, <em class="sig-param">scale=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A probability distribution function.</p>
 <p>A probability distribution <span class="math notranslate nohighlight">\(P(\theta_0, \theta_1, \ldots,
@@ -1038,12 +1038,41 @@ narrow, and it may not include the “true” parameter values. See the
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>prior</strong> (<em>2D array-like</em>) – The Bayesian <em>prior</em>, which initializes the
+<dd class="field-odd"><p><strong>prior</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">2D</span> <span class="pre">array-like</span></code>) – The Bayesian <em>prior</em>, which initializes the
 <a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF" title="optbayesexpt.particlepdf.ParticlePDF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ParticlePDF</span></code></a> distribution. Each of <code class="docutils literal notranslate"><span class="pre">n_dims</span></code> sub-arrays
 contains <code class="docutils literal notranslate"><span class="pre">n_particles</span></code> values of a single parameter, so that
 the <em>j</em>_th elements of the sub-arrays determine the coordinates
 of a point in parameter space. Users are encouraged to experiment
 with different <code class="docutils literal notranslate"><span class="pre">n_particles</span></code> sizes to assure consistent results.</p>
+</dd>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>a_param</strong> – (float) In resampling, determines the scale of random
+diffusion relative to the distribution covariance.  After
+weighted sampling, some parameter values may have been
+chosen multiple times. To make the new distribution smoother,
+the parameters are given small ‘nudges’, random displacements
+much smaller than the overall parameter distribution, but with
+the same shape as the overall distribution.  More precisely,
+the covariance of the nudge distribution is <code class="code docutils literal notranslate"><span class="pre">(1</span> <span class="pre">-</span>
+<span class="pre">a_param</span> <span class="pre">**</span> <span class="pre">2)</span></code> times the covariance of the parameter distribution.
+Default <code class="docutils literal notranslate"><span class="pre">0.98</span></code>.</p></li>
+<li><p><strong>scale</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>) – determines whether resampling includes a
+contraction of the parameter distribution toward the
+distribution mean.  The idea of this contraction is to
+compensate for the overall expansion of the distribution
+that is a by-product of random displacements.  If true,
+parameter samples (particles) move a fraction <code class="docutils literal notranslate"><span class="pre">a_param</span></code> of
+the distance to the distribution mean.  Default is <code class="docutils literal notranslate"><span class="pre">True</span></code>,
+but <code class="docutils literal notranslate"><span class="pre">False</span></code> is recommended.</p></li>
+<li><p><strong>resample_threshold</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>) – Sets a threshold for automatic
+resampling. Resampling is triggered when the effective fraction of
+particles, <span class="math notranslate nohighlight">\(1 / (N\sum_i^N w_i^2)\)</span>, is smaller than
+<code class="docutils literal notranslate"><span class="pre">resample_threshold</span></code>.  Default <code class="docutils literal notranslate"><span class="pre">0.5</span></code>.</p></li>
+<li><p><strong>auto_resample</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>) – Determines whether threshold testing and
+resampling are performed when <code class="docutils literal notranslate"><span class="pre">bayesian_update()</span></code> is called.
+Default <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="attribute">
@@ -1102,18 +1131,15 @@ corresponding to the particles.</p>
 <dd><p>A <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> of parameters affecting the
 resampling algorithm</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">'a_param'</span></code> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): determines the size of random
-displacements of the particles during a resampling.  The
-covariance of the displacements is scaled by <span class="math notranslate nohighlight">\(1 - a^2\)</span>
-relative to the covariance of the probability distribution. See
-<code class="docutils literal notranslate"><span class="pre">resample()</span></code>.  Default 0.98.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">'resample_threshold'</span></code> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>):  When the effective
-number of particles falls below this fraction of
-<code class="docutils literal notranslate"><span class="pre">n_particles</span></code>, resampling is triggered.  See
-<code class="docutils literal notranslate"><span class="pre">resample_test()</span></code>. Default 0.5.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">'auto_resample'</span></code> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>): Determines whether the
-<code class="docutils literal notranslate"><span class="pre">resample_test()</span></code> check is executed automatically after
-each Bayesian update to the distribution. Default <cite>True</cite>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'a_param'</span></code> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): Initially, the value of the
+<code class="docutils literal notranslate"><span class="pre">a_param</span></code> keyword argument.  Default <code class="docutils literal notranslate"><span class="pre">0.98</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'scale'</span></code> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>): Initially, the value of the
+<code class="docutils literal notranslate"><span class="pre">scale</span></code> keyword argument. Default <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'resample_threshold'</span></code> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>):  Initially,
+the value of the <code class="docutils literal notranslate"><span class="pre">resample_threshold</span></code> keyword argument.
+Default <code class="docutils literal notranslate"><span class="pre">0.5</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'auto_resample'</span></code> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>): Initially, the value of the
+<code class="docutils literal notranslate"><span class="pre">auto_resample</span></code> keyword argument. Default <code class="docutils literal notranslate"><span class="pre">`True</span></code>.</p></li>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -1135,6 +1161,7 @@ to <code class="docutils literal notranslate"><span class="pre">resample_test()<
 </dl>
 </dd></dl>
 
+<p>Methods:</p>
 <dl class="method">
 <dt id="optbayesexpt.particlepdf.ParticlePDF.bayesian_update">
 <code class="sig-name descname">bayesian_update</code><span class="sig-paren">(</span><em class="sig-param">likelihood</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.bayesian_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.bayesian_update" title="Permalink to this definition">¶</a></dt>
@@ -1187,13 +1214,11 @@ calculated for each parameter combination.</p>
 <code class="docutils literal notranslate"><span class="pre">self.particle_weights</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n_draws</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – the number of draws requested.  Default</p></li>
-<li><p><strong>1.</strong> – </p></li>
-</ul>
+<dd class="field-odd"><p><strong>n_draws</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – the number of draws requested.  Default
+<code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>An <code class="docutils literal notranslate"><span class="pre">n_dims</span></code> X <code class="docutils literal notranslate"><span class="pre">N_DRAWS</span></code> <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code> of parameter draws.</p>
+<dd class="field-even"><p>An <code class="docutils literal notranslate"><span class="pre">n_dims</span></code> x <code class="docutils literal notranslate"><span class="pre">N_DRAWS</span></code> <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code> of parameter draws.</p>
 </dd>
 </dl>
 </dd></dl>
