@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>optbayesexpt.particlepdf &#8212; OptBayesExpt 1.0.1 documentation</title>
+    <title>optbayesexpt.particlepdf &#8212; OptBayesExpt 1.1.0 documentation</title>
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -56,7 +56,7 @@ $(document).ready(function(){
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -92,12 +92,42 @@ $(document).ready(function(){
 <span class="sd">        ``resample()`` method documentation for details.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        prior (2D array-like): The Bayesian *prior*, which initializes the</span>
+<span class="sd">        prior (:obj:`2D array-like`): The Bayesian *prior*, which initializes the</span>
 <span class="sd">            :obj:`ParticlePDF` distribution. Each of ``n_dims`` sub-arrays</span>
 <span class="sd">            contains ``n_particles`` values of a single parameter, so that</span>
 <span class="sd">            the *j*\ _th elements of the sub-arrays determine the coordinates</span>
 <span class="sd">            of a point in parameter space. Users are encouraged to experiment</span>
 <span class="sd">            with different ``n_particles`` sizes to assure consistent results.</span>
+
+<span class="sd">    Keyword Args:</span>
+<span class="sd">        a_param: (float) In resampling, determines the scale of random</span>
+<span class="sd">            diffusion relative to the distribution covariance.  After</span>
+<span class="sd">            weighted sampling, some parameter values may have been</span>
+<span class="sd">            chosen multiple times. To make the new distribution smoother,</span>
+<span class="sd">            the parameters are given small &#39;nudges&#39;, random displacements</span>
+<span class="sd">            much smaller than the overall parameter distribution, but with</span>
+<span class="sd">            the same shape as the overall distribution.  More precisely,</span>
+<span class="sd">            the covariance of the nudge distribution is :code:`(1 -</span>
+<span class="sd">            a_param ** 2)` times the covariance of the parameter distribution.</span>
+<span class="sd">            Default ``0.98``.</span>
+
+<span class="sd">        scale (:obj:`bool`): determines whether resampling includes a</span>
+<span class="sd">            contraction of the parameter distribution toward the</span>
+<span class="sd">            distribution mean.  The idea of this contraction is to</span>
+<span class="sd">            compensate for the overall expansion of the distribution</span>
+<span class="sd">            that is a by-product of random displacements.  If true,</span>
+<span class="sd">            parameter samples (particles) move a fraction ``a_param`` of</span>
+<span class="sd">            the distance to the distribution mean.  Default is ``True``,</span>
+<span class="sd">            but ``False`` is recommended.</span>
+
+<span class="sd">        resample_threshold (:obj:`float`): Sets a threshold for automatic</span>
+<span class="sd">            resampling. Resampling is triggered when the effective fraction of</span>
+<span class="sd">            particles, :math:`1 / (N\\sum_i^N w_i^2)`, is smaller than</span>
+<span class="sd">            ``resample_threshold``.  Default ``0.5``.</span>
+
+<span class="sd">        auto_resample (:obj:`bool`): Determines whether threshold testing and</span>
+<span class="sd">            resampling are performed when ``bayesian_update()`` is called.</span>
+<span class="sd">            Default ``True``.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        n_dims (int): The number of parameters, i.e. the dimensionality of</span>
@@ -117,31 +147,34 @@ $(document).ready(function(){
 <span class="sd">        tuning_parameters (dict): A :obj:`dict` of parameters affecting the</span>
 <span class="sd">            resampling algorithm</span>
 
-<span class="sd">            - ``&#39;a_param&#39;`` (:obj:`float`): determines the size of random</span>
-<span class="sd">              displacements of the particles during a resampling.  The</span>
-<span class="sd">              covariance of the displacements is scaled by :math:`1 - a^2`</span>
-<span class="sd">              relative to the covariance of the probability distribution. See</span>
-<span class="sd">              ``resample()``.  Default 0.98.</span>
+<span class="sd">            - ``&#39;a_param&#39;`` (:obj:`float`): Initially, the value of the</span>
+<span class="sd">              ``a_param`` keyword argument.  Default ``0.98``</span>
 
-<span class="sd">            - ``&#39;resample_threshold&#39;`` (:obj:`float`):  When the effective</span>
-<span class="sd">              number of particles falls below this fraction of</span>
-<span class="sd">              ``n_particles``, resampling is triggered.  See</span>
-<span class="sd">              ``resample_test()``. Default 0.5.</span>
+<span class="sd">            - ``&#39;scale&#39;`` (:obj:`bool`): Initially, the value of the</span>
+<span class="sd">              ``scale`` keyword argument. Default ``True``</span>
 
-<span class="sd">            - ``&#39;auto_resample&#39;`` (:obj:`bool`): Determines whether the</span>
-<span class="sd">              ``resample_test()`` check is executed automatically after</span>
-<span class="sd">              each Bayesian update to the distribution. Default `True`.</span>
+<span class="sd">            - ``&#39;resample_threshold&#39;`` (:obj:`float`):  Initially,</span>
+<span class="sd">              the value of the ``resample_threshold`` keyword argument.</span>
+<span class="sd">              Default ``0.5``.</span>
+
+<span class="sd">            - ``&#39;auto_resample&#39;`` (:obj:`bool`): Initially, the value of the</span>
+<span class="sd">              ``auto_resample`` keyword argument. Default ```True``.</span>
 
 <span class="sd">        just_resampled (:obj:`bool`): A flag set by the</span>
 <span class="sd">            ``resample_test()`` function.  ``True`` if the last call</span>
 <span class="sd">            to ``resample_test()`` resulted in resampling, else ``False``.</span>
+
+
+<span class="sd">    Methods:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prior</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prior</span><span class="p">,</span> <span class="n">a_param</span><span class="o">=</span><span class="mf">0.98</span><span class="p">,</span> <span class="n">resample_threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                 <span class="n">auto_resample</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">tuning_parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a_param&#39;</span><span class="p">:</span> <span class="mf">0.98</span><span class="p">,</span>
-                                  <span class="s1">&#39;resample_threshold&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
-                                  <span class="s1">&#39;auto_resample&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tuning_parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a_param&#39;</span><span class="p">:</span> <span class="n">a_param</span><span class="p">,</span>
+                                  <span class="s1">&#39;resample_threshold&#39;</span><span class="p">:</span> <span class="n">resample_threshold</span><span class="p">,</span>
+                                  <span class="s1">&#39;auto_resample&#39;</span><span class="p">:</span> <span class="n">auto_resample</span><span class="p">,</span>
+                                  <span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="n">scale</span><span class="p">}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">particles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">prior</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_particles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -306,10 +339,10 @@ $(document).ready(function(){
 
 <span class="sd">        Args:</span>
 <span class="sd">            n_draws (:obj:`int`): the number of draws requested.  Default</span>
-<span class="sd">            ``1``.</span>
+<span class="sd">              ``1``.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            An ``n_dims`` X ``N_DRAWS`` :obj:`ndarray` of parameter draws.</span>
+<span class="sd">            An ``n_dims`` x ``N_DRAWS`` :obj:`ndarray` of parameter draws.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># draws = self.rng.choice(self.particles, size=n_draws,</span>
@@ -359,7 +392,7 @@ $(document).ready(function(){
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
