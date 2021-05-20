@@ -243,24 +243,30 @@ class ParticlePDF:
               representation.
         """
         coords = self.randdraw(self.n_particles)
+        # coords is n_dims x n_particles
         origin = np.zeros(self.n_dims)
 
         covar = self.covariance()
-        old_center = self.mean()
+        old_center = self.mean().reshape((self.n_dims, 1))
         # a_param is typically close to but less than 1
         a_param = self.tuning_parameters['a_param']
         # newcover is a small version of covar that determines the size of
         # the nudge.
         newcovar = (1 - a_param ** 2) * covar
 
-        # random nudges create diffusion.  This compensates
-        newcenters = coords.T * a_param + old_center * (1 - a_param)
-        # arrays in [particle, param] order
-        # select random nudges around the newcenters
-        nudged = newcenters + self.rng.multivariate_normal(origin, newcovar,
-                                                            self.n_particles)
-        self.particles = nudged.T
-        self.particle_weights = np.ones(self.n_particles) / self.n_particles
+        # multivariate normal returns n_particles x n_dims array. ".T"
+        # transposes to match coords shape.
+        nudged = coords + self.rng.multivariate_normal(origin, newcovar,
+                                                       self.n_particles).T
+
+        if self.tuning_parameters['scale']:
+            scaled = nudged * a_param + old_center * (1 - a_param)
+            self.particles = scaled
+        else:
+            self.particles = nudged
+
+        self.particle_weights = np.full_like(self.particle_weights,
+                                         1.0 / self.n_particles)
 
     def randdraw(self, n_draws=1):
         """Provides random parameter draws from the distribution
