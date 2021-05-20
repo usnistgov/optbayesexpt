@@ -13,19 +13,32 @@ class OBE_Server(Socket):
 
     Args:
         initial_args (:obj:`tuple`) Information needed for making OBE objects.
+            Requires a tuple with the following structure:
+
+            0. Model_function (python function)
+            1. Settings (tuple of settings arrays)
+            2. Parameter samples (tuple of parameter sample arrays)
+            3. Constants (tuple of constants)
+
         ip_address(:obj:`str`): an IP address for TCP communications.
             Default '127.0.0.1'.
         port(:obj:`int`): a TCP port number to use for communications.
             Default 61981.
 
+    Keyword Args:
+        **kwargs are passed to the specified OBE_class's `` __init__`` function.
+
     Attributes:
         obe_engine (:obj:`OptBayesExpt`): The disembodied brains of the
             experimental design scheme. ``OBE_server`` provides TCP
             communication between ``obe_engine`` and a client program.
+
         initial_args (:obj:`tuple`): Stored samples from an
             initial parameter distribution.  Initialized by ``self.__init__()``
             and ``self.make_obe()``.
 
+        initial_kwargs (:obj:`dict`): keyword arguments stored for future
+            OBE_class intantiation.
     Notes:
         1. The messages sent between the client and this server are expected
            to be JSON strings, each prependend by the string length formatted
@@ -33,23 +46,27 @@ class OBE_Server(Socket):
            details. Unless otherwise stated the server will reply with
            :code:`'0000000004"OK"'` upon successful completion of the command.
 
-        2. The previous version of ``OBE_Server`` was a child class of
-           ``OptBayesExpt``.  In this version, the ``OptBayesExpt`` is an
+        2. In pre-v1.0.0 version ``OBE_Server`` was a child class of
+           ``OptBayesExpt``.  In versions 1.0.0 and later,
+           the ``OBE_class`` is an
            attribute of ``OBE_Server``.  The advantage of the new
            arrangement is that OBE_Server can manage a sequence of
            experimental runs with differently configured
-           ``OptBayesExpt`` objects.  See ``demos/magnetometer_demo.py`` and
-           ``demos/magnetometer_server.py``.
+           ``OptBayesExpt`` objects.
     """
 
-    def __init__(self, initial_args=(), ip_address='127.0.0.1', port=61981):
+    def __init__(self, initial_args=(),
+        ip_address='127.0.0.1', port=61981, **kwargs):
 
         Socket.__init__(self, 'server', ip_address=ip_address, port=port)
 
-        self.initial_args = initial_args
+        if initial_args:
+            self.initial_args = initial_args
+        if kwargs:
+            self.initial_kwargs = kwargs
         self.obe_engine = None
 
-    def make_obe(self, obe_class, class_args):
+    def make_obe(self, obe_class, class_args, **kwargs):
         """Creates and attaches a new OptBayesExpt-like object
 
         A server may need to handle several runs. This function allows
@@ -66,10 +83,12 @@ class OBE_Server(Socket):
 
         # save the arguments for possible reuse
         # these are owned by the OBE_Server instance as a "birth record"
-        self.initial_args = class_args
-
+        if class_args:
+            self.initial_args = class_args
+        if kwargs:
+            self.initial_kwargs = kwargs
         # create a new OptBayesExpt and attach it as the obe_engine attribute.
-        self.obe_engine = obe_class(*class_args)
+        self.obe_engine = obe_class(*self.initial_args, **self.initial_kwargs)
 
     def newrun(self, message):
         """A stub to allow customized TCP commands
