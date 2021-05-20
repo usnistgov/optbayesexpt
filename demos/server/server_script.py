@@ -60,9 +60,10 @@ class CustomServer(obe.OBE_Server):
     the newrun method to process messages sent from magnetometer_demo.py
     """
 
-    def __init__(self, initial_args=(), ip_address='127.0.0.1', port=61981):
+    def __init__(self, initial_args=(), ip_address='127.0.0.1', port=61981,
+                 **kwargs):
         obe.OBE_Server.__init__(self, initial_args=initial_args,
-                                ip_address=ip_address, port=port)
+                                ip_address=ip_address, port=port, **kwargs)
 
     def newrun(self, message):
         """ set up for a new measurement
@@ -80,15 +81,17 @@ class CustomServer(obe.OBE_Server):
                                 message['steps'])
         new_settings = (setvalues,)  # settings is a tuple
 
-        # We need other information to build an OptBayesExpt
+        # Arrange information to build an OptBayesExpt class
         model, sets, params, consts = self.initial_args
         class_args = (model, new_settings, params, consts)
+        kwargs = self.initial_kwargs
         # create and attach a new obe engine
-        self.make_obe(obe.OptBayesExpt, class_args)
+        self.make_obe(obe.OptBayesExpt, class_args, **kwargs)
 
 
 args = (lorentz_model, settings, parameters, constants)
-nanny = CustomServer(initial_args=args)
+
+nanny = CustomServer(initial_args=args, scale=False)
 
 # nanny has no obe_engine at this point, but a call to newrun() will create
 # one.
