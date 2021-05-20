@@ -82,6 +82,13 @@ class OptBayesExpt(ParticlePDF):
             are rarely changed, and model parameters that are well-known
             from previous measurement results.
 
+    Keyword Args:
+
+        n_draws (:obj:`int`): specifies the number of parameter samples used
+            in the utility calculation.  Default 30.
+
+        **kwargs: Arguments passed to the parent ParticlePDF class
+
     Attributes:
         model_function (:obj:`function`): Same as the ``model_function``
             parameter above.
@@ -120,14 +127,14 @@ class OptBayesExpt(ParticlePDF):
    """
 
     def __init__(self, user_model, setting_values, parameter_samples,
-                 constants, n_draws=30):
+                 constants, n_draws=30, choke=1.0, **kwargs):
         print('v 1.1.y, under construction')
         self.model_function = user_model
         self.setting_values = setting_values
         self.allsettings = np.array([s.flatten() for s in
                             np.meshgrid(*setting_values, indexing='ij')])
         self.setting_indices = np.arange(len(self.allsettings[0]))
-        ParticlePDF.__init__(self, parameter_samples)
+        ParticlePDF.__init__(self, parameter_samples, **kwargs)
 
         self.parameters = self.particles
         self.cons = constants

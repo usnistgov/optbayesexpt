@@ -31,9 +31,9 @@ class OptBayesExptNoiseParameter(OptBayesExpt):
     """
 
     def __init__(self, model_function, setting_values, parameter_samples,
-                 constants, noise_parameter_index=None):
+                 constants, noise_parameter_index=None, **kwargs):
         OptBayesExpt.__init__(self, model_function, setting_values,
-                                  parameter_samples, constants)
+                                  parameter_samples, constants, **kwargs)
 
         # identify the measurement noise parameter.
         self.noise_parameter_index = noise_parameter_index
