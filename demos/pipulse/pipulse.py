@@ -81,7 +81,7 @@ T1 = .5
 cons = (baseline, contrast, T1)
 
 # Settings, parameters, constants and model all defined, so set it all up
-myOBE = OptBayesExpt(my_model_function, sets, pars, cons)
+myOBE = OptBayesExpt(my_model_function, sets, pars, cons, scale=False)
 
 
 """

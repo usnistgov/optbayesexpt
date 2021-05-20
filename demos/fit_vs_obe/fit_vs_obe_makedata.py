@@ -99,8 +99,9 @@ dtrue = 0.15
 cons = (dtrue,)
 
 # Settings, parameters, constants and model all defined, so set it all up
-myOBE = OptBayesExpt(my_model_function, sets, pars, cons)
-myOBE.N_DRAWS = 30
+myOBE = OptBayesExpt(my_model_function, sets, pars, cons,
+                     n_draws=30, scale=False)
+
 initial_pars = myOBE.parameters
 
 #################################################################

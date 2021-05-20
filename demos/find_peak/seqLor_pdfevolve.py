@@ -79,8 +79,8 @@ cons = ()
 """
 Create an instance of the OptBayesExpt class for our use
 """
-myOBE = obe.OptBayesExpt(my_model_function, sets, pars, cons)
-myOBE.N_DRAWS = 30
+myOBE = obe.OptBayesExpt(my_model_function, sets, pars, cons, scale=False,
+                         n_draws=30)
 
 """
 MEASUREMENT SIMULATION
