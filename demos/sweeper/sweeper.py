@@ -95,7 +95,7 @@ constants = (dtrue,)
 # make an instance of OptBayesExpt
 #
 my_obe = OptBayesExptSweeper(my_model_function, settings, parameters,
-                             constants)
+                             constants, scale=False)
 
 ########################################################################
 #           MEASUREMENT LOOP

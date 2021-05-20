@@ -106,9 +106,9 @@ def coil_model(sets, pars, cons):
 # enforce_parameter_constraints() method for all parameters
 class OptBayesExptLockinCleanParams(OptBayesExptNoiseParameter):
 
-    def __init__(self, coil_model, sets, params, cons):
+    def __init__(self, coil_model, sets, params, cons, **kwargs):
         OptBayesExptNoiseParameter.__init__(self, coil_model, sets, params,
-                                           cons)
+                                           cons, **kwargs)
 
     def enforce_parameter_constraints(self):
         """
@@ -165,7 +165,13 @@ params = (L_samples, R_samples, C_samples, sigma_samples)
 # No constants but supply an empty tuple
 cons = ()
 
-coil_obe = OptBayesExptLockinCleanParams(coil_model, sets, params, cons)
+coil_obe = OptBayesExptLockinCleanParams(coil_model, sets, params, cons,
+                                         scale=False)
+# Here, scale=False is a keyword argument that the class definition lumps
+# into **kwargs and passes to OptBayesExptNoiseParam, which passes it to
+# OptBayesExpt, which passes it to ParticlePDF.  ParticlePDF has a ``scale``
+# argument that gets set to ``False``.
+
 coil_obe.cost_of_changing_setting = cost_of_moving
 coil_obe.noise_parameter_index = 3
 

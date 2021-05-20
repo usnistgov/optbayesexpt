@@ -64,9 +64,9 @@ class OptBayesExptSweeper(OptBayesExptNoiseParameter):
     """
 
     def __init__(self, model_function, setting_values, parameter_samples,
-                 constants):
+                 constants, **kwargs):
         OptBayesExptNoiseParameter.__init__(self, model_function, setting_values,
-                                  parameter_samples, constants)
+                                  parameter_samples, constants, **kwargs)
 
         self.noise_parameter_index = 3
 
