@@ -4,13 +4,31 @@ Version Notes
 Version 1.1.0
 -------------
 
+May 21, 2021
+
+* Support for multi-channel measurements has been added to the OptBayesExpt
+  class. As a result, ``demos/lockin/obe_lockin.py`` is no longer needed,
+  and it has been removed.
+
+* Support for noise parameter estimation is provided by a new component of
+  the optbayesespt package, ``OptBayesExptNoiseParam``, which takes a
+  ``noise_parameter_index=(int)`` argument to identify a parameter as
+  measurement noise. These demos  now use ``OptBayesExptNoiseParam``.
+
+    - ``demos/line_plus_noise/line_plus_noise.py``,
+    - ``demos/lockin/lockin_of_coil.py``, and
+    - ``demos/sweeper/sweeper.py``
+
+* Added support for ``**kwargs`` arguments to OptBayesExpt. Attribute values
+  for OptBayesExpt, parent class ParticlePDF and OptBayesExpt child classes can
+  now be set at instantition.  Keyword arguments ``a_param``,
+  ``resample_threshold``, ``auto_resample`` and ``scale`` are passed to
+  ParticlePdf to tune resampling behavior.  ``OptBayesExpt`` uses ``choke``,
+  and ``OptBayesExptNoiseParam`` uses ``noise_parameter_index``.
+
 May 11, 2021
 
 Plans for version 1.1.0
-
-* Add transparent support for multi-channel measurements. Examples might be
-  X, Y outputs from lockin amplifiers, IQ mixer channels, or multiple photon
-  counters.
 
 * Accelerate computation-heavy functions using numba on systems where the
   numba package is installed.
