@@ -77,37 +77,35 @@ $(document).ready(function(){
 <h1>Version Notes<a class="headerlink" href="#version-notes" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="version-1-1-0">
 <h2>Version 1.1.0<a class="headerlink" href="#version-1-1-0" title="Permalink to this headline">¶</a></h2>
+<p>May 21, 2021</p>
+<ul>
+<li><p>Support for multi-channel measurements has been added to the OptBayesExpt
+class. As a result, <code class="docutils literal notranslate"><span class="pre">demos/lockin/obe_lockin.py</span></code> is no longer needed,
+and it has been removed.</p></li>
+<li><p>Support for noise parameter estimation is provided by a new component of
+the optbayesespt package, <code class="docutils literal notranslate"><span class="pre">OptBayesExptNoiseParam</span></code>, which takes a
+<code class="docutils literal notranslate"><span class="pre">noise_parameter_index=(int)</span></code> argument to identify a parameter as
+measurement noise. These demos  now use <code class="docutils literal notranslate"><span class="pre">OptBayesExptNoiseParam</span></code>.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">demos/line_plus_noise/line_plus_noise.py</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">demos/lockin/lockin_of_coil.py</span></code>, and</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">demos/sweeper/sweeper.py</span></code></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Added support for <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> arguments to OptBayesExpt. Attribute values
+for OptBayesExpt, parent class ParticlePDF and OptBayesExpt child classes can
+now be set at instantiation.  Keyword arguments <code class="docutils literal notranslate"><span class="pre">a_param</span></code>,
+<code class="docutils literal notranslate"><span class="pre">resample_threshold</span></code>, <code class="docutils literal notranslate"><span class="pre">auto_resample</span></code> and <code class="docutils literal notranslate"><span class="pre">scale</span></code> are passed to
+ParticlePdf to tune resampling behavior.  <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code> uses <code class="docutils literal notranslate"><span class="pre">choke</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">OptBayesExptNoiseParam</span></code> uses <code class="docutils literal notranslate"><span class="pre">noise_parameter_index</span></code>.</p></li>
+</ul>
 <p>May 11, 2021</p>
 <p>Plans for version 1.1.0</p>
 <ul class="simple">
-<li><p>Add transparent support for multi-channel measurements. Examples might be
-X, Y outputs from lockin amplifiers, IQ mixer channels, or multiple photon
-counters.</p></li>
 <li><p>Accelerate computation-heavy functions using numba on systems where the
 numba package is installed.</p></li>
-<li><p>Add keyword arguments to OptBayesExpt() class</p>
-<ul>
-<li><p>noiseparam (<code class="docutils literal notranslate"><span class="pre">int</span></code>): Provides an index into the parameters array,
-identifying the parameter
-as an uncertainty to be determined alongside the model_function
-parameters. If <code class="docutils literal notranslate"><span class="pre">noiseparam</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">None</span></code>, likelihood calculations use
-this parameter instead of uncertainties provided with measurement values.
-Default <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
-<li><p>scale (<code class="docutils literal notranslate"><span class="pre">boolean</span></code>): In particle resampling, <code class="docutils literal notranslate"><span class="pre">scale=True</span></code> compensates
-for a small, distribution-broadening, random-walk step by shrinking the
-distribution towards its mean. This scaling preserves the standard
-deviation of Gaussian distributions under resampling, but distorts
-non-Gaussian distributions.  Default is <code class="docutils literal notranslate"><span class="pre">scale=True</span></code> for backward
-compatibility, but <code class="docutils literal notranslate"><span class="pre">scale=False</span></code> is recommended.</p></li>
-<li><p>choke (<code class="docutils literal notranslate"><span class="pre">float</span></code>): Occasionally, simulated measurement runs will “get
-stuck,” and converge to incorrect parameter values. The <code class="docutils literal notranslate"><span class="pre">choke</span></code> argument
-provides a heuristic fix for better reliability at the expense of speed.
-For <code class="docutils literal notranslate"><span class="pre">0.0</span> <span class="pre">&lt;</span> <span class="pre">choke</span> <span class="pre">&lt;</span> <span class="pre">1.0</span></code>, the likelihood is raised to the <code class="docutils literal notranslate"><span class="pre">choke</span></code> power.
-This change reduces the max/min ratio of the likelihood and allows more
-data to influence the parameter distribution between resampling events.
-Default <code class="docutils literal notranslate"><span class="pre">choke=1.0</span></code>.</p></li>
-</ul>
-</li>
 </ul>
 </div>
 <div class="section" id="version-1-0-1">

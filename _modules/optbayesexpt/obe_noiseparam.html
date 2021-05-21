@@ -100,9 +100,9 @@ $(document).ready(function(){
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_function</span><span class="p">,</span> <span class="n">setting_values</span><span class="p">,</span> <span class="n">parameter_samples</span><span class="p">,</span>
-                 <span class="n">constants</span><span class="p">,</span> <span class="n">noise_parameter_index</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                 <span class="n">constants</span><span class="p">,</span> <span class="n">noise_parameter_index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">OptBayesExpt</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_function</span><span class="p">,</span> <span class="n">setting_values</span><span class="p">,</span>
-                                  <span class="n">parameter_samples</span><span class="p">,</span> <span class="n">constants</span><span class="p">)</span>
+                                  <span class="n">parameter_samples</span><span class="p">,</span> <span class="n">constants</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="c1"># identify the measurement noise parameter.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">noise_parameter_index</span> <span class="o">=</span> <span class="n">noise_parameter_index</span>

@@ -312,24 +312,30 @@ $(document).ready(function(){
 <span class="sd">              representation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">coords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">randdraw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_particles</span><span class="p">)</span>
+        <span class="c1"># coords is n_dims x n_particles</span>
         <span class="n">origin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
 
         <span class="n">covar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">()</span>
-        <span class="n">old_center</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">old_center</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
         <span class="c1"># a_param is typically close to but less than 1</span>
         <span class="n">a_param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tuning_parameters</span><span class="p">[</span><span class="s1">&#39;a_param&#39;</span><span class="p">]</span>
         <span class="c1"># newcover is a small version of covar that determines the size of</span>
         <span class="c1"># the nudge.</span>
         <span class="n">newcovar</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">a_param</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">covar</span>
 
-        <span class="c1"># random nudges create diffusion.  This compensates</span>
-        <span class="n">newcenters</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">a_param</span> <span class="o">+</span> <span class="n">old_center</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">a_param</span><span class="p">)</span>
-        <span class="c1"># arrays in [particle, param] order</span>
-        <span class="c1"># select random nudges around the newcenters</span>
-        <span class="n">nudged</span> <span class="o">=</span> <span class="n">newcenters</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">newcovar</span><span class="p">,</span>
-                                                            <span class="bp">self</span><span class="o">.</span><span class="n">n_particles</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">particles</span> <span class="o">=</span> <span class="n">nudged</span><span class="o">.</span><span class="n">T</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_particles</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_particles</span></div>
+        <span class="c1"># multivariate normal returns n_particles x n_dims array. &quot;.T&quot;</span>
+        <span class="c1"># transposes to match coords shape.</span>
+        <span class="n">nudged</span> <span class="o">=</span> <span class="n">coords</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">newcovar</span><span class="p">,</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">n_particles</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tuning_parameters</span><span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">]:</span>
+            <span class="n">scaled</span> <span class="o">=</span> <span class="n">nudged</span> <span class="o">*</span> <span class="n">a_param</span> <span class="o">+</span> <span class="n">old_center</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">a_param</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">particles</span> <span class="o">=</span> <span class="n">scaled</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">particles</span> <span class="o">=</span> <span class="n">nudged</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span><span class="p">,</span>
+                                         <span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_particles</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ParticlePDF.randdraw"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.particlepdf.ParticlePDF.randdraw">[docs]</a>    <span class="k">def</span> <span class="nf">randdraw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_draws</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Provides random parameter draws from the distribution</span>

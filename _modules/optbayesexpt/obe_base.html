@@ -151,6 +151,22 @@ $(document).ready(function(){
 <span class="sd">            are rarely changed, and model parameters that are well-known</span>
 <span class="sd">            from previous measurement results.</span>
 
+<span class="sd">    Keyword Args:</span>
+
+<span class="sd">        n_draws (:obj:`int`): specifies the number of parameter samples used</span>
+<span class="sd">            in the utility calculation.  Default 30.</span>
+
+<span class="sd">        choke (:obj:`float`): If ``choke`` is specified, the likelihood will be</span>
+<span class="sd">            raised to the ``choke`` power. Occasionally, simulated</span>
+<span class="sd">            measurement runs will &quot;get stuck,&quot; and converge to incorrect</span>
+<span class="sd">            parameter values. The ``choke`` argument provides a heuristic</span>
+<span class="sd">            fix for better reliability at the expense of speed.  For values</span>
+<span class="sd">            ``0.0 &lt; choke &lt; 1.0`` choking reduces the max/min ratio of the</span>
+<span class="sd">            likelihood and allows more data to influence the parameter</span>
+<span class="sd">            distribution between resampling events. Default ``None``.</span>
+
+<span class="sd">        **kwargs: Arguments passed to the parent ParticlePDF class</span>
+
 <span class="sd">    Attributes:</span>
 <span class="sd">        model_function (:obj:`function`): Same as the ``model_function``</span>
 <span class="sd">            parameter above.</span>
@@ -189,17 +205,18 @@ $(document).ready(function(){
 <span class="sd">   &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_model</span><span class="p">,</span> <span class="n">setting_values</span><span class="p">,</span> <span class="n">parameter_samples</span><span class="p">,</span>
-                 <span class="n">constants</span><span class="p">,</span> <span class="n">n_draws</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
+                 <span class="n">constants</span><span class="p">,</span> <span class="n">n_draws</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">choke</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;v 1.1.y, under construction&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model_function</span> <span class="o">=</span> <span class="n">user_model</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setting_values</span> <span class="o">=</span> <span class="n">setting_values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span>
                             <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="o">*</span><span class="n">setting_values</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s1">&#39;ij&#39;</span><span class="p">)])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setting_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-        <span class="n">ParticlePDF</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_samples</span><span class="p">)</span>
+        <span class="n">ParticlePDF</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_samples</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cons</span> <span class="o">=</span> <span class="n">constants</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">choke</span> <span class="o">=</span> <span class="n">choke</span>
 
         <span class="c1"># A noise level estimate used in setting selection</span>
         <span class="c1"># used by ``y_var_noise_model()``.</span>
@@ -379,8 +396,10 @@ $(document).ready(function(){
                              <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">sigma</span><span class="p">)):</span>
             <span class="n">lky</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">y_m</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="n">s</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">s</span>
 
-
-        <span class="k">return</span> <span class="n">lky</span></div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">choke</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">lky</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">choke</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lky</span></div>
 
 <div class="viewcode-block" id="OptBayesExpt.yvar_from_parameter_draws"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt.yvar_from_parameter_draws">[docs]</a>    <span class="k">def</span> <span class="nf">yvar_from_parameter_draws</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Models the measurement variance solely due to parameter</span>

@@ -82,19 +82,32 @@ $(document).ready(function(){
 
 <span class="sd">    Args:</span>
 <span class="sd">        initial_args (:obj:`tuple`) Information needed for making OBE objects.</span>
+<span class="sd">            Requires a tuple with the following structure:</span>
+
+<span class="sd">            0. Model_function (python function)</span>
+<span class="sd">            1. Settings (tuple of settings arrays)</span>
+<span class="sd">            2. Parameter samples (tuple of parameter sample arrays)</span>
+<span class="sd">            3. Constants (tuple of constants)</span>
+
 <span class="sd">        ip_address(:obj:`str`): an IP address for TCP communications.</span>
 <span class="sd">            Default &#39;127.0.0.1&#39;.</span>
 <span class="sd">        port(:obj:`int`): a TCP port number to use for communications.</span>
 <span class="sd">            Default 61981.</span>
 
+<span class="sd">    Keyword Args:</span>
+<span class="sd">        **kwargs are passed to the specified OBE_class&#39;s `` __init__`` function.</span>
+
 <span class="sd">    Attributes:</span>
 <span class="sd">        obe_engine (:obj:`OptBayesExpt`): The disembodied brains of the</span>
 <span class="sd">            experimental design scheme. ``OBE_server`` provides TCP</span>
 <span class="sd">            communication between ``obe_engine`` and a client program.</span>
+
 <span class="sd">        initial_args (:obj:`tuple`): Stored samples from an</span>
 <span class="sd">            initial parameter distribution.  Initialized by ``self.__init__()``</span>
 <span class="sd">            and ``self.make_obe()``.</span>
 
+<span class="sd">        initial_kwargs (:obj:`dict`): keyword arguments stored for future</span>
+<span class="sd">            OBE_class intantiation.</span>
 <span class="sd">    Notes:</span>
 <span class="sd">        1. The messages sent between the client and this server are expected</span>
 <span class="sd">           to be JSON strings, each prependend by the string length formatted</span>
@@ -102,23 +115,27 @@ $(document).ready(function(){
 <span class="sd">           details. Unless otherwise stated the server will reply with</span>
 <span class="sd">           :code:`&#39;0000000004&quot;OK&quot;&#39;` upon successful completion of the command.</span>
 
-<span class="sd">        2. The previous version of ``OBE_Server`` was a child class of</span>
-<span class="sd">           ``OptBayesExpt``.  In this version, the ``OptBayesExpt`` is an</span>
+<span class="sd">        2. In pre-v1.0.0 version ``OBE_Server`` was a child class of</span>
+<span class="sd">           ``OptBayesExpt``.  In versions 1.0.0 and later,</span>
+<span class="sd">           the ``OBE_class`` is an</span>
 <span class="sd">           attribute of ``OBE_Server``.  The advantage of the new</span>
 <span class="sd">           arrangement is that OBE_Server can manage a sequence of</span>
 <span class="sd">           experimental runs with differently configured</span>
-<span class="sd">           ``OptBayesExpt`` objects.  See ``demos/magnetometer_demo.py`` and</span>
-<span class="sd">           ``demos/magnetometer_server.py``.</span>
+<span class="sd">           ``OptBayesExpt`` objects.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_args</span><span class="o">=</span><span class="p">(),</span> <span class="n">ip_address</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">61981</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_args</span><span class="o">=</span><span class="p">(),</span>
+        <span class="n">ip_address</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">61981</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
         <span class="n">Socket</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;server&#39;</span><span class="p">,</span> <span class="n">ip_address</span><span class="o">=</span><span class="n">ip_address</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">initial_args</span> <span class="o">=</span> <span class="n">initial_args</span>
+        <span class="k">if</span> <span class="n">initial_args</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_args</span> <span class="o">=</span> <span class="n">initial_args</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="OBE_Server.make_obe"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_server.OBE_Server.make_obe">[docs]</a>    <span class="k">def</span> <span class="nf">make_obe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obe_class</span><span class="p">,</span> <span class="n">class_args</span><span class="p">):</span>
+<div class="viewcode-block" id="OBE_Server.make_obe"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_server.OBE_Server.make_obe">[docs]</a>    <span class="k">def</span> <span class="nf">make_obe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obe_class</span><span class="p">,</span> <span class="n">class_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Creates and attaches a new OptBayesExpt-like object</span>
 
 <span class="sd">        A server may need to handle several runs. This function allows</span>
@@ -135,10 +152,12 @@ $(document).ready(function(){
 
         <span class="c1"># save the arguments for possible reuse</span>
         <span class="c1"># these are owned by the OBE_Server instance as a &quot;birth record&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">initial_args</span> <span class="o">=</span> <span class="n">class_args</span>
-
+        <span class="k">if</span> <span class="n">class_args</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_args</span> <span class="o">=</span> <span class="n">class_args</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
         <span class="c1"># create a new OptBayesExpt and attach it as the obe_engine attribute.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span> <span class="o">=</span> <span class="n">obe_class</span><span class="p">(</span><span class="o">*</span><span class="n">class_args</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span> <span class="o">=</span> <span class="n">obe_class</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="OBE_Server.newrun"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_server.OBE_Server.newrun">[docs]</a>    <span class="k">def</span> <span class="nf">newrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;A stub to allow customized TCP commands</span>

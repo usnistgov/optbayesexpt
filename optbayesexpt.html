@@ -97,7 +97,7 @@ measurement setting and combines all measurements with settings in common.</p></
 <span id="optbayesexpt-class"></span><h2>OptBayesExpt class<a class="headerlink" href="#module-optbayesexpt.obe_base" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="optbayesexpt.obe_base.OptBayesExpt">
-<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.obe_base.</code><code class="sig-name descname">OptBayesExpt</code><span class="sig-paren">(</span><em class="sig-param">user_model</em>, <em class="sig-param">setting_values</em>, <em class="sig-param">parameter_samples</em>, <em class="sig-param">constants</em>, <em class="sig-param">n_draws=30</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.obe_base.</code><code class="sig-name descname">OptBayesExpt</code><span class="sig-paren">(</span><em class="sig-param">user_model</em>, <em class="sig-param">setting_values</em>, <em class="sig-param">parameter_samples</em>, <em class="sig-param">constants</em>, <em class="sig-param">n_draws=30</em>, <em class="sig-param">choke=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF" title="optbayesexpt.particlepdf.ParticlePDF"><code class="xref py py-class docutils literal notranslate"><span class="pre">optbayesexpt.particlepdf.ParticlePDF</span></code></a></p>
 <p>An implementation of sequential Bayesian experiment design.</p>
 <p>OptBayesExpt is a manager that calculates strategies for efficient
@@ -166,6 +166,21 @@ have to be adjusted and repeated.</p></li>
 <li><p><strong>constants</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>) – Model constants.  Examples include experimental settings that
 are rarely changed, and model parameters that are well-known
 from previous measurement results.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>n_draws</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – specifies the number of parameter samples used
+in the utility calculation.  Default 30.</p></li>
+<li><p><strong>choke</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>) – If <code class="docutils literal notranslate"><span class="pre">choke</span></code> is specified, the likelihood will be
+raised to the <code class="docutils literal notranslate"><span class="pre">choke</span></code> power. Occasionally, simulated
+measurement runs will “get stuck,” and converge to incorrect
+parameter values. The <code class="docutils literal notranslate"><span class="pre">choke</span></code> argument provides a heuristic
+fix for better reliability at the expense of speed.  For values
+<code class="docutils literal notranslate"><span class="pre">0.0</span> <span class="pre">&lt;</span> <span class="pre">choke</span> <span class="pre">&lt;</span> <span class="pre">1.0</span></code> choking reduces the max/min ratio of the
+likelihood and allows more data to influence the parameter
+distribution between resampling events. Default <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>**kwargs</strong> – Arguments passed to the parent ParticlePDF class</p></li>
 </ul>
 </dd>
 </dl>
@@ -565,7 +580,7 @@ values for each setting combination.</p>
 <span id="optbayesexptnoiseparam-class"></span><h2>OptBayesExptNoiseParam class<a class="headerlink" href="#module-optbayesexpt.obe_noiseparam" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter">
-<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.obe_noiseparam.</code><code class="sig-name descname">OptBayesExptNoiseParameter</code><span class="sig-paren">(</span><em class="sig-param">model_function</em>, <em class="sig-param">setting_values</em>, <em class="sig-param">parameter_samples</em>, <em class="sig-param">constants</em>, <em class="sig-param">noise_parameter_index=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.obe_noiseparam.</code><code class="sig-name descname">OptBayesExptNoiseParameter</code><span class="sig-paren">(</span><em class="sig-param">model_function</em>, <em class="sig-param">setting_values</em>, <em class="sig-param">parameter_samples</em>, <em class="sig-param">constants</em>, <em class="sig-param">noise_parameter_index=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt" title="optbayesexpt.obe_base.OptBayesExpt"><code class="xref py py-class docutils literal notranslate"><span class="pre">optbayesexpt.obe_base.OptBayesExpt</span></code></a></p>
 <p>Sequential Bayesian experiment design for with measurement
 uncertainty as random parameters to estimate.</p>
@@ -661,7 +676,7 @@ to measurement noise.</p>
 <span id="obe-server-class"></span><h2>OBE_Server class<a class="headerlink" href="#module-optbayesexpt.obe_server" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="optbayesexpt.obe_server.OBE_Server">
-<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.obe_server.</code><code class="sig-name descname">OBE_Server</code><span class="sig-paren">(</span><em class="sig-param">initial_args=()</em>, <em class="sig-param">ip_address='127.0.0.1'</em>, <em class="sig-param">port=61981</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.obe_server.</code><code class="sig-name descname">OBE_Server</code><span class="sig-paren">(</span><em class="sig-param">initial_args=()</em>, <em class="sig-param">ip_address='127.0.0.1'</em>, <em class="sig-param">port=61981</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#optbayesexpt.obe_socket.Socket" title="optbayesexpt.obe_socket.Socket"><code class="xref py py-class docutils literal notranslate"><span class="pre">optbayesexpt.obe_socket.Socket</span></code></a></p>
 <p>A TCP socket interface for OptBayesExpt using JSON strings</p>
 <p>This class provides communication between an OptBayesExpt object and
@@ -673,12 +688,22 @@ available commands are documented below in the <code class="docutils literal not
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>initial_args</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code>) – </p></li>
+<li><p><strong>initial_args</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code>) – <p>Requires a tuple with the following structure:</p>
+<ol class="arabic simple" start="0">
+<li><p>Model_function (python function)</p></li>
+<li><p>Settings (tuple of settings arrays)</p></li>
+<li><p>Parameter samples (tuple of parameter sample arrays)</p></li>
+<li><p>Constants (tuple of constants)</p></li>
+</ol>
+</p></li>
 <li><p><strong>ip_address</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – an IP address for TCP communications.
 Default ‘127.0.0.1’.</p></li>
 <li><p><strong>port</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – a TCP port number to use for communications.
 Default 61981.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><p><strong>are passed to the specified OBE_class's `` __init__`` function.</strong> (<em>**kwargs</em>) – </p>
 </dd>
 </dl>
 <dl class="attribute">
@@ -707,6 +732,18 @@ and <code class="docutils literal notranslate"><span class="pre">self.make_obe()
 </dl>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="optbayesexpt.obe_server.OBE_Server.initial_kwargs">
+<code class="sig-name descname">initial_kwargs</code><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.initial_kwargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>keyword arguments stored for future
+OBE_class intantiation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 <p class="rubric">Notes</p>
 <ol class="arabic simple">
 <li><p>The messages sent between the client and this server are expected
@@ -714,17 +751,17 @@ to be JSON strings, each prependend by the string length formatted
 as a 10-digit number.  See the obe_socket module docs for
 details. Unless otherwise stated the server will reply with
 <code class="code docutils literal notranslate"><span class="pre">'0000000004&quot;OK&quot;'</span></code> upon successful completion of the command.</p></li>
-<li><p>The previous version of <code class="docutils literal notranslate"><span class="pre">OBE_Server</span></code> was a child class of
-<code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code>.  In this version, the <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code> is an
+<li><p>In pre-v1.0.0 version <code class="docutils literal notranslate"><span class="pre">OBE_Server</span></code> was a child class of
+<code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code>.  In versions 1.0.0 and later,
+the <code class="docutils literal notranslate"><span class="pre">OBE_class</span></code> is an
 attribute of <code class="docutils literal notranslate"><span class="pre">OBE_Server</span></code>.  The advantage of the new
 arrangement is that OBE_Server can manage a sequence of
 experimental runs with differently configured
-<code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code> objects.  See <code class="docutils literal notranslate"><span class="pre">demos/magnetometer_demo.py</span></code> and
-<code class="docutils literal notranslate"><span class="pre">demos/magnetometer_server.py</span></code>.</p></li>
+<code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code> objects.</p></li>
 </ol>
 <dl class="method">
 <dt id="optbayesexpt.obe_server.OBE_Server.make_obe">
-<code class="sig-name descname">make_obe</code><span class="sig-paren">(</span><em class="sig-param">obe_class</em>, <em class="sig-param">class_args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server.make_obe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.make_obe" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">make_obe</code><span class="sig-paren">(</span><em class="sig-param">obe_class</em>, <em class="sig-param">class_args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server.make_obe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.make_obe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates and attaches a new OptBayesExpt-like object</p>
 <p>A server may need to handle several runs. This function allows
 OBE_Server to instantiate new OptBayesExpt objects from scratch.
