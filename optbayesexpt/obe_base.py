@@ -87,6 +87,15 @@ class OptBayesExpt(ParticlePDF):
         n_draws (:obj:`int`): specifies the number of parameter samples used
             in the utility calculation.  Default 30.
 
+        choke (:obj:`float`): If ``choke`` is specified, the likelihood will be
+            raised to the ``choke`` power. Occasionally, simulated
+            measurement runs will "get stuck," and converge to incorrect
+            parameter values. The ``choke`` argument provides a heuristic
+            fix for better reliability at the expense of speed.  For values
+            ``0.0 < choke < 1.0`` choking reduces the max/min ratio of the
+            likelihood and allows more data to influence the parameter
+            distribution between resampling events. Default ``None``.
+
         **kwargs: Arguments passed to the parent ParticlePDF class
 
     Attributes:
@@ -127,7 +136,7 @@ class OptBayesExpt(ParticlePDF):
    """
 
     def __init__(self, user_model, setting_values, parameter_samples,
-                 constants, n_draws=30, choke=1.0, **kwargs):
+                 constants, n_draws=30, choke=None, **kwargs):
         print('v 1.1.y, under construction')
         self.model_function = user_model
         self.setting_values = setting_values
@@ -138,6 +147,7 @@ class OptBayesExpt(ParticlePDF):
 
         self.parameters = self.particles
         self.cons = constants
+        self.choke = choke
 
         # A noise level estimate used in setting selection
         # used by ``y_var_noise_model()``.
@@ -317,8 +327,10 @@ class OptBayesExpt(ParticlePDF):
                              np.atleast_1d(sigma)):
             lky *= np.exp(-((y_m - y) / s) ** 2 / 2) / s
 
-
-        return lky
+        if self.choke is not None:
+            return np.power(lky, self.choke)
+        else:
+            return lky
 
     def yvar_from_parameter_draws(self):
         """Models the measurement variance solely due to parameter
