@@ -2,7 +2,10 @@ __author__ = 'Bob McMichael'
 
 import numpy as np
 from .particlepdf import ParticlePDF
+from .constants import GOT_NUMBA
 
+if GOT_NUMBA:
+    from numba import njit, float64
 
 class OptBayesExpt(ParticlePDF):
     """An implementation of sequential Bayesian experiment design.
@@ -136,14 +139,15 @@ class OptBayesExpt(ParticlePDF):
    """
 
     def __init__(self, user_model, setting_values, parameter_samples,
-                 constants, n_draws=30, choke=None, **kwargs):
+                 constants, n_draws=30, choke=None, use_jit=False, **kwargs):
         print('v 1.1.y, under construction')
         self.model_function = user_model
         self.setting_values = setting_values
         self.allsettings = np.array([s.flatten() for s in
                             np.meshgrid(*setting_values, indexing='ij')])
         self.setting_indices = np.arange(len(self.allsettings[0]))
-        ParticlePDF.__init__(self, parameter_samples, **kwargs)
+        ParticlePDF.__init__(self, parameter_samples, use_jit=use_jit,
+                             **kwargs)
 
         self.parameters = self.particles
         self.cons = constants
@@ -180,6 +184,23 @@ class OptBayesExpt(ParticlePDF):
 
         self.default_noise_std = np.ones((self.n_channels, 1)) * 1.0
         # self.default_noise_std = np.ones(self.n_channels) * 1.0
+
+        # pre-compile some numeric routines using numba.njit
+        if GOT_NUMBA and use_jit:
+            # create a just-in-time compiled helper routine to do the
+            # numerical
+            # heavy lifting
+            @njit([float64[:](float64[:], float64, float64)], cache=True,
+                  nogil=True)
+            def _gauss_noise_likelihood(y_model, y_meas, sigma):
+                return np.exp(
+                    -((y_model - y_meas) / sigma) ** 2 / 2) / sigma
+        else:
+            # No numba package installed?  No problem.
+            def _gauss_noise_likelihood(y_model, y_meas, sigma):
+                return np.exp(
+                    -((y_model - y_meas) / sigma) ** 2 / 2) / sigma
+        self._gauss_noise_likelihood = _gauss_noise_likelihood
 
     def eval_over_all_parameters(self, onesettingset):
         """Evaluates the experimental model.
@@ -325,7 +346,7 @@ class OptBayesExpt(ParticlePDF):
         for y_m, y, s in zip(y_model,
                              np.atleast_1d(y_meas),
                              np.atleast_1d(sigma)):
-            lky *= np.exp(-((y_m - y) / s) ** 2 / 2) / s
+            lky *= self._gauss_noise_likelihood(y_m, y, s)
 
         if self.choke is not None:
             return np.power(lky, self.choke)

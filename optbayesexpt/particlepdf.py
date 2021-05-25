@@ -1,4 +1,8 @@
 import numpy as np
+from .constants import GOT_NUMBA
+
+if GOT_NUMBA:
+    from numba import njit, float64
 
 
 class ParticlePDF:
@@ -100,7 +104,7 @@ class ParticlePDF:
     """
 
     def __init__(self, prior, a_param=0.98, resample_threshold=0.5,
-                 auto_resample=True, scale=True):
+                 auto_resample=True, scale=True, use_jit=False):
 
         self.tuning_parameters = {'a_param': a_param,
                                   'resample_threshold': resample_threshold,
@@ -113,6 +117,20 @@ class ParticlePDF:
 
         self.particle_weights = np.ones(self.n_particles) / self.n_particles
         self.just_resampled = False
+
+        # precompile some numerical functions for speed
+        # multiplication
+        if GOT_NUMBA and use_jit:
+            @njit([float64[:](float64[:], float64[:])], nogil=True, cache=True)
+            def _normalized_product(wgts, lkl):
+                tmp = wgts * lkl
+                return tmp / np.sum(tmp)
+        else:
+            def _normalized_product(wgts, lkl):
+                tmp = wgts * lkl
+                return tmp / np.sum(tmp)
+        self._normalized_product = _normalized_product
+
         try:
             self.rng = np.random.default_rng()
         except AttributeError:
@@ -180,7 +198,12 @@ class ParticlePDF:
         Returns:
             The standard deviation as an n_dims array.
         """
-        return np.sqrt(np.diag(self.covariance()))
+        var = np.zeros(self.n_dims)
+        for i, p in enumerate(self.particles):
+            mean = np.dot(p, self.particle_weights)
+            msq = np.dot(p*p, self.particle_weights)
+            var[i] = msq - mean ** 2
+        return np.sqrt(var)
 
     def bayesian_update(self, likelihood):
         """Performs a Bayesian update on the probability distribution
@@ -196,8 +219,9 @@ class ParticlePDF:
                 describing the Bayesian likelihood of a measurement result
                 calculated for each parameter combination.
          """
-        temp = self.particle_weights * likelihood
-        self.particle_weights = temp / np.sum(temp)
+        self.particle_weights = self._normalized_product(self.particle_weights,
+                                              likelihood)
+
         if self.tuning_parameters['auto_resample']:
             self.resample_test()
 
