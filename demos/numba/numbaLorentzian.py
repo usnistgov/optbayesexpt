@@ -1,20 +1,25 @@
 """
-This script demonstrates the use of OptBayesExpt in a simulated measurement.
-The script has three main stages:
+This ``numbaLorentzian.py`` script demonstrates the use of ``numba`` and its
+@njit decorator to accelerate the more numerics-intensive functitons in
+optbayesexpt. The purpose of ``numba`` is to pre-compile functions
+just-in-time (jit) so that when the function is called, the CPU runs machine
+code without involvement from the Python interpreter.
 
-1. A setup stage where all the necessary information about the experiment is
-   prepared and then used to create an OptBayesExpt object
-2. A measurement loop where the OptBayesExpt object selects measurement
-   settings, interprets measurement data, and provides statistics of the
-   parameter distribution to monitor progress.
-3. Finally, a plotting stage to display the results.
+Boolean variable ``use_jit`` enables (``use_jit = True``) or disables (
+``use_jit = False``) pre-compilation.  The ``use_jit`` variable determines
+whether the ``@njit`` decorator is used in ``_my_model_calc()``.
+``use_jit`` is also passed as a keyword argument to OptBayesExpt to
+enable/disable pre-compilation of selected functions in OptBayesExpt and
+ParticlePDF classes.
 
-.. figure:: ../demos/sequentialLorentzian.png
-   :alt: Output figure of ``sequentialLorentzian.py``
+The output of ``numbaLorentzian.py`` includes a code profile that shows
+where the computation time was spent.  Important column headings include:
 
-   Output figure of ``sequentialLorentzian.py``
+ - 'tottime' sorts the output by time spent in a function, not counting
+   called functions.
+ - 'cumtime' includes time spent on called functions.
+   '30' limits the number of lines of output
 """
-
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -22,17 +27,21 @@ from optbayesexpt import OptBayesExpt, MeasurementSimulator, GOT_NUMBA
 import cProfile
 from pstats import Stats
 
+#####################################################
+# One of the following 2 line should be uncommented
+use_jit = True
+# use_jit = False
+#####################################################
+
 if GOT_NUMBA:
     from numba import njit, float64
 else:
     print("The numbaLorentzian.py demo requires the numba package.")
-    print("One method to install numba is to issue the following commands")
-    print("from a command line:")
-    print("> pip install --upgrade pip")
+    print("To install numba, issue one of the following commands:")
     print("> pip install numba")
-
-use_jit = True
-# use_jit = False
+    print(" -- or, for the Anaconda distribution --")
+    print("> conda intstall numba")
+    exit(1)
 
 ########################################################################
 #           SETUP
