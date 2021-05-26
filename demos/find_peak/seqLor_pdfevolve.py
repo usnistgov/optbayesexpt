@@ -91,25 +91,10 @@ x0true = np.random.choice(x0_samples)  # pick a random resonance x0
 Atrue = np.random.choice(A_samples)  # pick a random Amplitude
 Btrue = np.random.choice(B_samples)  # pick a random Background
 dtrue = np.random.choice(d_samples)  # pick a random width
+true_pars = (x0true, Atrue, Btrue, dtrue)
 
-
-def simdata(x):
-    """
-    simulate a measurement at x
-    :param x:  measurement setting
-    """
-    # calculate the theoretical output result
-    y = lorentz(x, x0true, Atrue, Btrue, dtrue)
-
-    # add noise
-    s = 1
-
-    if type(x) == np.ndarray:
-        y += s * np.random.randn(len(x))
-    else:
-        y += s * np.random.randn()
-    return y
-
+sim = obe.MeasurementSimulator(my_model_function, true_pars, cons,
+                                   noise_level=1.0)
 
 """ 
 THE ANIMATION 
@@ -221,12 +206,12 @@ def myframes():
             print('Iteration {}'.format(cnt))
         """ Get the new measurement setting by Bayes Optimization  """
         if optimum:
-            xmeas, = myOBE.opt_setting()
+            xmeas = myOBE.opt_setting()
         else:
-            xmeas, = myOBE.good_setting(pickiness=pickiness)
-        ymeas = simdata(xmeas)
+            xmeas = myOBE.good_setting(pickiness=pickiness)
+        ymeas = sim.simdata(xmeas)
         """ report the measurement back in order to update """
-        result = ((xmeas,), ymeas, 1)
+        result = (xmeas, ymeas, 1)
         myOBE.pdf_update(result)
 
         xdata.append(xmeas)
