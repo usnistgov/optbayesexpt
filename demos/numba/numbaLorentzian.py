@@ -90,10 +90,7 @@ def my_model_function(sets, pars, cons):
 
 
 if use_jit:
-    @njit([float64[:](float64[:], float64, float64[:], float64[:], float64),
-           float64[:](float64, float64[:], float64, float64, float64),
-           float64(float64, float64, float64, float64, float64)],
-          cache=True, nogil=True)
+    @njit(cache=True, nogil=True)
     def _my_model_calc(a, x, x0, b, d):
         return a / ((2 * (x - x0) / d)**2 + 1) + b
 else:
