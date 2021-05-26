@@ -13,8 +13,7 @@ several demonstrations:
 """
 import numpy as np
 import matplotlib.pyplot as plt
-from optbayesexpt import MeasurementSimulator
-from obe_noiseparam import OptBayesExptNoiseParameter
+from optbayesexpt import MeasurementSimulator, OptBayesExptNoiseParameter
 
 # Script tuning parameters
 #
