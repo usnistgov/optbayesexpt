@@ -104,7 +104,7 @@ class ParticlePDF:
     """
 
     def __init__(self, prior, a_param=0.98, resample_threshold=0.5,
-                 auto_resample=True, scale=True, use_jit=False):
+                 auto_resample=True, scale=True, use_jit=True):
 
         self.tuning_parameters = {'a_param': a_param,
                                   'resample_threshold': resample_threshold,

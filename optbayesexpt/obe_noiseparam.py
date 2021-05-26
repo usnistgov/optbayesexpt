@@ -35,23 +35,13 @@ class OptBayesExptNoiseParameter(OptBayesExpt):
     """
 
     def __init__(self, model_function, setting_values, parameter_samples,
-                 constants, noise_parameter_index=None, use_jit=False,
-                 **kwargs):
+                 constants, noise_parameter_index=None, **kwargs):
         OptBayesExpt.__init__(self, model_function, setting_values,
-                                  parameter_samples, constants, **kwargs)
+                              parameter_samples, constants, **kwargs)
 
         # identify the measurement noise parameter.
         self.noise_parameter_index = noise_parameter_index
 
-        # overwrite the compiled likelihood function
-        if GOT_NUMBA and use_jit:
-            # create a just-in-time compiled helper routine to do the
-            # numerical heavy lifting
-            # With sigma as a parameter array in the 3rd arg.
-            @njit([float64[:](float64[:], float64, float64[:])], cache=True,
-                  nogil=True)
-            def _gauss_noise_likelihood(y_model, y_meas, sigma):
-                return np.exp(-((y_model - y_meas) / sigma) ** 2 / 2) / sigma
 
     def pdf_update(self, measurement_record, y_model_data=None):
         """

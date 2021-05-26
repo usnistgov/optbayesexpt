@@ -139,7 +139,7 @@ class OptBayesExpt(ParticlePDF):
    """
 
     def __init__(self, user_model, setting_values, parameter_samples,
-                 constants, n_draws=30, choke=None, use_jit=False, **kwargs):
+                 constants, n_draws=30, choke=None, use_jit=True, **kwargs):
         print('v 1.1.y, under construction')
         self.model_function = user_model
         self.setting_values = setting_values
@@ -190,8 +190,7 @@ class OptBayesExpt(ParticlePDF):
             # create a just-in-time compiled helper routine to do the
             # numerical
             # heavy lifting
-            @njit([float64[:](float64[:], float64, float64)], cache=True,
-                  nogil=True)
+            @njit(cache=True, nogil=True)
             def _gauss_noise_likelihood(y_model, y_meas, sigma):
                 return np.exp(
                     -((y_model - y_meas) / sigma) ** 2 / 2) / sigma
