@@ -141,7 +141,7 @@ for i in np.arange(n_measure):
     ydata[i] = ymeasure
 
     # package the results
-    measurement = ((xmeas,), ymeasure, noise_level)
+    measurement = (xmeas, ymeasure, noise_level)
     # OptBayesExpt does Bayesian inference
     my_obe.pdf_update(measurement)
 
