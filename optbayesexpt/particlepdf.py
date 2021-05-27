@@ -64,6 +64,10 @@ class ParticlePDF:
             resampling are performed when ``bayesian_update()`` is called.
             Default ``True``.
 
+        use_jit (:obj:`bool`): Allows precompilation of some methods for a
+            modest increase in speed.  Only effective on systems where
+            ``numba`` is installed.
+
     Attributes:
         n_dims (int): The number of parameters, i.e. the dimensionality of
             parameter space.  Determined from the leading dimension of
@@ -114,6 +118,7 @@ class ParticlePDF:
         self.particles = np.asarray(prior)
         self.n_particles = self.particles.shape[-1]
         self.n_dims = self.particles.shape[0]
+        self._particle_indices = np.arange(self.n_particles, dtype='int')
 
         self.particle_weights = np.ones(self.n_particles) / self.n_particles
         self.just_resampled = False
@@ -121,7 +126,7 @@ class ParticlePDF:
         # precompile some numerical functions for speed
         # multiplication
         if GOT_NUMBA and use_jit:
-            @njit([float64[:](float64[:], float64[:])], nogil=True, cache=True)
+            @njit([float64[:](float64[:], float64[:])], cache=True)
             def _normalized_product(wgts, lkl):
                 tmp = wgts * lkl
                 return tmp / np.sum(tmp)
@@ -310,7 +315,7 @@ class ParticlePDF:
         # p=self.particle_weights, axis=1)
         draws = np.zeros((self.n_dims, n_draws))
 
-        indices = self.rng.choice(self.n_particles, size=n_draws,\
+        indices = self.rng.choice(self._particle_indices, size=n_draws,\
                                 p=self.particle_weights)
 
         for i, param in enumerate(self.particles):
