@@ -306,18 +306,20 @@ Features:
     - Improved execution time using pre-compilation.
 
 This ``numbaLorentzian.py`` script demonstrates the use of ``numba`` and its
-``@njit`` decorator to accelerate the more numerics-intensive functitons in
-optbayesexpt. The purpose of ``numba`` is to pre-compile functions
+``@njit`` decorator to accelerate the more numerics-intensive functions in
+optbayesexpt. The purpose of ``numba`` is to pre-compile Python code
 just-in-time (jit) so that when the function is called, the CPU runs machine
 code without involvement from the Python interpreter.
 
 In ``numbaLorentzian.py``, the Boolean variable ``use_jit`` enables
-(``use_jit = True``) or disables
-(``use_jit = False``) pre-compilation.  The ``use_jit`` variable determines
-whether the ``@njit`` decorator is used in ``_my_model_calc()``.
-``use_jit`` is also passed as a keyword argument to ``OptBayesExpt`` to
-enable/disable pre-compilation of selected functions in ``OptBayesExpt`` and
-``ParticlePDF`` classes.
+(``use_jit = True``) or disables ( ``use_jit = False``) pre-compilation.
+In this demo, we use ``numba`` to pre-compile three of the more numerically
+demanding functions in ``optbayesexpt``.
+
+    - ``_gauss_noise_likelihood()`` -- the calculation of likelihood
+    - ``my_model_functionn`` -- the guts of the experiment model calculation
+    - ``_normalized_product()`` -- Bayes' rule multiplication of likelihood
+      and prior with normalization.
 
 The output of ``numbaLorentzian.py`` includes a code profile that shows
 where the computation time was spent.  Table I below compares execution
@@ -325,7 +327,7 @@ times of the most time consuming functions without (``use_jit = False``) and
 with (``use_jit = True``) pre-compilation. The times listed represent time
 spent on a function, not
 counting called functions.  Pre-compilation roughly halved the
-execution time of the most time-consuming function, which calculated a
+execution time of the most time-consuming function, which calculates a
 Gaussian likelihood. The most dramatic improvement is in calculation of the
 model function which was sped up by nearly a factor of five.
 
@@ -337,14 +339,14 @@ model function which was sped up by nearly a factor of five.
    ``False``  ``True``
    time (s)   time (s)  filename:lineno(function)
    =========  ========  =========================
-   4.175      1.971     obe_base.py:199(_gauss_noise_likelihood)
-   2.557      0.530     numbaLorentzian.py:101(_my_model_calc)
-   2.365      1.757     {method 'choice' of
+   4.150      2.000     obe_base.py:199(_gauss_noise_likelihood)
+   2.724      0.538     numbaLorentzian.py:101(my_model_function)
+   2.259      1.747     {method 'choice' of
                         'numpy.random._generator.Generator' objects}
-   0.879      0.767     particlepdf.py:129(_normalized_product)
+   0.850      0.827     particlepdf.py:129(_normalized_product)
    ...        ...       ...
    ---------  --------  -------------------------
-   13.515 s   8.288 s   Total
+   13.109 s   8.322 s   Total
    =========  ========  =========================
 
 The overall execution time is shown in the last line of Table I. With
@@ -355,7 +357,9 @@ Speculation:
 
     Compared to examples in the numba documentation
     (see https://numba.pydata.org/numba-doc/latest/user/5minguide.html#how-to-measure-the-performance-of-numba) the acceleration in this
-    example seems small.  Is that because numpy array math is already
-    compiled?
+    example seems small.  One possible explanation for the small speed
+    increase is that much of the computation already takes advantage of math
+    using numpy arrays, which are pre-compiled operations.
+
 
 
