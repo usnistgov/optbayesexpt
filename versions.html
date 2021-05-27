@@ -77,6 +77,18 @@ $(document).ready(function(){
 <h1>Version Notes<a class="headerlink" href="#version-notes" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="version-1-1-0">
 <h2>Version 1.1.0<a class="headerlink" href="#version-1-1-0" title="Permalink to this headline">¶</a></h2>
+<p>May 27, 2021</p>
+<ul>
+<li><p>Implemented just-in-timme (jit) compilation of some of the most
+time-consuming methods using the <code class="docutils literal notranslate"><span class="pre">numba</span></code> package.  Execution time
+was shortend by 20 % to 40 %.  A new demo program was added to highlight
+these capabilities.</p>
+<p>Since <code class="docutils literal notranslate"><span class="pre">numba</span></code> is
+not (yet) a required package for <code class="docutils literal notranslate"><span class="pre">optbayesexpt</span></code>, access to <code class="docutils literal notranslate"><span class="pre">numba</span></code> is
+tested and a Boolean <code class="docutils literal notranslate"><span class="pre">GOT_NUMBA</span></code> is defined with scope extending over the
+optbayesexpt package.</p>
+</li>
+</ul>
 <p>May 21, 2021</p>
 <ul>
 <li><p>Support for multi-channel measurements has been added to the OptBayesExpt
@@ -100,12 +112,6 @@ now be set at instantiation.  Keyword arguments <code class="docutils literal no
 <code class="docutils literal notranslate"><span class="pre">resample_threshold</span></code>, <code class="docutils literal notranslate"><span class="pre">auto_resample</span></code> and <code class="docutils literal notranslate"><span class="pre">scale</span></code> are passed to
 ParticlePdf to tune resampling behavior.  <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code> uses <code class="docutils literal notranslate"><span class="pre">choke</span></code>,
 and <code class="docutils literal notranslate"><span class="pre">OptBayesExptNoiseParam</span></code> uses <code class="docutils literal notranslate"><span class="pre">noise_parameter_index</span></code>.</p></li>
-</ul>
-<p>May 11, 2021</p>
-<p>Plans for version 1.1.0</p>
-<ul class="simple">
-<li><p>Accelerate computation-heavy functions using numba on systems where the
-numba package is installed.</p></li>
 </ul>
 </div>
 <div class="section" id="version-1-0-1">
