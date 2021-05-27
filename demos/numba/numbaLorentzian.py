@@ -73,38 +73,57 @@ pickiness = 19  # ignored when optimal == True
 
 # Describe how the world works with a model function
 #
-def my_model_function(sets, pars, cons):
-    """ Evaluates a trusted model of the experiment's output
-
-    The equivalent of a fit function. The argument structure is
-    required by OptBayesExpt. In this example, the model function is a
-    Lorentzian peak.
-
-    Args:
-        sets: A tuple of setting values, or a tuple of settings arrays
-        pars: A tuple of parameter arrays or a tuple of parameter values
-        cons: A tuple of floats
-
-    Returns:  the evaluated function
-    """
-    # unpack the settings
-    x, = sets
-    # unpack model parameters
-    x0, a, b = pars
-    # unpack model constants
-    d, = cons
-
-    # calculate the Lorentzian
-    return _my_model_calc(a, x, x0, b, d)
-
-
 if use_jit:
-    @njit(cache=True, nogil=True)
-    def _my_model_calc(a, x, x0, b, d):
+    @njit(cache=True)
+    def my_model_function(sets, pars, cons):
+        """ Evaluates a trusted model of the experiment's output
+
+        The equivalent of a fit function. The argument structure is
+        required by OptBayesExpt. In this example, the model function is a
+        Lorentzian peak.
+
+        Args:
+            sets: A tuple of setting values, or a tuple of settings arrays
+            pars: A tuple of parameter arrays or a tuple of parameter values
+            cons: A tuple of floats
+
+        Returns:  the evaluated function
+        """
+        # unpack the settings
+        x, = sets
+        # unpack model parameters
+        x0, a, b = pars
+        # unpack model constants
+        d, = cons
+
+        # calculate the Lorentzian
+        # return _my_model_calc(a, x, x0, b, d)
         return a / ((2 * (x - x0) / d)**2 + 1) + b
 else:
-    def _my_model_calc(a, x, x0, b, d):
-        return a / ((2 * (x - x0) / d)**2 + 1) + b
+    def my_model_function(sets, pars, cons):
+        """ Evaluates a trusted model of the experiment's output
+
+        The equivalent of a fit function. The argument structure is
+        required by OptBayesExpt. In this example, the model function is a
+        Lorentzian peak.
+
+        Args:
+            sets: A tuple of setting values, or a tuple of settings arrays
+            pars: A tuple of parameter arrays or a tuple of parameter values
+            cons: A tuple of floats
+
+        Returns:  the evaluated function
+        """
+        # unpack the settings
+        x, = sets
+        # unpack model parameters
+        x0, a, b = pars
+        # unpack model constants
+        d, = cons
+
+        # calculate the Lorentzian
+        # return _my_model_calc(a, x, x0, b, d)
+        return a / ((2 * (x - x0) / d) ** 2 + 1) + b
 
 # Define the allowed measurement settings
 #
