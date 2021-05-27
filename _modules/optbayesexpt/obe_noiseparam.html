@@ -67,8 +67,12 @@ $(document).ready(function(){
           <div class="body" role="main">
             
   <h1>Source code for optbayesexpt.obe_noiseparam</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">optbayesexpt</span> <span class="kn">import</span> <span class="n">OptBayesExpt</span>
+<span></span><span class="kn">from</span> <span class="nn">.obe_base</span> <span class="kn">import</span> <span class="n">OptBayesExpt</span>
+<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">GOT_NUMBA</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">GOT_NUMBA</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span><span class="p">,</span> <span class="n">float64</span>
 
 
 <div class="viewcode-block" id="OptBayesExptNoiseParameter"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter">[docs]</a><span class="k">class</span> <span class="nc">OptBayesExptNoiseParameter</span><span class="p">(</span><span class="n">OptBayesExpt</span><span class="p">):</span>
@@ -102,10 +106,11 @@ $(document).ready(function(){
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_function</span><span class="p">,</span> <span class="n">setting_values</span><span class="p">,</span> <span class="n">parameter_samples</span><span class="p">,</span>
                  <span class="n">constants</span><span class="p">,</span> <span class="n">noise_parameter_index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">OptBayesExpt</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_function</span><span class="p">,</span> <span class="n">setting_values</span><span class="p">,</span>
-                                  <span class="n">parameter_samples</span><span class="p">,</span> <span class="n">constants</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                              <span class="n">parameter_samples</span><span class="p">,</span> <span class="n">constants</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="c1"># identify the measurement noise parameter.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">noise_parameter_index</span> <span class="o">=</span> <span class="n">noise_parameter_index</span>
+
 
 <div class="viewcode-block" id="OptBayesExptNoiseParameter.pdf_update"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.pdf_update">[docs]</a>    <span class="k">def</span> <span class="nf">pdf_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measurement_record</span><span class="p">,</span> <span class="n">y_model_data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

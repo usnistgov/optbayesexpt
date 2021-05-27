@@ -1,18 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>optbayesexpt.particlepdf &#8212; OptBayesExpt 1.1.0 documentation</title>
-    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 
@@ -57,7 +56,8 @@ $(document).ready(function(){
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">optbayesexpt.particlepdf</a></li> 
       </ul>
     </div>  
 
@@ -68,6 +68,10 @@ $(document).ready(function(){
             
   <h1>Source code for optbayesexpt.particlepdf</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">GOT_NUMBA</span>
+
+<span class="k">if</span> <span class="n">GOT_NUMBA</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span><span class="p">,</span> <span class="n">float64</span>
 
 
 <div class="viewcode-block" id="ParticlePDF"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.particlepdf.ParticlePDF">[docs]</a><span class="k">class</span> <span class="nc">ParticlePDF</span><span class="p">:</span>
@@ -129,6 +133,10 @@ $(document).ready(function(){
 <span class="sd">            resampling are performed when ``bayesian_update()`` is called.</span>
 <span class="sd">            Default ``True``.</span>
 
+<span class="sd">        use_jit (:obj:`bool`): Allows precompilation of some methods for a</span>
+<span class="sd">            modest increase in speed.  Only effective on systems where</span>
+<span class="sd">            ``numba`` is installed.</span>
+
 <span class="sd">    Attributes:</span>
 <span class="sd">        n_dims (int): The number of parameters, i.e. the dimensionality of</span>
 <span class="sd">            parameter space.  Determined from the leading dimension of</span>
@@ -169,7 +177,7 @@ $(document).ready(function(){
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prior</span><span class="p">,</span> <span class="n">a_param</span><span class="o">=</span><span class="mf">0.98</span><span class="p">,</span> <span class="n">resample_threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-                 <span class="n">auto_resample</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                 <span class="n">auto_resample</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_jit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">tuning_parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a_param&#39;</span><span class="p">:</span> <span class="n">a_param</span><span class="p">,</span>
                                   <span class="s1">&#39;resample_threshold&#39;</span><span class="p">:</span> <span class="n">resample_threshold</span><span class="p">,</span>
@@ -179,9 +187,24 @@ $(document).ready(function(){
         <span class="bp">self</span><span class="o">.</span><span class="n">particles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">prior</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_particles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_particle_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_particles</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_particles</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_particles</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">just_resampled</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># precompile some numerical functions for speed</span>
+        <span class="c1"># multiplication</span>
+        <span class="k">if</span> <span class="n">GOT_NUMBA</span> <span class="ow">and</span> <span class="n">use_jit</span><span class="p">:</span>
+            <span class="nd">@njit</span><span class="p">([</span><span class="n">float64</span><span class="p">[:](</span><span class="n">float64</span><span class="p">[:],</span> <span class="n">float64</span><span class="p">[:])],</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">def</span> <span class="nf">_normalized_product</span><span class="p">(</span><span class="n">wgts</span><span class="p">,</span> <span class="n">lkl</span><span class="p">):</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">wgts</span> <span class="o">*</span> <span class="n">lkl</span>
+                <span class="k">return</span> <span class="n">tmp</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">_normalized_product</span><span class="p">(</span><span class="n">wgts</span><span class="p">,</span> <span class="n">lkl</span><span class="p">):</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">wgts</span> <span class="o">*</span> <span class="n">lkl</span>
+                <span class="k">return</span> <span class="n">tmp</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_normalized_product</span> <span class="o">=</span> <span class="n">_normalized_product</span>
+
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
@@ -226,7 +249,7 @@ $(document).ready(function(){
                           <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ParticlePDF.covariance"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.particlepdf.ParticlePDF.covariance">[docs]</a>    <span class="k">def</span> <span class="nf">covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Calculates the covariance of the probability distribution</span>
+        <span class="sd">&quot;&quot;&quot;Calculates the covariance of the probability distribution.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The covariance of the parameter distribution as an</span>
@@ -241,7 +264,7 @@ $(document).ready(function(){
             <span class="k">return</span> <span class="n">raw_covariance</span></div>
 
 <div class="viewcode-block" id="ParticlePDF.std"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.particlepdf.ParticlePDF.std">[docs]</a>    <span class="k">def</span> <span class="nf">std</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Calculates the standard deviation of the distribution</span>
+        <span class="sd">&quot;&quot;&quot;Calculates the standard deviation of the distribution.</span>
 
 <span class="sd">        Calculates the square root of the diagonal elements of the</span>
 <span class="sd">        covariance matrix.  See also :obj:`covariance()` and :obj:`mean()`.</span>
@@ -249,10 +272,15 @@ $(document).ready(function(){
 <span class="sd">        Returns:</span>
 <span class="sd">            The standard deviation as an n_dims array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">()))</span></div>
+        <span class="n">var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">):</span>
+            <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span><span class="p">)</span>
+            <span class="n">msq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span><span class="p">)</span>
+            <span class="n">var</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">msq</span> <span class="o">-</span> <span class="n">mean</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ParticlePDF.bayesian_update"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.particlepdf.ParticlePDF.bayesian_update">[docs]</a>    <span class="k">def</span> <span class="nf">bayesian_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">likelihood</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Performs a Bayesian update on the probability distribution</span>
+        <span class="sd">&quot;&quot;&quot;Performs a Bayesian update on the probability distribution.</span>
 
 <span class="sd">        Multiplies ``particle_weights`` by the ``likelihood`` and</span>
 <span class="sd">        renormalizes the probability</span>
@@ -265,8 +293,9 @@ $(document).ready(function(){
 <span class="sd">                describing the Bayesian likelihood of a measurement result</span>
 <span class="sd">                calculated for each parameter combination.</span>
 <span class="sd">         &quot;&quot;&quot;</span>
-        <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span> <span class="o">*</span> <span class="n">likelihood</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span> <span class="o">=</span> <span class="n">temp</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normalized_product</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span><span class="p">,</span>
+                                              <span class="n">likelihood</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tuning_parameters</span><span class="p">[</span><span class="s1">&#39;auto_resample&#39;</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">resample_test</span><span class="p">()</span></div>
 
@@ -355,7 +384,7 @@ $(document).ready(function(){
         <span class="c1"># p=self.particle_weights, axis=1)</span>
         <span class="n">draws</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">,</span> <span class="n">n_draws</span><span class="p">))</span>
 
-        <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_particles</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_draws</span><span class="p">,</span>\
+        <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_particle_indices</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_draws</span><span class="p">,</span>\
                                 <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">):</span>
@@ -370,6 +399,7 @@ $(document).ready(function(){
 
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -399,12 +429,13 @@ $(document).ready(function(){
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">optbayesexpt.particlepdf</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

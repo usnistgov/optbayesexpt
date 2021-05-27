@@ -1,18 +1,18 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>optbayesexpt API &#8212; OptBayesExpt 1.1.0 documentation</title>
-    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="Version Notes" href="versions.html" />
@@ -60,7 +60,8 @@ $(document).ready(function(){
         <li class="right" >
           <a href="versions.html" title="Version Notes"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">optbayesexpt API</a></li> 
       </ul>
     </div>  
 
@@ -95,9 +96,9 @@ measurement setting and combines all measurements with settings in common.</p></
 </div>
 <div class="section" id="module-optbayesexpt.obe_base">
 <span id="optbayesexpt-class"></span><h2>OptBayesExpt class<a class="headerlink" href="#module-optbayesexpt.obe_base" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="optbayesexpt.obe_base.OptBayesExpt">
-<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.obe_base.</code><code class="sig-name descname">OptBayesExpt</code><span class="sig-paren">(</span><em class="sig-param">user_model</em>, <em class="sig-param">setting_values</em>, <em class="sig-param">parameter_samples</em>, <em class="sig-param">constants</em>, <em class="sig-param">n_draws=30</em>, <em class="sig-param">choke=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_base.</span></span><span class="sig-name descname"><span class="pre">OptBayesExpt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setting_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constants</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_draws</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choke</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_jit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF" title="optbayesexpt.particlepdf.ParticlePDF"><code class="xref py py-class docutils literal notranslate"><span class="pre">optbayesexpt.particlepdf.ParticlePDF</span></code></a></p>
 <p>An implementation of sequential Bayesian experiment design.</p>
 <p>OptBayesExpt is a manager that calculates strategies for efficient
@@ -180,13 +181,13 @@ fix for better reliability at the expense of speed.  For values
 <code class="docutils literal notranslate"><span class="pre">0.0</span> <span class="pre">&lt;</span> <span class="pre">choke</span> <span class="pre">&lt;</span> <span class="pre">1.0</span></code> choking reduces the max/min ratio of the
 likelihood and allows more data to influence the parameter
 distribution between resampling events. Default <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
-<li><p><strong>**kwargs</strong> – Arguments passed to the parent ParticlePDF class</p></li>
+<li><p><strong>**kwargs</strong> – keyword arguments passed to the parent ParticlePDF class</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="attribute">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.model_function">
-<code class="sig-name descname">model_function</code><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.model_function" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.model_function">
+<span class="sig-name descname"><span class="pre">model_function</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.model_function" title="Permalink to this definition">¶</a></dt>
 <dd><p>Same as the <code class="docutils literal notranslate"><span class="pre">model_function</span></code>
 parameter above.</p>
 <dl class="field-list simple">
@@ -196,9 +197,9 @@ parameter above.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.setting_values">
-<code class="sig-name descname">setting_values</code><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.setting_values" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.setting_values">
+<span class="sig-name descname"><span class="pre">setting_values</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.setting_values" title="Permalink to this definition">¶</a></dt>
 <dd><p>A record of the
 setting_values argument.</p>
 <dl class="field-list simple">
@@ -208,9 +209,9 @@ setting_values argument.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.allsettings">
-<code class="sig-name descname">allsettings</code><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.allsettings" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.allsettings">
+<span class="sig-name descname"><span class="pre">allsettings</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.allsettings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Arrays containing all
 possible combinations of the setting values provided in the
 <code class="docutils literal notranslate"><span class="pre">setting_values</span></code> argument.</p>
@@ -221,9 +222,9 @@ possible combinations of the setting values provided in the
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.setting_indices">
-<code class="sig-name descname">setting_indices</code><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.setting_indices" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.setting_indices">
+<span class="sig-name descname"><span class="pre">setting_indices</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.setting_indices" title="Permalink to this definition">¶</a></dt>
 <dd><p>indices in to
 the allsettings arrays. Used in <code class="docutils literal notranslate"><span class="pre">opt_setting()</span></code> and
 <code class="docutils literal notranslate"><span class="pre">good_setting()</span></code>.</p>
@@ -234,9 +235,9 @@ the allsettings arrays. Used in <code class="docutils literal notranslate"><span
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.parameters">
-<code class="sig-name descname">parameters</code><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.parameters" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>The most recently
 set of parameter samples the parameter distribution.
 <code class="docutils literal notranslate"><span class="pre">self.parameters</span></code> is a <em>view</em> of <code class="docutils literal notranslate"><span class="pre">PartcilePDF.particles</span></code>.</p>
@@ -247,9 +248,9 @@ set of parameter samples the parameter distribution.
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.cons">
-<code class="sig-name descname">cons</code><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.cons" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.cons">
+<span class="sig-name descname"><span class="pre">cons</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.cons" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stores the <code class="docutils literal notranslate"><span class="pre">constants</span></code>
 argument tuple.</p>
 <dl class="field-list simple">
@@ -259,9 +260,9 @@ argument tuple.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.default_noise_std">
-<code class="sig-name descname">default_noise_std</code><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.default_noise_std" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.default_noise_std">
+<span class="sig-name descname"><span class="pre">default_noise_std</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.default_noise_std" title="Permalink to this definition">¶</a></dt>
 <dd><p>A rough-estimate of measurement
 noise as a standard-deviation. The default return value of
 <code class="docutils literal notranslate"><span class="pre">cost()</span></code>.</p>
@@ -272,9 +273,9 @@ noise as a standard-deviation. The default return value of
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.measurement_results">
-<code class="sig-name descname">measurement_results</code><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.measurement_results" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.measurement_results">
+<span class="sig-name descname"><span class="pre">measurement_results</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.measurement_results" title="Permalink to this definition">¶</a></dt>
 <dd><p>A list containing records of
 accumulated measurement results</p>
 <dl class="field-list simple">
@@ -284,9 +285,9 @@ accumulated measurement results</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.last_setting_index">
-<code class="sig-name descname">last_setting_index</code><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.last_setting_index" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.last_setting_index">
+<span class="sig-name descname"><span class="pre">last_setting_index</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.last_setting_index" title="Permalink to this definition">¶</a></dt>
 <dd><p>The most recent settings
 recommendation as an index into <code class="docutils literal notranslate"><span class="pre">self.allsettings</span></code>.</p>
 <dl class="field-list simple">
@@ -296,9 +297,9 @@ recommendation as an index into <code class="docutils literal notranslate"><span
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.N_DRAWS">
-<code class="sig-name descname">N_DRAWS</code><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.N_DRAWS" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.N_DRAWS">
+<span class="sig-name descname"><span class="pre">N_DRAWS</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.N_DRAWS" title="Permalink to this definition">¶</a></dt>
 <dd><p>The number of parameter draws to use in the utility
 calculation to estimate the variance of model outputs due to
 parameter distribution.  Default: 30</p>
@@ -309,9 +310,10 @@ parameter distribution.  Default: 30</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_base.OptBayesExpt._model_output_len">
-<code class="sig-name descname">_model_output_len</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt._model_output_len"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt._model_output_len" title="Permalink to this definition">¶</a></dt>
+<p>Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt._model_output_len">
+<span class="sig-name descname"><span class="pre">_model_output_len</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt._model_output_len"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt._model_output_len" title="Permalink to this definition">¶</a></dt>
 <dd><p>Detect the number of model outputs</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -320,9 +322,9 @@ parameter distribution.  Default: 30</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.cost_estimate">
-<code class="sig-name descname">cost_estimate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.cost_estimate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.cost_estimate" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.cost_estimate">
+<span class="sig-name descname"><span class="pre">cost_estimate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.cost_estimate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.cost_estimate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate the cost of measurements, depending on settings</p>
 <p>The denominator of the <em>utility</em> function allows measurement
 resources (e.g. setup time + data collection time) to be entered
@@ -338,9 +340,9 @@ into the utility calculation.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.enforce_parameter_constraints">
-<code class="sig-name descname">enforce_parameter_constraints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.enforce_parameter_constraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.enforce_parameter_constraints" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.enforce_parameter_constraints">
+<span class="sig-name descname"><span class="pre">enforce_parameter_constraints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.enforce_parameter_constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.enforce_parameter_constraints" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enforces constraints on parameters</p>
 <p>for example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># find the violators (negative parameter values)</span>
@@ -354,9 +356,9 @@ into the utility calculation.</p>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.eval_over_all_parameters">
-<code class="sig-name descname">eval_over_all_parameters</code><span class="sig-paren">(</span><em class="sig-param">onesettingset</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.eval_over_all_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_parameters" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.eval_over_all_parameters">
+<span class="sig-name descname"><span class="pre">eval_over_all_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onesettingset</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.eval_over_all_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluates the experimental model.</p>
 <p>Evaluates the model for one combination of measurement settings and
 all parameter combinations in <code class="docutils literal notranslate"><span class="pre">self.parameters</span></code>. Called by
@@ -379,9 +381,9 @@ element of <code class="xref py py-obj docutils literal notranslate"><span class
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.eval_over_all_settings">
-<code class="sig-name descname">eval_over_all_settings</code><span class="sig-paren">(</span><em class="sig-param">oneparamset</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.eval_over_all_settings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_settings" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.eval_over_all_settings">
+<span class="sig-name descname"><span class="pre">eval_over_all_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">oneparamset</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.eval_over_all_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_settings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluates the experimental model.</p>
 <p>Evaluates the model for all combinations of measurement settings in
 <code class="docutils literal notranslate"><span class="pre">self.allsettings</span></code> and one set of parameters. Called <code class="docutils literal notranslate"><span class="pre">N_DRAWS</span></code>
@@ -399,9 +401,9 @@ element of <code class="code docutils literal notranslate"><span class="pre">sel
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.good_setting">
-<code class="sig-name descname">good_setting</code><span class="sig-paren">(</span><em class="sig-param">pickiness=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.good_setting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.good_setting" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.good_setting">
+<span class="sig-name descname"><span class="pre">good_setting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pickiness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.good_setting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.good_setting" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate a setting with a good probability of refining the pdf</p>
 <p><code class="docutils literal notranslate"><span class="pre">good_setting()</span></code> selects settings using a weighted random
 selection using the utility function to calculate a weight.  The
@@ -422,9 +424,9 @@ values greater than about 10 the behavior is similar to
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.likelihood">
-<code class="sig-name descname">likelihood</code><span class="sig-paren">(</span><em class="sig-param">y_model</em>, <em class="sig-param">measurement_record</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.likelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.likelihood" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.likelihood">
+<span class="sig-name descname"><span class="pre">likelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_record</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.likelihood"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.likelihood" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the likelihood of a measurement result.</p>
 <p>For each parameter combination, estimate the probability of
 obtaining the results provided in <code class="code docutils literal notranslate"><span class="pre">measurement_result</span></code>.  This
@@ -464,9 +466,9 @@ elements of <code class="docutils literal notranslate"><span class="pre">measure
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.opt_setting">
-<code class="sig-name descname">opt_setting</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.opt_setting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.opt_setting" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.opt_setting">
+<span class="sig-name descname"><span class="pre">opt_setting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.opt_setting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.opt_setting" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the setting with maximum predicted impact on the parameter
 distribution.</p>
 <p>At what settings are we most uncertain about how an experiment will
@@ -482,9 +484,9 @@ current parameter pdf.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.pdf_update">
-<code class="sig-name descname">pdf_update</code><span class="sig-paren">(</span><em class="sig-param">measurement_record</em>, <em class="sig-param">y_model_data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.pdf_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.pdf_update" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.pdf_update">
+<span class="sig-name descname"><span class="pre">pdf_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">measurement_record</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_model_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.pdf_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.pdf_update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Refines the parameters’ probability distribution function given a
 measurement result.</p>
 <p>This is the measurement result input method. An implementation of
@@ -512,9 +514,9 @@ available, e.g. while measurements are being made. Default =
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.utility">
-<code class="sig-name descname">utility</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.utility" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.utility">
+<span class="sig-name descname"><span class="pre">utility</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.utility"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.utility" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate the utility as a function of settings.</p>
 <p>Used in selecting measurement settings. The <em>utility</em> is the
 predicted benefit/cost ratio of a new measurement where the benefit
@@ -529,9 +531,9 @@ Gaussian distributions.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.y_var_noise_model">
-<code class="sig-name descname">y_var_noise_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.y_var_noise_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.y_var_noise_model" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.y_var_noise_model">
+<span class="sig-name descname"><span class="pre">y_var_noise_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.y_var_noise_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.y_var_noise_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Models the measurement variance solely due to measurement noise.</p>
 <p>A model of measurement variance (noise) as a function of settings,
 averaged over parameters if parameter-dependent.  Used in the
@@ -553,9 +555,9 @@ element of <cite>allsettings</cite></p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_base.OptBayesExpt.yvar_from_parameter_draws">
-<code class="sig-name descname">yvar_from_parameter_draws</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.yvar_from_parameter_draws"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.yvar_from_parameter_draws" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.yvar_from_parameter_draws">
+<span class="sig-name descname"><span class="pre">yvar_from_parameter_draws</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.yvar_from_parameter_draws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.yvar_from_parameter_draws" title="Permalink to this definition">¶</a></dt>
 <dd><p>Models the measurement variance solely due to parameter
 distributions.</p>
 <p>Evaluates the effect ov the distribution
@@ -578,9 +580,9 @@ values for each setting combination.</p>
 </div>
 <div class="section" id="module-optbayesexpt.obe_noiseparam">
 <span id="optbayesexptnoiseparam-class"></span><h2>OptBayesExptNoiseParam class<a class="headerlink" href="#module-optbayesexpt.obe_noiseparam" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter">
-<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.obe_noiseparam.</code><code class="sig-name descname">OptBayesExptNoiseParameter</code><span class="sig-paren">(</span><em class="sig-param">model_function</em>, <em class="sig-param">setting_values</em>, <em class="sig-param">parameter_samples</em>, <em class="sig-param">constants</em>, <em class="sig-param">noise_parameter_index=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_noiseparam.</span></span><span class="sig-name descname"><span class="pre">OptBayesExptNoiseParameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setting_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constants</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_parameter_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt" title="optbayesexpt.obe_base.OptBayesExpt"><code class="xref py py-class docutils literal notranslate"><span class="pre">optbayesexpt.obe_base.OptBayesExpt</span></code></a></p>
 <p>Sequential Bayesian experiment design for with measurement
 uncertainty as random parameters to estimate.</p>
@@ -605,9 +607,9 @@ for the duration of the measurement.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="attribute">
-<dt id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.noise_parameter_index">
-<code class="sig-name descname">noise_parameter_index</code><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.noise_parameter_index" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.noise_parameter_index">
+<span class="sig-name descname"><span class="pre">noise_parameter_index</span></span><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.noise_parameter_index" title="Permalink to this definition">¶</a></dt>
 <dd><p>identifies which parameter
 array contains the measurement sigma parameter.  The value may
 be assigned after instantiation.</p>
@@ -618,18 +620,18 @@ be assigned after instantiation.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.enforce_parameter_constraints">
-<code class="sig-name descname">enforce_parameter_constraints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter.enforce_parameter_constraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.enforce_parameter_constraints" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.enforce_parameter_constraints">
+<span class="sig-name descname"><span class="pre">enforce_parameter_constraints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter.enforce_parameter_constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.enforce_parameter_constraints" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constrains the noise parameter to be positive. Negative
 uncertainties lead to negative likelihoods, negative particle
 weights and other abominations.</p>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.pdf_update">
-<code class="sig-name descname">pdf_update</code><span class="sig-paren">(</span><em class="sig-param">measurement_record</em>, <em class="sig-param">y_model_data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter.pdf_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.pdf_update" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.pdf_update">
+<span class="sig-name descname"><span class="pre">pdf_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">measurement_record</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_model_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter.pdf_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.pdf_update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Refines the parameters’ probability distribution function given a
 measurement result.</p>
 <p>Incorporates a measurement result, allowing for measurement
@@ -658,9 +660,9 @@ available, e.g. while measurements are being made. Default =
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.y_var_noise_model">
-<code class="sig-name descname">y_var_noise_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter.y_var_noise_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.y_var_noise_model" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.y_var_noise_model">
+<span class="sig-name descname"><span class="pre">y_var_noise_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter.y_var_noise_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.y_var_noise_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the mean variance for noise as a parameter</p>
 <p>The self.opt_setting() and self.good_setting() methods calculate
 utility, which depends on the relative magnitudes of variance in
@@ -674,9 +676,9 @@ to measurement noise.</p>
 </div>
 <div class="section" id="module-optbayesexpt.obe_server">
 <span id="obe-server-class"></span><h2>OBE_Server class<a class="headerlink" href="#module-optbayesexpt.obe_server" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="optbayesexpt.obe_server.OBE_Server">
-<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.obe_server.</code><code class="sig-name descname">OBE_Server</code><span class="sig-paren">(</span><em class="sig-param">initial_args=()</em>, <em class="sig-param">ip_address='127.0.0.1'</em>, <em class="sig-param">port=61981</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="optbayesexpt.obe_server.OBE_Server">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_server.</span></span><span class="sig-name descname"><span class="pre">OBE_Server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip_address</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">61981</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#optbayesexpt.obe_socket.Socket" title="optbayesexpt.obe_socket.Socket"><code class="xref py py-class docutils literal notranslate"><span class="pre">optbayesexpt.obe_socket.Socket</span></code></a></p>
 <p>A TCP socket interface for OptBayesExpt using JSON strings</p>
 <p>This class provides communication between an OptBayesExpt object and
@@ -706,9 +708,9 @@ Default 61981.</p></li>
 <dd class="field-even"><p><strong>are passed to the specified OBE_class's `` __init__`` function.</strong> (<em>**kwargs</em>) – </p>
 </dd>
 </dl>
-<dl class="attribute">
-<dt id="optbayesexpt.obe_server.OBE_Server.obe_engine">
-<code class="sig-name descname">obe_engine</code><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.obe_engine" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_server.OBE_Server.obe_engine">
+<span class="sig-name descname"><span class="pre">obe_engine</span></span><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.obe_engine" title="Permalink to this definition">¶</a></dt>
 <dd><p>The disembodied brains of the
 experimental design scheme. <code class="docutils literal notranslate"><span class="pre">OBE_server</span></code> provides TCP
 communication between <code class="docutils literal notranslate"><span class="pre">obe_engine</span></code> and a client program.</p>
@@ -719,9 +721,9 @@ communication between <code class="docutils literal notranslate"><span class="pr
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="optbayesexpt.obe_server.OBE_Server.initial_args">
-<code class="sig-name descname">initial_args</code><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.initial_args" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_server.OBE_Server.initial_args">
+<span class="sig-name descname"><span class="pre">initial_args</span></span><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.initial_args" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stored samples from an
 initial parameter distribution.  Initialized by <code class="docutils literal notranslate"><span class="pre">self.__init__()</span></code>
 and <code class="docutils literal notranslate"><span class="pre">self.make_obe()</span></code>.</p>
@@ -732,9 +734,9 @@ and <code class="docutils literal notranslate"><span class="pre">self.make_obe()
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="optbayesexpt.obe_server.OBE_Server.initial_kwargs">
-<code class="sig-name descname">initial_kwargs</code><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.initial_kwargs" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_server.OBE_Server.initial_kwargs">
+<span class="sig-name descname"><span class="pre">initial_kwargs</span></span><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.initial_kwargs" title="Permalink to this definition">¶</a></dt>
 <dd><p>keyword arguments stored for future
 OBE_class intantiation.</p>
 <dl class="field-list simple">
@@ -759,9 +761,9 @@ arrangement is that OBE_Server can manage a sequence of
 experimental runs with differently configured
 <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code> objects.</p></li>
 </ol>
-<dl class="method">
-<dt id="optbayesexpt.obe_server.OBE_Server.make_obe">
-<code class="sig-name descname">make_obe</code><span class="sig-paren">(</span><em class="sig-param">obe_class</em>, <em class="sig-param">class_args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server.make_obe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.make_obe" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_server.OBE_Server.make_obe">
+<span class="sig-name descname"><span class="pre">make_obe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obe_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server.make_obe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.make_obe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates and attaches a new OptBayesExpt-like object</p>
 <p>A server may need to handle several runs. This function allows
 OBE_Server to instantiate new OptBayesExpt objects from scratch.
@@ -778,9 +780,9 @@ example, <code class="docutils literal notranslate"><span class="pre">(model_fun
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_server.OBE_Server.newrun">
-<code class="sig-name descname">newrun</code><span class="sig-paren">(</span><em class="sig-param">message</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server.newrun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.newrun" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_server.OBE_Server.newrun">
+<span class="sig-name descname"><span class="pre">newrun</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server.newrun"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.newrun" title="Permalink to this definition">¶</a></dt>
 <dd><p>A stub to allow customized TCP commands</p>
 <p>Invoked by the <code class="docutils literal notranslate"><span class="pre">run</span></code> method when a message with a <code class="docutils literal notranslate"><span class="pre">'newrun'</span></code>
 command string is received. The idea is to provide flexible control
@@ -803,9 +805,9 @@ client program.</p></li>
 <p>Returns:  User defined.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_server.OBE_Server.run">
-<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.run" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_server.OBE_Server.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Listens and responds to TCP messages</p>
 <p>Enters a continuous loop, interpreting incoming messages as python
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> objects and responding to command strings found in
@@ -927,9 +929,9 @@ goodset.</p>
 </div>
 <div class="section" id="module-optbayesexpt.obe_socket">
 <span id="obe-socket-class"></span><h2>OBE_Socket class<a class="headerlink" href="#module-optbayesexpt.obe_socket" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="optbayesexpt.obe_socket.Socket">
-<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.obe_socket.</code><code class="sig-name descname">Socket</code><span class="sig-paren">(</span><em class="sig-param">role</em>, <em class="sig-param">ip_address='127.0.0.1'</em>, <em class="sig-param">port=61981</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="optbayesexpt.obe_socket.Socket">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_socket.</span></span><span class="sig-name descname"><span class="pre">Socket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">role</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip_address</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">61981</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Handles TCP communications</p>
 <p>The <code class="code docutils literal notranslate"><span class="pre">Socket</span></code> can be configured either as a ‘server’ or a ‘client’.
@@ -967,31 +969,31 @@ communications between processes on the host computer.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="attribute">
-<dt id="optbayesexpt.obe_socket.Socket.server">
-<code class="sig-name descname">server</code><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.server" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_socket.Socket.server">
+<span class="sig-name descname"><span class="pre">server</span></span><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.server" title="Permalink to this definition">¶</a></dt>
 <dd><p>for the ‘server’ role, a <code class="code docutils literal notranslate"><span class="pre">socket.socket</span></code> object
 configured to listen and accept connections</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="optbayesexpt.obe_socket.Socket.connection">
-<code class="sig-name descname">connection</code><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.connection" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_socket.Socket.connection">
+<span class="sig-name descname"><span class="pre">connection</span></span><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.connection" title="Permalink to this definition">¶</a></dt>
 <dd><p>for the ‘client’ role, a <code class="code docutils literal notranslate"><span class="pre">socket.socket</span></code> object
 configured to initiate connections and send messages</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_socket.Socket.close">
-<code class="sig-name descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.close" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_socket.Socket.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.close" title="Permalink to this definition">¶</a></dt>
 <dd><p>Close the communication connection.</p>
 <p>Only clients need to close connections once they’re done communicating.
 No need to call this for servers.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_socket.Socket.receive">
-<code class="sig-name descname">receive</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket.receive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.receive" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_socket.Socket.receive">
+<span class="sig-name descname"><span class="pre">receive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket.receive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.receive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wait for and process messages on the TCP port</p>
 <p>Blocks until a connection is made, then reads the number of bytes
 specified in the first 10 characters.  Reads the connection until
@@ -1003,9 +1005,9 @@ the full message is received, then decodes the messages string.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_socket.Socket.send">
-<code class="sig-name descname">send</code><span class="sig-paren">(</span><em class="sig-param">contents</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket.send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.send" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_socket.Socket.send">
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contents</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket.send"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.send" title="Permalink to this definition">¶</a></dt>
 <dd><p>Formats and sends a message</p>
 <p>This method formats the <code class="code docutils literal notranslate"><span class="pre">contents</span></code> argument into the message
 format, opens a connection and sends the <code class="code docutils literal notranslate"><span class="pre">contents</span></code> as a message.</p>
@@ -1027,9 +1029,9 @@ list-ify a numpy array.  For example:</p>
 </div>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.obe_socket.Socket.tcpcmd">
-<code class="sig-name descname">tcpcmd</code><span class="sig-paren">(</span><em class="sig-param">command</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket.tcpcmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.tcpcmd" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_socket.Socket.tcpcmd">
+<span class="sig-name descname"><span class="pre">tcpcmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket.tcpcmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.tcpcmd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sends a command and receives a response.</p>
 <p>Run from a client socket, this method sends a command message and
 receives a response. The connection is then closed.</p>
@@ -1051,9 +1053,9 @@ receives a response. The connection is then closed.</p>
 </div>
 <div class="section" id="module-optbayesexpt.particlepdf">
 <span id="particlepdf-class"></span><h2>ParticlePDF class<a class="headerlink" href="#module-optbayesexpt.particlepdf" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="optbayesexpt.particlepdf.ParticlePDF">
-<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.particlepdf.</code><code class="sig-name descname">ParticlePDF</code><span class="sig-paren">(</span><em class="sig-param">prior</em>, <em class="sig-param">a_param=0.98</em>, <em class="sig-param">resample_threshold=0.5</em>, <em class="sig-param">auto_resample=True</em>, <em class="sig-param">scale=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">optbayesexpt.particlepdf.</span></span><span class="sig-name descname"><span class="pre">ParticlePDF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prior</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_param</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.98</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resample_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_resample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_jit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A probability distribution function.</p>
 <p>A probability distribution <span class="math notranslate nohighlight">\(P(\theta_0, \theta_1, \ldots,
@@ -1109,12 +1111,15 @@ particles, <span class="math notranslate nohighlight">\(1 / (N\sum_i^N w_i^2)\)<
 <li><p><strong>auto_resample</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>) – Determines whether threshold testing and
 resampling are performed when <code class="docutils literal notranslate"><span class="pre">bayesian_update()</span></code> is called.
 Default <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p><strong>use_jit</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>) – Allows precompilation of some methods for a
+modest increase in speed.  Only effective on systems where
+<code class="docutils literal notranslate"><span class="pre">numba</span></code> is installed.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="attribute">
-<dt id="optbayesexpt.particlepdf.ParticlePDF.n_dims">
-<code class="sig-name descname">n_dims</code><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.n_dims" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.n_dims">
+<span class="sig-name descname"><span class="pre">n_dims</span></span><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.n_dims" title="Permalink to this definition">¶</a></dt>
 <dd><p>The number of parameters, i.e. the dimensionality of
 parameter space.  Determined from the leading dimension of
 <code class="docutils literal notranslate"><span class="pre">prior</span></code>.</p>
@@ -1125,9 +1130,9 @@ parameter space.  Determined from the leading dimension of
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="optbayesexpt.particlepdf.ParticlePDF.n_particles">
-<code class="sig-name descname">n_particles</code><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.n_particles" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.n_particles">
+<span class="sig-name descname"><span class="pre">n_particles</span></span><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.n_particles" title="Permalink to this definition">¶</a></dt>
 <dd><p>the number of parameter samples representing the
 probability distribution.  Determined from the trailing dimension
 of <code class="docutils literal notranslate"><span class="pre">prior</span></code>.</p>
@@ -1138,9 +1143,9 @@ of <code class="docutils literal notranslate"><span class="pre">prior</span></co
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="optbayesexpt.particlepdf.ParticlePDF.particles">
-<code class="sig-name descname">particles</code><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.particles" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.particles">
+<span class="sig-name descname"><span class="pre">particles</span></span><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.particles" title="Permalink to this definition">¶</a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">n_particles</span></code> samples from the
 probability distribution. Its initial value is <code class="docutils literal notranslate"><span class="pre">prior</span></code>.</p>
 <dl class="field-list simple">
@@ -1150,9 +1155,9 @@ probability distribution. Its initial value is <code class="docutils literal not
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="optbayesexpt.particlepdf.ParticlePDF.particle_weights">
-<code class="sig-name descname">particle_weights</code><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.particle_weights" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.particle_weights">
+<span class="sig-name descname"><span class="pre">particle_weights</span></span><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.particle_weights" title="Permalink to this definition">¶</a></dt>
 <dd><p>Array of n_particles probability weights
 corresponding to the particles.</p>
 <dl class="field-list simple">
@@ -1162,9 +1167,9 @@ corresponding to the particles.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="optbayesexpt.particlepdf.ParticlePDF.tuning_parameters">
-<code class="sig-name descname">tuning_parameters</code><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.tuning_parameters" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.tuning_parameters">
+<span class="sig-name descname"><span class="pre">tuning_parameters</span></span><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.tuning_parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>A <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> of parameters affecting the
 resampling algorithm</p>
 <ul class="simple">
@@ -1185,9 +1190,9 @@ Default <code class="docutils literal notranslate"><span class="pre">0.5</span><
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="optbayesexpt.particlepdf.ParticlePDF.just_resampled">
-<code class="sig-name descname">just_resampled</code><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.just_resampled" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.just_resampled">
+<span class="sig-name descname"><span class="pre">just_resampled</span></span><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.just_resampled" title="Permalink to this definition">¶</a></dt>
 <dd><p>A flag set by the
 <code class="docutils literal notranslate"><span class="pre">resample_test()</span></code> function.  <code class="docutils literal notranslate"><span class="pre">True</span></code> if the last call
 to <code class="docutils literal notranslate"><span class="pre">resample_test()</span></code> resulted in resampling, else <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
@@ -1199,10 +1204,10 @@ to <code class="docutils literal notranslate"><span class="pre">resample_test()<
 </dd></dl>
 
 <p>Methods:</p>
-<dl class="method">
-<dt id="optbayesexpt.particlepdf.ParticlePDF.bayesian_update">
-<code class="sig-name descname">bayesian_update</code><span class="sig-paren">(</span><em class="sig-param">likelihood</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.bayesian_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.bayesian_update" title="Permalink to this definition">¶</a></dt>
-<dd><p>Performs a Bayesian update on the probability distribution</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.bayesian_update">
+<span class="sig-name descname"><span class="pre">bayesian_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">likelihood</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.bayesian_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.bayesian_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Bayesian update on the probability distribution.</p>
 <p>Multiplies <code class="docutils literal notranslate"><span class="pre">particle_weights</span></code> by the <code class="docutils literal notranslate"><span class="pre">likelihood</span></code> and
 renormalizes the probability
 distribution.  After the update, the distribution is tested for
@@ -1217,10 +1222,10 @@ calculated for each parameter combination.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.particlepdf.ParticlePDF.covariance">
-<code class="sig-name descname">covariance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.covariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.covariance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the covariance of the probability distribution</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.covariance">
+<span class="sig-name descname"><span class="pre">covariance</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.covariance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.covariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the covariance of the probability distribution.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>The covariance of the parameter distribution as an
@@ -1230,9 +1235,9 @@ calculated for each parameter combination.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.particlepdf.ParticlePDF.mean">
-<code class="sig-name descname">mean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.mean" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.mean">
+<span class="sig-name descname"><span class="pre">mean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.mean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the mean of the probability distribution.</p>
 <p>The weighted mean of the parameter distribution. See also
 <a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.std" title="optbayesexpt.particlepdf.ParticlePDF.std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">std()</span></code></a> and <a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.covariance" title="optbayesexpt.particlepdf.ParticlePDF.covariance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">covariance()</span></code></a>.</p>
@@ -1243,9 +1248,9 @@ calculated for each parameter combination.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.particlepdf.ParticlePDF.randdraw">
-<code class="sig-name descname">randdraw</code><span class="sig-paren">(</span><em class="sig-param">n_draws=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.randdraw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.randdraw" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.randdraw">
+<span class="sig-name descname"><span class="pre">randdraw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_draws</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.randdraw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.randdraw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Provides random parameter draws from the distribution</p>
 <p>Particles are selected randomly with probabilities given by
 <code class="docutils literal notranslate"><span class="pre">self.particle_weights</span></code>.</p>
@@ -1260,9 +1265,9 @@ calculated for each parameter combination.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.particlepdf.ParticlePDF.resample">
-<code class="sig-name descname">resample</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.resample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.resample" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.resample">
+<span class="sig-name descname"><span class="pre">resample</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.resample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.resample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs a resampling of the distribution.</p>
 <p>Resampling refreshes the random draws that represent the probability
 distribution.  As Bayesian updates are made, the weights of
@@ -1289,18 +1294,18 @@ representation.</p></li>
 </div></blockquote>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.particlepdf.ParticlePDF.resample_test">
-<code class="sig-name descname">resample_test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.resample_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.resample_test" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.resample_test">
+<span class="sig-name descname"><span class="pre">resample_test</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.resample_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.resample_test" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tests the distribution and performs a resampling if required.</p>
 <p>If the effective number of particles falls below
 <code class="docutils literal notranslate"><span class="pre">self.tuning_parameters['resample_threshold']</span> <span class="pre">*</span> <span class="pre">n_particles</span></code>,
 performs a resampling.  Sets the <code class="docutils literal notranslate"><span class="pre">just_resampled</span></code> flag.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.particlepdf.ParticlePDF.set_pdf">
-<code class="sig-name descname">set_pdf</code><span class="sig-paren">(</span><em class="sig-param">samples</em>, <em class="sig-param">weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.set_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.set_pdf" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.set_pdf">
+<span class="sig-name descname"><span class="pre">set_pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.set_pdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.set_pdf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Re-initializes the probability distribution</p>
 <p>Also resets <code class="docutils literal notranslate"><span class="pre">n_particles</span></code> and <code class="docutils literal notranslate"><span class="pre">n_dims</span></code> deduced from the
 dimensions of <code class="docutils literal notranslate"><span class="pre">samples</span></code>.</p>
@@ -1317,10 +1322,10 @@ probability.  Otherwise, an array of length <code class="docutils literal notran
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="optbayesexpt.particlepdf.ParticlePDF.std">
-<code class="sig-name descname">std</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.std"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.std" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the standard deviation of the distribution</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.std">
+<span class="sig-name descname"><span class="pre">std</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.std"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.std" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the standard deviation of the distribution.</p>
 <p>Calculates the square root of the diagonal elements of the
 covariance matrix.  See also <a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.covariance" title="optbayesexpt.particlepdf.ParticlePDF.covariance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">covariance()</span></code></a> and <a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.mean" title="optbayesexpt.particlepdf.ParticlePDF.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean()</span></code></a>.</p>
 <dl class="field-list simple">
@@ -1335,9 +1340,9 @@ covariance matrix.  See also <a class="reference internal" href="#optbayesexpt.p
 </div>
 <div class="section" id="module-optbayesexpt.obe_utils">
 <span id="utilities"></span><h2>Utilities<a class="headerlink" href="#module-optbayesexpt.obe_utils" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="optbayesexpt.obe_utils.MeasurementSimulator">
-<em class="property">class </em><code class="sig-prename descclassname">optbayesexpt.obe_utils.</code><code class="sig-name descname">MeasurementSimulator</code><span class="sig-paren">(</span><em class="sig-param">model_function</em>, <em class="sig-param">true_params</em>, <em class="sig-param">cons</em>, <em class="sig-param">noise_level</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_utils.html#MeasurementSimulator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_utils.MeasurementSimulator" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="optbayesexpt.obe_utils.MeasurementSimulator">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_utils.</span></span><span class="sig-name descname"><span class="pre">MeasurementSimulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_level</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_utils.html#MeasurementSimulator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_utils.MeasurementSimulator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Provides simulated measurement data</p>
 <p>Evaluates the model function and adds noise.</p>
@@ -1353,9 +1358,9 @@ of the simulated experiment.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="method">
-<dt id="optbayesexpt.obe_utils.MeasurementSimulator.simdata">
-<code class="sig-name descname">simdata</code><span class="sig-paren">(</span><em class="sig-param">setting</em>, <em class="sig-param">params=None</em>, <em class="sig-param">noise_level=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_utils.html#MeasurementSimulator.simdata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_utils.MeasurementSimulator.simdata" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_utils.MeasurementSimulator.simdata">
+<span class="sig-name descname"><span class="pre">simdata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">setting</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_utils.html#MeasurementSimulator.simdata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_utils.MeasurementSimulator.simdata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simulate a measurement</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1375,9 +1380,9 @@ the initial value. (opt)</p></li>
 
 </dd></dl>
 
-<dl class="function">
-<dt id="optbayesexpt.obe_utils.trace_sort">
-<code class="sig-prename descclassname">optbayesexpt.obe_utils.</code><code class="sig-name descname">trace_sort</code><span class="sig-paren">(</span><em class="sig-param">settings</em>, <em class="sig-param">measurements</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_utils.html#trace_sort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#optbayesexpt.obe_utils.trace_sort" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="optbayesexpt.obe_utils.trace_sort">
+<span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_utils.</span></span><span class="sig-name descname"><span class="pre">trace_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurements</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_utils.html#trace_sort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_utils.trace_sort" title="Permalink to this definition">¶</a></dt>
 <dd><p>Combine measurements at identical settings values</p>
 <p>Analyzes input arrays of setttings and corresponding measurement
 values, data where settings values may repeat, i. e. more than one
@@ -1411,6 +1416,7 @@ each setting</p></li>
 </div>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -1466,12 +1472,13 @@ each setting</p></li>
         <li class="right" >
           <a href="versions.html" title="Version Notes"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">optbayesexpt API</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

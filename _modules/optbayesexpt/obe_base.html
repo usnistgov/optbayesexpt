@@ -1,18 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>optbayesexpt.obe_base &#8212; OptBayesExpt 1.1.0 documentation</title>
-    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 
@@ -57,7 +56,8 @@ $(document).ready(function(){
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">optbayesexpt.obe_base</a></li> 
       </ul>
     </div>  
 
@@ -71,7 +71,10 @@ $(document).ready(function(){
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">.particlepdf</span> <span class="kn">import</span> <span class="n">ParticlePDF</span>
+<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">GOT_NUMBA</span>
 
+<span class="k">if</span> <span class="n">GOT_NUMBA</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span><span class="p">,</span> <span class="n">float64</span>
 
 <div class="viewcode-block" id="OptBayesExpt"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt">[docs]</a><span class="k">class</span> <span class="nc">OptBayesExpt</span><span class="p">(</span><span class="n">ParticlePDF</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An implementation of sequential Bayesian experiment design.</span>
@@ -165,7 +168,7 @@ $(document).ready(function(){
 <span class="sd">            likelihood and allows more data to influence the parameter</span>
 <span class="sd">            distribution between resampling events. Default ``None``.</span>
 
-<span class="sd">        **kwargs: Arguments passed to the parent ParticlePDF class</span>
+<span class="sd">        \*\*kwargs: keyword arguments passed to the parent ParticlePDF class</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        model_function (:obj:`function`): Same as the ``model_function``</span>
@@ -202,17 +205,20 @@ $(document).ready(function(){
 <span class="sd">        N_DRAWS (int): The number of parameter draws to use in the utility</span>
 <span class="sd">            calculation to estimate the variance of model outputs due to</span>
 <span class="sd">            parameter distribution.  Default: 30</span>
-<span class="sd">   &quot;&quot;&quot;</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_model</span><span class="p">,</span> <span class="n">setting_values</span><span class="p">,</span> <span class="n">parameter_samples</span><span class="p">,</span>
-                 <span class="n">constants</span><span class="p">,</span> <span class="n">n_draws</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">choke</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                 <span class="n">constants</span><span class="p">,</span> <span class="n">n_draws</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">choke</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_jit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;v 1.1.y, under construction&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model_function</span> <span class="o">=</span> <span class="n">user_model</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setting_values</span> <span class="o">=</span> <span class="n">setting_values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span>
                             <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="o">*</span><span class="n">setting_values</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s1">&#39;ij&#39;</span><span class="p">)])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setting_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-        <span class="n">ParticlePDF</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_samples</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">ParticlePDF</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_samples</span><span class="p">,</span> <span class="n">use_jit</span><span class="o">=</span><span class="n">use_jit</span><span class="p">,</span>
+                             <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cons</span> <span class="o">=</span> <span class="n">constants</span>
@@ -249,6 +255,22 @@ $(document).ready(function(){
 
         <span class="bp">self</span><span class="o">.</span><span class="n">default_noise_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1.0</span>
         <span class="c1"># self.default_noise_std = np.ones(self.n_channels) * 1.0</span>
+
+        <span class="c1"># pre-compile some numeric routines using numba.njit</span>
+        <span class="k">if</span> <span class="n">GOT_NUMBA</span> <span class="ow">and</span> <span class="n">use_jit</span><span class="p">:</span>
+            <span class="c1"># create a just-in-time compiled helper routine to do the</span>
+            <span class="c1"># numerical</span>
+            <span class="c1"># heavy lifting</span>
+            <span class="nd">@njit</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nogil</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">def</span> <span class="nf">_gauss_noise_likelihood</span><span class="p">(</span><span class="n">y_model</span><span class="p">,</span> <span class="n">y_meas</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
+                    <span class="o">-</span><span class="p">((</span><span class="n">y_model</span> <span class="o">-</span> <span class="n">y_meas</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># No numba package installed?  No problem.</span>
+            <span class="k">def</span> <span class="nf">_gauss_noise_likelihood</span><span class="p">(</span><span class="n">y_model</span><span class="p">,</span> <span class="n">y_meas</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
+                    <span class="o">-</span><span class="p">((</span><span class="n">y_model</span> <span class="o">-</span> <span class="n">y_meas</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gauss_noise_likelihood</span> <span class="o">=</span> <span class="n">_gauss_noise_likelihood</span>
 
 <div class="viewcode-block" id="OptBayesExpt.eval_over_all_parameters"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">eval_over_all_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onesettingset</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Evaluates the experimental model.</span>
@@ -394,7 +416,7 @@ $(document).ready(function(){
         <span class="k">for</span> <span class="n">y_m</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">y_model</span><span class="p">,</span>
                              <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">y_meas</span><span class="p">),</span>
                              <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">sigma</span><span class="p">)):</span>
-            <span class="n">lky</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">y_m</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="n">s</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">s</span>
+            <span class="n">lky</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gauss_noise_likelihood</span><span class="p">(</span><span class="n">y_m</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">choke</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">lky</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">choke</span><span class="p">)</span>
@@ -567,6 +589,7 @@ $(document).ready(function(){
 
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -596,12 +619,13 @@ $(document).ready(function(){
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">optbayesexpt.obe_base</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

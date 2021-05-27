@@ -1,18 +1,18 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Demos &#8212; OptBayesExpt 1.1.0 documentation</title>
-    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Version Notes" href="versions.html" />
@@ -64,7 +64,8 @@ $(document).ready(function(){
         <li class="right" >
           <a href="manual.html" title="Manual"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Demos</a></li> 
       </ul>
     </div>  
 
@@ -288,7 +289,6 @@ handle distributions of the measurement uncertainty parameter.</p>
 <dl class="simple">
 <dt>Files:</dt><dd><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">demos/lockin/lockin_of_coil.py</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">demos/lockin/obe_lockin.py</span></code></p></li>
 </ul>
 </dd>
 <dt>Features:</dt><dd><ul class="simple">
@@ -347,8 +347,8 @@ is in harmony with its importance.</p>
 <h2>A Sweeper<a class="headerlink" href="#a-sweeper" title="Permalink to this headline">¶</a></h2>
 <dl class="simple">
 <dt>Files:</dt><dd><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">demos/sweeper.py</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">demos/obe_sweeper.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">demos/sweeper/sweeper.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">demos/sweeper/obe_sweeper.py</span></code></p></li>
 </ul>
 </dd>
 <dt>Features:</dt><dd><ul class="simple">
@@ -382,9 +382,109 @@ focused on possible peak positions.  Later in the process, the algorithm
 includes an occasional broad sweep, presumably to decrease uncertainty in
 the baseline parameter.</p>
 </div>
+<div class="section" id="code-speedup-with-numba">
+<h2>Code speedup with numba<a class="headerlink" href="#code-speedup-with-numba" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>Files:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">demos/numba/numbaLorentzian.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numba</span></code> python package required</p></li>
+</ul>
+</dd>
+<dt>Features:</dt><dd><ul class="simple">
+<li><p>Improved execution time using pre-compilation.</p></li>
+</ul>
+</dd>
+</dl>
+<p>This <code class="docutils literal notranslate"><span class="pre">numbaLorentzian.py</span></code> script demonstrates the use of <code class="docutils literal notranslate"><span class="pre">numba</span></code> and its
+<code class="docutils literal notranslate"><span class="pre">&#64;njit</span></code> decorator to accelerate the more numerics-intensive functions in
+optbayesexpt. The purpose of <code class="docutils literal notranslate"><span class="pre">numba</span></code> is to pre-compile Python code
+just-in-time (jit) so that when the function is called, the CPU runs machine
+code without involvement from the Python interpreter.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">numbaLorentzian.py</span></code>, the Boolean variable <code class="docutils literal notranslate"><span class="pre">use_jit</span></code> enables
+(<code class="docutils literal notranslate"><span class="pre">use_jit</span> <span class="pre">=</span> <span class="pre">True</span></code>) or disables ( <code class="docutils literal notranslate"><span class="pre">use_jit</span> <span class="pre">=</span> <span class="pre">False</span></code>) pre-compilation.
+In this demo, we use <code class="docutils literal notranslate"><span class="pre">numba</span></code> to pre-compile three of the more numerically
+demanding functions in <code class="docutils literal notranslate"><span class="pre">optbayesexpt</span></code>.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">_gauss_noise_likelihood()</span></code> – the calculation of likelihood</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">my_model_function()</span></code> – the guts of the experiment model calculation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_normalized_product()</span></code> – Bayes’ rule multiplication of likelihood
+and prior with normalization.</p></li>
+</ul>
+</div></blockquote>
+<p>The output of <code class="docutils literal notranslate"><span class="pre">numbaLorentzian.py</span></code> includes a code profile that shows
+where the computation time was spent.  Table I below compares execution
+times of the most time consuming functions without (<code class="docutils literal notranslate"><span class="pre">use_jit</span> <span class="pre">=</span> <span class="pre">False</span></code>) and
+with (<code class="docutils literal notranslate"><span class="pre">use_jit</span> <span class="pre">=</span> <span class="pre">True</span></code>) pre-compilation. The times listed represent time
+spent on a function, not
+counting called functions.  Pre-compilation roughly halved the
+execution time of the most time-consuming function, which calculates a
+Gaussian likelihood. The most dramatic improvement is in calculation of the
+model function which was sped up by nearly a factor of five.</p>
+<p class="centered">
+<strong>Table I.</strong></p><table class="docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 13%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head" colspan="2"><p>uses jit</p></th>
+<th class="head"></th>
+</tr>
+<tr class="row-even"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></th>
+<th class="head"></th>
+</tr>
+<tr class="row-odd"><th class="head"><p>time (s)</p></th>
+<th class="head"><p>time (s)</p></th>
+<th class="head"><p>filename:lineno(function)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>4.150</p></td>
+<td><p>2.000</p></td>
+<td><p>obe_base.py:199(_gauss_noise_likelihood)</p></td>
+</tr>
+<tr class="row-odd"><td><p>2.724</p></td>
+<td><p>0.538</p></td>
+<td><p>numbaLorentzian.py:101(my_model_function)</p></td>
+</tr>
+<tr class="row-even"><td><p>2.259</p></td>
+<td><p>1.747</p></td>
+<td><p>{method ‘choice’ of
+‘numpy.random._generator.Generator’ objects}</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.850</p></td>
+<td><p>0.827</p></td>
+<td><p>particlepdf.py:129(_normalized_product)</p></td>
+</tr>
+<tr class="row-even"><td><p>…</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+</tr>
+<tr class="row-odd"><td><p>13.109 s</p></td>
+<td><p>8.322 s</p></td>
+<td><p>Total</p></td>
+</tr>
+</tbody>
+</table>
+<p>The overall execution time is shown in the last line of Table I. With
+<code class="docutils literal notranslate"><span class="pre">numba</span></code> pre-compilation, there is a significant, but not spectacular
+decrease in execution time.</p>
+<p>Speculation:</p>
+<blockquote>
+<div><p>Compared to examples in the numba documentation
+(see <a class="reference external" href="https://numba.pydata.org/numba-doc/latest/user/5minguide.html#how-to-measure-the-performance-of-numba">https://numba.pydata.org/numba-doc/latest/user/5minguide.html#how-to-measure-the-performance-of-numba</a>) the acceleration in this
+example seems small.  One possible explanation for the small speed
+increase is that much of the computation already takes advantage of math
+using numpy arrays, which are pre-compiled operations.</p>
+</div></blockquote>
+</div>
 </div>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -400,6 +500,7 @@ the baseline parameter.</p>
 <li><a class="reference internal" href="#slope-intercept">Slope Intercept</a></li>
 <li><a class="reference internal" href="#a-lockin-amplifier">A Lockin Amplifier</a></li>
 <li><a class="reference internal" href="#a-sweeper">A Sweeper</a></li>
+<li><a class="reference internal" href="#code-speedup-with-numba">Code speedup with numba</a></li>
 </ul>
 </li>
 </ul>
@@ -446,12 +547,13 @@ the baseline parameter.</p>
         <li class="right" >
           <a href="manual.html" title="Manual"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Demos</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>
