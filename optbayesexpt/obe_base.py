@@ -99,7 +99,7 @@ class OptBayesExpt(ParticlePDF):
             likelihood and allows more data to influence the parameter
             distribution between resampling events. Default ``None``.
 
-        **kwargs: Arguments passed to the parent ParticlePDF class
+        \*\*kwargs: Keyword arguments passed to the parent ParticlePDF class.
 
     Attributes:
         model_function (:obj:`function`): Same as the ``model_function``
@@ -136,7 +136,9 @@ class OptBayesExpt(ParticlePDF):
         N_DRAWS (int): The number of parameter draws to use in the utility
             calculation to estimate the variance of model outputs due to
             parameter distribution.  Default: 30
-   """
+
+    Methods:
+    """
 
     def __init__(self, user_model, setting_values, parameter_samples,
                  constants, n_draws=30, choke=None, use_jit=True, **kwargs):
