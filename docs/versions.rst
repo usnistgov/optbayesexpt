@@ -4,6 +4,18 @@ Version Notes
 Version 1.1.0
 -------------
 
+May 27, 2021
+
+* Implemented just-in-timme (jit) compilation of some of the most
+  time-consuming methods using the ``numba`` package.  Execution time
+  was shortend by 20 % to 40 %.  A new demo program was added to highlight
+  these capabilities.
+
+  Since ``numba`` is
+  not (yet) a required package for ``optbayesexpt``, access to ``numba`` is
+  tested and a Boolean ``GOT_NUMBA`` is defined with scope extending over the
+  optbayesexpt package.
+
 May 21, 2021
 
 * Support for multi-channel measurements has been added to the OptBayesExpt
@@ -25,13 +37,6 @@ May 21, 2021
   ``resample_threshold``, ``auto_resample`` and ``scale`` are passed to
   ParticlePdf to tune resampling behavior.  ``OptBayesExpt`` uses ``choke``,
   and ``OptBayesExptNoiseParam`` uses ``noise_parameter_index``.
-
-May 11, 2021
-
-Plans for version 1.1.0
-
-* Accelerate computation-heavy functions using numba on systems where the
-  numba package is installed.
 
 Version 1.0.1
 -------------
