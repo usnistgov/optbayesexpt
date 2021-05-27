@@ -295,8 +295,8 @@ focused on possible peak positions.  Later in the process, the algorithm
 includes an occasional broad sweep, presumably to decrease uncertainty in
 the baseline parameter.
 
-Code speedup with ``numba``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Code speedup with numba
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Files:
     - ``demos/numba/numbaLorentzian.py``
@@ -317,7 +317,7 @@ In this demo, we use ``numba`` to pre-compile three of the more numerically
 demanding functions in ``optbayesexpt``.
 
     - ``_gauss_noise_likelihood()`` -- the calculation of likelihood
-    - ``my_model_functionn`` -- the guts of the experiment model calculation
+    - ``my_model_function()`` -- the guts of the experiment model calculation
     - ``_normalized_product()`` -- Bayes' rule multiplication of likelihood
       and prior with normalization.
 
@@ -331,10 +331,13 @@ execution time of the most time-consuming function, which calculates a
 Gaussian likelihood. The most dramatic improvement is in calculation of the
 model function which was sped up by nearly a factor of five.
 
+.. centered::
    Table I.
 
+.. table::
+
    =========  ========  =========================
-   ``use_jit``
+   uses jit
    -------------------  -------------------------
    ``False``  ``True``
    time (s)   time (s)  filename:lineno(function)
@@ -345,7 +348,6 @@ model function which was sped up by nearly a factor of five.
                         'numpy.random._generator.Generator' objects}
    0.850      0.827     particlepdf.py:129(_normalized_product)
    ...        ...       ...
-   ---------  --------  -------------------------
    13.109 s   8.322 s   Total
    =========  ========  =========================
 
