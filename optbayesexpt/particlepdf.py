@@ -180,7 +180,7 @@ class ParticlePDF:
                           weights=self.particle_weights)
 
     def covariance(self):
-        """Calculates the covariance of the probability distribution
+        """Calculates the covariance of the probability distribution.
 
         Returns:
             The covariance of the parameter distribution as an
@@ -195,7 +195,7 @@ class ParticlePDF:
             return raw_covariance
 
     def std(self):
-        """Calculates the standard deviation of the distribution
+        """Calculates the standard deviation of the distribution.
 
         Calculates the square root of the diagonal elements of the
         covariance matrix.  See also :obj:`covariance()` and :obj:`mean()`.
@@ -211,7 +211,7 @@ class ParticlePDF:
         return np.sqrt(var)
 
     def bayesian_update(self, likelihood):
-        """Performs a Bayesian update on the probability distribution
+        """Performs a Bayesian update on the probability distribution.
 
         Multiplies ``particle_weights`` by the ``likelihood`` and
         renormalizes the probability
