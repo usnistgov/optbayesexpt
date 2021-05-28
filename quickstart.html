@@ -4,8 +4,9 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quick Start &#8212; OptBayesExpt 1.1.0 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Quick Start &#8212; OptBayesExpt 1.1.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -64,7 +65,7 @@ $(document).ready(function(){
         <li class="right" >
           <a href="index.html" title="OptBayesExpt documentation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.1 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Quick Start</a></li> 
       </ul>
     </div>  
@@ -74,9 +75,9 @@ $(document).ready(function(){
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="quick-start">
+  <section id="quick-start">
 <h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="software-requirements">
+<section id="software-requirements">
 <h2>Software Requirements<a class="headerlink" href="#software-requirements" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
 <li><p>git</p></li>
@@ -91,8 +92,8 @@ $(document).ready(function(){
 </dl>
 </li>
 </ol>
-</div>
-<div class="section" id="installation">
+</section>
+<section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>Create an empty directory/folder for the <code class="docutils literal notranslate"><span class="pre">optbayesexpt</span></code> repo.  Then, from
 a command line, run the following command to
@@ -109,20 +110,20 @@ download the software. Note the trailing “.”</p>
 <span class="o">&gt;</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="testing">
+</section>
+<section id="testing">
 <h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
 <p>Test the installation for basic functionality with the following command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">py</span><span class="o">.</span><span class="n">test</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="scripting">
+</section>
+<section id="scripting">
 <h2>Scripting<a class="headerlink" href="#scripting" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">*.py</span></code> files in the <code class="docutils literal notranslate"><span class="pre">demos/</span></code> folder offer several examples of working
 scripts that may be adapted for different applications. This <em>Quick Start</em>
 offers an overview of the essentials.</p>
-<div class="section" id="setting-up">
+<section id="setting-up">
 <h3>Setting up<a class="headerlink" href="#setting-up" title="Permalink to this headline">¶</a></h3>
 <p>In the python script, import the necessary modules.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -132,7 +133,7 @@ offers an overview of the essentials.</p>
 <p>“Out of the box,” OptBayesExpt is ignorant, and
 it must be educated about the little universe where it will do its work.
 The “Specify …” sections below show how this education process is done.</p>
-<div class="section" id="specify-the-model">
+<section id="specify-the-model">
 <h4>Specify the model<a class="headerlink" href="#specify-the-model" title="Permalink to this headline">¶</a></h4>
 <p>OPtBayesExpt requires a <code class="docutils literal notranslate"><span class="pre">model_function()</span></code> to describe the relationships
 between experimental controls, parameters and measurement results. The
@@ -176,8 +177,8 @@ broadcasting. See the Numpy User Guide for information on
 <p>The <code class="docutils literal notranslate"><span class="pre">(settings,</span> <span class="pre">parameters,</span> <span class="pre">constants)</span></code> arguments are required for
 compatibility, and the example code above shows how they are unpacked. The
 following sections describe what these arguments should contain.</p>
-</div>
-<div class="section" id="specify-the-allowed-experimental-settings">
+</section>
+<section id="specify-the-allowed-experimental-settings">
 <h4>Specify the allowed experimental settings<a class="headerlink" href="#specify-the-allowed-experimental-settings" title="Permalink to this headline">¶</a></h4>
 <p>Generally, there can be more than one setting, so the convention is that
 settings are always part of a tuple., i.e. <code class="docutils literal notranslate"><span class="pre">(setting_1_values,</span>
@@ -195,8 +196,8 @@ for every combination of setting values included in the
 <p>The first line here creates an array called <code class="docutils literal notranslate"><span class="pre">knob</span></code> that contains possible
 knob settings, and the second line above packs <code class="docutils literal notranslate"><span class="pre">knob</span></code> as the first item in
 a one-item tuple.</p>
-</div>
-<div class="section" id="specify-the-model-parameters">
+</section>
+<section id="specify-the-model-parameters">
 <h4>Specify the model parameters<a class="headerlink" href="#specify-the-model-parameters" title="Permalink to this headline">¶</a></h4>
 <p>Parameters are specified by describing their initial or <em>prior</em> probability
 distributions, each described by a generous sampling of draws from the
@@ -226,8 +227,8 @@ than as a concise summary of preconceived notions. Narrow <em>prior</em>
 distributions risk biasing the results. A minimally biased result can
 always be compared and combined with independent results afterwards.</p>
 </div></blockquote>
-</div>
-<div class="section" id="specify-constants">
+</section>
+<section id="specify-constants">
 <h4>Specify constants<a class="headerlink" href="#specify-constants" title="Permalink to this headline">¶</a></h4>
 <p>A definition for values (settings or parameters) that are constant for the
 duration of an experiment, but that might change at some later time.</p>
@@ -235,17 +236,17 @@ duration of an experiment, but that might change at some later time.</p>
 <span class="n">constants</span> <span class="o">=</span> <span class="p">(</span><span class="n">temperature</span><span class="p">,</span> <span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="configure">
+</section>
+<section id="configure">
 <h4>Configure<a class="headerlink" href="#configure" title="Permalink to this headline">¶</a></h4>
 <p>The final part of preparation is to create an instance of the OptBayesExpt class</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_obe</span> <span class="o">=</span> <span class="n">OptBayesExpt</span><span class="p">(</span><span class="n">model_function</span><span class="p">,</span> <span class="n">setting_values</span><span class="p">,</span> <span class="n">parameter_samples</span><span class="p">,</span> <span class="n">constants</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="running">
+</section>
+</section>
+</section>
+<section id="running">
 <h2>Running<a class="headerlink" href="#running" title="Permalink to this headline">¶</a></h2>
 <p>BayesOptExpt participates at two stages in the measurement loop as shown
 in the following <strong>pseudocode</strong>.</p>
@@ -275,8 +276,8 @@ in the following <strong>pseudocode</strong>.</p>
 <p>Footnote:</p>
 <p><span class="math notranslate nohighlight">\(^*\)</span> Previous work has suggested that a <em>delay</em> parameter value of 2 is
 transitional and that 5 is “right out.”</p>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -349,7 +350,7 @@ transitional and that 5 is “right out.”</p>
         <li class="right" >
           <a href="index.html" title="OptBayesExpt documentation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.1 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Quick Start</a></li> 
       </ul>
     </div>

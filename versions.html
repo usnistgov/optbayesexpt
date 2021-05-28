@@ -4,8 +4,9 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Version Notes &#8212; OptBayesExpt 1.1.0 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Version Notes &#8212; OptBayesExpt 1.1.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -63,7 +64,7 @@ $(document).ready(function(){
         <li class="right" >
           <a href="manual_demos.html" title="Demos"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.1 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Version Notes</a></li> 
       </ul>
     </div>  
@@ -73,9 +74,19 @@ $(document).ready(function(){
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="version-notes">
+  <section id="version-notes">
 <h1>Version Notes<a class="headerlink" href="#version-notes" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="version-1-1-0">
+<section id="version-1-1-1">
+<h2>Version 1.1.1<a class="headerlink" href="#version-1-1-1" title="Permalink to this headline">¶</a></h2>
+<p>May 28, 2021</p>
+<ul class="simple">
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">OptBayesExpt.set_n_draws()</span></code> to set and query <code class="docutils literal notranslate"><span class="pre">N_DRAWS</span></code> to fix a
+bug that was introduced with v1.1.0, where <code class="docutils literal notranslate"><span class="pre">N_DRAWS</span></code> sets a dimension of
+an array.  Using <code class="docutils literal notranslate"><span class="pre">set_n_draws()</span></code> ensures that the array is re-sized when
+<code class="docutils literal notranslate"><span class="pre">N_DIMS</span></code> is changed.</p></li>
+</ul>
+</section>
+<section id="version-1-1-0">
 <h2>Version 1.1.0<a class="headerlink" href="#version-1-1-0" title="Permalink to this headline">¶</a></h2>
 <p>May 27, 2021</p>
 <ul>
@@ -113,8 +124,8 @@ now be set at instantiation.  Keyword arguments <code class="docutils literal no
 ParticlePdf to tune resampling behavior.  <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code> uses <code class="docutils literal notranslate"><span class="pre">choke</span></code>,
 and <code class="docutils literal notranslate"><span class="pre">OptBayesExptNoiseParam</span></code> uses <code class="docutils literal notranslate"><span class="pre">noise_parameter_index</span></code>.</p></li>
 </ul>
-</div>
-<div class="section" id="version-1-0-1">
+</section>
+<section id="version-1-0-1">
 <h2>Version 1.0.1<a class="headerlink" href="#version-1-0-1" title="Permalink to this headline">¶</a></h2>
 <p>June 2, 2020</p>
 <ul class="simple">
@@ -122,8 +133,8 @@ and <code class="docutils literal notranslate"><span class="pre">OptBayesExptNoi
 <li><p>Fixes some plotting problems</p></li>
 <li><p>Adds ‘ready’ command to OBE_Server.run() for communication checks.</p></li>
 </ul>
-</div>
-<div class="section" id="version-1-0-0">
+</section>
+<section id="version-1-0-0">
 <h2>Version 1.0.0<a class="headerlink" href="#version-1-0-0" title="Permalink to this headline">¶</a></h2>
 <p>April 27, 2020</p>
 <p>Version 1.0.0 represents an overhaul of the optbayesexpt python package.  It
@@ -156,8 +167,8 @@ a OBE_Server object can initialize a series of OptBayesExpt objects
 with different configurations, e.g. for a series of measurement runs.</p>
 </dd>
 </dl>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -169,6 +180,7 @@ with different configurations, e.g. for a series of measurement runs.</p>
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Version Notes</a><ul>
+<li><a class="reference internal" href="#version-1-1-1">Version 1.1.1</a></li>
 <li><a class="reference internal" href="#version-1-1-0">Version 1.1.0</a></li>
 <li><a class="reference internal" href="#version-1-0-1">Version 1.0.1</a></li>
 <li><a class="reference internal" href="#version-1-0-0">Version 1.0.0</a></li>
@@ -218,7 +230,7 @@ with different configurations, e.g. for a series of measurement runs.</p>
         <li class="right" >
           <a href="manual_demos.html" title="Demos"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.1 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Version Notes</a></li> 
       </ul>
     </div>
