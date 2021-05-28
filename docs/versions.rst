@@ -1,6 +1,16 @@
 Version Notes
 =============
 
+Version 1.1.1
+-------------
+
+May 28, 2021
+
+* Added ``OptBayesExpt.set_n_draws()`` to set and query ``N_DRAWS`` to fix a
+  bug that was introduced with v1.1.0, where ``N_DRAWS`` sets a dimension of
+  an array.  Using ``set_n_draws()`` ensures that the array is re-sized when
+  ``N_DIMS`` is changed.
+
 Version 1.1.0
 -------------
 
