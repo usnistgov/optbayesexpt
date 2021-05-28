@@ -10,8 +10,8 @@ OptBayesExpt documentation
 :Author: R.\  D.\  McMichael
 :Email: rmcmichael@nist.gov
 :Affiliation: National Institute of Standards and Technology
-:Version: 1.1.0
-:Date: May 19, 2021
+:Version: 1.1.1
+:Date: May 28, 2021
 
 Overview
 --------
@@ -80,13 +80,13 @@ to describe the world in terms of a reliable model, reasonable parameters, and
 reasonable experimental settings. As with most computer programs, "the
 garbage in, garbage out" rule applies.
 
-Contents
-========
+Documentation
+-------------
 
 .. :caption: Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    quickstart
    manual
@@ -95,7 +95,7 @@ Contents
    optbayesexpt
 
 Indices and tables
-==================
+------------------
 
 * :ref:`genindex`
 * :ref:`search`

@@ -145,7 +145,6 @@ class OptBayesExpt(ParticlePDF):
     def __init__(self, user_model, setting_values, parameter_samples,
                  constants, n_draws=DEFAULT_N_DRAWS, choke=None,
                  use_jit=True, **kwargs):
-        print('v 1.1.y, under construction')
         self.model_function = user_model
         self.setting_values = setting_values
         self.allsettings = np.array([s.flatten() for s in
@@ -215,8 +214,8 @@ class OptBayesExpt(ParticlePDF):
 
         Args:
             n_draws (int or 'default' or None):  An
-            integer argument sets N_DRAWS, 'default' sets the default value
-            of 30, and ``set_n_draws()`` returns the current value.
+                integer argument sets N_DRAWS, 'default' sets the default value
+                of 30, and ``set_n_draws()`` returns the current value.
 
         Returns: N_DRAWS
         """
