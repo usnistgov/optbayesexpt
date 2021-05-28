@@ -7,6 +7,8 @@ from .constants import GOT_NUMBA
 if GOT_NUMBA:
     from numba import njit, float64
 
+DEFAULT_N_DRAWS = 30
+
 class OptBayesExpt(ParticlePDF):
     """An implementation of sequential Bayesian experiment design.
 
@@ -141,7 +143,8 @@ class OptBayesExpt(ParticlePDF):
     """
 
     def __init__(self, user_model, setting_values, parameter_samples,
-                 constants, n_draws=30, choke=None, use_jit=True, **kwargs):
+                 constants, n_draws=DEFAULT_N_DRAWS, choke=None,
+                 use_jit=True, **kwargs):
         print('v 1.1.y, under construction')
         self.model_function = user_model
         self.setting_values = setting_values
@@ -163,7 +166,6 @@ class OptBayesExpt(ParticlePDF):
         self.last_setting_index = 0
         # The number of parameter draws to use in the utility calculation.
         # Default: 30
-        self.N_DRAWS = n_draws
 
         # Test the supplied model
         # n_channels = values per measurement = model output values
@@ -180,9 +182,11 @@ class OptBayesExpt(ParticlePDF):
         else:
             self._model_function = self.model_function
 
-        self.utility_y_space = np.zeros((self.N_DRAWS,
-                                        self.n_channels,
-                                        len(self.allsettings[0])))
+        self.utility_y_space = np.array([])
+        self.set_n_draws(n_draws)
+        # self.utility_y_space = np.zeros((self.N_DRAWS,
+        #                                 self.n_channels,
+        #                                 len(self.allsettings[0])))
 
         self.default_noise_std = np.ones((self.n_channels, 1)) * 1.0
         # self.default_noise_std = np.ones(self.n_channels) * 1.0
@@ -202,6 +206,30 @@ class OptBayesExpt(ParticlePDF):
                 return np.exp(
                     -((y_model - y_meas) / sigma) ** 2 / 2) / sigma
         self._gauss_noise_likelihood = _gauss_noise_likelihood
+
+    def set_n_draws(self, n_draws=None):
+        """Sets OptBayesExpt.N_DRAWS attribute.
+
+        Sets or queries the number of parameter samples to use in the utility
+        calculation.
+
+        Args:
+            n_draws (int or 'default' or None):  An
+            integer argument sets N_DRAWS, 'default' sets the default value
+            of 30, and ``set_n_draws()`` returns the current value.
+
+        Returns: N_DRAWS
+        """
+        if n_draws == 'default':
+            # reset to the default value
+            return self.set_n_draws(DEFAULT_N_DRAWS)
+        elif n_draws:
+            # non-zero or not None
+            self.N_DRAWS = n_draws
+            self.utility_y_space = np.zeros((self.N_DRAWS,
+                                             self.n_channels,
+                                             len(self.allsettings[0])))
+        return self.N_DRAWS
 
     def eval_over_all_parameters(self, onesettingset):
         """Evaluates the experimental model.
