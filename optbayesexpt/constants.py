@@ -1,6 +1,8 @@
+
+optbayesexpt_version = '1.1.1'
+
 # check whether numba is available to load
 # https://stackoverflow.com/questions/14050281/how-to-check-if-a-python-module-exists-without-importing-it
-
 import sys, importlib
 if sys.version_info[0] == 3:
     if sys.version_info[1] <= 3:
