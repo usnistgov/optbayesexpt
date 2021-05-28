@@ -76,6 +76,8 @@ $(document).ready(function(){
 <span class="k">if</span> <span class="n">GOT_NUMBA</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span><span class="p">,</span> <span class="n">float64</span>
 
+<span class="n">DEFAULT_N_DRAWS</span> <span class="o">=</span> <span class="mi">30</span>
+
 <div class="viewcode-block" id="OptBayesExpt"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt">[docs]</a><span class="k">class</span> <span class="nc">OptBayesExpt</span><span class="p">(</span><span class="n">ParticlePDF</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An implementation of sequential Bayesian experiment design.</span>
 
@@ -168,7 +170,7 @@ $(document).ready(function(){
 <span class="sd">            likelihood and allows more data to influence the parameter</span>
 <span class="sd">            distribution between resampling events. Default ``None``.</span>
 
-<span class="sd">        \*\*kwargs: keyword arguments passed to the parent ParticlePDF class</span>
+<span class="sd">        \*\*kwargs: Keyword arguments passed to the parent ParticlePDF class.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        model_function (:obj:`function`): Same as the ``model_function``</span>
@@ -210,7 +212,8 @@ $(document).ready(function(){
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_model</span><span class="p">,</span> <span class="n">setting_values</span><span class="p">,</span> <span class="n">parameter_samples</span><span class="p">,</span>
-                 <span class="n">constants</span><span class="p">,</span> <span class="n">n_draws</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">choke</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_jit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                 <span class="n">constants</span><span class="p">,</span> <span class="n">n_draws</span><span class="o">=</span><span class="n">DEFAULT_N_DRAWS</span><span class="p">,</span> <span class="n">choke</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">use_jit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;v 1.1.y, under construction&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model_function</span> <span class="o">=</span> <span class="n">user_model</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setting_values</span> <span class="o">=</span> <span class="n">setting_values</span>
@@ -232,7 +235,6 @@ $(document).ready(function(){
         <span class="bp">self</span><span class="o">.</span><span class="n">last_setting_index</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="c1"># The number of parameter draws to use in the utility calculation.</span>
         <span class="c1"># Default: 30</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">N_DRAWS</span> <span class="o">=</span> <span class="n">n_draws</span>
 
         <span class="c1"># Test the supplied model</span>
         <span class="c1"># n_channels = values per measurement = model output values</span>
@@ -249,9 +251,11 @@ $(document).ready(function(){
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_model_function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_function</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">utility_y_space</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">N_DRAWS</span><span class="p">,</span>
-                                        <span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">,</span>
-                                        <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">utility_y_space</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_n_draws</span><span class="p">(</span><span class="n">n_draws</span><span class="p">)</span>
+        <span class="c1"># self.utility_y_space = np.zeros((self.N_DRAWS,</span>
+        <span class="c1">#                                 self.n_channels,</span>
+        <span class="c1">#                                 len(self.allsettings[0])))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">default_noise_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1.0</span>
         <span class="c1"># self.default_noise_std = np.ones(self.n_channels) * 1.0</span>
@@ -271,6 +275,30 @@ $(document).ready(function(){
                 <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
                     <span class="o">-</span><span class="p">((</span><span class="n">y_model</span> <span class="o">-</span> <span class="n">y_meas</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_gauss_noise_likelihood</span> <span class="o">=</span> <span class="n">_gauss_noise_likelihood</span>
+
+<div class="viewcode-block" id="OptBayesExpt.set_n_draws"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt.set_n_draws">[docs]</a>    <span class="k">def</span> <span class="nf">set_n_draws</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_draws</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets OptBayesExpt.N_DRAWS attribute.</span>
+
+<span class="sd">        Sets or queries the number of parameter samples to use in the utility</span>
+<span class="sd">        calculation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n_draws (int or &#39;default&#39; or None):  An</span>
+<span class="sd">                integer argument sets N_DRAWS, &#39;default&#39; sets the default value</span>
+<span class="sd">                of 30, and ``set_n_draws()`` returns the current value.</span>
+
+<span class="sd">        Returns: N_DRAWS</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">n_draws</span> <span class="o">==</span> <span class="s1">&#39;default&#39;</span><span class="p">:</span>
+            <span class="c1"># reset to the default value</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_n_draws</span><span class="p">(</span><span class="n">DEFAULT_N_DRAWS</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">n_draws</span><span class="p">:</span>
+            <span class="c1"># non-zero or not None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">N_DRAWS</span> <span class="o">=</span> <span class="n">n_draws</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">utility_y_space</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">N_DRAWS</span><span class="p">,</span>
+                                             <span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">,</span>
+                                             <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_DRAWS</span></div>
 
 <div class="viewcode-block" id="OptBayesExpt.eval_over_all_parameters"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">eval_over_all_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onesettingset</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Evaluates the experimental model.</span>

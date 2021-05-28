@@ -4,7 +4,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>optbayesexpt API &#8212; OptBayesExpt 1.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css" />
@@ -70,9 +71,9 @@ $(document).ready(function(){
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="optbayesexpt-api">
+  <section id="optbayesexpt-api">
 <h1>optbayesexpt API<a class="headerlink" href="#optbayesexpt-api" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="overview">
+<section id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">OptBayesExpt</span></code> is the core class that performs Bayesian inference
@@ -93,8 +94,8 @@ outputs.
 For post-processing, a <code class="xref py py-obj docutils literal notranslate"><span class="pre">trace_sort()</span></code> function sorts measurement data by
 measurement setting and combines all measurements with settings in common.</p></li>
 </ul>
-</div>
-<div class="section" id="module-optbayesexpt.obe_base">
+</section>
+<section id="module-optbayesexpt.obe_base">
 <span id="optbayesexpt-class"></span><h2>OptBayesExpt class<a class="headerlink" href="#module-optbayesexpt.obe_base" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt">
@@ -515,6 +516,22 @@ available, e.g. while measurements are being made. Default =
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.set_n_draws">
+<span class="sig-name descname"><span class="pre">set_n_draws</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_draws</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.set_n_draws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.set_n_draws" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets OptBayesExpt.N_DRAWS attribute.</p>
+<p>Sets or queries the number of parameter samples to use in the utility
+calculation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n_draws</strong> (<em>int</em><em> or </em><em>'default'</em><em> or </em><em>None</em>) – An
+integer argument sets N_DRAWS, ‘default’ sets the default value
+of 30, and <code class="docutils literal notranslate"><span class="pre">set_n_draws()</span></code> returns the current value.</p>
+</dd>
+</dl>
+<p>Returns: N_DRAWS</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.utility">
 <span class="sig-name descname"><span class="pre">utility</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.utility"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.utility" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate the utility as a function of settings.</p>
@@ -577,8 +594,8 @@ values for each setting combination.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-optbayesexpt.obe_noiseparam">
+</section>
+<section id="module-optbayesexpt.obe_noiseparam">
 <span id="optbayesexptnoiseparam-class"></span><h2>OptBayesExptNoiseParam class<a class="headerlink" href="#module-optbayesexpt.obe_noiseparam" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter">
@@ -673,8 +690,8 @@ to measurement noise.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-optbayesexpt.obe_server">
+</section>
+<section id="module-optbayesexpt.obe_server">
 <span id="obe-server-class"></span><h2>OBE_Server class<a class="headerlink" href="#module-optbayesexpt.obe_server" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="optbayesexpt.obe_server.OBE_Server">
@@ -926,8 +943,8 @@ goodset.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-optbayesexpt.obe_socket">
+</section>
+<section id="module-optbayesexpt.obe_socket">
 <span id="obe-socket-class"></span><h2>OBE_Socket class<a class="headerlink" href="#module-optbayesexpt.obe_socket" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="optbayesexpt.obe_socket.Socket">
@@ -1050,8 +1067,8 @@ receives a response. The connection is then closed.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-optbayesexpt.particlepdf">
+</section>
+<section id="module-optbayesexpt.particlepdf">
 <span id="particlepdf-class"></span><h2>ParticlePDF class<a class="headerlink" href="#module-optbayesexpt.particlepdf" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF">
@@ -1337,8 +1354,8 @@ covariance matrix.  See also <a class="reference internal" href="#optbayesexpt.p
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-optbayesexpt.obe_utils">
+</section>
+<section id="module-optbayesexpt.obe_utils">
 <span id="utilities"></span><h2>Utilities<a class="headerlink" href="#module-optbayesexpt.obe_utils" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="optbayesexpt.obe_utils.MeasurementSimulator">
@@ -1412,8 +1429,8 @@ each setting</p></li>
 </dl>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
