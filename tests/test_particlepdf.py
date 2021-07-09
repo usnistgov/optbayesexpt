@@ -94,7 +94,7 @@ def test_std():
 
     a_pdf = setup()
     stdvals = a_pdf.std()
-    right_answer = np.sqrt(np.array([1, 1]) * 5.0 / 3.0)
+    right_answer = np.sqrt(np.array([1, 1]) * 5.0 / 4.0)
 
     assert_array_equal((a_pdf.n_dims, ), stdvals.shape,
                        err_msg="Standard deviation array has wrong shape.")
