@@ -33,24 +33,24 @@ def test_eval_over_all_parametrs():
     my_obe = setup()
     oneset = (1, )
 
-    assert_array_equal([1, 4, 4, 7], my_obe.eval_over_all_parameters(oneset),
+    assert_array_equal([[1, 4, 4, 7]], my_obe.eval_over_all_parameters(oneset),
                        err_msg="incorrect calculation")
 
 
 def test_eval_over_all_settings():
     my_obe = setup()
     onepar = [1, 3]
-    assert_array_equal([1, 4, 7], my_obe.eval_over_all_settings(onepar),
+    assert_array_equal([[1, 4, 7]], my_obe.eval_over_all_settings(onepar),
                        err_msg="incorrect calculation")
 
 
 def test_likelihood():
     my_obe = setup()
-    ymodel = np.array((1, 4, 4, 7))
-    measurement = ((1, ), 5.0, 1.0)
+    ymodel = np.array(((1, 4, 4, 7), ))
+    measurement = ((1, ), (5.0, ), 1.0)
     set, ymeas, sig = measurement
 
-    lkl = np.exp(-(ymodel - ymeas)**2 / 2)
+    lkl = np.exp(-(ymodel - ymeas)**2 / 2)[0]
     assert_array_equal(lkl, my_obe.likelihood(ymodel, measurement),
                        err_msg="Incorrect likelihood")
 
