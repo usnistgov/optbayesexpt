@@ -72,7 +72,7 @@ def test_make_obe():
     assert_array_equal(pars, my_obe.obe_engine.parameters,
                        err_msg="parameters incorrectly initialized")
     oneset = (1, )
-    assert_array_equal([1, 4, 4, 7],
+    assert_array_equal([[1, 4, 4, 7]],
                        my_obe.obe_engine.eval_over_all_parameters(oneset),
                        err_msg="incorrect calculation")
 
@@ -151,7 +151,7 @@ def test_run_pdf():
     assert_array_equal(right_mean, reply,
                        err_msg='incorrect mean returned')
 
-    right_std = np.sqrt(np.array([1, 1]) * 5.0 / 3.0)
+    right_std = np.sqrt(np.array([1, 1]) * 5.0 / 4.0)
     reply = sock.tcpcmd({'command': 'getstd'})
     assert_array_almost_equal(right_std, reply,
                        err_msg='incorrect std deviation returned')
