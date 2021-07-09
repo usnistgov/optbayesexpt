@@ -64,6 +64,8 @@ class OBE_Server(Socket):
             self.initial_args = initial_args
         if kwargs:
             self.initial_kwargs = kwargs
+        else:
+            self.initial_kwargs = None
         self.obe_engine = None
 
     def make_obe(self, obe_class, class_args, **kwargs):
@@ -88,7 +90,7 @@ class OBE_Server(Socket):
         if kwargs:
             self.initial_kwargs = kwargs
         # create a new OptBayesExpt and attach it as the obe_engine attribute.
-        self.obe_engine = obe_class(*self.initial_args, **self.initial_kwargs)
+        self.obe_engine = obe_class(*self.initial_args, **kwargs)
 
     def newrun(self, message):
         """A stub to allow customized TCP commands
