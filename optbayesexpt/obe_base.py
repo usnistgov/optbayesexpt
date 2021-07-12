@@ -1,8 +1,9 @@
 __author__ = 'Bob McMichael'
 
 import numpy as np
-from .particlepdf import ParticlePDF
+
 from .constants import GOT_NUMBA
+from .particlepdf import ParticlePDF
 
 if GOT_NUMBA:
     from numba import njit, float64
