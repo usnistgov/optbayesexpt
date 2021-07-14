@@ -1,5 +1,5 @@
-from obe_base import OptBayesExpt
-from constants import GOT_NUMBA
+from optbayesexpt.obe_base import OptBayesExpt
+from optbayesexpt.constants import GOT_NUMBA
 import numpy as np
 
 if GOT_NUMBA:

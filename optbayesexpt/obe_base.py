@@ -2,8 +2,8 @@ __author__ = 'Bob McMichael'
 
 import numpy as np
 
-from constants import GOT_NUMBA
-from particlepdf import ParticlePDF
+from optbayesexpt.constants import GOT_NUMBA
+from optbayesexpt.particlepdf import ParticlePDF
 
 if GOT_NUMBA:
     from numba import njit, float64
