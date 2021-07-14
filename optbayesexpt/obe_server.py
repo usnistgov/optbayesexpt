@@ -1,4 +1,4 @@
-from .obe_socket import Socket
+from obe_socket import Socket
 import numpy as np
 
 class OBE_Server(Socket):

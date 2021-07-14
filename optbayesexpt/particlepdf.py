@@ -1,5 +1,5 @@
 import numpy as np
-from .constants import GOT_NUMBA
+from constants import GOT_NUMBA
 
 if GOT_NUMBA:
     from numba import njit, float64
