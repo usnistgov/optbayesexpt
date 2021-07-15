@@ -79,30 +79,67 @@ $(document).ready(function(){
 <h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
 <section id="software-requirements">
 <h2>Software Requirements<a class="headerlink" href="#software-requirements" title="Permalink to this headline">¶</a></h2>
-<ol class="arabic simple">
-<li><p>git</p></li>
-<li><dl class="simple">
-<dt>python3.X</dt><dd><ul class="simple">
-<li><p>numpy module</p></li>
-<li><p>scipy module (for some demos)</p></li>
-<li><p>matplotlib.pyplot module (for demos)</p></li>
+<dl class="simple">
+<dt>python3.X with</dt><dd><ul class="simple">
+<li><p>numpy</p></li>
+<li><p>scipy (for some demos)</p></li>
+<li><p>matplotlib.pyplot (for demos)</p></li>
 <li><p>pytest (for testing)</p></li>
 </ul>
 </dd>
 </dl>
+</section>
+<section id="download">
+<h2>Download<a class="headerlink" href="#download" title="Permalink to this headline">¶</a></h2>
+<dl>
+<dt>Using <code class="docutils literal notranslate"><span class="pre">git</span></code>,</dt><dd><ol class="arabic">
+<li><p>Create an empty directory/folder to hold the source files.  The
+directory name isn’t important, but we’ll call it <code class="docutils literal notranslate"><span class="pre">obe_source</span></code> here.</p></li>
+<li><dl class="simple">
+<dt>Move into the source directory</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">cd</span> <span class="pre">obe_source</span></code>  on linux</p></li>
+<li><p>On Windows, click into the new folder and then File –&gt; Open
+Windows Power Shell</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>From the command line,</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/usnistgov/optbayesexpt.git</span> <span class="pre">.</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p>Note the trailing ‘.’</p>
 </li>
 </ol>
+</dd>
+</dl>
+<p>Using zip,</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p>Point your browser to the optbayesexpt github page,
+<a class="reference external" href="https://github.com/usnistgov/optbayesexpt">https://github.com/usnistgov/optbayesexpt</a>.</p></li>
+<li><p>From the green Code button, select Download zip from the drop down
+menu.</p></li>
+<li><p>Unzip the optbayesexpt-master.zip file.</p></li>
+<li><dl>
+<dt>Move into the unzipped directory/folder</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">cd</span> <span class="pre">optbayesexpt-master</span></code>  on linux</p></li>
+<li><p>On Windows, click into unipped folder, e.g. <code class="docutils literal notranslate"><span class="pre">optbayesexpt-master</span></code></p></li>
+</ul>
+<p>and then File –&gt; Open Windows Power Shell.</p>
+</dd>
+</dl>
+</li>
+</ol>
+</div></blockquote>
 </section>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>Create an empty directory/folder for the <code class="docutils literal notranslate"><span class="pre">optbayesexpt</span></code> repo.  Then, from
-a command line, run the following command to
-download the software. Note the trailing “.”</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">usnistgov</span><span class="o">/</span><span class="n">optbayesexpt</span><span class="o">.</span><span class="n">git</span> <span class="o">.</span>
-</pre></div>
-</div>
-<p>Now install the optbayesexpt modules by one of these methods:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
+<p>Now install the optbayesexpt modules from the command line by one of these
+methods:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
 </pre></div>
 </div>
 <p>–or–</p>
@@ -110,6 +147,7 @@ download the software. Note the trailing “.”</p>
 <span class="o">&gt;</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
 </pre></div>
 </div>
+<p>Some systems may use <code class="docutils literal notranslate"><span class="pre">python3</span></code> instead of <code class="docutils literal notranslate"><span class="pre">python</span></code>.</p>
 </section>
 <section id="testing">
 <h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
@@ -213,7 +251,7 @@ represent this <em>prior</em> knowledge with samples from a uniform distribution
 <p>Suppose also that there is an unknown <em>delay</em> parameter, and that there is
 <em>prior</em> information that <em>delay</em> is 3, more or less<span class="math notranslate nohighlight">\(^*\)</span>, but there
 aren’t and hard limits.  We might represent this <em>prior</em> using a normal
-distribution with a width of 2.0</p>
+distribution with a width of 2.0.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">limit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">)</span>
 <span class="n">parameter_samples</span> <span class="o">=</span> <span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">limit</span><span class="p">)</span>
 </pre></div>
@@ -290,6 +328,7 @@ transitional and that 5 is “right out.”</p>
   <ul>
 <li><a class="reference internal" href="#">Quick Start</a><ul>
 <li><a class="reference internal" href="#software-requirements">Software Requirements</a></li>
+<li><a class="reference internal" href="#download">Download</a></li>
 <li><a class="reference internal" href="#installation">Installation</a></li>
 <li><a class="reference internal" href="#testing">Testing</a></li>
 <li><a class="reference internal" href="#scripting">Scripting</a><ul>
