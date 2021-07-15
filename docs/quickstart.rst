@@ -4,29 +4,49 @@ Quick Start
 Software Requirements
 ---------------------
 
-1. git
-2. python3.X
-    - numpy module
-    - scipy module (for some demos)
-    - matplotlib.pyplot module (for demos)
+python3.X with
+    - numpy
+    - scipy (for some demos)
+    - matplotlib.pyplot (for demos)
     - pytest (for testing)
+
+Download
+--------
+
+Using ``git``,
+    1. Create an empty directory/folder to hold the source files.  The
+       directory name isn't important, but we'll call it ``obe_source`` here.
+    2. Move into the source directory
+        - ``> cd obe_source``  on linux
+        - On Windows, click into the new folder and then File --> Open
+          Windows Power Shell
+
+    3. From the command line,
+        - ``> git clone https://github.com/usnistgov/optbayesexpt.git .``
+
+       Note the trailing '.'
+
+Using zip,
+
+    1. Point your browser to the optbayesexpt github page,
+       https://github.com/usnistgov/optbayesexpt.
+    2. From the green Code button, select Download zip from the drop down
+       menu.
+    3. Unzip the optbayesexpt-master.zip file.
+    4. Move into the unzipped directory/folder
+        - ``> cd optbayesexpt-master``  on linux
+        - On Windows, click into unipped folder, e.g. ``optbayesexpt-master``
+        and then File --> Open Windows Power Shell.
 
 Installation
 ------------
 
-Create an empty directory/folder for the ``optbayesexpt`` repo.  Then, from
-a command line, run the following command to
-download the software. Note the trailing "."
+Now install the optbayesexpt modules from the command line by one of these
+methods:
 
 ::
 
-     > git clone https://github.com/usnistgov/optbayesexpt.git .
-
-Now install the optbayesexpt modules by one of these methods:
-
-::
-
-    > pip install .
+    > python -m pip install .
 
 --or--
 
@@ -34,6 +54,8 @@ Now install the optbayesexpt modules by one of these methods:
 
      > python setup.py build
      > python setup.py install
+
+Some systems may use ``python3`` instead of ``python``.
 
 Testing
 -------
@@ -156,7 +178,7 @@ represent this *prior* knowledge with samples from a uniform distribution.
 Suppose also that there is an unknown *delay* parameter, and that there is
 *prior* information that *delay* is 3, more or less\ :math:`^*`, but there
 aren't and hard limits.  We might represent this *prior* using a normal
-distribution with a width of 2.0
+distribution with a width of 2.0.
 
 ::
 
