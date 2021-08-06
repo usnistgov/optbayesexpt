@@ -185,7 +185,7 @@ def batchdemo():
     plt.subplot(121)
     plt.xlabel('time ($\mu$s)')
     plt.ylabel('$\Delta$f (MHz)')
-    plt.imshow(ytrue_plotted, origin='bottom', extent=extent, aspect='auto',
+    plt.imshow(ytrue_plotted, origin='lower', extent=extent, aspect='auto',
                cmap='cubehelix', vmin=99000)
     plt.colorbar(ticks=[99000, 100000])
     plt.scatter(ptdata, dfdata, s=9, c=np.arange(len(ptdata)), cmap='Reds')
