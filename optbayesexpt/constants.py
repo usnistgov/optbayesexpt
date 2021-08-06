@@ -7,8 +7,15 @@ version = '1.1.1'
 GOT_NUMBA = False
 if sys.version_info[0] == 3:
     if sys.version_info[1] <= 3:
-        if importlib.import_loader('numba') is not None:
-            GOT_NUMBA = True
+        numba_module = importlib.import_loader('numba')
     if sys.version_info[1] >= 4:
-        if importlib.util.find_spec('numba') is not None:
-            GOT_NUMBA = True
+        numba_module = importlib.util.find_spec('numba')
+
+    if numba_module is not None:
+        GOT_NUMBA = True
+
+if __name__ == '__main__':
+    print(f'version = {version}')
+    print(f'GOT_NUMBA = {GOT_NUMBA}')
+    if GOT_NUMBA:
+        print(numba_module)
