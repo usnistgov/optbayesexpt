@@ -106,9 +106,11 @@ def coil_model(sets, pars, cons):
 # enforce_parameter_constraints() method for all parameters
 class OptBayesExptLockinCleanParams(OptBayesExptNoiseParameter):
 
-    def __init__(self, coil_model, sets, params, cons, **kwargs):
+    def __init__(self, coil_model, sets, params, cons,
+                 cost_of_changing_setting=1.0, **kwargs):
         OptBayesExptNoiseParameter.__init__(self, coil_model, sets, params,
                                            cons, **kwargs)
+        self.cost_of_changing_setting = cost_of_changing_setting
 
     def enforce_parameter_constraints(self):
         """
@@ -129,6 +131,25 @@ class OptBayesExptLockinCleanParams(OptBayesExptNoiseParameter):
             # rescale the particle weights
             self.particle_weights = self.particle_weights \
                                     / np.sum(self.particle_weights)
+
+    def cost_estimate(self):
+        """
+        Estimate the cost of measurements, depending on settings
+
+        The denominator of the *utility* function allows measurement
+        resources (e.g. setup time + data collection time) to be entered
+        into the utility calculation.
+
+        Returns:
+            :obj:`float`, otherwise an :obj:`ndarray` describing how
+                measurement variance depends on settings.
+        """
+        setting = self.last_setting_index
+        cost = np.ones_like(self.allsettings[0]) * \
+               self.cost_of_changing_setting
+        cost[setting] = 1.0
+
+        return cost
     # End of class definition
 
 
@@ -166,14 +187,18 @@ params = (L_samples, R_samples, C_samples, sigma_samples)
 cons = ()
 
 coil_obe = OptBayesExptLockinCleanParams(coil_model, sets, params, cons,
-                                         scale=False)
+                                scale=False, noise_parameter_index=3,
+                                cost_of_changing_setting=cost_of_moving)
 # Here, scale=False is a keyword argument that the class definition lumps
 # into **kwargs and passes to OptBayesExptNoiseParam, which passes it to
 # OptBayesExpt, which passes it to ParticlePDF.  ParticlePDF has a ``scale``
 # argument that gets set to ``False``.
+# The noise_parameter_index parameter is passed to
+# OptBayesExptNoiseParameter to identify which parameter describes the
+# standard deviation of experimental noise.
 
-coil_obe.cost_of_changing_setting = cost_of_moving
-coil_obe.noise_parameter_index = 3
+
+
 
 ########################################################################
 #           MEASUREMENT LOOP
@@ -251,14 +276,14 @@ plt.semilogx(xvals, truecurve[0], 'r-', label="Real")
 plt.semilogx(xvals, truecurve[1], 'g-', label="Imag")
 plt.legend()
 plt.xlabel("Frequency (Hz)")
-plt.ylabel("Impedance (Ohms)")
+plt.ylabel("Impedance ($\Omega$)")
 
 # (2) plot the setting behavior
 ax = plt.subplot(222)
 plt.text(.02, .9, "(b)", transform=ax.transAxes)
 plt.semilogy(frequency_trace, '.')
-plt.ylabel("settingss")
-plt.xlabel("No. of measurements")
+plt.ylabel("Frequency Setting (Hz)")
+plt.xlabel("Measurement iteration")
 
 ax = plt.subplot(223)
 plt.text(0.02, .9, "(c)", transform=ax.transAxes)
@@ -277,23 +302,24 @@ plt.semilogx(xvals, truecurve[0], 'r-', label="Real")
 plt.semilogx(xvals, truecurve[1], 'g-', label="Imag")
 plt.legend()
 plt.xlabel("Frequency (Hz)")
-plt.ylabel("Impedance (Ohms)")
+plt.ylabel("Impedance ($\Omega$)")
 
 thisaxes = plt.subplot(224)
 plt.xticks([])
 plt.yticks([])
 thisaxes.set_frame_on(False)
 # printed outputs
-names = ["L", "R", "C", "sigma"]
+names = ["L", "R", "C", "$\sigma$"]
 scales = np.array([1e-3, 1, 1e-6, 1])
-units = ["mH ", "Ohm", "uF ", "Ohm"]
+units = ["mH ", "$\Omega$", "$\mu$F ", "$\Omega$"]
 means = coil_obe.mean() / scales
 stds = coil_obe.std() / scales
 trues = np.array(true_pars) / scales
 f_string = "{}: true = {:5.3f} {} <-> ({:5.3f} +/- {:5.3f}) {}"
 top = .9
 delta_y = .1
-delta_x = -.25
+# delta_x = -.25
+delta_x = -.1
 
 for name, true, mean, std, unit in \
         zip(names, trues, means, stds, units):
