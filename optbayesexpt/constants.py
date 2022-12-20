@@ -1,6 +1,5 @@
 import sys, importlib
-
-version = '1.1.1'
+version = '1.2.0'
 
 # check whether numba is available to load
 # https://stackoverflow.com/questions/14050281/how-to-check-if-a-python-module-exists-without-importing-it
