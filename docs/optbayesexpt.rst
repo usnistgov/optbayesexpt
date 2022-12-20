@@ -21,11 +21,16 @@ Overview
 * :obj:`Socket` class is inherited by :obj:`Server` to handle TCP connections
   and message encoding/decoding.
 
-* The **obe_utils.py** file provides a :obj:`MeasurementSimulator` class that
-  uses "true value" parameters and added noise to simulate experimental
-  outputs.
-  For post-processing, a :obj:`trace_sort()` function sorts measurement data by
-  measurement setting and combines all measurements with settings in common.
+* The **obe_utils.py** file provides
+
+    * A :obj:`MeasurementSimulator` class that uses "true value" parameters
+      and added noise to simulate experimental outputs.
+    * For post-processing, a :obj:`trace_sort()` function sorts measurement
+      data by measurement setting and combines all measurements with settings
+      in common.
+    * A :obj:`differential_entropy()` function to calculate information entropy from
+      samples of a distribution.
+
 
 OptBayesExpt class
 ------------------
