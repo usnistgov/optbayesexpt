@@ -2,13 +2,20 @@ __author__ = 'Bob McMichael'
 
 import numpy as np
 
-from optbayesexpt.constants import GOT_NUMBA
-from optbayesexpt.particlepdf import ParticlePDF
+from optbayesexpt import GOT_NUMBA
+from optbayesexpt import ParticlePDF
+
+try:
+    from scipy.stats import differential_entropy as diffent
+except ImportError:
+    from optbayesexpt.obe_utils import differential_entropy as diffent
 
 if GOT_NUMBA:
-    from numba import njit, float64
+    from numba import njit
 
+rng = np.random.default_rng()
 DEFAULT_N_DRAWS = 30
+
 
 class OptBayesExpt(ParticlePDF):
     """An implementation of sequential Bayesian experiment design.
@@ -38,7 +45,7 @@ class OptBayesExpt(ParticlePDF):
     including unknown noise, and setting-dependent costs.
 
     Args:
-        model_function (:obj:`function`): Evaluates the experimental model
+        measurement_model (:obj:`function`): Evaluates the experimental model
             from (:code:`settings`, :code:`parameters`, :code:`constants`)
             arguments, returning single values or arrays depending on the
             arguments.  The :code:`model_function` is very similar to the
@@ -57,8 +64,10 @@ class OptBayesExpt(ParticlePDF):
             way to write this type of function for simple analytical models.
 
             Version 1.1.0 and later support model functions that return
-            multiple output channels, e. g. real and imaginary parts or vectors
-            expressed as tuples, lists or arrays.
+            multiple output channels, e. g. real and imaginary parts or
+            vectors expressed as tuples, lists or arrays. The number of
+            output channels, ``n_channels`` is deduced by evaluating the
+            measurement model function.
 
         setting_values (:obj:`tuple` of :obj:`ndarray`):
             Each array in the :code:`setting_values` tuple contains the
@@ -88,8 +97,6 @@ class OptBayesExpt(ParticlePDF):
             are rarely changed, and model parameters that are well-known
             from previous measurement results.
 
-    Keyword Args:
-
         n_draws (:obj:`int`): specifies the number of parameter samples used
             in the utility calculation.  Default 30.
 
@@ -102,9 +109,45 @@ class OptBayesExpt(ParticlePDF):
             likelihood and allows more data to influence the parameter
             distribution between resampling events. Default ``None``.
 
+        use_jit (:obj:`Boolean`): If ``numba`` is installed, pre-compile the
+            likelihood calculation for faster execution.  Arg ``use_jit`` is also
+            passed as a keyword arg to ParticlPDF. Default ``True``.
+
+        utility_method (:obj:`string`)
+            [``'variance_approx'`` | ``'pseudo_utility'`` |
+            ``'full_kld_utility'`` | ``'max_min'``]:  Specifies the utility
+            algorithm as described in [#f1]_. Default ``'variance_approx'``.
+
+        selection_method (:obj:`string`)
+            [``'optimal'`` | ``'good'`` | ``'random'``]:
+            Specifies how the setting is selected based on the
+            utility. If ``'optimal'``, the setting at maximum utility is
+            selected. If ``'good'``, the utility is raised to a power given
+            by ``pickiness`` parameter and normalized. The setting is
+            selected with probability proportional to ``utility`` **
+            ``pickiness``.  If ``'random``, the utility is disregarded and
+            the setting is chosen randomly from the allowed settings.
+
+        pickiness (:obj:`float`):
+            When `selection_method` is ``'normal'``,
+            this parameter affects the probability of picking a setting near a
+            maximum in the utilty function. Default 15.
+
+        default_noise_std (:obj:`float` -or- ``ndarray``):
+            Measurement noise standard deviation used in utility
+            calculations.  If ``float``, the value populates entries of a
+            :math:`n_{channels} \\times 1` ``ndarray`` where :math:`n_{
+            channels}` corresponds to the number of measurement channels,
+            e.g. 2 if data is collected from :math:`X` and :math:`Y` outputs
+            of an instrument. If  :math:`n_{channels} \\times 1` ``ndarray``,
+            entries are noise standard deviations corresponding to the
+            measurement channels. For cases where the measurement noise
+            depends on settings, the
+
         \*\*kwargs: Keyword arguments passed to the parent ParticlePDF class.
 
     Attributes:
+
         model_function (:obj:`function`): Same as the ``model_function``
             parameter above.
 
@@ -126,12 +169,11 @@ class OptBayesExpt(ParticlePDF):
         cons (:obj:`tuple` of :obj:`float`): Stores the ``constants``
             argument tuple.
 
-        default_noise_std (:obj:`float`): A rough-estimate of measurement
-            noise as a standard-deviation. The default return value of
-            ``cost()``.
+        default_noise_std (:obj:`float` | :obj:`): value copied from
+            ``default_noise_std`` setting.
 
         measurement_results (:obj:`list`): A list containing records of
-            accumulated measurement results
+            accumulated measurement results.
 
         last_setting_index (:obj:`int`): The most recent settings
             recommendation as an index into ``self.allsettings``.
@@ -139,17 +181,24 @@ class OptBayesExpt(ParticlePDF):
         N_DRAWS (int): The number of parameter draws to use in the utility
             calculation to estimate the variance of model outputs due to
             parameter distribution.  Default: 30
-
-    Methods:
     """
 
-    def __init__(self, user_model, setting_values, parameter_samples,
+    def __init__(self, measurement_model, setting_values, parameter_samples,
                  constants, n_draws=DEFAULT_N_DRAWS, choke=None,
-                 use_jit=True, **kwargs):
-        self.model_function = user_model
+                 use_jit=True, utility_method='variance_approx',
+                 selection_method='optimal', pickiness=15,
+                 default_noise_std=1.0,
+                 **kwargs):
+        """ Initializes an OptBayesExpt object.
+
+        and here's more stuff for the document.
+
+        """
+        self.model_function = measurement_model
         self.setting_values = setting_values
         self.allsettings = np.array([s.flatten() for s in
-                            np.meshgrid(*setting_values, indexing='ij')])
+                                     np.meshgrid(*setting_values,
+                                                 indexing='ij')])
         self.setting_indices = np.arange(len(self.allsettings[0]))
         ParticlePDF.__init__(self, parameter_samples, use_jit=use_jit,
                              **kwargs)
@@ -157,9 +206,9 @@ class OptBayesExpt(ParticlePDF):
         self.parameters = self.particles
         self.cons = constants
         self.choke = choke
+        self.N_DRAWS = n_draws
+        self.pickiness = pickiness
 
-        # A noise level estimate used in setting selection
-        # used by ``y_var_noise_model()``.
         # A list containing records of accumulated measurement results
         self.measurement_results = []
         # Indices of most recent requested setting
@@ -176,20 +225,45 @@ class OptBayesExpt(ParticlePDF):
         # channels.
         if self.n_channels == 1:
             def wrapped_function(s, p, c):
-                y = user_model(s, p, c)
+                y = measurement_model(s, p, c)
                 return (y,)
+
             self._model_function = wrapped_function
         else:
             self._model_function = self.model_function
 
         self.utility_y_space = np.array([])
         self.set_n_draws(n_draws)
-        # self.utility_y_space = np.zeros((self.N_DRAWS,
-        #                                 self.n_channels,
-        #                                 len(self.allsettings[0])))
+        # A noise level estimate used in setting selection
+        # used by ``y_var_noise_model()``.
+        self.default_noise_std = np.ones((self.n_channels, 1)) * \
+                                 default_noise_std
 
-        self.default_noise_std = np.ones((self.n_channels, 1)) * 1.0
-        # self.default_noise_std = np.ones(self.n_channels) * 1.0
+        utilitymethods = ['variance_approx', 'pseudo_utility',
+                               'full_kld_utility', 'max_min']
+        if utility_method == 'variance_approx':
+            self.utility = self.utility_variance
+        elif utility_method == 'pseudo_utility':
+            self.utility = self.utility_pseudo
+        elif utility_method == 'max_min':
+            self.utility = self.utility_max_min
+        elif utility_method == 'full_kld_utility':
+            self.utility = self.utility_full_kld
+        else:
+            raise SyntaxError(f'Unknown utility method: {utility_method}. '
+                              f'Valid utility methods are{utilitymethods}')
+
+        selection_methods = ['optimal', 'good', 'random']
+        if selection_method == 'optimal':
+            self.get_setting = self.opt_setting
+        elif selection_method == 'good':
+            self.get_setting = self.good_setting
+        elif selection_method == 'random':
+            self.get_setting = self.random_setting
+        else:
+            raise SyntaxError(f'Unknown selection_method: {selection_method}.'
+                              f'Valid selection methods are'
+                              f' {selection_methods}')
 
         # pre-compile some numeric routines using numba.njit
         if GOT_NUMBA and use_jit:
@@ -222,13 +296,13 @@ class OptBayesExpt(ParticlePDF):
         """
         if n_draws == 'default':
             # reset to the default value
-            return self.set_n_draws(DEFAULT_N_DRAWS)
+            self.N_DRAWS = DEFAULT_N_DRAWS
         elif n_draws:
             # non-zero or not None
             self.N_DRAWS = n_draws
-            self.utility_y_space = np.zeros((self.N_DRAWS,
-                                             self.n_channels,
-                                             len(self.allsettings[0])))
+        self.utility_y_space = np.zeros((self.N_DRAWS,
+                                         self.n_channels,
+                                         len(self.allsettings[0])))
         return self.N_DRAWS
 
     def eval_over_all_parameters(self, onesettingset):
@@ -321,18 +395,19 @@ class OptBayesExpt(ParticlePDF):
         return self.particles, self.particle_weights
 
     def enforce_parameter_constraints(self):
-        """Enforces constraints on parameters
+        """A stub for enforcing constraints on parameters
 
         for example::
 
-            # find the violators (negative parameter values)
+            # find the particles with disallowed parameter values
+            # (negative parameter values in this example)
             bad_ones = np.argwhere(self.parameters[3] < 0)
                 for index in bad_ones:
+                    # setting a weight = 0 effectively eliminates the particle
                     self.particle_weights[index] = 0
             # renormalize
             self.particle_weights = self.particle_weights / np.sum(self.particle_weights)
 
-        Returns:
         """
         pass
 
@@ -351,7 +426,7 @@ class OptBayesExpt(ParticlePDF):
 
         Under these assumptions, and model values :math:`y_{model}` as a
         function of parameters, the likelihood is a Gaussian function
-        proportional to :math:`\sigma^{-1} \exp [(y_{model} - y_{meas})^2
+        proportional to :math:`\sigma^{-1} \exp [-(y_{model} - y_{meas})^2
         / (2 \sigma^2)]`.
 
         Args:
@@ -386,7 +461,7 @@ class OptBayesExpt(ParticlePDF):
         """Models the measurement variance solely due to parameter
         distributions.
 
-        Evaluates the effect ov the distribution
+        Evaluates the effect of the distribution
         of parameter values on the distribution of model outputs for every
         setting combination. This calculation is done as part of the
         *utility* calculation as an approximation to the information
@@ -410,9 +485,59 @@ class OptBayesExpt(ParticlePDF):
         yvar = np.var(self.utility_y_space, axis=0)
         return yvar
 
-    def y_var_noise_model(self):
+    def yvar_from_entropy(self):
+        """Models the entropy of the model values due to the
+        parameter distributions
+
+        Evaluates the effect of the distribution
+        of parameter values on the distribution of model outputs for every
+        setting combination. This calculation is done as part of the
+        *utility* calculation as an approximation to the information
+        entropy. For each of ``self.N_DRAWS`` samples from the parameter
+        distribution, this method models a noise-free experimental output
+        for all setting combinations and returns the entropy of the model
+        values for each setting combination, cast as a variance
+
+        Returns:
+            :obj:`ndarray` with shape of a member of all_settings
         """
-        Models the measurement variance solely due to measurement noise.
+
+        paramsets = self.randdraw(self.N_DRAWS).T
+
+        # fill the model results for each drawn parameter set
+        for i, oneparamset in enumerate(paramsets):
+            self.utility_y_space[i] = self.eval_over_all_settings(oneparamset)
+
+        # Evaluate how much the model varies at each setting
+        # calculate the variance of results for each setting
+        model_entropy = diffent(self.utility_y_space, axis=0)
+        yvar = np.exp(2 * model_entropy) / (2 * np.pi * np.e)
+        return yvar
+
+    def yvar_max_min(self):
+        """
+        Crudely approximates the signal variance using max - min.
+
+        Returns: :obj:`ndarray` with shape of a member of all_settings
+        """
+        paramsets = self.randdraw(self.N_DRAWS).T
+
+        # fill the model results for each drawn parameter set
+        for i, oneparamset in enumerate(paramsets):
+            self.utility_y_space[i] = self.eval_over_all_settings(oneparamset)
+
+        span = np.max(self.utility_y_space, axis=0) - \
+               np.min(self.utility_y_space, axis=0)
+
+        return span ** 2
+
+    def y_var_noise_model(self):
+        # for backawards compatibiilty. Stupid typo.
+        return self.yvar_noise_model()
+
+    def yvar_noise_model(self):
+        """
+        A stub for models of the measurement noise
 
         A model of measurement variance (noise) as a function of settings,
         averaged over parameters if parameter-dependent.  Used in the
@@ -430,43 +555,141 @@ class OptBayesExpt(ParticlePDF):
         Returns:
             If measurement noise is independent of settings, a :obj:`float`,
             otherwise an :obj:`ndarray` with the shape of an
-            element of `allsettings`
+            element of `allsettings`.  Default: ``default_noise_std ** 2``.
         """
         return self.default_noise_std ** 2
 
     def cost_estimate(self):
-        """
-        Estimate the cost of measurements, depending on settings
+        """ A stub for estimating the cost of prospective measurements
 
         The denominator of the *utility* function allows measurement
         resources (e.g. setup time + data collection time) to be entered
         into the utility calculation.
 
         Returns:
-            :obj:`float`, otherwise an :obj:`ndarray` describing how
-                measurement variance depends on settings.
+            :obj:`float`, otherwise an :obj:`ndarray` with
+            the dimensions of one array in ``allsettings`` describing how the
+            variance of measurement noise depends on settings.  Default: 1.0.
         """
         return 1.0
 
-    def utility(self):
+    def utility_max_min(self):
+        """ Estimate the utility as a function of settings.
+
+        The *utility* is the predicted benefit/cost ratio of a new
+        measurement where the benefit is given in terms of a change in the
+        information entropy of the parameter distribution. This algorithm
+        corresponds to the "max-min algorithm" of [#f1]_.
+
+        In this algorithm, we use the maximum and minimum modeled
+        outputs produced by :code:`N_DRAWS` samples of the parameter
+        distribution and the variance of the measurement noise are calculated
+        separately.
+
+        This algorithm provides slightly lower quality setting choices than
+        the other utility algorithms, but it executes very fast. Speed and
+        quality of choices are both best when ``N_DRAWS = 2``.
+
+        Returns:
+            Approximate utility as an :obj:`ndarray` with dimensions of a
+            member of :code:`allsettings`.
+        """
+        var_p = self.yvar_max_min()
+        var_n = self.yvar_noise_model()
+        cost = self.cost_estimate()
+        utility = np.sum(np.log(1 + var_p / var_n), axis=0)
+        return utility / cost
+
+    def utility_variance(self):
+        """ Estimate the utility as a function of settings.
+
+        The *utility* is the predicted benefit/cost ratio of a new
+        measurement where the benefit is given in terms of a change in the
+        information entropy of the parameter distribution. This algorithm
+        corresponds to the "variance algorithm" of [#f1]_.
+
+        In this algorithm, we use the logarithm of variance as an
+        approximation for the information entropy.  The variance of model
+        outputs produced by :code:`N_DRAWS` samples of the parameter
+        distribution and the variance of the measurement noise are calculated
+        separately.
+
+        Execution of ``utility_variance`` is faster than ``utility_variance``
+        and ``utility_pseudo`` and the decision quality is very similar to
+        ``utility_KLD``.
+
+        Returns:
+            Approximate utility as an :obj:`ndarray` with dimensions of a
+            member of :code:`allsettings`.
+        """
+        var_p = self.yvar_from_parameter_draws()
+        var_n = self.yvar_noise_model()
+        cost = self.cost_estimate()
+        utility = np.sum(np.log(1 + var_p / var_n), axis=0)
+        return utility / cost
+
+    def utility_pseudo(self):
         """
         Estimate the utility as a function of settings.
 
         Used in selecting measurement settings. The *utility* is the
         predicted benefit/cost ratio of a new measurement where the benefit
         is given in terms of a change in the information entropy of the
-        parameter distribution.  Here we use an approximation that assumes
-        Gaussian distributions.
+        parameter distribution. This algorithm
+        corresponds to the "pseudo-H algorithm" of [#f1]_, and it is included
+        here mostly for historical reasons.
+
+        In this algorithm, the idea is to mimic the :code:`utility_KLD()`
+        algorithm more closely than ``utility_variance()``. We calculate the
+        differential entropy of the model outputs produced by
+        :code:`N_DRAWS` samples
+        of the parameter distribution. We then compute the variance of a
+        normal (Gaussian) distribution that has the same information entropy.
+        This effective variance is combined with the noise variance as in
+        ``utility_variance()``.
 
         Returns:
-            utility as an :obj:`ndarray` with dimensions of a member of
-            :code:`allsettings`
+            Approximate utility as an :obj:`ndarray` with dimensions of a
+            member of :code:`allsettings`.
         """
-        var_p = self.yvar_from_parameter_draws()
-        var_n = self.y_var_noise_model()
+        var_p = self.yvar_from_entropy()
+        var_n = self.yvar_noise_model()
         cost = self.cost_estimate()
         utility = np.sum(np.log(1 + var_p / var_n), axis=0)
         return utility / cost
+
+    def utility_full_kld(self):
+        """
+        Estimate the utility as a function of settings.
+
+        Used in selecting measurement settings. The *utility* is the
+        predicted benefit/cost ratio of a new measurement where the benefit
+        is given in terms of a change in the information entropy of the
+        parameter distribution. This algorithm
+        corresponds to the "full-KLD algorithm" of [#f1]_.
+
+        Among the provided utility algorithms, ``utility_KLD`` comes closest to
+        the information-theoretic analytical result.
+
+        Returns:
+            Approximate utility as an :obj:`ndarray` with dimensions of a
+            member of :code:`allsettings`.
+        """
+
+        # randomly draw parameter samples
+        paramsets = self.randdraw(self.N_DRAWS).T
+        # model measurement noise
+        nva = rng.normal(0, 1.0, self.N_DRAWS * self.n_channels)
+        nvb = nva.reshape((self.n_channels, self.N_DRAWS))
+        noisevalues = (nvb * np.sqrt(self.yvar_noise_model())).T
+        # fill the model results for each drawn parameter set
+        for i, oneparamset in enumerate(paramsets):
+            self.utility_y_space[i] = self.eval_over_all_settings(oneparamset) \
+                                      + noisevalues[i]
+
+        y_entropy = diffent(self.utility_y_space, axis=0)
+        n_entropy = diffent(noisevalues, axis=0)
+        return y_entropy - n_entropy
 
     def opt_setting(self):
         """Find the setting with maximum predicted impact on the parameter
@@ -475,7 +698,7 @@ class OptBayesExpt(ParticlePDF):
         At what settings are we most uncertain about how an experiment will
         come out? That is where the next measurement will do the most good.
         So, we calculate model outputs for a bunch of possible model
-        parameters and see wherethe output varies the most. We use our
+        parameters and see where the output varies the most. We use our
         accumulated knowledge by drawing the possible parameters from the
         current parameter pdf.
 
@@ -496,7 +719,7 @@ class OptBayesExpt(ParticlePDF):
         self.last_setting_index = bestindex
         return tuple(bestvalues)
 
-    def good_setting(self, pickiness=1):
+    def good_setting(self, pickiness=None):
         """
         Calculate a setting with a good probability of refining the pdf
 
@@ -516,6 +739,8 @@ class OptBayesExpt(ParticlePDF):
         Returns:
             A settings tuple.
         """
+        if pickiness is None:
+            pickiness = self.pickiness
 
         utility = (self.utility()) ** pickiness
         # the exponent 'pickiness' is a tuning parameter
@@ -527,11 +752,25 @@ class OptBayesExpt(ParticlePDF):
         self.last_setting_index = goodindex
         return tuple(goodvalues)
 
-    def _model_output_len(self):
-        """Detect the number of model outputs
-
-        :return: int
+    def random_setting(self):
         """
+        Pick a random setting for the next measurement
+
+        ``random_setting()`` randomly selects a setting from all possible
+        setting combinations.
+
+        Returns:
+            A settings tuple.
+        """
+        settingindex = rng.choice(self.setting_indices)
+        one_setting = self.allsettings[:, settingindex]
+        return one_setting
+
+    def _model_output_len(self):
+        # """Detect the number of model outputs
+        #
+        # :return: int
+        # """
 
         try:
             rng = np.random.default_rng()
@@ -545,4 +784,3 @@ class OptBayesExpt(ParticlePDF):
         singleshot = self.model_function(one_setting, one_param_set, self.cons)
 
         return len(np.atleast_1d(singleshot))
-
