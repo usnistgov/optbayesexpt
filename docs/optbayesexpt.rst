@@ -1,9 +1,6 @@
 optbayesexpt API
 ================
 
-Overview
---------
-
 * :obj:`OptBayesExpt` is the core class that performs Bayesian inference
   and selects measurement settings. Typically, it is the only
   class that a user will need to interact with directly.
@@ -32,50 +29,12 @@ Overview
       samples of a distribution.
 
 
-OptBayesExpt class
-------------------
+.. toctree::
 
-.. automodule:: optbayesexpt.obe_base
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   obe_base
+   obe_noiseparam
+   obe_server
+   obe_socket
+   particlepdf
+   obe_utils
 
-OptBayesExptNoiseParam class
-----------------------------
-
-.. automodule:: optbayesexpt.obe_noiseparam
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-OBE_Server class
-----------------
-
-.. automodule:: optbayesexpt.obe_server
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-OBE_Socket class
-----------------
-
-.. automodule:: optbayesexpt.obe_socket
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-ParticlePDF class
------------------
-
-.. automodule:: optbayesexpt.particlepdf
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Utilities
----------
-
-.. automodule:: optbayesexpt.obe_utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
