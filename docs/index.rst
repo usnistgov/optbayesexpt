@@ -4,14 +4,14 @@
    contain the root `toctree` directive.
 
 
-OptBayesExpt documentation
-==========================
+OptBayesExpt: Optimmal Bayesian Experiment Design
+=================================================
 
 :Author: R.\  D.\  McMichael
 :Email: rmcmichael@nist.gov
 :Affiliation: National Institute of Standards and Technology
-:Version: 1.1.1
-:Date: May 28, 2021
+:Version: 1.2.0
+:Date: December 22, 2022
 
 Overview
 --------
@@ -86,7 +86,7 @@ Documentation
 .. :caption: Contents:
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 4
 
    quickstart
    manual
