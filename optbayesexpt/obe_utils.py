@@ -116,7 +116,9 @@ def differential_entropy(values, window_length=None, base=None,
                          axis=0, method='auto'):
     """Given a sample of a distribution, estimate the differential entropy.
 
-    This function is copied from scipy.entropy. The docstrings have been reformatted.
+    This code is copied from scipy.stats with reformatted docstrings.  When the module is
+    loaded, __init__.py attempts to import ``differential_entropy()`` from scipy.stats, and loads
+    this version from obe_utils.py if an ``ImportError`` is raised.
 
     Several estimation methods are available using the `method` parameter. By
     default, a method is selected based the size of the sample.
@@ -160,7 +162,7 @@ def differential_entropy(values, window_length=None, base=None,
         distribution, the larger the optimal value of ``window_length`` [1]_.
         The following options are available for the `method` parameter.
 
-        * ``'vasicek'`` uses the estimator presented in [1]_,[2]_. This is one of the
+        * ``'vasicek'`` uses the estimator presented in [1]_. This is one of the
           first and most influential estimators of differential entropy.
         * ``'van es'`` uses the bias-corrected estimator presented in [3]_, which
           is not only consistent but, under some conditions, asymptotically normal.
@@ -193,8 +195,8 @@ def differential_entropy(values, window_length=None, base=None,
                of sample entropy. Statistics & Probability Letters, 20(3), 225-234.
         .. [5] Correa, J. C. (1995). A new estimator of entropy. Communications
                in Statistics-Theory and Methods, 24(10), 2439-2449.
-        .. [6] Noughabi, H. A. (2015). Entropy Estimation Using Numerical Methods.
-               Annals of Data Science, 2(2), 231-241.
+        .. [6] Noughabi, H. A. (2015). Entropy Estimation Using Numerical
+               Methods. Annals of Data Science, 2(2), 231-241.
                https://link.springer.com/article/10.1007/s40745-015-0045-9
 
     """
@@ -253,7 +255,7 @@ def _pad_along_last_axis(X, m):
 
 
 def _vasicek_entropy(X, m):
-    # Compute the Vasicek estimator as described in [6] Eq. 1.3.
+    # Compute the Vasicek estimator as described in [7] Eq. 1.3.
     n = X.shape[-1]
     X = _pad_along_last_axis(X, m)
     differences = X[..., 2 * m:] - X[..., : -2 * m:]
@@ -262,7 +264,7 @@ def _vasicek_entropy(X, m):
 
 
 def _van_es_entropy(X, m):
-    # Compute the van Es estimator as described in [6].
+    # Compute the van Es estimator as described in [7].
     # No equation number, but referred to as HVE_mn.
     # Typo: there should be a log within the summation.
     n = X.shape[-1]
@@ -273,7 +275,7 @@ def _van_es_entropy(X, m):
 
 
 def _ebrahimi_entropy(X, m):
-    # Compute the Ebrahimi estimator as described in [6].
+    # Compute the Ebrahimi estimator as described in [7].
     # No equation number, but referred to as HE_mn
     n = X.shape[-1]
     X = _pad_along_last_axis(X, m)
@@ -290,7 +292,7 @@ def _ebrahimi_entropy(X, m):
 
 
 def _correa_entropy(X, m):
-    # Compute the Correa estimator as described in [6].
+    # Compute the Correa estimator as described in [7].
     # No equation number, but referred to as HC_mn
     n = X.shape[-1]
     X = _pad_along_last_axis(X, m)
