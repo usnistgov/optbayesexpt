@@ -10,8 +10,7 @@ from optbayesexpt.obe_utils import MeasurementSimulator, trace_sort
 try:
     # Try loading differential_entropy from scipy.stats
     from scipy.stats import differential_entropy
-    print('scipy.stats.differential_entropy')
 except ImportError:
     # If there are problems, use the version included in obe_utils.py
     from optbayesexpt.obe_utils import differential_entropy
-    print('obe_utils.differential_entropy')
+
