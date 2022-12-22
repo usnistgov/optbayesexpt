@@ -1,6 +1,23 @@
 Version Notes
 =============
 
+Version 1.2.0
+-------------
+
+Dec 22, 2022
+
+* Added ``utility_method`` argument and methods to ``OptBayesExpt()`` to
+  provide a choice of
+  utility algorithms featured in  R. D. McMichael and S. M. Blakley,
+  Simplified Algorithms for Adaptive Experiment Design in Parameter
+  Estimation, *Physical Review Applied* **18**, 054001 (2022).
+
+* Added ``choice_method`` argument to ``OptBayesExpt()`` to select between
+  optimal, good, and random setting selections
+
+* Added a ``differential_entropy()`` function to support new utility methods.
+  This function is used only if scipy.stats package is unable to supply it.
+
 Version 1.1.1
 -------------
 
