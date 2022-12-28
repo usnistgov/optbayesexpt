@@ -585,10 +585,12 @@ class OptBayesExpt(ParticlePDF):
 
         .. Note::
 
-            Traditionally, utility is given in terms of a change in the information entropy.
-            However, information entropy is a logarithmic quantity, and we are accustomed to
-            thinking about cost on a linear scale. To facilitate estimating benefit/cost,
-            the utility algorithms below return a 'linearized' utility: :math:`exp(U(d))`
+            Traditionally, utility is given in terms of a change in the
+            information entropy. However, information entropy is a
+            logarithmic quantity, and we are accustomed to thinking about
+            cost on a linear scale. To facilitate estimating benefit/cost,
+            the utility algorithms below return a 'linearized' utility:
+            :math:`exp(U(d))-1.0`
 
         The ``utility()`` function is a wrapper for the algorithm selected
             by the  ``utility_method`` argument.
@@ -621,7 +623,7 @@ class OptBayesExpt(ParticlePDF):
         var_n = self.yvar_noise_model()
         cost = self.cost_estimate()
         # utility_sum = np.sum(np.log(1 + var_p / var_n), axis=0)
-        utility_sum = np.sum(1 + var_p / var_n, axis=0)
+        utility_sum = np.sum(var_p / var_n, axis=0)
         return utility_sum / cost
 
     def utility_variance(self):
@@ -650,7 +652,7 @@ class OptBayesExpt(ParticlePDF):
         var_n = self.yvar_noise_model()
         cost = self.cost_estimate()
         # utility_v = np.sum(np.log(1 + var_p / var_n), axis=0)
-        utility_v = np.sum(1 + var_p / var_n, axis=0)
+        utility_v = np.sum(var_p / var_n, axis=0)
         return utility_v / cost
 
     def utility_pseudo(self):
@@ -681,7 +683,7 @@ class OptBayesExpt(ParticlePDF):
         var_n = self.yvar_noise_model()
         cost = self.cost_estimate()
         # utility_p = np.sum(np.log(1 + var_p / var_n), axis=0)
-        utility_p = np.sum(1 + var_p / var_n, axis=0)
+        utility_p = np.sum(var_p / var_n, axis=0)
         return utility_p / cost
 
     def utility_full_kld(self):
@@ -716,7 +718,7 @@ class OptBayesExpt(ParticlePDF):
         y_entropy = diffent(self.utility_y_space, axis=0)
         n_entropy = diffent(noisevalues, axis=0)
         # return y_entropy - n_entropy
-        return np.exp(y_entropy - n_entropy)
+        return np.exp(y_entropy - n_entropy) - 1.0
 
     def get_setting(self):
         """Selects settings for the next measurement.

@@ -8,7 +8,7 @@ Dec 28, 2022
 
 * Traditional information entropy based utility :math:`U (d)`, quantifies a
   measurement benefit on a logarithmic scale. In contrast, utility methods in
-  ``OptBayesExpt`` now use a linear-scale utility, :math:`\exp(U(d))` to make
+  ``OptBayesExpt`` now use a linear-scale utility, :math:`\exp(U(d))-1` to make
   benefit/cost comparisons reasonable when cost is estimated on a linear scale.
 
 * Docstrings for class attributes are being moved from the class docstring to
