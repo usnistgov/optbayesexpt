@@ -153,8 +153,10 @@ class OptBayesExptSweeper(OptBayesExptNoiseParameter):
         """
         # Find the settings with the maximum utility
         # argmax returns an array of indices into the flattened array
-        bestindex = np.argmax(self.sweep_utility())
-        return self.start_stop_indices[bestindex]
+        index = np.argmax(self.sweep_utility())
+        index_pair = self.start_stop_indices[index]
+        self.last_setting_index = index
+        return index_pair
 
     def good_setting(self):
         """
@@ -182,7 +184,10 @@ class OptBayesExptSweeper(OptBayesExptNoiseParameter):
         # the exponent 'pickiness' is a tuning parameter
 
         # choose a start, stop pair based on weight
-        return rng.choice(self.start_stop_indices, p=weight)
+        index = rng.choice(self.start_stop_choice_indices, p=weight)
+        index_pair = self.start_stop_indices[index]
+        self.last_setting_index = index
+        return index_pair
 
     def random_setting(self):
         """
@@ -194,7 +199,9 @@ class OptBayesExptSweeper(OptBayesExptNoiseParameter):
         Returns:
             A settings tuple.
         """
-        index_pair = rng.choice(self.start_stop_indices)
+        index = rng.choice(self.start_stop_choice_indices)
+        index_pair = self.start_stop_indices[index]
+        self.last_setting_index = index
         return index_pair
 
     def _generate_start_stop_indices(self):
