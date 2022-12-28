@@ -76,29 +76,21 @@ class OptBayesExptSweeper(OptBayesExptNoiseParameter):
         self.noise_parameter_index = 3
         self.cost_of_new_sweep = 5.
 
-    def pdf_update(self, measurement_record, y_model_data=None):
+    def pdf_update(self, measurement_record):
         """Performs Bayesian inference on swept measurement results.
+
+        Calls ``OptBayesExptNoiseParam.pdf_update() for each point in the sweep
 
         Args:
             measurement_record (:obj:`tuple`): A record of the measurement
                 containing an array of the settings used in the sweep and
-                the corresponding measurement values.
-            y_model_data (): arrays of model values for all parameters,
-                one array for each setting value in a sweep.  Possibly
-                calculate while the experiment is working.
+                an array of the corresponding measurement values.
         """
         # settings are always packaged in tuples
         (setting_values,), result_values = measurement_record
-        if y_model_data is None:
-            # Iterate through the settings and results, calculating y_model
-            for setting, result in zip(setting_values, result_values):
-                # # calculate the model values for all parameters
-                # # model expects setting value in a tuple
-                # y_model_data = self.eval_over_all_parameters((setting,))
-                # package the noise parameter as a sigma
-                sigma = (self.parameters[self.noise_parameter_index],)
-                measurement_package = ((setting,), result, sigma)
-                super().pdf_update(measurement_package)
+        for setting, result in zip(setting_values, result_values):
+            measurement_package = ((setting,), result)
+            super().pdf_update(measurement_package)
 
     def cost_estimate(self):
         # Assume that pointwise costs are uniform for all swept settings.
@@ -140,7 +132,6 @@ class OptBayesExptSweeper(OptBayesExptNoiseParameter):
         #
         point_utility = self.utility()
 
-        # print(point_utility)
         # indefinite integral along sweep
 
         proto_utility = np.cumsum(point_utility)
