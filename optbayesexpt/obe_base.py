@@ -154,23 +154,6 @@ class OptBayesExpt(ParticlePDF):
                  selection_method='optimal', pickiness=15,
                  default_noise_std=1.0,
                  **kwargs):
-        """ Initializes an OptBayesExpt object.
-
-        and here's more stuff for the document.
-
-        default_noise_std (:obj:`float` | :obj:`): value copied from
-            ``default_noise_std`` setting.
-
-        measurement_results (:obj:`list`): A list containing records of
-            accumulated measurement results.
-
-        last_setting_index (:obj:`int`): The most recent settings
-            recommendation as an index into ``self.allsettings``.
-
-        N_DRAWS (int): The number of parameter draws to use in the utility
-            calculation to estimate the variance of model outputs due to
-            parameter distribution.  Default: 30
-        """
 
         #: function: equal to the measurement model parameter above.
         #: with added text
@@ -801,7 +784,7 @@ class OptBayesExpt(ParticlePDF):
             A settings tuple.
         """
         settingindex = rng.choice(self.setting_indices)
-        print(settingindex)
+        self.last_setting_index = settingindex
         one_setting = self.allsettings[:, settingindex]
         return one_setting
 
