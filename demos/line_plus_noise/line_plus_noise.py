@@ -6,7 +6,7 @@ several demonstrations:
   customized class is in ``obe_line_plus_noise.py``
 - Including measurement uncertainty as an "unknown" parameter. To include
   uncertainty, we customize likelihood() and yvar_noise_model() methods.
-- Comparing setting selection strategies.  Teh output plots compare a run
+- Comparing setting selection strategies. The output plots compare a run
   using opt_setting() with runs using good_setting() and various pickiness
   parameters.
 
