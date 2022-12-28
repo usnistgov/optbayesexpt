@@ -31,9 +31,6 @@ class OptBayesExptNoiseParameter(OptBayesExpt):
             ``None``.
 
     Attributes:
-        noise_parameter_index (int): identifies which parameter
-            array contains the measurement sigma parameter.  The value may
-            be assigned after instantiation.
     """
 
     def __init__(self, model_function, setting_values, parameter_samples,
@@ -42,6 +39,7 @@ class OptBayesExptNoiseParameter(OptBayesExpt):
                               parameter_samples, constants, **kwargs)
 
         # identify the measurement noise parameter.
+        #: int: Stores the noise_parameter_index argument
         self.noise_parameter_index = noise_parameter_index
 
 
@@ -74,7 +72,6 @@ class OptBayesExptNoiseParameter(OptBayesExpt):
         Returns:
 
         """
-
         onesetting, y_meas = measurement_record[:2]
         # package sigma parameter array as uncertainty
         sigma = (self.parameters[self.noise_parameter_index],)
@@ -82,17 +79,18 @@ class OptBayesExptNoiseParameter(OptBayesExpt):
                       (self.parameters[self.noise_parameter_index],))
 
         # With a repackaged measurement record, use the pdf_update from the
-        # parent class, ``OptBayesExpt``, which is invokes using ``super()``.
+        # parent class, ``OptBayesExpt``, which is invoked using ``super()``.
         return super().pdf_update(new_record, y_model_data)
 
     def enforce_parameter_constraints(self):
-        """Constrains the noise parameter to be positive. Negative
+        """Detects and nullifies disallowed parameter values
+
+        Constrains the noise parameter to be positive. Negative
         uncertainties lead to negative likelihoods, negative particle
         weights and other abominations.
 
         Returns:
         """
-
         changes = False
         param = self.parameters[self.noise_parameter_index]
         # np.nonzero identifies negative values
@@ -109,13 +107,12 @@ class OptBayesExptNoiseParameter(OptBayesExpt):
             self.particle_weights = self.particle_weights \
                                     / np.sum(self.particle_weights)
 
-    def y_var_noise_model(self):
-        """Calculates the mean variance for noise as a parameter
+    def yvar_noise_model(self):
+        """Calculates the mean variance of noise
 
-        The self.opt_setting() and self.good_setting() methods calculate
-        utility, which depends on the relative magnitudes of variance in
-        measurement outcomes due to parameter distribution and variance due
-        to measurement noise.
+        Overwrites OptBayesExpt method, replacing
+        :code:`default_noise_std ** 2` with the mean variance calculated
+        from the noise parameter
 
         Returns: (float) average variance.
 
