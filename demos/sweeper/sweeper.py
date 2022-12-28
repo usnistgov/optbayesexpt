@@ -77,9 +77,9 @@ settings = (xvals,)
 x0_min, x0_max = (2, 4)
 x0_samples = rng.uniform(x0_min, x0_max, n_samples)
 # amplitude parameter a -- flat prior
-a_samples = rng.uniform(-2000, -400, n_samples)
+a_samples = rng.uniform(400, 2000, n_samples)
 # background parameter b -- a gaussian prior around 250000
-b_mean, b_sigma = (50000, 1000)
+b_mean, b_sigma = (500, 1000)
 b_samples = rng.normal(b_mean, b_sigma, n_samples)
 sigma_samples = rng.exponential(500, n_samples)
 # Pack the parameters into a tuple.
@@ -136,7 +136,8 @@ while iterations < n_measure:
     #     print(start, stop)
     # else:
     #     start, stop = my_obe.good_setting(pickiness=pickiness)
-    # New in v1.2.0, selection method <'optimal'|'good'|'random'> may be selected by kwarg
+    # New in v1.2.0, selection method <'optimal'|'good'|'random'> may
+    # be selected by kwarg
     start, stop = my_obe.get_setting()
 
     # simulate a measurement
