@@ -4,13 +4,24 @@ Version Notes
 Version 1.2.0
 -------------
 
+Dec 28, 2022
+
+* Traditional information entropy based utility :math:`U (d)`, quantifies a
+  measurement benefit on a logarithmic scale. In contrast, utility methods in
+  ``OptBayesExpt`` now use a linear-scale utility, :math:`\exp(U(d))` to make
+  benefit/cost comparisons reasonable when cost is estimated on a linear scale.
+
+* Docstrings for class attributes are being moved from the class docstring to
+  docstrings near the attribute definition.  This move allows an alphabetized
+  list of attribute descriptions to be generated.
+
 Dec 22, 2022
 
-* Added ``utility_method`` argument and methods to ``OptBayesExpt()`` to
-  provide a choice of
-  utility algorithms featured in  R. D. McMichael and S. M. Blakley,
-  Simplified Algorithms for Adaptive Experiment Design in Parameter
-  Estimation, *Physical Review Applied* **18**, 054001 (2022).
+* Added ``utility_method`` argument and methods to ``OptBayesExpt()``to
+  provide a choice of utility algorithms based on algorithms featured in R. D.
+  McMichael and S. M. Blakley, Simplified Algorithms for Adaptive Experiment
+  Design in Parameter Estimation, *Physical Review Applied* **18**, 054001
+  (2022).
 
 * Added ``choice_method`` argument to ``OptBayesExpt()`` to select between
   optimal, good, and random setting selections
