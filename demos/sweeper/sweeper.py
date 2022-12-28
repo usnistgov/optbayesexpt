@@ -22,7 +22,7 @@ from obe_sweeper import OptBayesExptSweeper
 # distribution.
 n_samples = 50000
 # quit measuring after n_measure individual data points
-n_measure = 1000
+n_measure = 2000
 # Setting selection method
 optimal = True        # use OptBayesExpt.opt_setting()
 # optimal = False         # use OptBayesExpt.good_setting()
@@ -94,9 +94,17 @@ constants = (dtrue,)
 
 # make an instance of OptBayesExpt
 #
-my_obe = OptBayesExptSweeper(my_model_function, settings, parameters,
-                             constants, scale=False)
-
+# New in v1.2.0, kwargs to select the utility algorithm and the selection method
+my_obe = OptBayesExptSweeper(my_model_function,
+                             settings, parameters, constants,
+                             scale=False,
+                             utility_method='variance_approx',
+                             selection_method='good', pickiness=20)
+# my_obe = OptBayesExptSweeper(my_model_function,
+#                              settings, parameters, constants,
+#                              scale=False,
+#                              utility_method='max_min',
+#                              selection_method='optimal')
 ########################################################################
 #           MEASUREMENT LOOP
 ########################################################################
@@ -104,7 +112,8 @@ my_obe = OptBayesExptSweeper(my_model_function, settings, parameters,
 # Set up measurement simulator
 #
 # Randomly select "true" parameter values for simulation
-true_pars = tuple([np.random.choice(param) for param in parameters])
+true_pars = [np.random.choice(param) for param in parameters]
+true_pars[3] = noise_level
 # MeasurementSimulator.simdata() provides simulated data
 # See optbayesexpt/obe_utils.py.
 my_sim = MeasurementSimulator(my_model_function, true_pars, constants,
@@ -120,15 +129,18 @@ iterations = 0
 while iterations < n_measure:
 
     # determine settings for the measurement
-    # OptBayesExpt does Bayesian experimental design
-    if optimal:
-        start, stop = my_obe.opt_setting()
-    else:
-        start, stop = my_obe.good_setting(pickiness=pickiness)
 
-    sweep_x_values = xvals[start : stop]
-    print(len(sweep_x_values))
+    # pre v1.2.0, call the selection method directly
+    # if optimal:
+    #     start, stop = my_obe.opt_setting()
+    #     print(start, stop)
+    # else:
+    #     start, stop = my_obe.good_setting(pickiness=pickiness)
+    # New in v1.2.0, selection method <'optimal'|'good'|'random'> may be selected by kwarg
+    start, stop = my_obe.get_setting()
+
     # simulate a measurement
+    sweep_x_values = xvals[start: stop]
     ymeasure = my_sim.simdata((sweep_x_values,))
     [xdata.append(x) for x in sweep_x_values]
     [ydata.append(y) for y in ymeasure]
@@ -143,6 +155,16 @@ while iterations < n_measure:
     sig.append(sigma[0])
     iterations += len(sweep_x_values)
     iter_trace.append(iterations)
+    print(iterations, start, stop)
+
+means = my_obe.mean()
+stds = my_obe.std()
+labels =('x0', 'a', 'b', 'sigma')
+
+print()
+print('Results:')
+for l, t, m, s in zip(labels, true_pars, means, stds):
+    print(f'{l:>5s} = {t:9.3f}; measured {m:9.3f} +/- {s:7.3f}')
 
 ########################################################################
 #          PLOTTING
