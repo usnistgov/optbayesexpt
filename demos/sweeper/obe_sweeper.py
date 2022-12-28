@@ -4,7 +4,7 @@ try:
     rng = np.random.default_rng()
 except AttributeError:
     rng = np.random
-
+import matplotlib.pyplot as plt
 
 class OptBayesExptSweeper(OptBayesExptNoiseParameter):
     """ An OptBayesExpt class for instruments that sweep a parameter
@@ -65,16 +65,16 @@ class OptBayesExptSweeper(OptBayesExptNoiseParameter):
 
     def __init__(self, model_function, setting_values, parameter_samples,
                  constants, **kwargs):
-        OptBayesExptNoiseParameter.__init__(self, model_function, setting_values,
-                                  parameter_samples, constants, **kwargs)
-
-        self.noise_parameter_index = 3
-
+        OptBayesExptNoiseParameter.__init__(self, model_function,
+                setting_values, parameter_samples, constants, **kwargs)
         self.sweep_settings = setting_values[0]
-        self.cost_of_new_sweep = 5.
         self.start_stop_subsample = 3
         self.start_stop_indices = self._generate_start_stop_indices()
+        self.start_stop_choice_indices = np.arange(len(self.start_stop_indices), dtype=int)
         self.start_stop_values = self.sweep_settings[self.start_stop_indices]
+
+        self.noise_parameter_index = 3
+        self.cost_of_new_sweep = 5.
 
     def pdf_update(self, measurement_record, y_model_data=None):
         """Performs Bayesian inference on swept measurement results.
@@ -101,6 +101,10 @@ class OptBayesExptSweeper(OptBayesExptNoiseParameter):
                 super().pdf_update(measurement_package)
 
     def cost_estimate(self):
+        # Assume that pointwise costs are uniform for all swept settings.
+        return 1.0
+
+    def sweep_cost_estimate(self):
         """
         Estimate the cost of measurements, depending on settings
 
@@ -116,7 +120,7 @@ class OptBayesExptSweeper(OptBayesExptNoiseParameter):
         return self.start_stop_indices[:, 1] - self.start_stop_indices[:, 0] \
             + self.cost_of_new_sweep
 
-    def utility(self):
+    def sweep_utility(self):
         """
         Estimate the utility as a function of settings.
 
@@ -130,42 +134,38 @@ class OptBayesExptSweeper(OptBayesExptNoiseParameter):
             utility as an :obj:`ndarray` with dimensions of a member of
             :code:`allsettings`
         """
-        var_p = self.yvar_from_parameter_draws()
-        var_n = self.y_var_noise_model()
-        cost = self.cost_estimate()
+        # var_p = self.yvar_from_parameter_draws()
+        # var_n = self.y_var_noise_model()
+        cost = self.sweep_cost_estimate()
+        #
+        point_utility = self.utility()
 
-        point_utility = np.log(1 + var_p / var_n)
+        # print(point_utility)
         # indefinite integral along sweep
+
         proto_utility = np.cumsum(point_utility)
         # evaluate indefinite integral at ends
         ends = proto_utility[self.start_stop_indices]
         # utility integral between start and stop
-        utility = (ends[:, 1] - ends[:, 0]) / cost
-
-        return utility
+        utility_s = (ends[:, 1] - ends[:, 0]) / cost
+        return utility_s
 
     def opt_setting(self):
-        """Find the setting with maximum predicted impact on the parameter
-        distribution.
+        """Find the setting with maximum utility
 
-        At what settings are we most uncertain about how an experiment will
-        come out? That is where the next measurement will do the most good.
-        So, we calculate model outputs for a bunch of possible model
-        parameters and see wherethe output varies the most. We use our
-        accumulated knowledge by drawing the possible parameters from the
-        current parameter pdf.
+        Calls :code:`utility()` for an estimate of the benfit/cost ratio for
+        all allowed settings (i.e. start, stop combinations), and returns the
+        settings corresponding to the maximum utility.
 
         Returns:
             A settings tuple.
         """
-        exp_utility = self.utility()
-
         # Find the settings with the maximum utility
         # argmax returns an array of indices into the flattened array
-        bestindex = np.argmax(exp_utility)
+        bestindex = np.argmax(self.sweep_utility())
         return self.start_stop_indices[bestindex]
 
-    def good_setting(self, pickiness=1):
+    def good_setting(self):
         """
         Calculate a setting with a good probability of refining the pdf
 
@@ -186,12 +186,25 @@ class OptBayesExptSweeper(OptBayesExptNoiseParameter):
             A settings tuple.
         """
 
-        util = self.utility() ** pickiness
+        util = self.sweep_utility() ** self.pickiness
         weight = util / np.sum(util)
         # the exponent 'pickiness' is a tuning parameter
 
         # choose a start, stop pair based on weight
         return rng.choice(self.start_stop_indices, p=weight)
+
+    def random_setting(self):
+        """
+        Pick a random setting for the next measurement
+
+        ``random_setting()`` randomly selects a setting from all possible
+        setting combinations.
+
+        Returns:
+            A settings tuple.
+        """
+        index_pair = rng.choice(self.start_stop_indices)
+        return index_pair
 
     def _generate_start_stop_indices(self):
         """Creates valid [start, stop] index combinations
