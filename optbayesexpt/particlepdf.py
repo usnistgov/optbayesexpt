@@ -26,13 +26,14 @@ class ParticlePDF:
         narrow, and it may not include the "true" parameter values. See the
         ``resample()`` method documentation for details.
 
-    Args:
-        prior (:obj:`2D array-like`): The Bayesian *prior*, which initializes the
-            :obj:`ParticlePDF` distribution. Each of ``n_dims`` sub-arrays
-            contains ``n_particles`` values of a single parameter, so that
-            the *j*\ _th elements of the sub-arrays determine the coordinates
-            of a point in parameter space. Users are encouraged to experiment
-            with different ``n_particles`` sizes to assure consistent results.
+    Arguments:
+        prior (:obj:`2D array-like`):
+            The Bayesian *prior*, which initializes the :obj:`ParticlePDF`
+            distribution. Each of ``n_dims`` sub-arrays contains
+            ``n_particles`` values of a single parameter, so that the *j*\
+            _th elements of the sub-arrays determine the coordinates of a
+            point in parameter space. Users are encouraged to experiment with
+            different ``n_particles`` sizes to assure consistent results.
 
     Keyword Args:
         a_param: (float) In resampling, determines the scale of random
@@ -66,75 +67,72 @@ class ParticlePDF:
 
         use_jit (:obj:`bool`): Allows precompilation of some methods for a
             modest increase in speed.  Only effective on systems where
-            ``numba`` is installed.
+            ``numba`` is installed. Default ``True``
 
-    Attributes:
-        n_dims (int): The number of parameters, i.e. the dimensionality of
-            parameter space.  Determined from the leading dimension of
-            ``prior``.
-
-        n_particles (int): the number of parameter samples representing the
-            probability distribution.  Determined from the trailing dimension
-            of ``prior``.
-
-        particles (ndarray): The ``n_particles`` samples from the
-            probability distribution. Its initial value is ``prior``.
-
-        particle_weights (ndarray): Array of n_particles probability weights
-            corresponding to the particles.
-
-        tuning_parameters (dict): A :obj:`dict` of parameters affecting the
-            resampling algorithm
-
-            - ``'a_param'`` (:obj:`float`): Initially, the value of the
-              ``a_param`` keyword argument.  Default ``0.98``
-
-            - ``'scale'`` (:obj:`bool`): Initially, the value of the
-              ``scale`` keyword argument. Default ``True``
-
-            - ``'resample_threshold'`` (:obj:`float`):  Initially,
-              the value of the ``resample_threshold`` keyword argument.
-              Default ``0.5``.
-
-            - ``'auto_resample'`` (:obj:`bool`): Initially, the value of the
-              ``auto_resample`` keyword argument. Default ```True``.
-
-        just_resampled (:obj:`bool`): A flag set by the
-            ``resample_test()`` function.  ``True`` if the last call
-            to ``resample_test()`` resulted in resampling, else ``False``.
-
-
-    Methods:
+    **Attributes:**
     """
 
     def __init__(self, prior, a_param=0.98, resample_threshold=0.5,
                  auto_resample=True, scale=True, use_jit=True):
 
+        #: dict: A package of parameters affecting the resampling algorithm
+        #:
+        #:     - ``'a_param'`` (:obj:`float`): Initially, the value of the
+        #:       ``a_param`` keyword argument.  Default ``0.98``
+        #:
+        #:     - ``'scale'`` (:obj:`bool`): Initially, the value of the
+        #:       ``scale`` keyword argument. Default ``True``
+        #:
+        #:     - ``'resample_threshold'`` (:obj:`float`):  Initially,
+        #:       the value of the ``resample_threshold`` keyword argument.
+        #:       Default ``0.5``.
+        #:
+        #:     - ``'auto_resample'`` (:obj:`bool`): Initially, the value of the
+        #:       ``auto_resample`` keyword argument. Default ``True``.
         self.tuning_parameters = {'a_param': a_param,
                                   'resample_threshold': resample_threshold,
                                   'auto_resample': auto_resample,
                                   'scale': scale}
 
+        #: ``n_dims x n_particles ndarray`` of ``float64``: Together with
+        #: ``particle_weights``,#: these ``n_particles`` points represent
+        #: the parameter probability distribution. Initialized by the
+        #: ``prior`` argument.
         self.particles = np.asarray(prior)
+
+        #: ``int``: the number of parameter samples representing the
+        #: probability distribution. Determined from the trailing dimension
+        #: of ``prior``.
         self.n_particles = self.particles.shape[-1]
+
+        #: ``int``: The number of parameters, i.e. the dimensionality of
+        #: parameter space. Determined from the leading dimension of ``prior``.
         self.n_dims = self.particles.shape[0]
+
+        #: ``ndarray`` of ``int``: Indices into the particle arrays.
         self._particle_indices = np.arange(self.n_particles, dtype='int')
 
+        #: ndarray of ``float64``: Array of probability weights
+        #: corresponding to the particles.
         self.particle_weights = np.ones(self.n_particles) / self.n_particles
+
+        #: ``bool``: A flag set by the ``resample_test()`` function. ``True`` if
+        #: the last ``bayesian_update()`` resulted in resampling,
+        #: else ``False``.
         self.just_resampled = False
 
-        # precompile some numerical functions for speed
-        # multiplication
+        # Precompile numerically intensive functions for speed
+        # and overwrite _normalized_product() method.
         if GOT_NUMBA and use_jit:
             @njit([float64[:](float64[:], float64[:])], cache=True)
-            def _normalized_product(wgts, lkl):
+            def _proto_normalized_product(wgts, lkl):
                 tmp = wgts * lkl
                 return tmp / np.sum(tmp)
         else:
-            def _normalized_product(wgts, lkl):
+            def _proto_normalized_product(wgts, lkl):
                 tmp = wgts * lkl
                 return tmp / np.sum(tmp)
-        self._normalized_product = _normalized_product
+        self._normalized_product = _proto_normalized_product
 
         try:
             self.rng = np.random.default_rng()
@@ -310,13 +308,12 @@ class ParticlePDF:
         Returns:
             An ``n_dims`` x ``N_DRAWS`` :obj:`ndarray` of parameter draws.
         """
-
         # draws = self.rng.choice(self.particles, size=n_draws,
         # p=self.particle_weights, axis=1)
         draws = np.zeros((self.n_dims, n_draws))
 
-        indices = self.rng.choice(self._particle_indices, size=n_draws,\
-                                p=self.particle_weights)
+        indices = self.rng.choice(self._particle_indices, size=n_draws,
+                                  p=self.particle_weights)
 
         for i, param in enumerate(self.particles):
             # for j, selected_index in enumerate(indices):
@@ -325,6 +322,20 @@ class ParticlePDF:
 
         return draws
 
+    @staticmethod
+    def _normalized_product(weight_array, likelihood_array):
+        """multiplies two arrays and normalizes the result.
+
+        Functionality is added by overwriting in __init__().
+        Precompiled by numba if available and if `use_jit = True`.
+
+        Args:
+            weight_array (``ndarray``): typically particle weights
+            likelihood_array(``ndarray``: typically likelihoods
+
+        Returns: a probability ``np.array`` with sum = 1.
+        """
+        pass
 
 # end ParticlePDF definition
 
