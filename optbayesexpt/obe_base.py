@@ -43,7 +43,7 @@ class OptBayesExpt(ParticlePDF):
     flexibility.  Examples in the ``demos`` folder show several extensions
     including unknown noise, and setting-dependent costs.
 
-    Args:
+    Arguments:
         measurement_model (:obj:`function`): Evaluates the experimental model
             from (:code:`settings`, :code:`parameters`, :code:`constants`)
             arguments, returning single values or arrays depending on the
@@ -79,7 +79,6 @@ class OptBayesExpt(ParticlePDF):
             that are held constant belong in the :code:`constants` array.
 
         parameter_samples (:obj:`tuple` of :obj:`ndarray`):
-
             In a simple example model, :math:`y = m * x + b`, the parameters
             are :math:`m` and :math:`b`. Each array in the
             :code:`parameter_samples` tuple contains samples from the *prior*
@@ -96,6 +95,7 @@ class OptBayesExpt(ParticlePDF):
             are rarely changed, and model parameters that are well-known
             from previous measurement results.
 
+    Keyword Args:
         n_draws (:obj:`int`): specifies the number of parameter samples used
             in the utility calculation.  Default 30.
 
@@ -145,7 +145,7 @@ class OptBayesExpt(ParticlePDF):
 
         \*\*kwargs: Keyword arguments passed to the parent ParticlePDF class.
 
-    Attributes:
+    **Attributes:**
     """
 
     def __init__(self, measurement_model, setting_values, parameter_samples,
@@ -159,7 +159,7 @@ class OptBayesExpt(ParticlePDF):
         #: with added text
         self.model_function = measurement_model
 
-        #: :obj:`tuple` of :obj:`ndarray`: A record of the setting_values
+        #: :obj:`tuple` of :obj:`ndarray`: A record  of the setting_values
         #: argument.
         self.setting_values = setting_values
 
