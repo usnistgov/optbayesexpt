@@ -132,7 +132,7 @@ class OptBayesExpt(ParticlePDF):
             this parameter affects the probability of picking a setting near a
             maximum in the utilty function. Default 15.
 
-        default_noise_std (:obj:`float` -or- ``ndarray``):
+        default_noise_std (:obj:`float` or :obj:`ndarray`):
             Measurement noise standard deviation used in utility
             calculations.  If ``float``, the value populates entries of a
             :math:`n_{channels} \\times 1` ``ndarray`` where :math:`n_{
@@ -140,8 +140,7 @@ class OptBayesExpt(ParticlePDF):
             e.g. 2 if data is collected from :math:`X` and :math:`Y` outputs
             of an instrument. If  :math:`n_{channels} \\times 1` ``ndarray``,
             entries are noise standard deviations corresponding to the
-            measurement channels. For cases where the measurement noise
-            depends on settings, the
+            measurement channels. 
 
         \*\*kwargs: Keyword arguments passed to the parent ParticlePDF class.
 
@@ -221,7 +220,7 @@ class OptBayesExpt(ParticlePDF):
 
         self.utility_y_space = np.array([])
         self.set_n_draws(n_draws)
-        #: ``float`` or ``n_channels`` array: A noise level estimate used in
+        #: :obj:`ndarray`: A noise level estimate for each channel used in
         #: setting selection used by ``y_var_noise_model()``.
         self.default_noise_std = np.ones((self.n_channels, 1)) * \
                                  default_noise_std
