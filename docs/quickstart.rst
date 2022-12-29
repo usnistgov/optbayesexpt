@@ -36,7 +36,7 @@ Using zip,
     4. Move into the unzipped directory/folder
         - ``> cd optbayesexpt-master``  on linux
         - On Windows, click into unipped folder, e.g. ``optbayesexpt-master``
-        and then File --> Open Windows Power Shell.
+          and then File --> Open Windows Power Shell.
 
 Installation
 ------------

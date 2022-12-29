@@ -15,9 +15,10 @@ Dec 28, 2022
   docstrings near the attribute definition.  This move allows an alphabetized
   list of attribute descriptions to be generated.
 
+
 Dec 22, 2022
 
-* Added ``utility_method`` argument and methods to ``OptBayesExpt()``to
+* Added ``utility_method`` argument and methods to ``OptBayesExpt()`` to
   provide a choice of utility algorithms based on algorithms featured in R. D.
   McMichael and S. M. Blakley, Simplified Algorithms for Adaptive Experiment
   Design in Parameter Estimation, *Physical Review Applied* **18**, 054001
@@ -46,7 +47,7 @@ May 27, 2021
 
 * Implemented just-in-timme (jit) compilation of some of the most
   time-consuming methods using the ``numba`` package.  Execution time
-  was shortend by 20 % to 40 %.  A new demo program was added to highlight
+  was shortened by 20 % to 40 %.  A new demo program was added to highlight
   these capabilities.
 
   Since ``numba`` is

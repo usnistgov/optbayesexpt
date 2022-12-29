@@ -86,7 +86,7 @@ Documentation
 .. :caption: Contents:
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 3
 
    quickstart
    manual

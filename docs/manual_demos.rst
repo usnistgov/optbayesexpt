@@ -105,8 +105,8 @@ covariance matrix. For both methods, the peak
 height, background level and peak center are treated as unknowns, and
 the half-width line width is fixed at 0.3.
 
-Server
-~~~~~~
+External experiment control
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Files:
     - ``demos/instrument_controller.py``
@@ -134,8 +134,8 @@ separate process.  Then, the controller performs three measurement runs,
 each with a differently configured OptBayesExpt object.  The flowchart of
 one such run is shown in the figure.
 
-Tuning a :math:`\pi` pulse
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Tuning a pi pulse
+~~~~~~~~~~~~~~~~~
 
 Files:
     - ``demos/pipulse/pipulse.py``
