@@ -40,6 +40,7 @@ extensions = ['sphinx.ext.autodoc',
 
 toc_object_entries_show_parents = 'hide'
 napoleon_include_private_with_doc = False
+napoleon_custom_sections = [('Arguments', 'params_style'),]
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
