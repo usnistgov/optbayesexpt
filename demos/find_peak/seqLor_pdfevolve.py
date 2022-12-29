@@ -92,9 +92,10 @@ Atrue = np.random.choice(A_samples)  # pick a random Amplitude
 Btrue = np.random.choice(B_samples)  # pick a random Background
 dtrue = np.random.choice(d_samples)  # pick a random width
 true_pars = (x0true, Atrue, Btrue, dtrue)
+noise_level = 0.1
 
 sim = obe.MeasurementSimulator(my_model_function, true_pars, cons,
-                                   noise_level=1.0)
+                                   noise_level=noise_level)
 
 """ 
 THE ANIMATION 
@@ -211,7 +212,7 @@ def myframes():
             xmeas = myOBE.good_setting(pickiness=pickiness)
         ymeas = sim.simdata(xmeas)
         """ report the measurement back in order to update """
-        result = (xmeas, ymeas, 1)
+        result = (xmeas, ymeas, noise_level)
         myOBE.pdf_update(result)
 
         xdata.append(xmeas)
