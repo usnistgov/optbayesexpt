@@ -60,7 +60,7 @@ class OptBayesExptSweeper(OptBayesExptNoiseParameter):
                 cost = (stop_index - start_index) + cost_of_new_sweep.
 
             Here (stop_index - start_index) models the time spent in a
-            proposed sweep.
+            proposed sweep
 
         start_stop_subsample (:obj:`int`): Allows the start and stop values
             to have a lower resolution than the swept parameter. In the
