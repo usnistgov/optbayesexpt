@@ -99,12 +99,14 @@ my_obe = OptBayesExptSweeper(my_model_function,
                              settings, parameters, constants,
                              scale=False,
                              utility_method='variance_approx',
-                             selection_method='good', pickiness=20)
+                             selection_method='good', pickiness=20,
+                             noise_parameter_index=3)
 # my_obe = OptBayesExptSweeper(my_model_function,
 #                              settings, parameters, constants,
 #                              scale=False,
 #                              utility_method='max_min',
-#                              selection_method='optimal')
+#                              selection_method='optimal',
+#                              noise_parameter_index=3)
 ########################################################################
 #           MEASUREMENT LOOP
 ########################################################################

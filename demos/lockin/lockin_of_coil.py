@@ -187,7 +187,7 @@ params = (L_samples, R_samples, C_samples, sigma_samples)
 cons = ()
 
 coil_obe = OptBayesExptLockinCleanParams(coil_model, sets, params, cons,
-                                scale=False, noise_parameter_index=3,
+                                scale=False, noise_parameter_index=(3,3),
                                 cost_of_changing_setting=cost_of_moving)
 # Here, scale=False is a keyword argument that the class definition lumps
 # into **kwargs and passes to OptBayesExptNoiseParam, which passes it to

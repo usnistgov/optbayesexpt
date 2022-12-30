@@ -45,15 +45,22 @@ class OptBayesExptSweeper(OptBayesExptNoiseParameter):
             are rarely changed, and model parameters that are well-known
             from previous measurement results.
 
+        noise_parameter_index (int or tuple): identifies which of the arrays
+            in the ``paramter_samples`` input are uncertainty parameters.
+            For multi-channel measurements, the tuple identifies uncertainty
+            parameters corresponding to measurement channels. In cases where
+            channels have the same noise characteristics, indices may be
+            repeated in the tuple.
+
     Attributes:
 
         cost_of_new_sweep (:obj:`float`):
-            The cost of a sweep is modeled as::
+            The cost of setting up a new sweep. The total cost is modeled as::
 
                 cost = (stop_index - start_index) + cost_of_new_sweep.
 
-            ``cost_of_new_sweep`` is relative to the cost of one measurement
-            in a sweep.
+            Here (stop_index - start_index) models the time spent in a
+            proposed sweep.
 
         start_stop_subsample (:obj:`int`): Allows the start and stop values
             to have a lower resolution than the swept parameter. In the
@@ -64,16 +71,16 @@ class OptBayesExptSweeper(OptBayesExptNoiseParameter):
     """
 
     def __init__(self, model_function, setting_values, parameter_samples,
-                 constants, **kwargs):
+                 constants, noise_parameter_index, **kwargs):
         OptBayesExptNoiseParameter.__init__(self, model_function,
-                setting_values, parameter_samples, constants, **kwargs)
+                setting_values, parameter_samples, constants,
+                noise_parameter_index, **kwargs)
         self.sweep_settings = setting_values[0]
         self.start_stop_subsample = 3
         self.start_stop_indices = self._generate_start_stop_indices()
         self.start_stop_choice_indices = np.arange(len(self.start_stop_indices), dtype=int)
         self.start_stop_values = self.sweep_settings[self.start_stop_indices]
 
-        self.noise_parameter_index = 3
         self.cost_of_new_sweep = 5.
 
     def pdf_update(self, measurement_record):
