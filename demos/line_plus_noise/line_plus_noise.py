@@ -75,8 +75,8 @@ cons = ()
 # create an instance
 #
 my_obe = OptBayesExptNoiseParameter(model_function, sets, pars, cons,
-                                    scale=False)
-my_obe.noise_parameter_index = 2
+                                    scale=False,
+                                    noise_parameter_index=2)
 
 ########################################################################
 #           MEASUREMENTS
