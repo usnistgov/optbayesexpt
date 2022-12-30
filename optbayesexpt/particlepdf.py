@@ -1,8 +1,10 @@
 import numpy as np
-from optbayesexpt import GOT_NUMBA
 
-if GOT_NUMBA:
+GOT_NUMBA = True
+try:
     from numba import njit, float64
+except ImportError:
+    GOT_NUMBA = False
 
 
 class ParticlePDF:

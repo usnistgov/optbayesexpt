@@ -2,7 +2,6 @@ __author__ = 'Bob McMichael'
 
 import numpy as np
 
-from optbayesexpt import GOT_NUMBA
 from optbayesexpt import ParticlePDF
 
 try:
@@ -10,8 +9,11 @@ try:
 except ImportError:
     from optbayesexpt.obe_utils import differential_entropy as diffent
 
-if GOT_NUMBA:
+GOT_NUMBA = True
+try:
     from numba import njit
+except ImportError:
+    GOT_NUMBA = False
 
 rng = np.random.default_rng()
 DEFAULT_N_DRAWS = 30
@@ -154,6 +156,8 @@ class OptBayesExpt(ParticlePDF):
                  selection_method='optimal', pickiness=15,
                  default_noise_std=1.0,
                  **kwargs):
+        ParticlePDF.__init__(self, parameter_samples, use_jit=use_jit,
+                             **kwargs)
 
         #: function: equal to the measurement model parameter above.
         #: with added text
@@ -173,9 +177,6 @@ class OptBayesExpt(ParticlePDF):
         #: :obj:`ndarray` of :obj:`int`: indices in to the allsettings
         #: arrays. Used in#: ``opt_setting()`` and ``good_setting()``.
         self.setting_indices = np.arange(len(self.allsettings[0]), dtype=int)
-
-        ParticlePDF.__init__(self, parameter_samples, use_jit=use_jit,
-                             **kwargs)
 
         #: :obj:`ndarray` of :obj:`ndarray`: The most recently set of
         #: parameter samples the parameter distribution. ``self.parameters``

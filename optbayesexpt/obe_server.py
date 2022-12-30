@@ -1,6 +1,7 @@
 from optbayesexpt.obe_socket import Socket
 import numpy as np
 
+
 class OBE_Server(Socket):
     """A TCP socket interface for OptBayesExpt using JSON strings
 

@@ -1,11 +1,6 @@
 from optbayesexpt.obe_base import OptBayesExpt
-from optbayesexpt import GOT_NUMBA
-import numpy as np
 
-if GOT_NUMBA:
-    # from numba import njit, float64
-    pass
-    # there's not a lot of computation in this code.
+import numpy as np
 
 
 class OptBayesExptNoiseParameter(OptBayesExpt):
