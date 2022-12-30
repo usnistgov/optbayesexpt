@@ -6,8 +6,13 @@ import os
 with open(os.path.join(os.getcwd(), 'README.md'), "r") as f:
     long_description = f.read()
 
-setup(name='optbayesexpt',
-      version='1.2.0',
+# Fetches package details from constants.py file
+# name, version, author, url, author_email
+with open('optbayesexpt/constants.py') as f:
+    exec(f.read())
+
+setup(name=name,
+      version=version,
       description="Optimal Bayesian Experimental Design",
       long_description=long_description,
       classifiers=[
@@ -25,8 +30,8 @@ setup(name='optbayesexpt',
       setup_requires=['pytest-runner'],
       tests_require=['pytest'],
       keywords='bayesian measurement physics experimental design',
-      url='https://github.com/usnistgov/optbayesexpt/',
-      author='Bob McMichael',
-      author_email='rmcmichael@nist.gov',
+      url=url,
+      author=author,
+      author_email=author_email,
       packages=find_packages()
       )
