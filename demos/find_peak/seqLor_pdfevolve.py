@@ -92,7 +92,7 @@ Atrue = np.random.choice(A_samples)  # pick a random Amplitude
 Btrue = np.random.choice(B_samples)  # pick a random Background
 dtrue = np.random.choice(d_samples)  # pick a random width
 true_pars = (x0true, Atrue, Btrue, dtrue)
-noise_level = 0.1
+noise_level = 1.0
 
 sim = obe.MeasurementSimulator(my_model_function, true_pars, cons,
                                    noise_level=noise_level)
