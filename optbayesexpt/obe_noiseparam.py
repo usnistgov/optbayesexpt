@@ -9,95 +9,71 @@ if GOT_NUMBA:
 
 
 class OptBayesExptNoiseParameter(OptBayesExpt):
-    """Sequential Bayesian experiment design for with measurement
-    uncertainty as random parameters to estimate.
+    """OptBayesExpt adding measurement uncertainty as an unknown parameter.
 
     OptBayesExptNoiseParameter is designed for cases where the experimental
-    uncertainty is an unknown, and the standard deviation of the measurement
-    noise as one of the parameters.
+    uncertainty / standard deviation of the measurement noise is an unknown.
+    The standard deviation of the measurement
+    noise is included as one of the parameters.
+    The methods rely on several assumptions:
 
-    Args:
-        model_function (function): the experimental model.  Function
-            must accept (settings, parameters, constants) arguments and
-            return arrays (or ``n``-tuples of arrays for ``n``-channel cases)
-            corresponding to input dimensions.
-        setting_values (tuple of arrays): the allowed setting values.
+        - The noise in measurement data is well-described by additive,
+          normally-distributed (Gaussian) noise.
+        - The noise is independent of settings and other parameters.
+
+    Arguments:
+        measurement_model (function): A function accepting (settings,
+            parameters, constants) arguments and returning model values of
+            experiment outputs. See the ``model_function`` arg of
+            ``OptBayesExpt``.
+        setting_values (tuple of arrays): Arrays of allowed values for each
+            setting.  See the ``setting_values`` arg of ``OptBayesExpt``.
         parameter_samples (tuple of arrays): random draws of each model
             parameter representing the prior probability distribution.
-        constants (tuple): settings or parameters that are assumed constant
-            for the duration of the measurement.
-        noise_parameter_index (int): identifies which of the arrays in the
-            ``paramter_samples`` input is the uncertainty parameter. Default
-            ``None``.
+            See the ``parameter_samples`` arg of ``OptBayesExpt``. One of the
+            parameter_sample arrays must be the standard deviation of the
+            measurement noise, idendified by the ``noise_parameter_index`` arg.
+        constants (tuple): settings or parameters that are assumed constant.
+            See the ``constants`` arg of ``OptBayesExpt``.
+        noise_parameter_index (int or tuple): identifies which of the arrays
+            in the ``paramter_samples`` input are uncertainty parameters.
+            For multi-channel measurements, the tuple identifies uncertainty
+            parameters corresponding to measurement channels. In cases where
+            channels have the same noise characteristics, indices may be
+            repeated in the tuple.
 
-    Attributes:
+        \*\*kwargs: Keyword arguments passed to the parent classes.
+
+    **Attributes:**
     """
 
-    def __init__(self, model_function, setting_values, parameter_samples,
+    def __init__(self, measurement_model, setting_values, parameter_samples,
                  constants, noise_parameter_index=None, **kwargs):
-        OptBayesExpt.__init__(self, model_function, setting_values,
+        OptBayesExpt.__init__(self, measurement_model, setting_values,
                               parameter_samples, constants, **kwargs)
 
         # identify the measurement noise parameter.
         #: int: Stores the noise_parameter_index argument
-        self.noise_parameter_index = noise_parameter_index
-
-
-    def pdf_update(self, measurement_record, y_model_data=None):
-        """
-        Refines the parameters' probability distribution function given a
-        measurement result.
-
-        Incorporates a measurement result, allowing for measurement
-        uncertainty as random variable to be estimated.  Packages
-        measurement_record with the noise parameter array as the third
-        element of the  measurement_record and calls
-        OptBayesExpt.pdf_update() to calculate likelihood and generate a
-        *posterior* parameter distribution.
-
-        Args:
-            measurement_record (:obj:`tuple`): A record of the measurement
-                containing at least the settings and the measured value(s).
-                The first element of ``measurement_record`` gets passed as a
-                settings tuple to ``evaluate_over_all_parameters()`` The
-                entire ``measurement_result`` tuple gets forwarded to
-                ``likelihood()``.
-
-            y_model_data (:obj:`ndarray`): The result of
-                :code:`self.eval_over_all_parameters()` This argument allows
-                model evaluation to run before measurement data is
-                available, e.g. while measurements are being made. Default =
-                ``None``.
-
-        Returns:
-
-        """
-        onesetting, y_meas = measurement_record[:2]
-        # package sigma parameter array as uncertainty
-        sigma = (self.parameters[self.noise_parameter_index],)
-        new_record = (onesetting, y_meas,
-                      (self.parameters[self.noise_parameter_index],))
-
-        # With a repackaged measurement record, use the pdf_update from the
-        # parent class, ``OptBayesExpt``, which is invoked using ``super()``.
-        return super().pdf_update(new_record, y_model_data)
+        self.noise_parameter_index = np.atleast_1d(noise_parameter_index)
+        if len(self.noise_parameter_index) != self.n_channels:
+            raise RuntimeError(f'noise_parameter_index is not compatible with'
+                               f' {self.n_channels} measurement channels')
 
     def enforce_parameter_constraints(self):
         """Detects and nullifies disallowed parameter values
 
         Constrains the noise parameter to be positive. Negative
         uncertainties lead to negative likelihoods, negative particle
-        weights and other abominations.
-
-        Returns:
+        weights and other abominations. Overwrites the ``OptBayesExpt`` stub
+        method.
         """
         changes = False
-        param = self.parameters[self.noise_parameter_index]
         # np.nonzero identifies negative values
-        bad_ones, = np.nonzero(param <= 0)
-        if len(bad_ones) > 0:
-            changes = True
-            self.particle_weights[bad_ones] = 0
+        for param in self.parameters[self.noise_parameter_index]:
+            bad_ones, = np.nonzero(param <= 0)
+            if len(bad_ones) > 0:
+                changes = True
+                self.particle_weights[bad_ones] = 0
         #
         #  other parameter checks may be added here
         #
@@ -107,17 +83,59 @@ class OptBayesExptNoiseParameter(OptBayesExpt):
             self.particle_weights = self.particle_weights \
                                     / np.sum(self.particle_weights)
 
-    def yvar_noise_model(self):
-        """Calculates the mean variance of noise
+    def likelihood(self, y_model, measurement_record):
+        """
+        Calculates the likelihood of a measurement result.
 
-        Overwrites OptBayesExpt method, replacing
-        :code:`default_noise_std ** 2` with the mean variance calculated
-        from the noise parameter
+        For each parameter combination, estimate the probability of
+        obtaining the results provided in :code:`measurement_result`.
+
+        Under these assumptions, and model values :math:`y_{model}` as a
+        function of parameters, the likelihood is a Gaussian function
+        proportional to :math:`\sigma^{-1} \exp [-(y_{model} - y_{meas})^2
+        / (2 \sigma^2)]`.
+
+        Args:
+            y_model (:obj:`ndarray`): ``model_function()`` results evaluated
+                for all parameters.
+            measurement_record (:obj:`tuple`): The measurement conditions
+                and results, supplied by the user to ``update_pdf()``. The
+                first two elements of ``measurement_record`` are:
+
+                    - settings (tuple)
+                    - measurement value (float or tuple)
+
+                further entries in the measurement_record are ignored.
+
+        Returns:
+            an array of probabilities corresponding to the parameters in
+            :code:`self.allparameters`.
+        """
+        # unpack the measurement_record
+        onesetting, y_meas = measurement_record[:2]
+        lky = 1.0
+        sigma = self.parameters[self.noise_parameter_index]
+        for y_m, y, s in zip(y_model,
+                             np.atleast_1d(y_meas), sigma):
+            lky *= self._gauss_noise_likelihood(y_m, y, s)
+
+        if self.choke is not None:
+            return np.power(lky, self.choke)
+        else:
+            return lky
+
+    def yvar_noise_model(self):
+        """Calculates the mean variance from the noise parameter.
+
+        Overwrites OptBayesExpt method, replacing :code:`default_noise_std **
+        2` with the mean variance calculated from the noise parameter. Used
+        in calculating utility.
 
         Returns: (float) average variance.
-
         """
         # square the sigma samples
         sigma_squared = self.parameters[self.noise_parameter_index] ** 2
         # weighted average
-        return np.average(sigma_squared, weights=self.particle_weights)
+        yvars = np.average(sigma_squared, weights=self.particle_weights,
+                          axis=1)
+        return yvars.reshape((self.n_channels, 1))
