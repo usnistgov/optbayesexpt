@@ -23,7 +23,7 @@ where the computation time was spent.  Important column headings include:
 
 import numpy as np
 import matplotlib.pyplot as plt
-from optbayesexpt import OptBayesExpt, MeasurementSimulator, GOT_NUMBA
+from optbayesexpt import OptBayesExpt, MeasurementSimulator
 import cProfile
 from pstats import Stats
 
@@ -33,14 +33,17 @@ use_jit = True
 # use_jit = False
 #####################################################
 
-if GOT_NUMBA:
+GOT_NUMBA = True
+try:
     from numba import njit, float64
-else:
+except ImportError as msg:
+    GOT_NUMBA = False   # and that's a problem.
+    print(msg)
     print("The numbaLorentzian.py demo requires the numba package.")
-    print("To install numba, issue one of the following commands:")
+    print("Hint:")
     print("> pip install numba")
     print(" -- or, for the Anaconda distribution --")
-    print("> conda intstall numba")
+    print("> conda install numba")
     exit(1)
 
 ########################################################################
@@ -138,7 +141,7 @@ settings = (xvals,)
 x0_min, x0_max = (2, 4)
 x0_samples = rng.uniform(x0_min, x0_max, n_samples)
 # amplitude parameter a -- flat prior
-a_samples = rng.uniform(-400, -2000, n_samples)
+a_samples = rng.uniform(-2000, -400, n_samples)
 # background parameter b -- a gaussian prior around 250000
 b_mean, b_sigma = (50000, 1000)
 b_samples = rng.normal(b_mean, b_sigma, n_samples)
