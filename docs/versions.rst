@@ -3,6 +3,17 @@ Version Notes
 
 Version 1.2.0
 -------------
+Dec 30, 2022
+
+* Changes the strategy for including the noise parameter in data analysis in
+  the ``OptBayesExptNoiseParameter()`` class. Previously, ``pdf_update()``
+  packaged the noise parameter samples with measurement_results, which worked,
+  but wasn't intuitive. In the new version, the noise parameter samples are
+  introduced in the likelihood() function.  Additionally, the
+  ``noise_parameter_index`` is now a required argument, and the class is
+  fully compatible with multiple measurement channels.
+
+* Corrects lockin_of_coil and sweeper demos
 
 Dec 28, 2022
 
@@ -14,7 +25,6 @@ Dec 28, 2022
 * Docstrings for class attributes are being moved from the class docstring to
   docstrings near the attribute definition.  This move allows an alphabetized
   list of attribute descriptions to be generated.
-
 
 Dec 22, 2022
 
