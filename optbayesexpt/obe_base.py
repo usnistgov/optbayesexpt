@@ -33,11 +33,12 @@ class OptBayesExpt(ParticlePDF):
     interpretation of new data and either ``OptBayesExpt.opt_setting()`` or
     ``OptBayesExpt.good_setting()`` for calculation of effective settings.
 
-    Instances of OptBayesExpt itself may be used for cases where
+    Instances of OptBayesExpt may be used for cases where
 
     #. Reported measurement data includes measurement uncertainty,
     #. Every measurement is assumed to cost the same amount.
-    #. The measurement noise is assumed to be constant
+    #. The measurement noise is assumed to be constant, independent of
+       parameters and settings.
 
     OptBayesExpt may be inherited by child classes to allow additional
     flexibility.  Examples in the ``demos`` folder show several extensions
@@ -339,26 +340,41 @@ class OptBayesExpt(ParticlePDF):
         Refines the parameters' probability distribution function given a
         measurement result.
 
-        This is the measurement result input method. An implementation of
-        Bayesian inference, uses the model to calculate the ikelihood of
-        obtaining the measurement result :code:`ymeas` as a function of
+        This is where measurement results are entered. An implementation of
+        Bayesian inference, uses the model to calculate the likelihood of
+        obtaining the measurement result as a function of
         parameter values, and uses that likelihood to generate a refined
         *posterior* ( after-measurement) distribution from the *prior* (
-        pre-measurement) distribution.
+        pre-measurement) parameter distribution.
+
+        Warning:
+
+            ``OptBayesExpt`` requires the input data to contain good
+            estimates of measurement uncertainty.  The uncertainty values
+            entered here can influence both mean values and widths of the
+            inferred parameter distribution. When measurement uncertainty is
+            not well-known, ``OptBayesExptNoiseParameter`` is recommended to
+            determine measurement uncertainty from the measured values.
 
         Args:
-            measurement_record (:obj:`tuple`): A record of the measurement
-                containing at least the settings and the measured value(s).
-                The first element of ``measurement_record`` gets passed as a
-                settings tuple to ``evaluate_over_all_parameters()`` The
-                entire ``measurement_result`` tuple gets forwarded to
-                ``likelihood()``.
+            measurement_record (:obj:`tuple`): The measurement conditions
+                and results, supplied by the user to ``update_pdf()``. The
+                elements of ``measurement_record`` are:
+
+                    - settings (tuple): the settings used for the
+                        measurement. May be different from the requested
+                        settings.
+                    - measurement result (float or tuple) Use a tuple for
+                        multi-channel measurements
+                    - std uncertainty (float or tuple) An uncertainty
+                        estimate for the measurement result.
 
             y_model_data (:obj:`ndarray`): The result of
                 :code:`self.eval_over_all_parameters()` This argument allows
                 model evaluation to run before measurement data is
                 available, e.g. while measurements are being made. Default =
                 ``None``.
+
         """
         # unpack the measurement result
         onesetting = measurement_record[0]
@@ -402,12 +418,11 @@ class OptBayesExpt(ParticlePDF):
         Calculates the likelihood of a measurement result.
 
         For each parameter combination, estimate the probability of
-        obtaining the results provided in :code:`measurement_result`.  This
+        obtaining the results provided in :code:`measurement_record`.  This
         default method relies on several assumptions:
 
-        - A single measurement yields a single value :math:`y_{meas}`
-        - The uncertainty in that value is well-described by additive
-          Gaussian noise.
+        - The uncertainty in measurement results is well-described by
+          normally-distributed (Gaussian) noise.
         - The the standard deviation of the noise, :math:`\sigma` is known.
 
         Under these assumptions, and model values :math:`y_{model}` as a
@@ -423,8 +438,8 @@ class OptBayesExpt(ParticlePDF):
                 elements of ``measurement_record`` are:
 
                     - settings (tuple)
-                    - measurement value (float)
-                    - std uncertainty (float)
+                    - measurement value (float or tuple)
+                    - std uncertainty (float or tuple)
 
         Returns:
             an array of probabilities corresponding to the parameters in
