@@ -118,7 +118,8 @@ class OptBayesExpt(ParticlePDF):
         utility_method (:obj:`string`)
             [``'variance_approx'`` | ``'pseudo_utility'`` |
             ``'full_kld_utility'`` | ``'max_min'``]:  Specifies the utility
-            algorithm as described in [#f1]_. Default ``'variance_approx'``.
+            algorithm as described in [#f1]_. With ``'max_min'``,
+            n_draws=2 is recommended. Default ``'variance_approx'``.
 
         selection_method (:obj:`string`)
             [``'optimal'`` | ``'good'`` | ``'random'``]:
