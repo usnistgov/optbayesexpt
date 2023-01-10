@@ -110,8 +110,11 @@ def test_run_obes():
     # start the script
     cwd = os.getcwd()
     server_script = os.path.join(cwd, "tests", "server_script_61983.py")
-    server_pipe = Popen(['python', server_script], cwd=cwd)
-
+    # server_pipe = Popen(['python', server_script], cwd=cwd)
+    try:
+        server_pipe = Popen(['python3', server_script])
+    except FileNotFoundError:
+        server_pipe = Popen(['python', server_script])
     sock = Socket('client', port=61983)
 
     # test initial weights
