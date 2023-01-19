@@ -1,14 +1,5 @@
 """
-This test suite doesn't work
-
-test_run_gets(), test_run_obes() and test_run_pdf() are all intended to test
-different commands that are parsed by the OBE_Server.run() method.
-
-I was trying to launch server_script_nnnnn.py as servers running in
-subprocesses. The tests work if run from this test/ directory.  However
-py.test runs from the root directory (..), and I
-found that the these server scripts were having trouble finding
-optbayesexpt.
+Tests OBE_Server, but relies on OptBayesExpt and Socket
 """
 import numpy as np
 from numpy.testing import assert_array_equal, assert_array_almost_equal
@@ -23,7 +14,7 @@ def fakefunc(sets, pars, cons):
     return a + b * x
 
 
-def setup(port=61981):
+def setup(portno=61981):
     """Starts an empty OBE_Server()
 
     Args:
@@ -36,7 +27,9 @@ def setup(port=61981):
     cons = ()
 
     initial_args = (fakefunc, settings, pars, cons)
-    an_obe = OBE_Server(initial_args=initial_args, port=port)
+    # using port=port as a kwwarg raises errors - maybe a name conflict
+    # using an explicit port address here avoids problems.
+    an_obe = OBE_Server(initial_args=initial_args, port=61981)
 
     return an_obe
 
