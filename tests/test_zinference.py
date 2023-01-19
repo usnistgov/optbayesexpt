@@ -114,8 +114,12 @@ def test_experiment():
         if do_a_run():
             passes += 1
 
-    assert 92 < passes < 98, f'{passes} out of {n_runs} inference tests ' \
-                             f'fall in 95 % credible interval. \nExpected '\
-                               '95 with standard deviation 2.1'
+    assert 92 < passes < 98, f'We ran {n_runs} inference tests, expecting ' \
+                             f'95 with standard deviation 2.1 to pass by ' \
+                             f'yielding a result in the 95 % credible ' \
+                             f'interval. In this {n_runs} tests, {passes} ' \
+                             f'passed.'
+
+
 
 
