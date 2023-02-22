@@ -4,9 +4,10 @@ Quick Start
 Software Requirements
 ---------------------
 
-python3.X with
+python3.X with the following packages:
     - numpy
-    - scipy (for some demos)
+    - numba is recommended for faster execution
+    - scipy is recommended
     - matplotlib.pyplot (for demos)
     - pytest (for testing)
 
@@ -33,10 +34,10 @@ Using zip,
     2. From the green Code button, select Download zip from the drop down
        menu.
     3. Unzip the optbayesexpt-master.zip file.
-    4. Move into the unzipped directory/folder
+    4. Move into the unzipped directory/folder. This is your source directory.
         - ``> cd optbayesexpt-master``  on linux
         - On Windows, click into unipped folder, e.g. ``optbayesexpt-master``
-        and then File --> Open Windows Power Shell.
+          and then File --> Open Windows Power Shell.
 
 Installation
 ------------
@@ -60,11 +61,16 @@ Some systems may use ``python3`` instead of ``python``.
 Testing
 -------
 
-Test the installation for basic functionality with the following command:
+Optional testing for basic functionality requires the
+pytest module. From the source directory:
 
 ::
 
-    > py.test
+    > python -m pytest
+
+Note that ``test_zinference.py`` script is a statistical test, and is not
+expected to pass every time.  An error message of the form ``"AssertionError:
+We ran 100 inference tests ..."`` does not necessarily indicate a problem.
 
 Scripting
 ---------

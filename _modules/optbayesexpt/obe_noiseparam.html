@@ -1,18 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>optbayesexpt.obe_noiseparam &#8212; OptBayesExpt 1.1.0 documentation</title>
-    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>optbayesexpt.obe_noiseparam &#8212; OptBayesExpt 1.2.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 
@@ -56,8 +57,9 @@ $(document).ready(function(){
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">optbayesexpt.obe_noiseparam</a></li> 
       </ul>
     </div>  
 
@@ -67,106 +69,77 @@ $(document).ready(function(){
           <div class="body" role="main">
             
   <h1>Source code for optbayesexpt.obe_noiseparam</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">.obe_base</span> <span class="kn">import</span> <span class="n">OptBayesExpt</span>
-<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">GOT_NUMBA</span>
+<span></span><span class="kn">from</span> <span class="nn">optbayesexpt.obe_base</span> <span class="kn">import</span> <span class="n">OptBayesExpt</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="k">if</span> <span class="n">GOT_NUMBA</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span><span class="p">,</span> <span class="n">float64</span>
 
-
-<div class="viewcode-block" id="OptBayesExptNoiseParameter"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter">[docs]</a><span class="k">class</span> <span class="nc">OptBayesExptNoiseParameter</span><span class="p">(</span><span class="n">OptBayesExpt</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sequential Bayesian experiment design for with measurement</span>
-<span class="sd">    uncertainty as random parameters to estimate.</span>
+<div class="viewcode-block" id="OptBayesExptNoiseParameter"><a class="viewcode-back" href="../../obe_noiseparam.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter">[docs]</a><span class="k">class</span> <span class="nc">OptBayesExptNoiseParameter</span><span class="p">(</span><span class="n">OptBayesExpt</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;OptBayesExpt adding measurement uncertainty as an unknown parameter.</span>
 
 <span class="sd">    OptBayesExptNoiseParameter is designed for cases where the experimental</span>
-<span class="sd">    uncertainty is an unknown, and the standard deviation of the measurement</span>
-<span class="sd">    noise as one of the parameters.</span>
+<span class="sd">    uncertainty / standard deviation of the measurement noise is an unknown.</span>
+<span class="sd">    The standard deviation of the measurement</span>
+<span class="sd">    noise is included as one of the parameters.</span>
+<span class="sd">    The methods rely on several assumptions:</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        model_function (function): the experimental model.  Function</span>
-<span class="sd">            must accept (settings, parameters, constants) arguments and</span>
-<span class="sd">            return arrays (or ``n``-tuples of arrays for ``n``-channel cases)</span>
-<span class="sd">            corresponding to input dimensions.</span>
-<span class="sd">        setting_values (tuple of arrays): the allowed setting values.</span>
+<span class="sd">        - The noise in measurement data is well-described by additive,</span>
+<span class="sd">          normally-distributed (Gaussian) noise.</span>
+<span class="sd">        - The noise is independent of settings and other parameters.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        measurement_model (function): A function accepting (settings,</span>
+<span class="sd">            parameters, constants) arguments and returning model values of</span>
+<span class="sd">            experiment outputs. See the ``model_function`` arg of</span>
+<span class="sd">            ``OptBayesExpt``.</span>
+<span class="sd">        setting_values (tuple of arrays): Arrays of allowed values for each</span>
+<span class="sd">            setting.  See the ``setting_values`` arg of ``OptBayesExpt``.</span>
 <span class="sd">        parameter_samples (tuple of arrays): random draws of each model</span>
 <span class="sd">            parameter representing the prior probability distribution.</span>
-<span class="sd">        constants (tuple): settings or parameters that are assumed constant</span>
-<span class="sd">            for the duration of the measurement.</span>
-<span class="sd">        noise_parameter_index (int): identifies which of the arrays in the</span>
-<span class="sd">            ``paramter_samples`` input is the uncertainty parameter. Default</span>
-<span class="sd">            ``None``.</span>
+<span class="sd">            See the ``parameter_samples`` arg of ``OptBayesExpt``. One of the</span>
+<span class="sd">            parameter_sample arrays must be the standard deviation of the</span>
+<span class="sd">            measurement noise, idendified by the ``noise_parameter_index`` arg.</span>
+<span class="sd">        constants (tuple): settings or parameters that are assumed constant.</span>
+<span class="sd">            See the ``constants`` arg of ``OptBayesExpt``.</span>
+<span class="sd">        noise_parameter_index (int or tuple): identifies which of the arrays</span>
+<span class="sd">            in the ``paramter_samples`` input are uncertainty parameters.</span>
+<span class="sd">            For multi-channel measurements, the tuple identifies uncertainty</span>
+<span class="sd">            parameters corresponding to measurement channels. In cases where</span>
+<span class="sd">            channels have the same noise characteristics, indices may be</span>
+<span class="sd">            repeated in the tuple.</span>
 
-<span class="sd">    Attributes:</span>
-<span class="sd">        noise_parameter_index (int): identifies which parameter</span>
-<span class="sd">            array contains the measurement sigma parameter.  The value may</span>
-<span class="sd">            be assigned after instantiation.</span>
+<span class="sd">        \*\*kwargs: Keyword arguments passed to the parent classes.</span>
+
+<span class="sd">    **Attributes:**</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_function</span><span class="p">,</span> <span class="n">setting_values</span><span class="p">,</span> <span class="n">parameter_samples</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measurement_model</span><span class="p">,</span> <span class="n">setting_values</span><span class="p">,</span> <span class="n">parameter_samples</span><span class="p">,</span>
                  <span class="n">constants</span><span class="p">,</span> <span class="n">noise_parameter_index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">OptBayesExpt</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_function</span><span class="p">,</span> <span class="n">setting_values</span><span class="p">,</span>
+        <span class="n">OptBayesExpt</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measurement_model</span><span class="p">,</span> <span class="n">setting_values</span><span class="p">,</span>
                               <span class="n">parameter_samples</span><span class="p">,</span> <span class="n">constants</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="c1"># identify the measurement noise parameter.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">noise_parameter_index</span> <span class="o">=</span> <span class="n">noise_parameter_index</span>
+        <span class="c1">#: int: Stores the noise_parameter_index argument</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">noise_parameter_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">noise_parameter_index</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_parameter_index</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;noise_parameter_index is not compatible with&#39;</span>
+                               <span class="sa">f</span><span class="s1">&#39; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="si">}</span><span class="s1"> measurement channels&#39;</span><span class="p">)</span>
 
+<div class="viewcode-block" id="OptBayesExptNoiseParameter.enforce_parameter_constraints"><a class="viewcode-back" href="../../obe_noiseparam.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.enforce_parameter_constraints">[docs]</a>    <span class="k">def</span> <span class="nf">enforce_parameter_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Detects and nullifies disallowed parameter values</span>
 
-<div class="viewcode-block" id="OptBayesExptNoiseParameter.pdf_update"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.pdf_update">[docs]</a>    <span class="k">def</span> <span class="nf">pdf_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measurement_record</span><span class="p">,</span> <span class="n">y_model_data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Refines the parameters&#39; probability distribution function given a</span>
-<span class="sd">        measurement result.</span>
-
-<span class="sd">        Incorporates a measurement result, allowing for measurement</span>
-<span class="sd">        uncertainty as random variable to be estimated.  Packages</span>
-<span class="sd">        measurement_record with the noise parameter array as the third</span>
-<span class="sd">        element of the  measurement_record and calls</span>
-<span class="sd">        OptBayesExpt.pdf_update() to calculate likelihood and generate a</span>
-<span class="sd">        *posterior* parameter distribution.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            measurement_record (:obj:`tuple`): A record of the measurement</span>
-<span class="sd">                containing at least the settings and the measured value(s).</span>
-<span class="sd">                The first element of ``measurement_record`` gets passed as a</span>
-<span class="sd">                settings tuple to ``evaluate_over_all_parameters()`` The</span>
-<span class="sd">                entire ``measurement_result`` tuple gets forwarded to</span>
-<span class="sd">                ``likelihood()``.</span>
-
-<span class="sd">            y_model_data (:obj:`ndarray`): The result of</span>
-<span class="sd">                :code:`self.eval_over_all_parameters()` This argument allows</span>
-<span class="sd">                model evaluation to run before measurement data is</span>
-<span class="sd">                available, e.g. while measurements are being made. Default =</span>
-<span class="sd">                ``None``.</span>
-
-<span class="sd">        Returns:</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">onesetting</span><span class="p">,</span> <span class="n">y_meas</span> <span class="o">=</span> <span class="n">measurement_record</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
-        <span class="c1"># package sigma parameter array as uncertainty</span>
-        <span class="n">sigma</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_parameter_index</span><span class="p">],)</span>
-        <span class="n">new_record</span> <span class="o">=</span> <span class="p">(</span><span class="n">onesetting</span><span class="p">,</span> <span class="n">y_meas</span><span class="p">,</span>
-                      <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_parameter_index</span><span class="p">],))</span>
-
-        <span class="c1"># With a repackaged measurement record, use the pdf_update from the</span>
-        <span class="c1"># parent class, ``OptBayesExpt``, which is invokes using ``super()``.</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">pdf_update</span><span class="p">(</span><span class="n">new_record</span><span class="p">,</span> <span class="n">y_model_data</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="OptBayesExptNoiseParameter.enforce_parameter_constraints"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.enforce_parameter_constraints">[docs]</a>    <span class="k">def</span> <span class="nf">enforce_parameter_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Constrains the noise parameter to be positive. Negative</span>
+<span class="sd">        Constrains the noise parameter to be positive. Negative</span>
 <span class="sd">        uncertainties lead to negative likelihoods, negative particle</span>
-<span class="sd">        weights and other abominations.</span>
-
-<span class="sd">        Returns:</span>
+<span class="sd">        weights and other abominations. Overwrites the ``OptBayesExpt`` stub</span>
+<span class="sd">        method.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="n">changes</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_parameter_index</span><span class="p">]</span>
         <span class="c1"># np.nonzero identifies negative values</span>
-        <span class="n">bad_ones</span><span class="p">,</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">param</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bad_ones</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">changes</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span><span class="p">[</span><span class="n">bad_ones</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_parameter_index</span><span class="p">]:</span>
+            <span class="n">bad_ones</span><span class="p">,</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">param</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bad_ones</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">changes</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span><span class="p">[</span><span class="n">bad_ones</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="c1">#</span>
         <span class="c1">#  other parameter checks may be added here</span>
         <span class="c1">#</span>
@@ -176,23 +149,65 @@ $(document).ready(function(){
             <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span> \
                                     <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OptBayesExptNoiseParameter.y_var_noise_model"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.y_var_noise_model">[docs]</a>    <span class="k">def</span> <span class="nf">y_var_noise_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Calculates the mean variance for noise as a parameter</span>
+<div class="viewcode-block" id="OptBayesExptNoiseParameter.likelihood"><a class="viewcode-back" href="../../obe_noiseparam.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.likelihood">[docs]</a>    <span class="k">def</span> <span class="nf">likelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_model</span><span class="p">,</span> <span class="n">measurement_record</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the likelihood of a measurement result.</span>
 
-<span class="sd">        The self.opt_setting() and self.good_setting() methods calculate</span>
-<span class="sd">        utility, which depends on the relative magnitudes of variance in</span>
-<span class="sd">        measurement outcomes due to parameter distribution and variance due</span>
-<span class="sd">        to measurement noise.</span>
+<span class="sd">        For each parameter combination, estimate the probability of</span>
+<span class="sd">        obtaining the results provided in :code:`measurement_result`.</span>
+
+<span class="sd">        Under these assumptions, and model values :math:`y_{model}` as a</span>
+<span class="sd">        function of parameters, the likelihood is a Gaussian function</span>
+<span class="sd">        proportional to :math:`\sigma^{-1} \exp [-(y_{model} - y_{meas})^2</span>
+<span class="sd">        / (2 \sigma^2)]`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            y_model (:obj:`ndarray`): ``model_function()`` results evaluated</span>
+<span class="sd">                for all parameters.</span>
+<span class="sd">            measurement_record (:obj:`tuple`): The measurement conditions</span>
+<span class="sd">                and results, supplied by the user to ``update_pdf()``. The</span>
+<span class="sd">                first two elements of ``measurement_record`` are:</span>
+
+<span class="sd">                    - settings (tuple)</span>
+<span class="sd">                    - measurement value (float or tuple)</span>
+
+<span class="sd">                further entries in the measurement_record are ignored.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            an array of probabilities corresponding to the parameters in</span>
+<span class="sd">            :code:`self.allparameters`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># unpack the measurement_record</span>
+        <span class="n">onesetting</span><span class="p">,</span> <span class="n">y_meas</span> <span class="o">=</span> <span class="n">measurement_record</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">lky</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_parameter_index</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">y_m</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">y_model</span><span class="p">,</span>
+                             <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">y_meas</span><span class="p">),</span> <span class="n">sigma</span><span class="p">):</span>
+            <span class="n">lky</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gauss_noise_likelihood</span><span class="p">(</span><span class="n">y_m</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">choke</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">lky</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">choke</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lky</span></div>
+
+<div class="viewcode-block" id="OptBayesExptNoiseParameter.yvar_noise_model"><a class="viewcode-back" href="../../obe_noiseparam.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.yvar_noise_model">[docs]</a>    <span class="k">def</span> <span class="nf">yvar_noise_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculates the mean variance from the noise parameter.</span>
+
+<span class="sd">        Overwrites OptBayesExpt method, replacing :code:`default_noise_std **</span>
+<span class="sd">        2` with the mean variance calculated from the noise parameter. Used</span>
+<span class="sd">        in calculating utility.</span>
 
 <span class="sd">        Returns: (float) average variance.</span>
-
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># square the sigma samples</span>
         <span class="n">sigma_squared</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_parameter_index</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="c1"># weighted average</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">sigma_squared</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span><span class="p">)</span></div></div>
+        <span class="n">yvars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">sigma_squared</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span><span class="p">,</span>
+                          <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">yvars</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span></div></div>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -202,12 +217,12 @@ $(document).ready(function(){
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -221,13 +236,14 @@ $(document).ready(function(){
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">optbayesexpt.obe_noiseparam</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

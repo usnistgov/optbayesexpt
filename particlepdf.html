@@ -1,0 +1,456 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ParticlePDF class &#8212; OptBayesExpt 1.2.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Utilities" href="obe_utils.html" />
+    <link rel="prev" title="OBE_Socket class" href="obe_socket.html" />
+
+    <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+
+<script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Mark external (non-nist.gov) A tags with class "external"
+  //If the adress start with https and ends with nist.gov
+  var re_nist = new RegExp('^https?:\/\/((^\/)*\.)*nist\\.gov(\/|$)');
+  //Regex to find address that start with https
+  var re_absolute_address = new RegExp('^((https?:)?\/\/)');
+  $("a").each(function(){
+    var url=$(this).attr('href');
+    if(re_nist.test(url) || !re_absolute_address.test(url)){
+      $(this).addClass('local');
+    }else{
+      //This a href appears to be external, so tag it
+      $(this).addClass('external');
+    }
+  });
+  // Add leaveNotice to external A elements
+  $('a.external').leaveNotice();
+});
+</script>
+<link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+<script async type="text/javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=NIST&subagency=github&pua=UA-42404149-54&yt=true&exts=ppsx,pps,f90,sch,rtf,wrl,txz,m1v,xlsm,msi,xsd,f,tif,eps,mpg,xml,pl,xlt,c">
+</script>
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="obe_utils.html" title="Utilities"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="obe_socket.html" title="OBE_Socket class"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="optbayesexpt.html" accesskey="U">optbayesexpt API</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">ParticlePDF class</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-optbayesexpt.particlepdf">
+<span id="particlepdf-class"></span><h1>ParticlePDF class<a class="headerlink" href="#module-optbayesexpt.particlepdf" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optbayesexpt.particlepdf.</span></span><span class="sig-name descname"><span class="pre">ParticlePDF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prior</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_param</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.98</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resample_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_resample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_jit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A probability distribution function.</p>
+<p>A probability distribution <span class="math notranslate nohighlight">\(P(\theta_0, \theta_1, \ldots,
+\theta_{n\_dims})\)</span> over parameter variables <span class="math notranslate nohighlight">\(\theta_i\)</span> is
+represented by a large-ish number of samples from the distribution,
+each with a weight value.  The distribution can be visualized as a cloud
+of particles in parameter space, with each particle corresponding to a
+weighted random draw from the distribution.  The methods implemented
+here largely follow the algorithms published in Christopher E Granade et
+al. 2012 <em>New J. Phys.</em> <strong>14</strong> 103013.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The number of samples (i.e. particles) required for good performance
+will depend on the application.  Too many samples will slow down the
+calculations, but too few samples can produce incorrect results.
+With too few samples, the probability distribution can become overly
+narrow, and it may not include the “true” parameter values. See the
+<code class="docutils literal notranslate"><span class="pre">resample()</span></code> method documentation for details.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments</dt>
+<dd class="field-odd"><p><strong>prior</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">2D</span> <span class="pre">array-like</span></code>) – The Bayesian <em>prior</em>, which initializes the <a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF" title="optbayesexpt.particlepdf.ParticlePDF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ParticlePDF</span></code></a>
+distribution. Each of <code class="docutils literal notranslate"><span class="pre">n_dims</span></code> sub-arrays contains
+<code class="docutils literal notranslate"><span class="pre">n_particles</span></code> values of a single parameter, so that the <em>j</em>            _th elements of the sub-arrays determine the coordinates of a
+point in parameter space. Users are encouraged to experiment with
+different <code class="docutils literal notranslate"><span class="pre">n_particles</span></code> sizes to assure consistent results.</p>
+</dd>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>a_param</strong> – (float) In resampling, determines the scale of random
+diffusion relative to the distribution covariance.  After
+weighted sampling, some parameter values may have been
+chosen multiple times. To make the new distribution smoother,
+the parameters are given small ‘nudges’, random displacements
+much smaller than the overall parameter distribution, but with
+the same shape as the overall distribution.  More precisely,
+the covariance of the nudge distribution is <code class="code docutils literal notranslate"><span class="pre">(1</span> <span class="pre">-</span>
+<span class="pre">a_param</span> <span class="pre">**</span> <span class="pre">2)</span></code> times the covariance of the parameter distribution.
+Default <code class="docutils literal notranslate"><span class="pre">0.98</span></code>.</p></li>
+<li><p><strong>scale</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>) – determines whether resampling includes a
+contraction of the parameter distribution toward the
+distribution mean.  The idea of this contraction is to
+compensate for the overall expansion of the distribution
+that is a by-product of random displacements.  If true,
+parameter samples (particles) move a fraction <code class="docutils literal notranslate"><span class="pre">a_param</span></code> of
+the distance to the distribution mean.  Default is <code class="docutils literal notranslate"><span class="pre">True</span></code>,
+but <code class="docutils literal notranslate"><span class="pre">False</span></code> is recommended.</p></li>
+<li><p><strong>resample_threshold</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>) – Sets a threshold for automatic
+resampling. Resampling is triggered when the effective fraction of
+particles, <span class="math notranslate nohighlight">\(1 / (N\sum_i^N w_i^2)\)</span>, is smaller than
+<code class="docutils literal notranslate"><span class="pre">resample_threshold</span></code>.  Default <code class="docutils literal notranslate"><span class="pre">0.5</span></code>.</p></li>
+<li><p><strong>auto_resample</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>) – Determines whether threshold testing and
+resampling are performed when <code class="docutils literal notranslate"><span class="pre">bayesian_update()</span></code> is called.
+Default <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p><strong>use_jit</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>) – Allows precompilation of some methods for a
+modest increase in speed.  Only effective on systems where
+<code class="docutils literal notranslate"><span class="pre">numba</span></code> is installed. Default <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Attributes:</strong></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.bayesian_update">
+<span class="sig-name descname"><span class="pre">bayesian_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">likelihood</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.bayesian_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.bayesian_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Bayesian update on the probability distribution.</p>
+<p>Multiplies <code class="docutils literal notranslate"><span class="pre">particle_weights</span></code> by the <code class="docutils literal notranslate"><span class="pre">likelihood</span></code> and
+renormalizes the probability
+distribution.  After the update, the distribution is tested for
+resampling depending on
+<code class="docutils literal notranslate"><span class="pre">self.tuning_parameters['auto_resample']</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>likelihood</strong> – (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>):  An <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> sized array
+describing the Bayesian likelihood of a measurement result
+calculated for each parameter combination.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.covariance">
+<span class="sig-name descname"><span class="pre">covariance</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.covariance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.covariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the covariance of the probability distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The covariance of the parameter distribution as an
+<code class="docutils literal notranslate"><span class="pre">n_dims</span></code> X <code class="docutils literal notranslate"><span class="pre">n_dims</span></code> array. See also <a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.mean" title="optbayesexpt.particlepdf.ParticlePDF.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean()</span></code></a> and
+<a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.std" title="optbayesexpt.particlepdf.ParticlePDF.std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">std()</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.just_resampled">
+<span class="sig-name descname"><span class="pre">just_resampled</span></span><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.just_resampled" title="Permalink to this definition">¶</a></dt>
+<dd><p>A flag set by the <code class="docutils literal notranslate"><span class="pre">resample_test()</span></code> function. <code class="docutils literal notranslate"><span class="pre">True</span></code> if
+the last <code class="docutils literal notranslate"><span class="pre">bayesian_update()</span></code> resulted in resampling,
+else <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.mean">
+<span class="sig-name descname"><span class="pre">mean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the mean of the probability distribution.</p>
+<p>The weighted mean of the parameter distribution. See also
+<a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.std" title="optbayesexpt.particlepdf.ParticlePDF.std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">std()</span></code></a> and <a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.covariance" title="optbayesexpt.particlepdf.ParticlePDF.covariance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">covariance()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Size <code class="docutils literal notranslate"><span class="pre">n_dims</span></code> array.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.n_dims">
+<span class="sig-name descname"><span class="pre">n_dims</span></span><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.n_dims" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of parameters, i.e. the dimensionality of
+parameter space. Determined from the leading dimension of <code class="docutils literal notranslate"><span class="pre">prior</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.n_particles">
+<span class="sig-name descname"><span class="pre">n_particles</span></span><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.n_particles" title="Permalink to this definition">¶</a></dt>
+<dd><p>the number of parameter samples representing the
+probability distribution. Determined from the trailing dimension
+of <code class="docutils literal notranslate"><span class="pre">prior</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.particle_weights">
+<span class="sig-name descname"><span class="pre">particle_weights</span></span><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.particle_weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of probability weights
+corresponding to the particles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>ndarray of <code class="docutils literal notranslate"><span class="pre">float64</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.particles">
+<span class="sig-name descname"><span class="pre">particles</span></span><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.particles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Together with
+<code class="docutils literal notranslate"><span class="pre">particle_weights</span></code>,#: these <code class="docutils literal notranslate"><span class="pre">n_particles</span></code> points represent
+the parameter probability distribution. Initialized by the
+<code class="docutils literal notranslate"><span class="pre">prior</span></code> argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">n_dims</span> <span class="pre">x</span> <span class="pre">n_particles</span> <span class="pre">ndarray</span></code> of <code class="docutils literal notranslate"><span class="pre">float64</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.randdraw">
+<span class="sig-name descname"><span class="pre">randdraw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_draws</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.randdraw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.randdraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides random parameter draws from the distribution</p>
+<p>Particles are selected randomly with probabilities given by
+<code class="docutils literal notranslate"><span class="pre">self.particle_weights</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n_draws</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – the number of draws requested.  Default
+<code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An <code class="docutils literal notranslate"><span class="pre">n_dims</span></code> x <code class="docutils literal notranslate"><span class="pre">N_DRAWS</span></code> <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code> of parameter draws.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.resample">
+<span class="sig-name descname"><span class="pre">resample</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.resample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.resample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a resampling of the distribution.</p>
+<p>Resampling refreshes the random draws that represent the probability
+distribution.  As Bayesian updates are made, the weights of
+low-probability particles can become very small.  These particles
+consume memory and computation time, and they contribute little to
+values that are determined from the distribution.  Resampling
+abandons some low-probability particles while allowing
+high-probability particles to multiply in higher-probability regions.</p>
+<p><em>Sample impoverishment</em> can occur if there are too few particles. In
+this phenomenon, a resampling step fails to sample particles from an
+important, but low-probability region, effectively removing that
+region from future consideration. The symptoms of this <code class="docutils literal notranslate"><span class="pre">sample</span>
+<span class="pre">impoverishment</span></code> phenomenon include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Inconsistent results from repeated runs.  Standard deviations
+from individual final distributions will be too small to
+explain the spread of individual mean values.</p></li>
+<li><p>Sudden changes in the standard deviations or other measures of
+the distribution on resampling. The resampling is not
+<em>supposed</em> to change the distribution, just refresh its
+representation.</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.resample_test">
+<span class="sig-name descname"><span class="pre">resample_test</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.resample_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.resample_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests the distribution and performs a resampling if required.</p>
+<p>If the effective number of particles falls below
+<code class="docutils literal notranslate"><span class="pre">self.tuning_parameters['resample_threshold']</span> <span class="pre">*</span> <span class="pre">n_particles</span></code>,
+performs a resampling.  Sets the <code class="docutils literal notranslate"><span class="pre">just_resampled</span></code> flag.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.set_pdf">
+<span class="sig-name descname"><span class="pre">set_pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.set_pdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.set_pdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Re-initializes the probability distribution</p>
+<p>Also resets <code class="docutils literal notranslate"><span class="pre">n_particles</span></code> and <code class="docutils literal notranslate"><span class="pre">n_dims</span></code> deduced from the
+dimensions of <code class="docutils literal notranslate"><span class="pre">samples</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>samples</strong> (<em>array-like</em>) – A representation of the new distribution
+comprising <cite>n_dims</cite> sub-arrays of <cite>n_particles</cite>
+samples of each parameter.</p></li>
+<li><p><strong>weights</strong> (<em>ndarray</em>) – If <code class="docutils literal notranslate"><span class="pre">None</span></code>, weights will be assigned uniform
+probability.  Otherwise, an array of length <code class="docutils literal notranslate"><span class="pre">n_particles</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.std">
+<span class="sig-name descname"><span class="pre">std</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/particlepdf.html#ParticlePDF.std"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.std" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the standard deviation of the distribution.</p>
+<p>Calculates the square root of the diagonal elements of the
+covariance matrix.  See also <a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.covariance" title="optbayesexpt.particlepdf.ParticlePDF.covariance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">covariance()</span></code></a> and <a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.mean" title="optbayesexpt.particlepdf.ParticlePDF.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The standard deviation as an n_dims array.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.particlepdf.ParticlePDF.tuning_parameters">
+<span class="sig-name descname"><span class="pre">tuning_parameters</span></span><a class="headerlink" href="#optbayesexpt.particlepdf.ParticlePDF.tuning_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>A package of parameters affecting the resampling algorithm</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'a_param'</span></code> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): Initially, the value of the
+<code class="docutils literal notranslate"><span class="pre">a_param</span></code> keyword argument.  Default <code class="docutils literal notranslate"><span class="pre">0.98</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'scale'</span></code> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>): Initially, the value of the
+<code class="docutils literal notranslate"><span class="pre">scale</span></code> keyword argument. Default <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'resample_threshold'</span></code> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>):  Initially,
+the value of the <code class="docutils literal notranslate"><span class="pre">resample_threshold</span></code> keyword argument.
+Default <code class="docutils literal notranslate"><span class="pre">0.5</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'auto_resample'</span></code> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>): Initially, the value of the
+<code class="docutils literal notranslate"><span class="pre">auto_resample</span></code> keyword argument. Default <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ParticlePDF class</a><ul>
+<li><a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF"><code class="docutils literal notranslate"><span class="pre">ParticlePDF</span></code></a><ul>
+<li><a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.bayesian_update"><code class="docutils literal notranslate"><span class="pre">bayesian_update()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.covariance"><code class="docutils literal notranslate"><span class="pre">covariance()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.just_resampled"><code class="docutils literal notranslate"><span class="pre">just_resampled</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.mean"><code class="docutils literal notranslate"><span class="pre">mean()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.n_dims"><code class="docutils literal notranslate"><span class="pre">n_dims</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.n_particles"><code class="docutils literal notranslate"><span class="pre">n_particles</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.particle_weights"><code class="docutils literal notranslate"><span class="pre">particle_weights</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.particles"><code class="docutils literal notranslate"><span class="pre">particles</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.randdraw"><code class="docutils literal notranslate"><span class="pre">randdraw()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.resample"><code class="docutils literal notranslate"><span class="pre">resample()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.resample_test"><code class="docutils literal notranslate"><span class="pre">resample_test()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.set_pdf"><code class="docutils literal notranslate"><span class="pre">set_pdf()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.std"><code class="docutils literal notranslate"><span class="pre">std()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.particlepdf.ParticlePDF.tuning_parameters"><code class="docutils literal notranslate"><span class="pre">tuning_parameters</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="obe_socket.html"
+                          title="previous chapter">OBE_Socket class</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="obe_utils.html"
+                          title="next chapter">Utilities</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/particlepdf.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="obe_utils.html" title="Utilities"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="obe_socket.html" title="OBE_Socket class"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="optbayesexpt.html" >optbayesexpt API</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">ParticlePDF class</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    </div>
+  </body>
+</html>

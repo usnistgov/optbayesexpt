@@ -1,18 +1,19 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
-    <title>optbayesexpt &#8212; OptBayesExpt 1.1.1 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>optbayesexpt &#8212; OptBayesExpt 1.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
 
@@ -56,7 +57,7 @@ $(document).ready(function(){
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">optbayesexpt</a></li> 
       </ul>
     </div>  
@@ -66,23 +67,119 @@ $(document).ready(function(){
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="optbayesexpt">
-<h1>optbayesexpt<a class="headerlink" href="#optbayesexpt" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="optbayesexpt">
+<h1>optbayesexpt<a class="headerlink" href="#optbayesexpt" title="Permalink to this heading">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="optbayesexpt.html">optbayesexpt API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.obe_base">OptBayesExpt class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.obe_noiseparam">OptBayesExptNoiseParam class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.obe_server">OBE_Server class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.obe_socket">OBE_Socket class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.particlepdf">ParticlePDF class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.obe_utils">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obe_base.html">OptBayesExpt class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt"><code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.N_DRAWS"><code class="docutils literal notranslate"><span class="pre">N_DRAWS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.allsettings"><code class="docutils literal notranslate"><span class="pre">allsettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.choke"><code class="docutils literal notranslate"><span class="pre">choke</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.cons"><code class="docutils literal notranslate"><span class="pre">cons</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.cost_estimate"><code class="docutils literal notranslate"><span class="pre">cost_estimate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.default_noise_std"><code class="docutils literal notranslate"><span class="pre">default_noise_std</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.enforce_parameter_constraints"><code class="docutils literal notranslate"><span class="pre">enforce_parameter_constraints()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_parameters"><code class="docutils literal notranslate"><span class="pre">eval_over_all_parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_settings"><code class="docutils literal notranslate"><span class="pre">eval_over_all_settings()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.get_setting"><code class="docutils literal notranslate"><span class="pre">get_setting()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.good_setting"><code class="docutils literal notranslate"><span class="pre">good_setting()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.last_setting_index"><code class="docutils literal notranslate"><span class="pre">last_setting_index</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.likelihood"><code class="docutils literal notranslate"><span class="pre">likelihood()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.measurement_results"><code class="docutils literal notranslate"><span class="pre">measurement_results</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.model_function"><code class="docutils literal notranslate"><span class="pre">model_function</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.n_channels"><code class="docutils literal notranslate"><span class="pre">n_channels</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.opt_setting"><code class="docutils literal notranslate"><span class="pre">opt_setting()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.parameters"><code class="docutils literal notranslate"><span class="pre">parameters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.pdf_update"><code class="docutils literal notranslate"><span class="pre">pdf_update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.pickiness"><code class="docutils literal notranslate"><span class="pre">pickiness</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.random_setting"><code class="docutils literal notranslate"><span class="pre">random_setting()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.set_n_draws"><code class="docutils literal notranslate"><span class="pre">set_n_draws()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.setting_indices"><code class="docutils literal notranslate"><span class="pre">setting_indices</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.setting_values"><code class="docutils literal notranslate"><span class="pre">setting_values</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility"><code class="docutils literal notranslate"><span class="pre">utility()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility_full_kld"><code class="docutils literal notranslate"><span class="pre">utility_full_kld()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility_max_min"><code class="docutils literal notranslate"><span class="pre">utility_max_min()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility_pseudo"><code class="docutils literal notranslate"><span class="pre">utility_pseudo()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility_variance"><code class="docutils literal notranslate"><span class="pre">utility_variance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.y_var_noise_model"><code class="docutils literal notranslate"><span class="pre">y_var_noise_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.yvar_from_entropy"><code class="docutils literal notranslate"><span class="pre">yvar_from_entropy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.yvar_from_parameter_draws"><code class="docutils literal notranslate"><span class="pre">yvar_from_parameter_draws()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.yvar_max_min"><code class="docutils literal notranslate"><span class="pre">yvar_max_min()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt.yvar_noise_model"><code class="docutils literal notranslate"><span class="pre">yvar_noise_model()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="obe_noiseparam.html">OptBayesExptNoiseParam class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="obe_noiseparam.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter"><code class="docutils literal notranslate"><span class="pre">OptBayesExptNoiseParameter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="obe_noiseparam.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.enforce_parameter_constraints"><code class="docutils literal notranslate"><span class="pre">enforce_parameter_constraints()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_noiseparam.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.noise_parameter_index"><code class="docutils literal notranslate"><span class="pre">noise_parameter_index</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_noiseparam.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.pdf_update"><code class="docutils literal notranslate"><span class="pre">pdf_update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_noiseparam.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.yvar_noise_model"><code class="docutils literal notranslate"><span class="pre">yvar_noise_model()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="obe_server.html">OBE_Server class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="obe_server.html#optbayesexpt.obe_server.OBE_Server"><code class="docutils literal notranslate"><span class="pre">OBE_Server</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="obe_server.html#optbayesexpt.obe_server.OBE_Server.obe_engine"><code class="docutils literal notranslate"><span class="pre">obe_engine</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_server.html#optbayesexpt.obe_server.OBE_Server.initial_args"><code class="docutils literal notranslate"><span class="pre">initial_args</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_server.html#optbayesexpt.obe_server.OBE_Server.initial_kwargs"><code class="docutils literal notranslate"><span class="pre">initial_kwargs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_server.html#optbayesexpt.obe_server.OBE_Server.make_obe"><code class="docutils literal notranslate"><span class="pre">make_obe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_server.html#optbayesexpt.obe_server.OBE_Server.newrun"><code class="docutils literal notranslate"><span class="pre">newrun()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_server.html#optbayesexpt.obe_server.OBE_Server.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="obe_socket.html">OBE_Socket class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="obe_socket.html#optbayesexpt.obe_socket.Socket"><code class="docutils literal notranslate"><span class="pre">Socket</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="obe_socket.html#optbayesexpt.obe_socket.Socket.server"><code class="docutils literal notranslate"><span class="pre">server</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_socket.html#optbayesexpt.obe_socket.Socket.connection"><code class="docutils literal notranslate"><span class="pre">connection</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_socket.html#optbayesexpt.obe_socket.Socket.close"><code class="docutils literal notranslate"><span class="pre">close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_socket.html#optbayesexpt.obe_socket.Socket.receive"><code class="docutils literal notranslate"><span class="pre">receive()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_socket.html#optbayesexpt.obe_socket.Socket.send"><code class="docutils literal notranslate"><span class="pre">send()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="obe_socket.html#optbayesexpt.obe_socket.Socket.tcpcmd"><code class="docutils literal notranslate"><span class="pre">tcpcmd()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="particlepdf.html">ParticlePDF class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="particlepdf.html#optbayesexpt.particlepdf.ParticlePDF"><code class="docutils literal notranslate"><span class="pre">ParticlePDF</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="particlepdf.html#optbayesexpt.particlepdf.ParticlePDF.bayesian_update"><code class="docutils literal notranslate"><span class="pre">bayesian_update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="particlepdf.html#optbayesexpt.particlepdf.ParticlePDF.covariance"><code class="docutils literal notranslate"><span class="pre">covariance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="particlepdf.html#optbayesexpt.particlepdf.ParticlePDF.just_resampled"><code class="docutils literal notranslate"><span class="pre">just_resampled</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="particlepdf.html#optbayesexpt.particlepdf.ParticlePDF.mean"><code class="docutils literal notranslate"><span class="pre">mean()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="particlepdf.html#optbayesexpt.particlepdf.ParticlePDF.n_dims"><code class="docutils literal notranslate"><span class="pre">n_dims</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="particlepdf.html#optbayesexpt.particlepdf.ParticlePDF.n_particles"><code class="docutils literal notranslate"><span class="pre">n_particles</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="particlepdf.html#optbayesexpt.particlepdf.ParticlePDF.particle_weights"><code class="docutils literal notranslate"><span class="pre">particle_weights</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="particlepdf.html#optbayesexpt.particlepdf.ParticlePDF.particles"><code class="docutils literal notranslate"><span class="pre">particles</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="particlepdf.html#optbayesexpt.particlepdf.ParticlePDF.randdraw"><code class="docutils literal notranslate"><span class="pre">randdraw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="particlepdf.html#optbayesexpt.particlepdf.ParticlePDF.resample"><code class="docutils literal notranslate"><span class="pre">resample()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="particlepdf.html#optbayesexpt.particlepdf.ParticlePDF.resample_test"><code class="docutils literal notranslate"><span class="pre">resample_test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="particlepdf.html#optbayesexpt.particlepdf.ParticlePDF.set_pdf"><code class="docutils literal notranslate"><span class="pre">set_pdf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="particlepdf.html#optbayesexpt.particlepdf.ParticlePDF.std"><code class="docutils literal notranslate"><span class="pre">std()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="particlepdf.html#optbayesexpt.particlepdf.ParticlePDF.tuning_parameters"><code class="docutils literal notranslate"><span class="pre">tuning_parameters</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="obe_utils.html">Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="obe_utils.html#optbayesexpt.obe_utils.MeasurementSimulator"><code class="docutils literal notranslate"><span class="pre">MeasurementSimulator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="obe_utils.html#optbayesexpt.obe_utils.MeasurementSimulator.simdata"><code class="docutils literal notranslate"><span class="pre">simdata()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="obe_utils.html#optbayesexpt.obe_utils.differential_entropy"><code class="docutils literal notranslate"><span class="pre">differential_entropy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obe_utils.html#optbayesexpt.obe_utils.trace_sort"><code class="docutils literal notranslate"><span class="pre">trace_sort()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
-</section>
+</div>
 
 
             <div class="clearer"></div>
@@ -102,12 +199,12 @@ $(document).ready(function(){
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -121,13 +218,13 @@ $(document).ready(function(){
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">optbayesexpt</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

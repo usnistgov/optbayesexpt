@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OptBayesExptNoiseParam class &#8212; OptBayesExpt 1.2.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="OBE_Server class" href="obe_server.html" />
+    <link rel="prev" title="OptBayesExpt class" href="obe_base.html" />
+
+    <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+
+<script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Mark external (non-nist.gov) A tags with class "external"
+  //If the adress start with https and ends with nist.gov
+  var re_nist = new RegExp('^https?:\/\/((^\/)*\.)*nist\\.gov(\/|$)');
+  //Regex to find address that start with https
+  var re_absolute_address = new RegExp('^((https?:)?\/\/)');
+  $("a").each(function(){
+    var url=$(this).attr('href');
+    if(re_nist.test(url) || !re_absolute_address.test(url)){
+      $(this).addClass('local');
+    }else{
+      //This a href appears to be external, so tag it
+      $(this).addClass('external');
+    }
+  });
+  // Add leaveNotice to external A elements
+  $('a.external').leaveNotice();
+});
+</script>
+<link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+<script async type="text/javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=NIST&subagency=github&pua=UA-42404149-54&yt=true&exts=ppsx,pps,f90,sch,rtf,wrl,txz,m1v,xlsm,msi,xsd,f,tif,eps,mpg,xml,pl,xlt,c">
+</script>
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="obe_server.html" title="OBE_Server class"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="obe_base.html" title="OptBayesExpt class"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="optbayesexpt.html" accesskey="U">optbayesexpt API</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">OptBayesExptNoiseParam class</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-optbayesexpt.obe_noiseparam">
+<span id="optbayesexptnoiseparam-class"></span><h1>OptBayesExptNoiseParam class<a class="headerlink" href="#module-optbayesexpt.obe_noiseparam" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_noiseparam.</span></span><span class="sig-name descname"><span class="pre">OptBayesExptNoiseParameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">measurement_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setting_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constants</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_parameter_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt" title="optbayesexpt.obe_base.OptBayesExpt"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptBayesExpt</span></code></a></p>
+<p>OptBayesExpt adding measurement uncertainty as an unknown parameter.</p>
+<p>OptBayesExptNoiseParameter is designed for cases where the experimental
+uncertainty / standard deviation of the measurement noise is an unknown.
+The standard deviation of the measurement
+noise is included as one of the parameters.
+The methods rely on several assumptions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The noise in measurement data is well-described by additive,
+normally-distributed (Gaussian) noise.</p></li>
+<li><p>The noise is independent of settings and other parameters.</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>measurement_model</strong> (<em>function</em>) – A function accepting (settings,
+parameters, constants) arguments and returning model values of
+experiment outputs. See the <code class="docutils literal notranslate"><span class="pre">model_function</span></code> arg of
+<code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code>.</p></li>
+<li><p><strong>setting_values</strong> (<em>tuple of arrays</em>) – Arrays of allowed values for each
+setting.  See the <code class="docutils literal notranslate"><span class="pre">setting_values</span></code> arg of <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code>.</p></li>
+<li><p><strong>parameter_samples</strong> (<em>tuple of arrays</em>) – random draws of each model
+parameter representing the prior probability distribution.
+See the <code class="docutils literal notranslate"><span class="pre">parameter_samples</span></code> arg of <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code>. One of the
+parameter_sample arrays must be the standard deviation of the
+measurement noise, idendified by the <code class="docutils literal notranslate"><span class="pre">noise_parameter_index</span></code> arg.</p></li>
+<li><p><strong>constants</strong> (<em>tuple</em>) – settings or parameters that are assumed constant.
+See the <code class="docutils literal notranslate"><span class="pre">constants</span></code> arg of <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code>.</p></li>
+<li><p><strong>noise_parameter_index</strong> (<em>int or tuple</em>) – identifies which of the arrays
+in the <code class="docutils literal notranslate"><span class="pre">paramter_samples</span></code> input are uncertainty parameters.
+For multi-channel measurements, the tuple identifies uncertainty
+parameters corresponding to measurement channels. In cases where
+channels have the same noise characteristics, indices may be
+repeated in the tuple.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments passed to the parent classes.</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Attributes:</strong></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.enforce_parameter_constraints">
+<span class="sig-name descname"><span class="pre">enforce_parameter_constraints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter.enforce_parameter_constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.enforce_parameter_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detects and nullifies disallowed parameter values</p>
+<p>Constrains the noise parameter to be positive. Negative
+uncertainties lead to negative likelihoods, negative particle
+weights and other abominations. Overwrites the <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code> stub
+method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.likelihood">
+<span class="sig-name descname"><span class="pre">likelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_record</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter.likelihood"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the likelihood of a measurement result.</p>
+<p>For each parameter combination, estimate the probability of
+obtaining the results provided in <code class="code docutils literal notranslate"><span class="pre">measurement_result</span></code>.</p>
+<p>Under these assumptions, and model values <span class="math notranslate nohighlight">\(y_{model}\)</span> as a
+function of parameters, the likelihood is a Gaussian function
+proportional to <span class="math notranslate nohighlight">\(\sigma^{-1} \exp [-(y_{model} - y_{meas})^2
+/ (2 \sigma^2)]\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_model</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – <code class="docutils literal notranslate"><span class="pre">model_function()</span></code> results evaluated
+for all parameters.</p></li>
+<li><p><strong>measurement_record</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code>) – <p>The measurement conditions
+and results, supplied by the user to <code class="docutils literal notranslate"><span class="pre">update_pdf()</span></code>. The
+first two elements of <code class="docutils literal notranslate"><span class="pre">measurement_record</span></code> are:</p>
+<blockquote>
+<div><ul>
+<li><p>settings (tuple)</p></li>
+<li><p>measurement value (float or tuple)</p></li>
+</ul>
+</div></blockquote>
+<p>further entries in the measurement_record are ignored.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>an array of probabilities corresponding to the parameters in
+<code class="code docutils literal notranslate"><span class="pre">self.allparameters</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.noise_parameter_index">
+<span class="sig-name descname"><span class="pre">noise_parameter_index</span></span><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.noise_parameter_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the noise_parameter_index argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.yvar_noise_model">
+<span class="sig-name descname"><span class="pre">yvar_noise_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter.yvar_noise_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.yvar_noise_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the mean variance from the noise parameter.</p>
+<p>Overwrites OptBayesExpt method, replacing <code class="code docutils literal notranslate"><span class="pre">default_noise_std</span> <span class="pre">**</span>
+<span class="pre">2</span></code> with the mean variance calculated from the noise parameter. Used
+in calculating utility.</p>
+<p>Returns: (float) average variance.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">OptBayesExptNoiseParam class</a><ul>
+<li><a class="reference internal" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter"><code class="docutils literal notranslate"><span class="pre">OptBayesExptNoiseParameter</span></code></a><ul>
+<li><a class="reference internal" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.enforce_parameter_constraints"><code class="docutils literal notranslate"><span class="pre">enforce_parameter_constraints()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.likelihood"><code class="docutils literal notranslate"><span class="pre">likelihood()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.noise_parameter_index"><code class="docutils literal notranslate"><span class="pre">noise_parameter_index</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.yvar_noise_model"><code class="docutils literal notranslate"><span class="pre">yvar_noise_model()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="obe_base.html"
+                          title="previous chapter">OptBayesExpt class</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="obe_server.html"
+                          title="next chapter">OBE_Server class</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/obe_noiseparam.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="obe_server.html" title="OBE_Server class"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="obe_base.html" title="OptBayesExpt class"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="optbayesexpt.html" >optbayesexpt API</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">OptBayesExptNoiseParam class</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    </div>
+  </body>
+</html>

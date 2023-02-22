@@ -1,18 +1,20 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
-    <title>Version Notes &#8212; OptBayesExpt 1.1.1 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Version Notes &#8212; OptBayesExpt 1.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="optbayesexpt API" href="optbayesexpt.html" />
@@ -64,7 +66,7 @@ $(document).ready(function(){
         <li class="right" >
           <a href="manual_demos.html" title="Demos"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Version Notes</a></li> 
       </ul>
     </div>  
@@ -74,10 +76,46 @@ $(document).ready(function(){
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="version-notes">
-<h1>Version Notes<a class="headerlink" href="#version-notes" title="Permalink to this headline">¶</a></h1>
-<section id="version-1-1-1">
-<h2>Version 1.1.1<a class="headerlink" href="#version-1-1-1" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="version-notes">
+<h1>Version Notes<a class="headerlink" href="#version-notes" title="Permalink to this heading">¶</a></h1>
+<div class="section" id="version-1-2-0">
+<h2>Version 1.2.0<a class="headerlink" href="#version-1-2-0" title="Permalink to this heading">¶</a></h2>
+<p>Dec 30, 2022</p>
+<ul class="simple">
+<li><p>Changes the strategy for including the noise parameter in data analysis in
+the <code class="docutils literal notranslate"><span class="pre">OptBayesExptNoiseParameter()</span></code> class. Previously, <code class="docutils literal notranslate"><span class="pre">pdf_update()</span></code>
+packaged the noise parameter samples with measurement_results, which worked,
+but wasn’t intuitive. In the new version, the noise parameter samples are
+introduced in the likelihood() function.  Additionally, the
+<code class="docutils literal notranslate"><span class="pre">noise_parameter_index</span></code> is now a required argument, and the class is
+fully compatible with multiple measurement channels.</p></li>
+<li><p>Corrects lockin_of_coil and sweeper demos</p></li>
+</ul>
+<p>Dec 28, 2022</p>
+<ul class="simple">
+<li><p>Traditional information entropy based utility <span class="math notranslate nohighlight">\(U (d)\)</span>, quantifies a
+measurement benefit on a logarithmic scale. In contrast, utility methods in
+<code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code> now use a linear-scale utility, <span class="math notranslate nohighlight">\(\exp(U(d))-1\)</span> to make
+benefit/cost comparisons reasonable when cost is estimated on a linear scale.</p></li>
+<li><p>Docstrings for class attributes are being moved from the class docstring to
+docstrings near the attribute definition.  This move allows an alphabetized
+list of attribute descriptions to be generated.</p></li>
+</ul>
+<p>Dec 22, 2022</p>
+<ul class="simple">
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">utility_method</span></code> argument and methods to <code class="docutils literal notranslate"><span class="pre">OptBayesExpt()</span></code> to
+provide a choice of utility algorithms based on algorithms featured in R. D.
+McMichael and S. M. Blakley, Simplified Algorithms for Adaptive Experiment
+Design in Parameter Estimation, <em>Physical Review Applied</em> <strong>18</strong>, 054001
+(2022).</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">choice_method</span></code> argument to <code class="docutils literal notranslate"><span class="pre">OptBayesExpt()</span></code> to select between
+optimal, good, and random setting selections</p></li>
+<li><p>Added a <code class="docutils literal notranslate"><span class="pre">differential_entropy()</span></code> function to support new utility methods.
+This function is used only if scipy.stats package is unable to supply it.</p></li>
+</ul>
+</div>
+<div class="section" id="version-1-1-1">
+<h2>Version 1.1.1<a class="headerlink" href="#version-1-1-1" title="Permalink to this heading">¶</a></h2>
 <p>May 28, 2021</p>
 <ul class="simple">
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">OptBayesExpt.set_n_draws()</span></code> to set and query <code class="docutils literal notranslate"><span class="pre">N_DRAWS</span></code> to fix a
@@ -85,14 +123,14 @@ bug that was introduced with v1.1.0, where <code class="docutils literal notrans
 an array.  Using <code class="docutils literal notranslate"><span class="pre">set_n_draws()</span></code> ensures that the array is re-sized when
 <code class="docutils literal notranslate"><span class="pre">N_DIMS</span></code> is changed.</p></li>
 </ul>
-</section>
-<section id="version-1-1-0">
-<h2>Version 1.1.0<a class="headerlink" href="#version-1-1-0" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="version-1-1-0">
+<h2>Version 1.1.0<a class="headerlink" href="#version-1-1-0" title="Permalink to this heading">¶</a></h2>
 <p>May 27, 2021</p>
 <ul>
 <li><p>Implemented just-in-timme (jit) compilation of some of the most
 time-consuming methods using the <code class="docutils literal notranslate"><span class="pre">numba</span></code> package.  Execution time
-was shortend by 20 % to 40 %.  A new demo program was added to highlight
+was shortened by 20 % to 40 %.  A new demo program was added to highlight
 these capabilities.</p>
 <p>Since <code class="docutils literal notranslate"><span class="pre">numba</span></code> is
 not (yet) a required package for <code class="docutils literal notranslate"><span class="pre">optbayesexpt</span></code>, access to <code class="docutils literal notranslate"><span class="pre">numba</span></code> is
@@ -124,18 +162,18 @@ now be set at instantiation.  Keyword arguments <code class="docutils literal no
 ParticlePdf to tune resampling behavior.  <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code> uses <code class="docutils literal notranslate"><span class="pre">choke</span></code>,
 and <code class="docutils literal notranslate"><span class="pre">OptBayesExptNoiseParam</span></code> uses <code class="docutils literal notranslate"><span class="pre">noise_parameter_index</span></code>.</p></li>
 </ul>
-</section>
-<section id="version-1-0-1">
-<h2>Version 1.0.1<a class="headerlink" href="#version-1-0-1" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="version-1-0-1">
+<h2>Version 1.0.1<a class="headerlink" href="#version-1-0-1" title="Permalink to this heading">¶</a></h2>
 <p>June 2, 2020</p>
 <ul class="simple">
 <li><p>Provides backwards compatibility to numpy.random usage for numpy versions pre-1.17.0.</p></li>
 <li><p>Fixes some plotting problems</p></li>
 <li><p>Adds ‘ready’ command to OBE_Server.run() for communication checks.</p></li>
 </ul>
-</section>
-<section id="version-1-0-0">
-<h2>Version 1.0.0<a class="headerlink" href="#version-1-0-0" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="version-1-0-0">
+<h2>Version 1.0.0<a class="headerlink" href="#version-1-0-0" title="Permalink to this heading">¶</a></h2>
 <p>April 27, 2020</p>
 <p>Version 1.0.0 represents an overhaul of the optbayesexpt python package.  It
 is not compatible with earlier versions, but only minor changes are needed to
@@ -167,8 +205,8 @@ a OBE_Server object can initialize a series of OptBayesExpt objects
 with different configurations, e.g. for a series of measurement runs.</p>
 </dd>
 </dl>
-</section>
-</section>
+</div>
+</div>
 
 
             <div class="clearer"></div>
@@ -177,9 +215,11 @@ with different configurations, e.g. for a series of measurement runs.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Version Notes</a><ul>
+<li><a class="reference internal" href="#version-1-2-0">Version 1.2.0</a></li>
 <li><a class="reference internal" href="#version-1-1-1">Version 1.1.1</a></li>
 <li><a class="reference internal" href="#version-1-1-0">Version 1.1.0</a></li>
 <li><a class="reference internal" href="#version-1-0-1">Version 1.0.1</a></li>
@@ -188,12 +228,17 @@ with different configurations, e.g. for a series of measurement runs.</p>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="manual_demos.html"
-                        title="previous chapter">Demos</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="optbayesexpt.html"
-                        title="next chapter">optbayesexpt API</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="manual_demos.html"
+                          title="previous chapter">Demos</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="optbayesexpt.html"
+                          title="next chapter">optbayesexpt API</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -205,12 +250,12 @@ with different configurations, e.g. for a series of measurement runs.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -230,13 +275,13 @@ with different configurations, e.g. for a series of measurement runs.</p>
         <li class="right" >
           <a href="manual_demos.html" title="Demos"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Version Notes</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

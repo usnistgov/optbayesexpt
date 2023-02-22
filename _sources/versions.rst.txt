@@ -1,6 +1,45 @@
 Version Notes
 =============
 
+Version 1.2.0
+-------------
+Dec 30, 2022
+
+* Changes the strategy for including the noise parameter in data analysis in
+  the ``OptBayesExptNoiseParameter()`` class. Previously, ``pdf_update()``
+  packaged the noise parameter samples with measurement_results, which worked,
+  but wasn't intuitive. In the new version, the noise parameter samples are
+  introduced in the likelihood() function.  Additionally, the
+  ``noise_parameter_index`` is now a required argument, and the class is
+  fully compatible with multiple measurement channels.
+
+* Corrects lockin_of_coil and sweeper demos
+
+Dec 28, 2022
+
+* Traditional information entropy based utility :math:`U (d)`, quantifies a
+  measurement benefit on a logarithmic scale. In contrast, utility methods in
+  ``OptBayesExpt`` now use a linear-scale utility, :math:`\exp(U(d))-1` to make
+  benefit/cost comparisons reasonable when cost is estimated on a linear scale.
+
+* Docstrings for class attributes are being moved from the class docstring to
+  docstrings near the attribute definition.  This move allows an alphabetized
+  list of attribute descriptions to be generated.
+
+Dec 22, 2022
+
+* Added ``utility_method`` argument and methods to ``OptBayesExpt()`` to
+  provide a choice of utility algorithms based on algorithms featured in R. D.
+  McMichael and S. M. Blakley, Simplified Algorithms for Adaptive Experiment
+  Design in Parameter Estimation, *Physical Review Applied* **18**, 054001
+  (2022).
+
+* Added ``choice_method`` argument to ``OptBayesExpt()`` to select between
+  optimal, good, and random setting selections
+
+* Added a ``differential_entropy()`` function to support new utility methods.
+  This function is used only if scipy.stats package is unable to supply it.
+
 Version 1.1.1
 -------------
 
@@ -18,7 +57,7 @@ May 27, 2021
 
 * Implemented just-in-timme (jit) compilation of some of the most
   time-consuming methods using the ``numba`` package.  Execution time
-  was shortend by 20 % to 40 %.  A new demo program was added to highlight
+  was shortened by 20 % to 40 %.  A new demo program was added to highlight
   these capabilities.
 
   Since ``numba`` is

@@ -1,0 +1,914 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OptBayesExpt class &#8212; OptBayesExpt 1.2.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="OptBayesExptNoiseParam class" href="obe_noiseparam.html" />
+    <link rel="prev" title="optbayesexpt API" href="optbayesexpt.html" />
+
+    <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+
+<script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Mark external (non-nist.gov) A tags with class "external"
+  //If the adress start with https and ends with nist.gov
+  var re_nist = new RegExp('^https?:\/\/((^\/)*\.)*nist\\.gov(\/|$)');
+  //Regex to find address that start with https
+  var re_absolute_address = new RegExp('^((https?:)?\/\/)');
+  $("a").each(function(){
+    var url=$(this).attr('href');
+    if(re_nist.test(url) || !re_absolute_address.test(url)){
+      $(this).addClass('local');
+    }else{
+      //This a href appears to be external, so tag it
+      $(this).addClass('external');
+    }
+  });
+  // Add leaveNotice to external A elements
+  $('a.external').leaveNotice();
+});
+</script>
+<link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+
+<script async type="text/javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=NIST&subagency=github&pua=UA-42404149-54&yt=true&exts=ppsx,pps,f90,sch,rtf,wrl,txz,m1v,xlsm,msi,xsd,f,tif,eps,mpg,xml,pl,xlt,c">
+</script>
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="obe_noiseparam.html" title="OptBayesExptNoiseParam class"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="optbayesexpt.html" title="optbayesexpt API"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="optbayesexpt.html" accesskey="U">optbayesexpt API</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">OptBayesExpt class</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-optbayesexpt.obe_base">
+<span id="optbayesexpt-class"></span><h1>OptBayesExpt class<a class="headerlink" href="#module-optbayesexpt.obe_base" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_base.</span></span><span class="sig-name descname"><span class="pre">OptBayesExpt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">measurement_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setting_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constants</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_draws</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choke</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_jit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utility_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'variance_approx'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selection_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'optimal'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pickiness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_noise_std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="particlepdf.html#optbayesexpt.particlepdf.ParticlePDF" title="optbayesexpt.particlepdf.ParticlePDF"><code class="xref py py-class docutils literal notranslate"><span class="pre">ParticlePDF</span></code></a></p>
+<p>An implementation of sequential Bayesian experiment design.</p>
+<p>OptBayesExpt is a manager that calculates strategies for efficient
+measurement runs. OptBayesExpt incorporates measurement data, and uses
+that information to select settings for measurements with high
+predicted benefit / cost ratios.</p>
+<p>The use cases are situations where the goal is to find the parameters of
+a parametric model.</p>
+<p>The primary functions of this class are to interpret measurement data
+and to calculate effective settings. The corresponding methods that
+perform these functions are <code class="docutils literal notranslate"><span class="pre">OptBayesExpt.pdf_update()</span></code> for
+interpretation of new data and either <code class="docutils literal notranslate"><span class="pre">OptBayesExpt.opt_setting()</span></code> or
+<code class="docutils literal notranslate"><span class="pre">OptBayesExpt.good_setting()</span></code> for calculation of effective settings.</p>
+<p>Instances of OptBayesExpt may be used for cases where</p>
+<ol class="arabic simple">
+<li><p>Reported measurement data includes measurement uncertainty,</p></li>
+<li><p>Every measurement is assumed to cost the same amount.</p></li>
+<li><p>The measurement noise is assumed to be constant, independent of
+parameters and settings.</p></li>
+</ol>
+<p>OptBayesExpt may be inherited by child classes to allow additional
+flexibility.  Examples in the <code class="docutils literal notranslate"><span class="pre">demos</span></code> folder show several extensions
+including unknown noise, and setting-dependent costs.</p>
+<dl class="field-list">
+<dt class="field-odd">Arguments</dt>
+<dd class="field-odd"><ul>
+<li><p><strong>measurement_model</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">function</span></code>) – Evaluates the experimental model
+from (<code class="code docutils literal notranslate"><span class="pre">settings</span></code>, <code class="code docutils literal notranslate"><span class="pre">parameters</span></code>, <code class="code docutils literal notranslate"><span class="pre">constants</span></code>)
+arguments, returning single values or arrays depending on the
+arguments.  The <code class="code docutils literal notranslate"><span class="pre">model_function</span></code> is very similar to the
+fit function in a least-squares regression. The
+<code class="code docutils literal notranslate"><span class="pre">model_function()</span></code> must allow evaluation in both of the
+following forms:</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">model_function(tuple_of_single_settings,</span>
+<span class="pre">tuple_of_parameter_arrays,</span> <span class="pre">tuple_of_constants)</span></code>, returning an
+array with the same size as one of the parameter arrays.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">model_function(tuple_of_setting_arrays,</span>
+<span class="pre">tuple_of_single_parameters,</span> <span class="pre">tuple_of_constants)</span></code>, returning
+an array with the same size as one of the setting arrays.</p></li>
+</ul>
+<p>The broadcasting feature of numpy arrays provides a convenient
+way to write this type of function for simple analytical models.</p>
+<p>Version 1.1.0 and later support model functions that return
+multiple output channels, e. g. real and imaginary parts or
+vectors expressed as tuples, lists or arrays. The number of
+output channels, <code class="docutils literal notranslate"><span class="pre">n_channels</span></code> is deduced by evaluating the
+measurement model function.</p>
+</li>
+<li><p><strong>setting_values</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – Each array in the <code class="code docutils literal notranslate"><span class="pre">setting_values</span></code> tuple contains the
+allowed discrete values of a measurement setting.  Applied
+voltage, excitation frequency, and a knob that goes to eleven
+are all examples of settings. For computational speed,
+it is important to keep setting arrays appropriately sized.
+Settings arrays that cover unused setting values, or that use
+overly fine discretization will slow the calculations. Settings
+that are held constant belong in the <code class="code docutils literal notranslate"><span class="pre">constants</span></code> array.</p></li>
+<li><p><strong>parameter_samples</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – In a simple example model, <span class="math notranslate nohighlight">\(y = m * x + b\)</span>, the parameters
+are <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(b\)</span>. Each array in the
+<code class="code docutils literal notranslate"><span class="pre">parameter_samples</span></code> tuple contains samples from the <em>prior</em>
+distribution of a parameter. Traditionally, the prior is
+described as expressing the state of belief about the parameter
+value before measurement, so the prior can be used to include
+results of other measurements. For a mostly independent
+measurement, the prior samples should cover the full range of
+plausible values. Parameters that can be assumed
+constant belong in the <code class="code docutils literal notranslate"><span class="pre">constants</span></code> array.</p></li>
+<li><p><strong>constants</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>) – Model constants.  Examples include experimental settings that
+are rarely changed, and model parameters that are well-known
+from previous measurement results.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>n_draws</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – specifies the number of parameter samples used
+in the utility calculation.  Default 30.</p></li>
+<li><p><strong>choke</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>) – If <code class="docutils literal notranslate"><span class="pre">choke</span></code> is specified, the likelihood will be
+raised to the <code class="docutils literal notranslate"><span class="pre">choke</span></code> power. Occasionally, simulated
+measurement runs will “get stuck,” and converge to incorrect
+parameter values. The <code class="docutils literal notranslate"><span class="pre">choke</span></code> argument provides a heuristic
+fix for better reliability at the expense of speed.  For values
+<code class="docutils literal notranslate"><span class="pre">0.0</span> <span class="pre">&lt;</span> <span class="pre">choke</span> <span class="pre">&lt;</span> <span class="pre">1.0</span></code> choking reduces the max/min ratio of the
+likelihood and allows more data to influence the parameter
+distribution between resampling events. Default <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>use_jit</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Boolean</span></code>) – If <code class="docutils literal notranslate"><span class="pre">numba</span></code> is installed, pre-compile the
+likelihood calculation for faster execution.  Arg <code class="docutils literal notranslate"><span class="pre">use_jit</span></code> is also
+passed as a keyword arg to ParticlPDF. Default <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p><strong>utility_method</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code>) – [<code class="docutils literal notranslate"><span class="pre">'variance_approx'</span></code> | <code class="docutils literal notranslate"><span class="pre">'pseudo_utility'</span></code> |
+<code class="docutils literal notranslate"><span class="pre">'full_kld_utility'</span></code> | <code class="docutils literal notranslate"><span class="pre">'max_min'</span></code>]:  Specifies the utility
+algorithm as described in <a class="footnote-reference brackets" href="#f1" id="id1">1</a>. With <code class="docutils literal notranslate"><span class="pre">'max_min'</span></code>,
+n_draws=2 is recommended. Default <code class="docutils literal notranslate"><span class="pre">'variance_approx'</span></code>.</p></li>
+<li><p><strong>selection_method</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code>) – [<code class="docutils literal notranslate"><span class="pre">'optimal'</span></code> | <code class="docutils literal notranslate"><span class="pre">'good'</span></code> | <code class="docutils literal notranslate"><span class="pre">'random'</span></code>]:
+Specifies how the setting is selected based on the
+utility. If <code class="docutils literal notranslate"><span class="pre">'optimal'</span></code>, the setting at maximum utility is
+selected. If <code class="docutils literal notranslate"><span class="pre">'good'</span></code>, the utility is raised to a power given
+by <code class="docutils literal notranslate"><span class="pre">pickiness</span></code> parameter and normalized. The setting is
+selected with probability proportional to <code class="docutils literal notranslate"><span class="pre">utility</span></code> **
+<code class="docutils literal notranslate"><span class="pre">pickiness</span></code>.  If <code class="docutils literal notranslate"><span class="pre">'random</span></code>, the utility is disregarded and
+the setting is chosen randomly from the allowed settings.</p></li>
+<li><p><strong>pickiness</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>) – When <cite>selection_method</cite> is <code class="docutils literal notranslate"><span class="pre">'normal'</span></code>,
+this parameter affects the probability of picking a setting near a
+maximum in the utilty function. Default 15.</p></li>
+<li><p><strong>default_noise_std</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – Measurement noise standard deviation used in utility
+calculations.  If <code class="docutils literal notranslate"><span class="pre">float</span></code>, the value populates entries of a
+<span class="math notranslate nohighlight">\(n_{channels} \times 1\)</span> <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> where <span class="math notranslate nohighlight">\(n_{
+channels}\)</span> corresponds to the number of measurement channels,
+e.g. 2 if data is collected from <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> outputs
+of an instrument. If  <span class="math notranslate nohighlight">\(n_{channels} \times 1\)</span> <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>,
+entries are noise standard deviations corresponding to the
+measurement channels.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments passed to the parent ParticlePDF class.</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Attributes:</strong></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.N_DRAWS">
+<span class="sig-name descname"><span class="pre">N_DRAWS</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.N_DRAWS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the <code class="docutils literal notranslate"><span class="pre">n_draws</span></code> argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.allsettings">
+<span class="sig-name descname"><span class="pre">allsettings</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.allsettings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Arrays containing all possible
+combinations of the : setting values provided in the`
+<code class="docutils literal notranslate"><span class="pre">setting_values</span></code> argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.choke">
+<span class="sig-name descname"><span class="pre">choke</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.choke" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the <code class="docutils literal notranslate"><span class="pre">choke</span></code> argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.cons">
+<span class="sig-name descname"><span class="pre">cons</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.cons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the <code class="docutils literal notranslate"><span class="pre">constants</span></code> argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of:obj:<cite>float</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.cost_estimate">
+<span class="sig-name descname"><span class="pre">cost_estimate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.cost_estimate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.cost_estimate" title="Permalink to this definition">¶</a></dt>
+<dd><p>A stub for estimating the cost of prospective measurements</p>
+<p>An estimate of the cost of measurement resources. (e.g. setup time +
+data collection time).  This estimate goes in the denominator of the
+<em>utility</em> function, yielding a benefit/cost ratio.  Returns a single
+float if cost is the same for all settings, or an array with
+dimensions of <code class="code docutils literal notranslate"><span class="pre">self.setting_indices</span></code>.
+:returns: 1.0.
+:rtype: <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, or <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code> Default</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.default_noise_std">
+<span class="sig-name descname"><span class="pre">default_noise_std</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.default_noise_std" title="Permalink to this definition">¶</a></dt>
+<dd><p>A noise level estimate for each channel used in
+setting selection used by <code class="docutils literal notranslate"><span class="pre">y_var_noise_model()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.enforce_parameter_constraints">
+<span class="sig-name descname"><span class="pre">enforce_parameter_constraints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.enforce_parameter_constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.enforce_parameter_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>A stub for enforcing constraints on parameters</p>
+<p>for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># find the particles with disallowed parameter values</span>
+<span class="c1"># (negative parameter values in this example)</span>
+<span class="n">bad_ones</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">bad_ones</span><span class="p">:</span>
+        <span class="c1"># setting a weight = 0 effectively eliminates the particle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1"># renormalize</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.eval_over_all_parameters">
+<span class="sig-name descname"><span class="pre">eval_over_all_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onesettingset</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.eval_over_all_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the experimental model.</p>
+<p>Evaluates the model for one combination of measurement settings and
+all parameter combinations in <code class="docutils literal notranslate"><span class="pre">self.parameters</span></code>. Called by
+<code class="docutils literal notranslate"><span class="pre">pdf_update()</span></code> for <code class="docutils literal notranslate"><span class="pre">likelihood()</span></code> and Bayesian inference
+processing of measurement results.</p>
+<p>This method and <code class="docutils literal notranslate"><span class="pre">eval_over_all_settings()</span></code> both call
+<code class="docutils literal notranslate"><span class="pre">model_function()</span></code>, but with different argument types.  If the
+broadcasting properties of numpy arrays are not able to resolve this
+polymorphism, this method may be replaced by a separate method for
+model evaluation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>onesettingset</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>) – a single set of
+measurement settings</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) array of model values with dimensions of one
+element of <code class="xref py py-obj docutils literal notranslate"><span class="pre">self.allparams</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.eval_over_all_settings">
+<span class="sig-name descname"><span class="pre">eval_over_all_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">oneparamset</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.eval_over_all_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the experimental model.</p>
+<p>Evaluates the model for all combinations of measurement settings in
+<code class="docutils literal notranslate"><span class="pre">self.allsettings</span></code> and one set of parameters. Called <code class="docutils literal notranslate"><span class="pre">N_DRAWS</span></code>
+times by <code class="docutils literal notranslate"><span class="pre">yvar_from_parameter_draws()</span></code> as part of the <code class="docutils literal notranslate"><span class="pre">utility()</span></code>
+calculation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>oneparamset</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>) – a set of single
+model parameter values.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) array of model values with dimensions
+<code class="code docutils literal notranslate"><span class="pre">self.setting_indices</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.get_setting">
+<span class="sig-name descname"><span class="pre">get_setting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.get_setting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.get_setting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Selects settings for the next measurement.</p>
+<p>A wrapper for the method selected by the <code class="docutils literal notranslate"><span class="pre">selection_method</span></code>
+argument. See <code class="docutils literal notranslate"><span class="pre">opt_setting</span></code>, <code class="docutils literal notranslate"><span class="pre">good_setting()</span></code> and <code class="docutils literal notranslate"><span class="pre">random()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A settings tuple.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.good_setting">
+<span class="sig-name descname"><span class="pre">good_setting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pickiness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.good_setting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.good_setting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate a setting with a good utility</p>
+<p>Selects settings using a weighted random selection using the utility
+function to calculate a weight.  The weight function is <code class="docutils literal notranslate"><span class="pre">utility(</span>
+<span class="pre">)</span></code> raised to the <code class="docutils literal notranslate"><span class="pre">pickiness</span></code> power. In comparison to the
+<code class="docutils literal notranslate"><span class="pre">opt_setting()</span></code> method, where the measurements select only the very
+best setting, <code class="docutils literal notranslate"><span class="pre">good_setting()</span></code> yields a more diverse series of
+settings. Selected by <code class="docutils literal notranslate"><span class="pre">selection_method='good'</span></code> argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pickiness</strong> (<em>float</em>) – A setting selection tuning parameter.
+Pickiness=0 produces random settingss.  With pickiness
+values greater than about 10 the behavior is similar to
+<code class="code docutils literal notranslate"><span class="pre">opt_setting()</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A settings tuple.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.last_setting_index">
+<span class="sig-name descname"><span class="pre">last_setting_index</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.last_setting_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>The most recent setting choice as an index into the
+allsettings arrays.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.likelihood">
+<span class="sig-name descname"><span class="pre">likelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_record</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.likelihood"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the likelihood of a measurement result.</p>
+<p>For each parameter combination, estimate the probability of
+obtaining the results provided in <code class="code docutils literal notranslate"><span class="pre">measurement_record</span></code>.  This
+default method relies on several assumptions:</p>
+<ul class="simple">
+<li><p>The uncertainty in measurement results is well-described by
+normally-distributed (Gaussian) noise.</p></li>
+<li><p>The the standard deviation of the noise, <span class="math notranslate nohighlight">\(\sigma\)</span> is known.</p></li>
+</ul>
+<p>Under these assumptions, and model values <span class="math notranslate nohighlight">\(y_{model}\)</span> as a
+function of parameters, the likelihood is a Gaussian function
+proportional to <span class="math notranslate nohighlight">\(\sigma^{-1} \exp [-(y_{model} - y_{meas})^2
+/ (2 \sigma^2)]\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_model</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – <code class="docutils literal notranslate"><span class="pre">model_function()</span></code> results evaluated
+for all parameters.</p></li>
+<li><p><strong>measurement_record</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code>) – <p>The measurement conditions
+and results, supplied by the user to <code class="docutils literal notranslate"><span class="pre">update_pdf()</span></code>. The
+elements of <code class="docutils literal notranslate"><span class="pre">measurement_record</span></code> are:</p>
+<blockquote>
+<div><ul>
+<li><p>settings (tuple)</p></li>
+<li><p>measurement value (float or tuple)</p></li>
+<li><p>std uncertainty (float or tuple)</p></li>
+</ul>
+</div></blockquote>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>an array of probabilities corresponding to the parameters in
+<code class="code docutils literal notranslate"><span class="pre">self.allparameters</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.measurement_results">
+<span class="sig-name descname"><span class="pre">measurement_results</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.measurement_results" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">list</span></code> Records of accumulated measurement results for output to
+data files and / or plotting.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.model_function">
+<span class="sig-name descname"><span class="pre">model_function</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.model_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>equal to the measurement model parameter above.
+with added text</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.n_channels">
+<span class="sig-name descname"><span class="pre">n_channels</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.n_channels" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of measurement values per experiment, e.g. 2
+for an : experiment that reports two voltages. Deduced from model
+outputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.opt_setting">
+<span class="sig-name descname"><span class="pre">opt_setting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.opt_setting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.opt_setting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the setting with maximum utility</p>
+<p>Selects settings based on the maximum value of the utility.
+Calls <code class="code docutils literal notranslate"><span class="pre">utility()</span></code> for an estimate of the benfit/cost ratio for
+all allowed settings, and returns the settings corresponding to the
+maximum value. Selected by <code class="docutils literal notranslate"><span class="pre">selection_method='optimal'</span></code> argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A settings tuple.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>The most recently set of
+parameter samples the parameter distribution. <code class="docutils literal notranslate"><span class="pre">self.parameters</span></code>
+is a <em>view</em> of <code class="docutils literal notranslate"><span class="pre">PartcilePDF.particles</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.pdf_update">
+<span class="sig-name descname"><span class="pre">pdf_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">measurement_record</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_model_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.pdf_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.pdf_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Refines the parameters’ probability distribution function given a
+measurement result.</p>
+<p>This is where measurement results are entered. An implementation of
+Bayesian inference, uses the model to calculate the likelihood of
+obtaining the measurement result as a function of
+parameter values, and uses that likelihood to generate a refined
+<em>posterior</em> ( after-measurement) distribution from the <em>prior</em> (
+pre-measurement) parameter distribution.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code> requires the input data to contain good
+estimates of measurement uncertainty.  The uncertainty values
+entered here can influence both mean values and widths of the
+inferred parameter distribution. When measurement uncertainty is
+not well-known, <code class="docutils literal notranslate"><span class="pre">OptBayesExptNoiseParameter</span></code> is recommended to
+determine measurement uncertainty from the measured values.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>measurement_record</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code>) – <p>The measurement conditions
+and results, supplied by the user to <code class="docutils literal notranslate"><span class="pre">update_pdf()</span></code>. The
+elements of <code class="docutils literal notranslate"><span class="pre">measurement_record</span></code> are:</p>
+<blockquote>
+<div><ul>
+<li><dl class="simple">
+<dt>settings (tuple): the settings used for the</dt><dd><p>measurement. May be different from the requested
+settings.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>measurement result (float or tuple) Use a tuple for</dt><dd><p>multi-channel measurements</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>std uncertainty (float or tuple) An uncertainty</dt><dd><p>estimate for the measurement result.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</p></li>
+<li><p><strong>y_model_data</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – The result of
+<code class="code docutils literal notranslate"><span class="pre">self.eval_over_all_parameters()</span></code> This argument allows
+model evaluation to run before measurement data is
+available, e.g. while measurements are being made. Default =
+<code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.pickiness">
+<span class="sig-name descname"><span class="pre">pickiness</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.pickiness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the pickiness argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.random_setting">
+<span class="sig-name descname"><span class="pre">random_setting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.random_setting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.random_setting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pick a random setting for the next measurement</p>
+<p>Randomly selects a setting from all possible
+setting combinations. Selected by <code class="docutils literal notranslate"><span class="pre">selection_method='random'</span></code>
+argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A settings tuple.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.set_n_draws">
+<span class="sig-name descname"><span class="pre">set_n_draws</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_draws</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.set_n_draws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.set_n_draws" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets OptBayesExpt.N_DRAWS attribute.</p>
+<p>Sets or queries the number of parameter samples to use in the utility
+calculation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n_draws</strong> (<em>int</em><em> or </em><em>'default'</em><em> or </em><em>None</em>) – An
+integer argument sets N_DRAWS, ‘default’ sets the default value
+of 30, and <code class="docutils literal notranslate"><span class="pre">set_n_draws()</span></code> returns the current value.</p>
+</dd>
+</dl>
+<p>Returns: N_DRAWS</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.setting_indices">
+<span class="sig-name descname"><span class="pre">setting_indices</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.setting_indices" title="Permalink to this definition">¶</a></dt>
+<dd><p>indices in to the allsettings
+arrays. Used in#: <code class="docutils literal notranslate"><span class="pre">opt_setting()</span></code> and <code class="docutils literal notranslate"><span class="pre">good_setting()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.setting_values">
+<span class="sig-name descname"><span class="pre">setting_values</span></span><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.setting_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>A record  of the setting_values
+argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.utility">
+<span class="sig-name descname"><span class="pre">utility</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.utility"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.utility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate the utility as a function of setting options</p>
+<p>The <em>utility</em> <span class="math notranslate nohighlight">\(U(d)\)</span> is the predicted benefit/cost ratio of proposed
+measurement designs <span class="math notranslate nohighlight">\(d\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Traditionally, utility is given in terms of a change in the
+information entropy. However, information entropy is a
+logarithmic quantity, and we are accustomed to thinking about
+cost on a linear scale. To facilitate estimating benefit/cost,
+the utility algorithms below return a ‘linearized’ utility:
+<span class="math notranslate nohighlight">\(exp(U(d))-1.0\)</span></p>
+</div>
+<dl class="simple">
+<dt>The <code class="docutils literal notranslate"><span class="pre">utility()</span></code> function is a wrapper for the algorithm selected</dt><dd><p>by the  <code class="docutils literal notranslate"><span class="pre">utility_method</span></code> argument.</p>
+</dd>
+</dl>
+<p>Returns: linearized utility</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.utility_full_kld">
+<span class="sig-name descname"><span class="pre">utility_full_kld</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.utility_full_kld"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.utility_full_kld" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate the utility as a function of settings.</p>
+<p>Used in selecting measurement settings. The <em>utility</em> is the
+predicted benefit/cost ratio of a new measurement where the benefit
+is given in terms of a change in the information entropy of the
+parameter distribution. This algorithm
+corresponds to the “full-KLD algorithm” of <a class="footnote-reference brackets" href="#f1" id="id2">1</a>.</p>
+<p>Among the provided utility algorithms, <code class="docutils literal notranslate"><span class="pre">utility_KLD</span></code> comes closest to
+the information-theoretic analytical result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Approximate utility as an <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code> with dimensions of
+<code class="code docutils literal notranslate"><span class="pre">self.setting_indices</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.utility_max_min">
+<span class="sig-name descname"><span class="pre">utility_max_min</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.utility_max_min"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.utility_max_min" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate utility using the max-min algorithm</p>
+<p>This algorithm
+corresponds to the “max-min algorithm” of <a class="footnote-reference brackets" href="#f1" id="id3">1</a>.</p>
+<p>In this algorithm, we use the maximum and minimum modeled
+outputs produced by <code class="code docutils literal notranslate"><span class="pre">N_DRAWS</span></code> samples of the parameter
+distribution and the variance of the measurement noise are calculated
+separately.</p>
+<p>This algorithm provides slightly lower quality setting choices than
+the other utility algorithms, but it executes very fast. Speed and
+quality of choices are both best when <code class="docutils literal notranslate"><span class="pre">N_DRAWS</span> <span class="pre">=</span> <span class="pre">2</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Linearized utility as an <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code> with dimensions of
+<code class="code docutils literal notranslate"><span class="pre">self.setting_indices</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.utility_pseudo">
+<span class="sig-name descname"><span class="pre">utility_pseudo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.utility_pseudo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.utility_pseudo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate the utility as a function of settings.</p>
+<p>Used in selecting measurement settings. The <em>utility</em> is the
+predicted benefit/cost ratio of a new measurement where the benefit
+is given in terms of a change in the information entropy of the
+parameter distribution. This algorithm
+corresponds to the “pseudo-H algorithm” of <a class="footnote-reference brackets" href="#f1" id="id4">1</a>, and it is included
+here mostly for historical reasons.</p>
+<p>In this algorithm, the idea is to mimic the <code class="code docutils literal notranslate"><span class="pre">utility_KLD()</span></code>
+algorithm more closely than <code class="docutils literal notranslate"><span class="pre">utility_variance()</span></code>. We calculate the
+differential entropy of the model outputs produced by
+<code class="code docutils literal notranslate"><span class="pre">N_DRAWS</span></code> samples
+of the parameter distribution. We then compute the variance of a
+normal (Gaussian) distribution that has the same information entropy.
+This effective variance is combined with the noise variance as in
+<code class="docutils literal notranslate"><span class="pre">utility_variance()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Approximate utility as an <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code> with dimensions of
+<code class="code docutils literal notranslate"><span class="pre">self.setting_indices</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.utility_variance">
+<span class="sig-name descname"><span class="pre">utility_variance</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.utility_variance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.utility_variance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate the utility as a function of settings.</p>
+<p>The <em>utility</em> is the predicted benefit/cost ratio of a new
+measurement where the benefit is given in terms of a change in the
+information entropy of the parameter distribution. This algorithm
+corresponds to the “variance algorithm” of <a class="footnote-reference brackets" href="#f1" id="id5">1</a>.</p>
+<p>In this algorithm, we use the logarithm of variance as an
+approximation for the information entropy.  The variance of model
+outputs produced by <code class="code docutils literal notranslate"><span class="pre">N_DRAWS</span></code> samples of the parameter
+distribution and the variance of the measurement noise are calculated
+separately.</p>
+<p>Execution of <code class="docutils literal notranslate"><span class="pre">utility_variance</span></code> is faster than <code class="docutils literal notranslate"><span class="pre">utility_variance</span></code>
+and <code class="docutils literal notranslate"><span class="pre">utility_pseudo</span></code> and the decision quality is very similar to
+<code class="docutils literal notranslate"><span class="pre">utility_KLD</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Approximate utility as an <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code> with dimensions of
+<code class="code docutils literal notranslate"><span class="pre">self.setting_indices</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.y_var_noise_model">
+<span class="sig-name descname"><span class="pre">y_var_noise_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.y_var_noise_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.y_var_noise_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>For backawards compatibiilty, a wrapper for <code class="docutils literal notranslate"><span class="pre">yvar_noise_model</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.yvar_from_entropy">
+<span class="sig-name descname"><span class="pre">yvar_from_entropy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.yvar_from_entropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.yvar_from_entropy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Models the entropy of the model values due to the
+parameter distributions</p>
+<p>Evaluates the effect of the distribution
+of parameter values on the distribution of model outputs for every
+setting combination. This calculation is done as part of the
+<em>utility</em> calculation as an approximation to the information
+entropy. For each of <code class="docutils literal notranslate"><span class="pre">self.N_DRAWS</span></code> samples from the parameter
+distribution, this method models a noise-free experimental output
+for all setting combinations and returns the entropy of the model
+values for each setting combination, cast as a variance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code> with shape of <code class="code docutils literal notranslate"><span class="pre">self.setting_indices</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.yvar_from_parameter_draws">
+<span class="sig-name descname"><span class="pre">yvar_from_parameter_draws</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.yvar_from_parameter_draws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.yvar_from_parameter_draws" title="Permalink to this definition">¶</a></dt>
+<dd><p>Models the measurement variance solely due to parameter
+distributions.</p>
+<p>Evaluates the effect of the distribution
+of parameter values on the distribution of model outputs for every
+setting combination. This calculation is done as part of the
+<em>utility</em> calculation as an approximation to the information
+entropy. For each of <code class="docutils literal notranslate"><span class="pre">self.N_DRAWS</span></code> samples from the parameter
+distribution, this method models a noise-free experimental output
+for all setting combinations and returns the variance of the model
+values for each setting combination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code> with shape of <code class="code docutils literal notranslate"><span class="pre">self.setting_indices</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.yvar_max_min">
+<span class="sig-name descname"><span class="pre">yvar_max_min</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.yvar_max_min"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.yvar_max_min" title="Permalink to this definition">¶</a></dt>
+<dd><p>Crudely approximates the signal variance using max - min.</p>
+<p>Returns: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code> with shape of <code class="code docutils literal notranslate"><span class="pre">self.setting_indices</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="optbayesexpt.obe_base.OptBayesExpt.yvar_noise_model">
+<span class="sig-name descname"><span class="pre">yvar_noise_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_base.html#OptBayesExpt.yvar_noise_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_base.OptBayesExpt.yvar_noise_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>A stub for models of the measurement noise</p>
+<p>A model of measurement variance (noise) as a function of settings,
+averaged over parameters if parameter-dependent.  Used in the
+<em>utility</em> calculation.</p>
+<p>In general, the measurement noise could depend on both settings and
+parameters, and the model would require evaluation of the noise
+model over all parameters, averaged over draws from the parameter
+distribution.  Measurement noise that depends on the measurement
+value, like root(N), Poisson-like counting noise is an example of
+such a situation. Fortunately, this noise estimate only affects the
+utility function, which only affects setting choices, where the
+“runs good” philosophy of the project allows a little approximation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>If measurement noise is independent of settings, a <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>,
+otherwise an <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code> with the shape of an
+element of <cite>allsettings</cite>.  Default: <code class="docutils literal notranslate"><span class="pre">default_noise_std</span> <span class="pre">**</span> <span class="pre">2</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="f1"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>,<a href="#id3">3</a>,<a href="#id4">4</a>,<a href="#id5">5</a>)</span></dt>
+<dd><p>R. D. McMichael and S. M. Blakley, Simplified Algorithms for
+Adaptive Experiment Design in Parameter Estimation, <em>Physical Review
+Applied</em> <strong>18</strong>, 054001 (2022).</p>
+</dd>
+</dl>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">OptBayesExpt class</a><ul>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt"><code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code></a><ul>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.N_DRAWS"><code class="docutils literal notranslate"><span class="pre">N_DRAWS</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.allsettings"><code class="docutils literal notranslate"><span class="pre">allsettings</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.choke"><code class="docutils literal notranslate"><span class="pre">choke</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.cons"><code class="docutils literal notranslate"><span class="pre">cons</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.cost_estimate"><code class="docutils literal notranslate"><span class="pre">cost_estimate()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.default_noise_std"><code class="docutils literal notranslate"><span class="pre">default_noise_std</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.enforce_parameter_constraints"><code class="docutils literal notranslate"><span class="pre">enforce_parameter_constraints()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_parameters"><code class="docutils literal notranslate"><span class="pre">eval_over_all_parameters()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_settings"><code class="docutils literal notranslate"><span class="pre">eval_over_all_settings()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.get_setting"><code class="docutils literal notranslate"><span class="pre">get_setting()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.good_setting"><code class="docutils literal notranslate"><span class="pre">good_setting()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.last_setting_index"><code class="docutils literal notranslate"><span class="pre">last_setting_index</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.likelihood"><code class="docutils literal notranslate"><span class="pre">likelihood()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.measurement_results"><code class="docutils literal notranslate"><span class="pre">measurement_results</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.model_function"><code class="docutils literal notranslate"><span class="pre">model_function</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.n_channels"><code class="docutils literal notranslate"><span class="pre">n_channels</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.opt_setting"><code class="docutils literal notranslate"><span class="pre">opt_setting()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.parameters"><code class="docutils literal notranslate"><span class="pre">parameters</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.pdf_update"><code class="docutils literal notranslate"><span class="pre">pdf_update()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.pickiness"><code class="docutils literal notranslate"><span class="pre">pickiness</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.random_setting"><code class="docutils literal notranslate"><span class="pre">random_setting()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.set_n_draws"><code class="docutils literal notranslate"><span class="pre">set_n_draws()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.setting_indices"><code class="docutils literal notranslate"><span class="pre">setting_indices</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.setting_values"><code class="docutils literal notranslate"><span class="pre">setting_values</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.utility"><code class="docutils literal notranslate"><span class="pre">utility()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.utility_full_kld"><code class="docutils literal notranslate"><span class="pre">utility_full_kld()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.utility_max_min"><code class="docutils literal notranslate"><span class="pre">utility_max_min()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.utility_pseudo"><code class="docutils literal notranslate"><span class="pre">utility_pseudo()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.utility_variance"><code class="docutils literal notranslate"><span class="pre">utility_variance()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.y_var_noise_model"><code class="docutils literal notranslate"><span class="pre">y_var_noise_model()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.yvar_from_entropy"><code class="docutils literal notranslate"><span class="pre">yvar_from_entropy()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.yvar_from_parameter_draws"><code class="docutils literal notranslate"><span class="pre">yvar_from_parameter_draws()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.yvar_max_min"><code class="docutils literal notranslate"><span class="pre">yvar_max_min()</span></code></a></li>
+<li><a class="reference internal" href="#optbayesexpt.obe_base.OptBayesExpt.yvar_noise_model"><code class="docutils literal notranslate"><span class="pre">yvar_noise_model()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="optbayesexpt.html"
+                          title="previous chapter">optbayesexpt API</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="obe_noiseparam.html"
+                          title="next chapter">OptBayesExptNoiseParam class</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/obe_base.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="obe_noiseparam.html" title="OptBayesExptNoiseParam class"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="optbayesexpt.html" title="optbayesexpt API"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="optbayesexpt.html" >optbayesexpt API</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">OptBayesExpt class</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    </div>
+  </body>
+</html>

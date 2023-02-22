@@ -1,18 +1,19 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
-    <title>OptBayesExpt documentation &#8212; OptBayesExpt 1.1.1 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OptBayesExpt: Optimmal Bayesian Experiment Design &#8212; OptBayesExpt 1.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Quick Start" href="quickstart.html" />
@@ -60,8 +61,8 @@ $(document).ready(function(){
         <li class="right" >
           <a href="quickstart.html" title="Quick Start"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">OptBayesExpt 1.1.1 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">OptBayesExpt documentation</a></li> 
+        <li class="nav-item nav-item-0"><a href="#">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">OptBayesExpt: Optimmal Bayesian Experiment Design</a></li> 
       </ul>
     </div>  
 
@@ -70,8 +71,8 @@ $(document).ready(function(){
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="optbayesexpt-documentation">
-<h1>OptBayesExpt documentation<a class="headerlink" href="#optbayesexpt-documentation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="optbayesexpt-optimmal-bayesian-experiment-design">
+<h1>OptBayesExpt: Optimmal Bayesian Experiment Design<a class="headerlink" href="#optbayesexpt-optimmal-bayesian-experiment-design" title="Permalink to this heading">¶</a></h1>
 <dl class="field-list simple">
 <dt class="field-odd">Author</dt>
 <dd class="field-odd"><p>R. D. McMichael</p>
@@ -83,14 +84,14 @@ $(document).ready(function(){
 <dd class="field-odd"><p>National Institute of Standards and Technology</p>
 </dd>
 <dt class="field-even">Version</dt>
-<dd class="field-even"><p>1.1.1</p>
+<dd class="field-even"><p>1.2.0</p>
 </dd>
 <dt class="field-odd">Date</dt>
-<dd class="field-odd"><p>May 28, 2021</p>
+<dd class="field-odd"><p>December 22, 2022</p>
 </dd>
 </dl>
-<section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h2>
 <p>This package offers an implementation of sequential Bayesian experiment
 design, an adaptive strategy for controlling experiments.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">optbayesexpt</span></code> package is avaiable on github.
@@ -103,8 +104,8 @@ Measurements</em>,
 Journal of Research of National Institute of Standards and Technology,
 <strong>126</strong>, 126002 (2021),   <a class="reference external" href="https://doi.org/10.6028/jres.126.002">https://doi.org/10.6028/jres.126.002</a>.</p>
 </div></blockquote>
-<section id="what-is-it-for">
-<h3>What is it for?<a class="headerlink" href="#what-is-it-for" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="what-is-it-for">
+<h3>What is it for?<a class="headerlink" href="#what-is-it-for" title="Permalink to this heading">¶</a></h3>
 <p>It’s for making smart setting choices in measurements that determine
 the parameters of a model. It is for cases with</p>
 <blockquote>
@@ -125,9 +126,9 @@ code could be used with existing data to do Bayesian inference of parameter
 values.</p>
 <p>Note that <em>Bayesian optimization</em> addresses a different problem: finding a
 maximum or minimum of an unknown function.</p>
-</section>
-<section id="what-does-it-do">
-<h3>What does it do?<a class="headerlink" href="#what-does-it-do" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="what-does-it-do">
+<h3>What does it do?<a class="headerlink" href="#what-does-it-do" title="Permalink to this heading">¶</a></h3>
 <p>It chooses measurement settings “live” based on accumulated data.</p>
 <p>The sequential Bayesian experimental design algorithms play the role of an
 impatient experimenter who monitors data from a running experiment and
@@ -147,10 +148,10 @@ BayesOptExpt is ignorant of the world, and it’s the user’s responsibility
 to describe the world in terms of a reliable model, reasonable parameters, and
 reasonable experimental settings. As with most computer programs, “the
 garbage in, garbage out” rule applies.</p>
-</section>
-</section>
-<section id="documentation">
-<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a><ul>
@@ -187,8 +188,8 @@ garbage in, garbage out” rule applies.</p>
 <li class="toctree-l1"><a class="reference internal" href="manual_demos.html">Demos</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="manual_demos.html#finding-a-lorentzian-peak">Finding a Lorentzian peak</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_demos.html#measurement-speedup">Measurement speedup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manual_demos.html#server">Server</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manual_demos.html#tuning-a-pi-pulse">Tuning a <span class="math notranslate nohighlight">\(\pi\)</span> pulse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_demos.html#external-experiment-control">External experiment control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_demos.html#tuning-a-pi-pulse">Tuning a pi pulse</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_demos.html#slope-intercept">Slope Intercept</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_demos.html#a-lockin-amplifier">A Lockin Amplifier</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_demos.html#a-sweeper">A Sweeper</a></li>
@@ -196,6 +197,7 @@ garbage in, garbage out” rule applies.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="versions.html">Version Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="versions.html#version-1-2-0">Version 1.2.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="versions.html#version-1-1-1">Version 1.1.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="versions.html#version-1-1-0">Version 1.1.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="versions.html#version-1-0-1">Version 1.0.1</a></li>
@@ -203,26 +205,45 @@ garbage in, garbage out” rule applies.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="optbayesexpt.html">optbayesexpt API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.obe_base">OptBayesExpt class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.obe_noiseparam">OptBayesExptNoiseParam class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.obe_server">OBE_Server class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.obe_socket">OBE_Socket class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.particlepdf">ParticlePDF class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optbayesexpt.html#module-optbayesexpt.obe_utils">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obe_base.html">OptBayesExpt class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt"><code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="obe_noiseparam.html">OptBayesExptNoiseParam class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="obe_noiseparam.html#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter"><code class="docutils literal notranslate"><span class="pre">OptBayesExptNoiseParameter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="obe_server.html">OBE_Server class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="obe_server.html#optbayesexpt.obe_server.OBE_Server"><code class="docutils literal notranslate"><span class="pre">OBE_Server</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="obe_socket.html">OBE_Socket class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="obe_socket.html#optbayesexpt.obe_socket.Socket"><code class="docutils literal notranslate"><span class="pre">Socket</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="particlepdf.html">ParticlePDF class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="particlepdf.html#optbayesexpt.particlepdf.ParticlePDF"><code class="docutils literal notranslate"><span class="pre">ParticlePDF</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="obe_utils.html">Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="obe_utils.html#optbayesexpt.obe_utils.MeasurementSimulator"><code class="docutils literal notranslate"><span class="pre">MeasurementSimulator</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obe_utils.html#optbayesexpt.obe_utils.differential_entropy"><code class="docutils literal notranslate"><span class="pre">differential_entropy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="obe_utils.html#optbayesexpt.obe_utils.trace_sort"><code class="docutils literal notranslate"><span class="pre">trace_sort()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
-</section>
-<section id="indices-and-tables">
-<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
-</section>
-</section>
+</div>
+</div>
 
 
             <div class="clearer"></div>
@@ -231,9 +252,10 @@ garbage in, garbage out” rule applies.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">OptBayesExpt documentation</a><ul>
+  <div>
+    <h3><a href="#">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">OptBayesExpt: Optimmal Bayesian Experiment Design</a><ul>
 <li><a class="reference internal" href="#overview">Overview</a><ul>
 <li><a class="reference internal" href="#what-is-it-for">What is it for?</a></li>
 <li><a class="reference internal" href="#what-does-it-do">What does it do?</a></li>
@@ -245,9 +267,12 @@ garbage in, garbage out” rule applies.</p>
 </li>
 </ul>
 
-  <h4>Next topic</h4>
-  <p class="topless"><a href="quickstart.html"
-                        title="next chapter">Quick Start</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="quickstart.html"
+                          title="next chapter">Quick Start</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -259,12 +284,12 @@ garbage in, garbage out” rule applies.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -281,13 +306,13 @@ garbage in, garbage out” rule applies.</p>
         <li class="right" >
           <a href="quickstart.html" title="Quick Start"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">OptBayesExpt 1.1.1 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">OptBayesExpt documentation</a></li> 
+        <li class="nav-item nav-item-0"><a href="#">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">OptBayesExpt: Optimmal Bayesian Experiment Design</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

@@ -1,18 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>optbayesexpt.obe_utils &#8212; OptBayesExpt 1.1.0 documentation</title>
-    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>optbayesexpt.obe_utils &#8212; OptBayesExpt 1.2.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 
@@ -56,8 +57,9 @@ $(document).ready(function(){
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">optbayesexpt.obe_utils</a></li> 
       </ul>
     </div>  
 
@@ -68,12 +70,13 @@ $(document).ready(function(){
             
   <h1>Source code for optbayesexpt.obe_utils</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
 <span class="k">try</span><span class="p">:</span>
     <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
 <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
     <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span>
     
-<div class="viewcode-block" id="MeasurementSimulator"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_utils.MeasurementSimulator">[docs]</a><span class="k">class</span> <span class="nc">MeasurementSimulator</span><span class="p">():</span>
+<div class="viewcode-block" id="MeasurementSimulator"><a class="viewcode-back" href="../../obe_utils.html#optbayesexpt.obe_utils.MeasurementSimulator">[docs]</a><span class="k">class</span> <span class="nc">MeasurementSimulator</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Provides simulated measurement data</span>
 
@@ -95,7 +98,7 @@ $(document).ready(function(){
         <span class="bp">self</span><span class="o">.</span><span class="n">cons</span> <span class="o">=</span> <span class="n">cons</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">noise_level</span> <span class="o">=</span> <span class="n">noise_level</span>
 
-<div class="viewcode-block" id="MeasurementSimulator.simdata"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_utils.MeasurementSimulator.simdata">[docs]</a>    <span class="k">def</span> <span class="nf">simdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">setting</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">noise_level</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="MeasurementSimulator.simdata"><a class="viewcode-back" href="../../obe_utils.html#optbayesexpt.obe_utils.MeasurementSimulator.simdata">[docs]</a>    <span class="k">def</span> <span class="nf">simdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">setting</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">noise_level</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Simulate a measurement</span>
 
 <span class="sd">        Args:</span>
@@ -121,7 +124,7 @@ $(document).ready(function(){
         <span class="k">return</span> <span class="n">yn</span></div></div>
 
 
-<div class="viewcode-block" id="trace_sort"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_utils.trace_sort">[docs]</a><span class="k">def</span> <span class="nf">trace_sort</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">measurements</span><span class="p">):</span>
+<div class="viewcode-block" id="trace_sort"><a class="viewcode-back" href="../../obe_utils.html#optbayesexpt.obe_utils.trace_sort">[docs]</a><span class="k">def</span> <span class="nf">trace_sort</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">measurements</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Combine measurements at identical settings values</span>
 
 <span class="sd">    Analyzes input arrays of setttings and corresponding measurement</span>
@@ -179,8 +182,206 @@ $(document).ready(function(){
     <span class="n">m_std</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">m_list</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">m_list</span><span class="p">)))</span>
 
     <span class="k">return</span> <span class="n">sorted_settings</span><span class="p">,</span> <span class="n">m_average</span><span class="p">,</span> <span class="n">m_std</span><span class="p">,</span> <span class="n">n_of_m</span></div>
+
+
+<div class="viewcode-block" id="differential_entropy"><a class="viewcode-back" href="../../obe_utils.html#optbayesexpt.obe_utils.differential_entropy">[docs]</a><span class="k">def</span> <span class="nf">differential_entropy</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">window_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Given a sample of a distribution, estimate the differential entropy.</span>
+
+<span class="sd">    This code is copied from scipy.stats with reformatted docstrings.  When the module is</span>
+<span class="sd">    loaded, __init__.py attempts to import ``differential_entropy()`` from scipy.stats, and loads</span>
+<span class="sd">    this version from obe_utils.py if an ``ImportError`` is raised.</span>
+
+<span class="sd">    Several estimation methods are available using the `method` parameter. By</span>
+<span class="sd">    default, a method is selected based the size of the sample.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        values (:obj:`sequence`): Samples from a continuous distribution.</span>
+
+<span class="sd">        window_length (:obj:`int`, optional): Window length for computing Vasicek estimate.</span>
+<span class="sd">            Must be an integer between 1 and half of  the sample size. If ``None``</span>
+<span class="sd">            (the default), it uses the heuristic value</span>
+
+<span class="sd">            .. math::</span>
+<span class="sd">                \left \lfloor \\sqrt{n} + 0.5 \\right \\rfloor</span>
+
+<span class="sd">            where :math:`n` is the sample size. This heuristic was originally</span>
+<span class="sd">            proposed in [2]_ and has become common in the literature.</span>
+
+<span class="sd">        base (:obj:`float`, optional)</span>
+<span class="sd">            The logarithmic base to use, defaults to ``e`` (natural logarithm).</span>
+
+<span class="sd">        axis (:obj:`int`, optional)</span>
+<span class="sd">            The axis along which the differential entropy is calculated.</span>
+<span class="sd">            Default is 0.</span>
+
+<span class="sd">        method : {&#39;vasicek&#39;, &#39;van es&#39;, &#39;ebrahimi&#39;, &#39;correa&#39;, &#39;auto&#39;}, optional</span>
+<span class="sd">            The method used to estimate the differential entropy from the sample.</span>
+<span class="sd">            Default is ``&#39;auto&#39;``.  See Notes for more information.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        entropy (:obj:`float`):</span>
+<span class="sd">            The calculated differential entropy.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        This function will converge to the true differential entropy in the limit</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            n \\to \\infty, \\quad m \\to \\infty, \\quad \\frac{m}{n} \\to 0</span>
+
+<span class="sd">        The optimal choice of ``window_length`` for a given sample size depends on</span>
+<span class="sd">        the (unknown) distribution. Typically, the smoother the density of the</span>
+<span class="sd">        distribution, the larger the optimal value of ``window_length`` [1]_.</span>
+<span class="sd">        The following options are available for the `method` parameter.</span>
+
+<span class="sd">        * ``&#39;vasicek&#39;`` uses the estimator presented in [1]_. This is one of the</span>
+<span class="sd">          first and most influential estimators of differential entropy.</span>
+<span class="sd">        * ``&#39;van es&#39;`` uses the bias-corrected estimator presented in [3]_, which</span>
+<span class="sd">          is not only consistent but, under some conditions, asymptotically normal.</span>
+<span class="sd">        * ``&#39;ebrahimi&#39;`` uses an estimator presented in [4]_, which was shown</span>
+<span class="sd">          in simulation to have smaller bias and mean squared error than</span>
+<span class="sd">          the Vasicek estimator.</span>
+<span class="sd">        * ``&#39;correa&#39;`` uses the estimator presented in [5]_ based on local linear</span>
+<span class="sd">          regression. In a simulation study, it had consistently smaller mean</span>
+<span class="sd">          square error than the Vasiceck estimator, but it is more expensive to</span>
+<span class="sd">          compute.</span>
+<span class="sd">        * ``&#39;auto&#39;`` selects the method automatically (default). Currently,</span>
+<span class="sd">          this selects ``&#39;van es&#39;`` for very small samples (&lt;10), ``&#39;ebrahimi&#39;``</span>
+<span class="sd">          for moderate sample sizes (11-1000), and ``&#39;vasicek&#39;`` for larger</span>
+<span class="sd">          samples, but this behavior is subject to change in future versions.</span>
+
+<span class="sd">        All estimators are implemented as described in [6]_.</span>
+
+<span class="sd">    References:</span>
+
+<span class="sd">        .. [1] Vasicek, O. (1976). A test for normality based on sample entropy.</span>
+<span class="sd">               Journal of the Royal Statistical Society:</span>
+<span class="sd">               Series B (Methodological), 38(1), 54-59.</span>
+<span class="sd">        .. [2] Crzcgorzewski, P., &amp; Wirczorkowski, R. (1999). Entropy-based</span>
+<span class="sd">               goodness-of-fit test for exponentiality. Communications in</span>
+<span class="sd">               Statistics-Theory and Methods, 28(5), 1183-1202.</span>
+<span class="sd">        .. [3] Van Es, B. (1992). Estimating functionals related to a density by a</span>
+<span class="sd">               class of statistics based on spacings. Scandinavian Journal of</span>
+<span class="sd">               Statistics, 61-72.</span>
+<span class="sd">        .. [4] Ebrahimi, N., Pflughoeft, K., &amp; Soofi, E. S. (1994). Two measures</span>
+<span class="sd">               of sample entropy. Statistics &amp; Probability Letters, 20(3), 225-234.</span>
+<span class="sd">        .. [5] Correa, J. C. (1995). A new estimator of entropy. Communications</span>
+<span class="sd">               in Statistics-Theory and Methods, 24(10), 2439-2449.</span>
+<span class="sd">        .. [6] Noughabi, H. A. (2015). Entropy Estimation Using Numerical</span>
+<span class="sd">               Methods. Annals of Data Science, 2(2), 231-241.</span>
+<span class="sd">               https://link.springer.com/article/10.1007/s40745-015-0045-9</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># number of observations</span>
+
+    <span class="k">if</span> <span class="n">window_length</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">window_length</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">window_length</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Window length (</span><span class="si">{</span><span class="n">window_length</span><span class="si">}</span><span class="s2">) must be positive and less &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;than half the sample size (</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">).&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">base</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">base</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`base` must be a positive number or `None`.&quot;</span><span class="p">)</span>
+
+    <span class="n">sorted_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">methods</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;vasicek&quot;</span><span class="p">:</span> <span class="n">_vasicek_entropy</span><span class="p">,</span>
+               <span class="s2">&quot;van es&quot;</span><span class="p">:</span> <span class="n">_van_es_entropy</span><span class="p">,</span>
+               <span class="s2">&quot;correa&quot;</span><span class="p">:</span> <span class="n">_correa_entropy</span><span class="p">,</span>
+               <span class="s2">&quot;ebrahimi&quot;</span><span class="p">:</span> <span class="n">_ebrahimi_entropy</span><span class="p">,</span>
+               <span class="s2">&quot;auto&quot;</span><span class="p">:</span> <span class="n">_vasicek_entropy</span><span class="p">}</span>
+    <span class="n">method</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;`method` must be one of </span><span class="si">{</span><span class="nb">set</span><span class="p">(</span><span class="n">methods</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;van es&#39;</span>
+        <span class="k">elif</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1000</span><span class="p">:</span>
+            <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;ebrahimi&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;vasicek&#39;</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">methods</span><span class="p">[</span><span class="n">method</span><span class="p">](</span><span class="n">sorted_data</span><span class="p">,</span> <span class="n">window_length</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">base</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<span class="k">def</span> <span class="nf">_pad_along_last_axis</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="c1"># Pad the data for computing the rolling window difference.</span>
+    <span class="c1"># scales a  bit better than method in _vasicek_like_entropy</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span>
+    <span class="n">Xl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">shape</span><span class="p">)</span>  <span class="c1"># [0] vs 0 to maintain shape</span>
+    <span class="n">Xr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">Xl</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Xr</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_vasicek_entropy</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="c1"># Compute the Vasicek estimator as described in [7] Eq. 1.3.</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">_pad_along_last_axis</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="n">differences</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">:]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">:]</span>
+    <span class="n">logs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">differences</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">logs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_van_es_entropy</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="c1"># Compute the van Es estimator as described in [7].</span>
+    <span class="c1"># No equation number, but referred to as HVE_mn.</span>
+    <span class="c1"># Typo: there should be a log within the summation.</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">difference</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">m</span><span class="p">:]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="n">m</span><span class="p">]</span>
+    <span class="n">term1</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">((</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">m</span> <span class="o">*</span> <span class="n">difference</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">term1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_ebrahimi_entropy</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="c1"># Compute the Ebrahimi estimator as described in [7].</span>
+    <span class="c1"># No equation number, but referred to as HE_mn</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">_pad_along_last_axis</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+
+    <span class="n">differences</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">:]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">:]</span>
+
+    <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">ci</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span>
+    <span class="n">ci</span><span class="p">[</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">m</span>
+    <span class="n">ci</span><span class="p">[</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">i</span><span class="p">[</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="n">m</span>
+
+    <span class="n">logs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">differences</span> <span class="o">/</span> <span class="p">(</span><span class="n">ci</span> <span class="o">*</span> <span class="n">m</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">logs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_correa_entropy</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="c1"># Compute the Correa estimator as described in [7].</span>
+    <span class="c1"># No equation number, but referred to as HC_mn</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">_pad_along_last_axis</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+
+    <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">m</span><span class="p">,</span> <span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">dj</span>
+    <span class="n">j0</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># 0-indexed version of j</span>
+
+    <span class="n">Xibar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">j0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">difference</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">j0</span><span class="p">]</span> <span class="o">-</span> <span class="n">Xibar</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">difference</span><span class="o">*</span><span class="n">dj</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># dj is d-i</span>
+    <span class="n">den</span> <span class="o">=</span> <span class="n">n</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">difference</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">num</span><span class="o">/</span><span class="n">den</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -190,12 +391,12 @@ $(document).ready(function(){
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -209,13 +410,14 @@ $(document).ready(function(){
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">optbayesexpt.obe_utils</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

@@ -1,18 +1,19 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
-    <title>Manual &#8212; OptBayesExpt 1.1.1 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manual &#8212; OptBayesExpt 1.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -65,7 +66,7 @@ $(document).ready(function(){
         <li class="right" >
           <a href="quickstart.html" title="Quick Start"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Manual</a></li> 
       </ul>
     </div>  
@@ -75,16 +76,16 @@ $(document).ready(function(){
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="manual">
-<h1>Manual<a class="headerlink" href="#manual" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="manual">
+<h1>Manual<a class="headerlink" href="#manual" title="Permalink to this heading">¶</a></h1>
 <div class="line-block">
 <div class="line">R. D. McMichael <a class="reference external" href="mailto:rmcmichael&#37;&#52;&#48;nist&#46;gov">rmcmichael<span>&#64;</span>nist<span>&#46;</span>gov</a></div>
 <div class="line">National Institute of Standards and Technology</div>
 <div class="line">Gaithersburg, MD USA</div>
 <div class="line">April 7, 2020</div>
 </div>
-<section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>This manual describes an implementation of optimal Bayesian experimental
 design methods to control measurement settings in order to efficiently
 determine model parameters. In situations where parametric models would
@@ -110,8 +111,8 @@ these methods today. First, the availability of flexible, modular
 computer languages such as Python. Second, availability of cheap
 computational power. Most of all though, an increased awareness of the
 benefits of code sharing and reuse is growing in scientific communities.</p>
-<section id="philosophy-and-goals">
-<h3>Philosophy and goals<a class="headerlink" href="#philosophy-and-goals" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="philosophy-and-goals">
+<h3>Philosophy and goals<a class="headerlink" href="#philosophy-and-goals" title="Permalink to this heading">¶</a></h3>
 <blockquote class="epigraph">
 <div><p>If it sounds good, it is good.</p>
 <p class="attribution">—Duke Ellington</p>
@@ -129,9 +130,9 @@ a “runs good” philosophy:</p>
 modest: to adapt some of the developments in optimal Bayeseian
 experimental design research for practical use in laboratory settings,
 giving users tools to make better measurements.</p>
-</section>
-<section id="requirements-for-users">
-<h3>Requirements for users<a class="headerlink" href="#requirements-for-users" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="requirements-for-users">
+<h3>Requirements for users<a class="headerlink" href="#requirements-for-users" title="Permalink to this heading">¶</a></h3>
 <p>It takes a little effort to get this software up and running. Here’s
 what a user will need to supply to get started.</p>
 <ol class="arabic simple">
@@ -143,14 +144,14 @@ parameters to be determined.</p></li>
 <li><p>A working knowledge of Python programming, enough to follow examples
 and program a model function.</p></li>
 </ol>
-</section>
-</section>
-<section id="theory-of-operation">
-<h2>Theory of operation<a class="headerlink" href="#theory-of-operation" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="theory-of-operation">
+<h2>Theory of operation<a class="headerlink" href="#theory-of-operation" title="Permalink to this heading">¶</a></h2>
 <p>The optimal Bayes experimental design method incorporates two main jobs,
 which we can describe as “learning early” and “making good decisions”</p>
-<section id="learning-early">
-<h3>Learning early<a class="headerlink" href="#learning-early" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="learning-early">
+<h3>Learning early<a class="headerlink" href="#learning-early" title="Permalink to this heading">¶</a></h3>
 <p>By interpreting measurement data as soon as it becomes available, sequential Bayesian
 experimental design gains a critical advantage over the traditional measure-then-fit design.
 With a measure-then-fit strategy, we get information about parameters only at the very end of the
@@ -218,9 +219,9 @@ measurement uncertainty on the measurement reporter, but as an experimental resu
 generally a measurement output, not an input.  If uncertainty is a parameter to be determined, it
 enters the process through the likelihood function given above, but it is not part of the model
 function <span class="math notranslate nohighlight">\(y(x_i, \theta)\)</span>. See <code class="docutils literal notranslate"><span class="pre">demos/line_plus_noise.py</span></code> for an example.</p>
-</section>
-<section id="making-good-decisions">
-<h3>Making good decisions<a class="headerlink" href="#making-good-decisions" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="making-good-decisions">
+<h3>Making good decisions<a class="headerlink" href="#making-good-decisions" title="Permalink to this heading">¶</a></h3>
 <p>The next important job in the process is figuring out good measurement
 settings. The goal is to make the parameter probability distribution
 <span class="math notranslate nohighlight">\(p(\theta)\)</span> narrow while minimizing cost. More formally, the
@@ -239,8 +240,8 @@ agree.  Instead, it would do the most good to “pin down” the results with a 
 focuses attention on the relevant parts of parameter space, and through the model to relevant
 settings. Or, stated slightly differently, using an updated parameter distribution helps to avoid
 wasting measurement resources on low-impact measurements.</p>
-<section id="estimate-benefits">
-<h4>Estimate benefits<a class="headerlink" href="#estimate-benefits" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="estimate-benefits">
+<h4>Estimate benefits<a class="headerlink" href="#estimate-benefits" title="Permalink to this heading">¶</a></h4>
 <p>To translate such a qualitative argument into code, “doing the most good”
 must be defined more precisely in terms of desired changes in
 the parameter distribution <span class="math notranslate nohighlight">\(p(\theta)\)</span>. Usually, the goal in
@@ -329,9 +330,9 @@ parameter variations. The dependence on measurement noise
 useful to make measurements at settings <span class="math notranslate nohighlight">\(x\)</span> where the
 instrumental noise is larger. This approximate utility function is
 also positive, i.e. more data helps narrow a distribution.</p>
-</section>
-<section id="estimate-the-costs">
-<h4>Estimate the costs<a class="headerlink" href="#estimate-the-costs" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="estimate-the-costs">
+<h4>Estimate the costs<a class="headerlink" href="#estimate-the-costs" title="Permalink to this heading">¶</a></h4>
 <p>The utility as described above focuses on the information entropy change,
 but if the question is about making efficient measurements, the cost of the
 measurements is fully half of the problem.  In the simplest situations, the
@@ -340,23 +341,23 @@ there may be a cost associated with changing settings, the cost of a
 measurement may depend on the likelihood of damage. So in contrast to the
 general approach to predicting information entropy change, the cost closely
 associated with local conditions.</p>
-</section>
-</section>
-</section>
-<section id="guided-tour">
-<h2>Guided Tour<a class="headerlink" href="#guided-tour" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="section" id="guided-tour">
+<h2>Guided Tour<a class="headerlink" href="#guided-tour" title="Permalink to this heading">¶</a></h2>
 <p>Where the section above treats the theory of Bayesian experimental design,
 this section provides an introduction to the algorithms and methods in the
 <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code>
 class that perform the “learn fast” and “make good decisions” tasks.
 An additional subsection describes how the parameter probability
 distribution is implemented.</p>
-<section id="learn-fast-routine">
-<h3>Learn fast routine<a class="headerlink" href="#learn-fast-routine" title="Permalink to this headline">¶</a></h3>
-<aside class="sidebar">
+<div class="section" id="learn-fast-routine">
+<h3>Learn fast routine<a class="headerlink" href="#learn-fast-routine" title="Permalink to this heading">¶</a></h3>
+<div class="sidebar">
 <p class="sidebar-title">Measurement inputs</p>
 <a class="reference internal image-reference" href="_images/obe_pdf_update_flowchart.png"><img alt="_images/obe_pdf_update_flowchart.png" src="_images/obe_pdf_update_flowchart.png" style="width: 317.45px; height: 193.89999999999998px;" /></a>
-</aside>
+</div>
 <p>To input measurement data, the user script invokes
 <code class="docutils literal notranslate"><span class="pre">pdf_update(measurement_result)</span></code>.  The events that follow are illustrated
 in the sidebar.  <code class="docutils literal notranslate"><span class="pre">OptBaesExpt</span></code> requires the user to provide a
@@ -391,13 +392,13 @@ this approach, see</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">ParticlePdf.bayesian_update()</span></code> adjusts the parameter distribution
 (including the uncertainty part) based on the likelihood.</p>
-</section>
-<section id="make-good-decisions-routine">
-<h3>Make good decisions routine<a class="headerlink" href="#make-good-decisions-routine" title="Permalink to this headline">¶</a></h3>
-<aside class="sidebar">
+</div>
+<div class="section" id="make-good-decisions-routine">
+<h3>Make good decisions routine<a class="headerlink" href="#make-good-decisions-routine" title="Permalink to this heading">¶</a></h3>
+<div class="sidebar">
 <p class="sidebar-title">Setting selection</p>
 <a class="reference internal image-reference" href="_images/utility.png"><img alt="_images/utility.png" src="_images/utility.png" style="width: 317.79999999999995px; height: 349.29999999999995px;" /></a>
-</aside>
+</div>
 <p>Measurement settings are selected by <code class="docutils literal notranslate"><span class="pre">opt_setting()</span></code> and <code class="docutils literal notranslate"><span class="pre">good_setting</span></code>,
 and both of these rely on <code class="docutils literal notranslate"><span class="pre">utility()</span></code>.  The sidebar illustrates the inner
 workings of <code class="docutils literal notranslate"><span class="pre">utility()</span></code>, where the most time-consuming part is
@@ -427,13 +428,13 @@ with higher utility, the contrast between high and low utility is stretched
 by raising utility to a power, <code class="docutils literal notranslate"><span class="pre">pickiness</span></code>.  The contrasting behavior of
 <code class="docutils literal notranslate"><span class="pre">opt_settting()</span></code> and <code class="docutils literal notranslate"><span class="pre">good_setting()</span></code> with different <code class="docutils literal notranslate"><span class="pre">pickiness</span></code>
 values are illustrated by <code class="docutils literal notranslate"><span class="pre">demos/line_plus_noise.py</span></code></p>
-</section>
-<section id="probability-distribution-class">
-<h3>Probability distribution class<a class="headerlink" href="#probability-distribution-class" title="Permalink to this headline">¶</a></h3>
-<aside class="sidebar">
+</div>
+<div class="section" id="probability-distribution-class">
+<h3>Probability distribution class<a class="headerlink" href="#probability-distribution-class" title="Permalink to this heading">¶</a></h3>
+<div class="sidebar">
 <p class="sidebar-title">Probability distributions</p>
 <a class="reference internal image-reference" href="_images/particleFilter.png"><img alt="_images/particleFilter.png" src="_images/particleFilter.png" style="width: 320.0px; height: 240.0px;" /></a>
-</aside>
+</div>
 <p>The probability distribution over the model parameters is at the core of
 <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code>.  As of version 1.0, the optbayesexpt package uses the
 <code class="docutils literal notranslate"><span class="pre">particlePDF</span></code> class to implement the distribution function for <em>N</em>
@@ -475,9 +476,9 @@ slightly to compensate for the one-step diffusion, and the weight is divided
 evenly between particles as shown in panel (c). Resampling relocates
 low-weight particles to higher-weight neighborhoods so that as measurements
 narrow the distributions of parameter values, the representation adapts.</p>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
             <div class="clearer"></div>
@@ -486,8 +487,9 @@ narrow the distributions of parameter values, the representation adapts.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Manual</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a><ul>
 <li><a class="reference internal" href="#philosophy-and-goals">Philosophy and goals</a></li>
@@ -513,12 +515,17 @@ narrow the distributions of parameter values, the representation adapts.</p>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="quickstart.html"
-                        title="previous chapter">Quick Start</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="manual_demos.html"
-                        title="next chapter">Demos</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="quickstart.html"
+                          title="previous chapter">Quick Start</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="manual_demos.html"
+                          title="next chapter">Demos</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -530,12 +537,12 @@ narrow the distributions of parameter values, the representation adapts.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -555,13 +562,13 @@ narrow the distributions of parameter values, the representation adapts.</p>
         <li class="right" >
           <a href="quickstart.html" title="Quick Start"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Manual</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

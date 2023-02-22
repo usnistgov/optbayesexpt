@@ -1,18 +1,19 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
-    <title>Theory of operation &#8212; OptBayesExpt 1.1.1 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Theory of operation &#8212; OptBayesExpt 1.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -57,7 +58,7 @@ $(document).ready(function(){
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Theory of operation</a></li> 
       </ul>
     </div>  
@@ -67,12 +68,12 @@ $(document).ready(function(){
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="theory-of-operation">
-<h1>Theory of operation<a class="headerlink" href="#theory-of-operation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="theory-of-operation">
+<h1>Theory of operation<a class="headerlink" href="#theory-of-operation" title="Permalink to this heading">¶</a></h1>
 <p>The optimal Bayes experimental design method incorporates two main jobs,
 which we can describe as “learning early” and “making good decisions”</p>
-<section id="learning-early">
-<h2>Learning early<a class="headerlink" href="#learning-early" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="learning-early">
+<h2>Learning early<a class="headerlink" href="#learning-early" title="Permalink to this heading">¶</a></h2>
 <p>By interpreting measurement data as soon as it becomes available, sequential Bayesian
 experimental design gains a critical advantage over the traditional measure-then-fit design.
 With a measure-then-fit strategy, we get information about parameters only at the very end of the
@@ -140,9 +141,9 @@ measurement uncertainty on the measurement reporter, but as an experimental resu
 generally a measurement output, not an input.  If uncertainty is a parameter to be determined, it
 enters the process through the likelihood function given above, but it is not part of the model
 function <span class="math notranslate nohighlight">\(y(x_i, \theta)\)</span>. See <code class="docutils literal notranslate"><span class="pre">demos/line_plus_noise.py</span></code> for an example.</p>
-</section>
-<section id="making-good-decisions">
-<h2>Making good decisions<a class="headerlink" href="#making-good-decisions" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="making-good-decisions">
+<h2>Making good decisions<a class="headerlink" href="#making-good-decisions" title="Permalink to this heading">¶</a></h2>
 <p>The next important job in the process is figuring out good measurement
 settings. The goal is to make the parameter probability distribution
 <span class="math notranslate nohighlight">\(p(\theta)\)</span> narrow while minimizing cost. More formally, the
@@ -161,8 +162,8 @@ agree.  Instead, it would do the most good to “pin down” the results with a 
 focuses attention on the relevant parts of parameter space, and through the model to relevant
 settings. Or, stated slightly differently, using an updated parameter distribution helps to avoid
 wasting measurement resources on low-impact measurements.</p>
-<section id="estimate-benefits">
-<h3>Estimate benefits<a class="headerlink" href="#estimate-benefits" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="estimate-benefits">
+<h3>Estimate benefits<a class="headerlink" href="#estimate-benefits" title="Permalink to this heading">¶</a></h3>
 <p>To translate such a qualitative argument into code, “doing the most good”
 must be defined more precisely in terms of desired changes in
 the parameter distribution <span class="math notranslate nohighlight">\(p(\theta)\)</span>. Usually, the goal in
@@ -251,9 +252,9 @@ parameter variations. The dependence on measurement noise
 useful to make measurements at settings <span class="math notranslate nohighlight">\(x\)</span> where the
 instrumental noise is larger. This approximate utility function is
 also positive, i.e. more data helps narrow a distribution.</p>
-</section>
-<section id="estimate-the-costs">
-<h3>Estimate the costs<a class="headerlink" href="#estimate-the-costs" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="estimate-the-costs">
+<h3>Estimate the costs<a class="headerlink" href="#estimate-the-costs" title="Permalink to this heading">¶</a></h3>
 <p>The utility as described above focuses on the information entropy change,
 but if the question is about making efficient measurements, the cost of the
 measurements is fully half of the problem.  In the simplest situations, the
@@ -262,9 +263,9 @@ there may be a cost associated with changing settings, the cost of a
 measurement may depend on the likelihood of damage. So in contrast to the
 general approach to predicting information entropy change, the cost closely
 associated with local conditions.</p>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
             <div class="clearer"></div>
@@ -273,8 +274,9 @@ associated with local conditions.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Theory of operation</a><ul>
 <li><a class="reference internal" href="#learning-early">Learning early</a></li>
 <li><a class="reference internal" href="#making-good-decisions">Making good decisions</a><ul>
@@ -286,6 +288,7 @@ associated with local conditions.</p>
 </li>
 </ul>
 
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -297,12 +300,12 @@ associated with local conditions.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -316,13 +319,13 @@ associated with local conditions.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Theory of operation</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

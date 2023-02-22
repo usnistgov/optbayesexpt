@@ -1,18 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>optbayesexpt.obe_server &#8212; OptBayesExpt 1.1.0 documentation</title>
-    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>optbayesexpt.obe_server &#8212; OptBayesExpt 1.2.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 
@@ -56,8 +57,9 @@ $(document).ready(function(){
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">optbayesexpt.obe_server</a></li> 
       </ul>
     </div>  
 
@@ -67,10 +69,11 @@ $(document).ready(function(){
           <div class="body" role="main">
             
   <h1>Source code for optbayesexpt.obe_server</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">.obe_socket</span> <span class="kn">import</span> <span class="n">Socket</span>
+<span></span><span class="kn">from</span> <span class="nn">optbayesexpt.obe_socket</span> <span class="kn">import</span> <span class="n">Socket</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<div class="viewcode-block" id="OBE_Server"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_server.OBE_Server">[docs]</a><span class="k">class</span> <span class="nc">OBE_Server</span><span class="p">(</span><span class="n">Socket</span><span class="p">):</span>
+
+<div class="viewcode-block" id="OBE_Server"><a class="viewcode-back" href="../../obe_server.html#optbayesexpt.obe_server.OBE_Server">[docs]</a><span class="k">class</span> <span class="nc">OBE_Server</span><span class="p">(</span><span class="n">Socket</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A TCP socket interface for OptBayesExpt using JSON strings</span>
 
 <span class="sd">    This class provides communication between an OptBayesExpt object and</span>
@@ -133,9 +136,11 @@ $(document).ready(function(){
             <span class="bp">self</span><span class="o">.</span><span class="n">initial_args</span> <span class="o">=</span> <span class="n">initial_args</span>
         <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">initial_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_kwargs</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="OBE_Server.make_obe"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_server.OBE_Server.make_obe">[docs]</a>    <span class="k">def</span> <span class="nf">make_obe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obe_class</span><span class="p">,</span> <span class="n">class_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="OBE_Server.make_obe"><a class="viewcode-back" href="../../obe_server.html#optbayesexpt.obe_server.OBE_Server.make_obe">[docs]</a>    <span class="k">def</span> <span class="nf">make_obe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obe_class</span><span class="p">,</span> <span class="n">class_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Creates and attaches a new OptBayesExpt-like object</span>
 
 <span class="sd">        A server may need to handle several runs. This function allows</span>
@@ -157,9 +162,9 @@ $(document).ready(function(){
         <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">initial_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
         <span class="c1"># create a new OptBayesExpt and attach it as the obe_engine attribute.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span> <span class="o">=</span> <span class="n">obe_class</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_kwargs</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span> <span class="o">=</span> <span class="n">obe_class</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OBE_Server.newrun"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_server.OBE_Server.newrun">[docs]</a>    <span class="k">def</span> <span class="nf">newrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+<div class="viewcode-block" id="OBE_Server.newrun"><a class="viewcode-back" href="../../obe_server.html#optbayesexpt.obe_server.OBE_Server.newrun">[docs]</a>    <span class="k">def</span> <span class="nf">newrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;A stub to allow customized TCP commands</span>
 
 <span class="sd">        Invoked by the ``run`` method when a message with a ``&#39;newrun&#39;``</span>
@@ -181,7 +186,7 @@ $(document).ready(function(){
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="OBE_Server.run"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_server.OBE_Server.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OBE_Server.run"><a class="viewcode-back" href="../../obe_server.html#optbayesexpt.obe_server.OBE_Server.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Listens and responds to TCP messages</span>
 
 <span class="sd">        Enters a continuous loop, interpreting incoming messages as python</span>
@@ -382,6 +387,7 @@ $(document).ready(function(){
 <span class="c1"># end of OBE_Server definition</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -391,12 +397,12 @@ $(document).ready(function(){
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -410,13 +416,14 @@ $(document).ready(function(){
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">optbayesexpt.obe_server</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

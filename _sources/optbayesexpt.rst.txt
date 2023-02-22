@@ -1,9 +1,6 @@
 optbayesexpt API
 ================
 
-Overview
---------
-
 * :obj:`OptBayesExpt` is the core class that performs Bayesian inference
   and selects measurement settings. Typically, it is the only
   class that a user will need to interact with directly.
@@ -21,56 +18,23 @@ Overview
 * :obj:`Socket` class is inherited by :obj:`Server` to handle TCP connections
   and message encoding/decoding.
 
-* The **obe_utils.py** file provides a :obj:`MeasurementSimulator` class that
-  uses "true value" parameters and added noise to simulate experimental
-  outputs.
-  For post-processing, a :obj:`trace_sort()` function sorts measurement data by
-  measurement setting and combines all measurements with settings in common.
+* The **obe_utils.py** file provides
 
-OptBayesExpt class
-------------------
+    * A :obj:`MeasurementSimulator` class that uses "true value" parameters
+      and added noise to simulate experimental outputs.
+    * For post-processing, a :obj:`trace_sort()` function sorts measurement
+      data by measurement setting and combines all measurements with settings
+      in common.
+    * A :obj:`differential_entropy()` function to calculate information entropy from
+      samples of a distribution.
 
-.. automodule:: optbayesexpt.obe_base
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
-OptBayesExptNoiseParam class
-----------------------------
+.. toctree::
 
-.. automodule:: optbayesexpt.obe_noiseparam
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   obe_base
+   obe_noiseparam
+   obe_server
+   obe_socket
+   particlepdf
+   obe_utils
 
-OBE_Server class
-----------------
-
-.. automodule:: optbayesexpt.obe_server
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-OBE_Socket class
-----------------
-
-.. automodule:: optbayesexpt.obe_socket
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-ParticlePDF class
------------------
-
-.. automodule:: optbayesexpt.particlepdf
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Utilities
----------
-
-.. automodule:: optbayesexpt.obe_utils
-   :members:
-   :undoc-members:
-   :show-inheritance:

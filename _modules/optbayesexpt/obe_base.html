@@ -1,17 +1,19 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>optbayesexpt.obe_base &#8212; OptBayesExpt 1.1.0 documentation</title>
+    <title>optbayesexpt.obe_base &#8212; OptBayesExpt 1.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 
@@ -55,7 +57,7 @@ $(document).ready(function(){
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">optbayesexpt.obe_base</a></li> 
       </ul>
@@ -70,15 +72,24 @@ $(document).ready(function(){
 <span></span><span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Bob McMichael&#39;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">.particlepdf</span> <span class="kn">import</span> <span class="n">ParticlePDF</span>
-<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">GOT_NUMBA</span>
 
-<span class="k">if</span> <span class="n">GOT_NUMBA</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span><span class="p">,</span> <span class="n">float64</span>
+<span class="kn">from</span> <span class="nn">optbayesexpt</span> <span class="kn">import</span> <span class="n">ParticlePDF</span>
 
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">differential_entropy</span> <span class="k">as</span> <span class="n">diffent</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">optbayesexpt.obe_utils</span> <span class="kn">import</span> <span class="n">differential_entropy</span> <span class="k">as</span> <span class="n">diffent</span>
+
+<span class="n">GOT_NUMBA</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">GOT_NUMBA</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
 <span class="n">DEFAULT_N_DRAWS</span> <span class="o">=</span> <span class="mi">30</span>
 
-<div class="viewcode-block" id="OptBayesExpt"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt">[docs]</a><span class="k">class</span> <span class="nc">OptBayesExpt</span><span class="p">(</span><span class="n">ParticlePDF</span><span class="p">):</span>
+<div class="viewcode-block" id="OptBayesExpt"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt">[docs]</a><span class="k">class</span> <span class="nc">OptBayesExpt</span><span class="p">(</span><span class="n">ParticlePDF</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An implementation of sequential Bayesian experiment design.</span>
 
 <span class="sd">    OptBayesExpt is a manager that calculates strategies for efficient</span>
@@ -95,18 +106,19 @@ $(document).ready(function(){
 <span class="sd">    interpretation of new data and either ``OptBayesExpt.opt_setting()`` or</span>
 <span class="sd">    ``OptBayesExpt.good_setting()`` for calculation of effective settings.</span>
 
-<span class="sd">    Instances of OptBayesExpt itself may be used for cases where</span>
+<span class="sd">    Instances of OptBayesExpt may be used for cases where</span>
 
 <span class="sd">    #. Reported measurement data includes measurement uncertainty,</span>
 <span class="sd">    #. Every measurement is assumed to cost the same amount.</span>
-<span class="sd">    #. The measurement noise is assumed to be constant</span>
+<span class="sd">    #. The measurement noise is assumed to be constant, independent of</span>
+<span class="sd">       parameters and settings.</span>
 
 <span class="sd">    OptBayesExpt may be inherited by child classes to allow additional</span>
 <span class="sd">    flexibility.  Examples in the ``demos`` folder show several extensions</span>
 <span class="sd">    including unknown noise, and setting-dependent costs.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        model_function (:obj:`function`): Evaluates the experimental model</span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        measurement_model (:obj:`function`): Evaluates the experimental model</span>
 <span class="sd">            from (:code:`settings`, :code:`parameters`, :code:`constants`)</span>
 <span class="sd">            arguments, returning single values or arrays depending on the</span>
 <span class="sd">            arguments.  The :code:`model_function` is very similar to the</span>
@@ -125,8 +137,10 @@ $(document).ready(function(){
 <span class="sd">            way to write this type of function for simple analytical models.</span>
 
 <span class="sd">            Version 1.1.0 and later support model functions that return</span>
-<span class="sd">            multiple output channels, e. g. real and imaginary parts or vectors</span>
-<span class="sd">            expressed as tuples, lists or arrays.</span>
+<span class="sd">            multiple output channels, e. g. real and imaginary parts or</span>
+<span class="sd">            vectors expressed as tuples, lists or arrays. The number of</span>
+<span class="sd">            output channels, ``n_channels`` is deduced by evaluating the</span>
+<span class="sd">            measurement model function.</span>
 
 <span class="sd">        setting_values (:obj:`tuple` of :obj:`ndarray`):</span>
 <span class="sd">            Each array in the :code:`setting_values` tuple contains the</span>
@@ -139,17 +153,16 @@ $(document).ready(function(){
 <span class="sd">            that are held constant belong in the :code:`constants` array.</span>
 
 <span class="sd">        parameter_samples (:obj:`tuple` of :obj:`ndarray`):</span>
-<span class="sd">            Each array in the :code:`parameter_samples` tuple contains the</span>
-<span class="sd">            possible values of a model parameter.  In a simple example</span>
-<span class="sd">            model, :code:`y = m * x + b`, the parameters are :code:`m` and</span>
-<span class="sd">            :code:`b`.  As with the :code:`setting_values`,</span>
-<span class="sd">            :code:`parameter_samples` arrays should be kept few and small.</span>
-<span class="sd">            Parameters that can be assumed constant belong in the</span>
-<span class="sd">            :code:`constants` array. Discretization should only be fine</span>
-<span class="sd">            enough to support the needed measurement precision. The</span>
-<span class="sd">            parameter ranges must also be limited: too broad, and the</span>
-<span class="sd">            computation will be slow; too narrow, and the measurement may</span>
-<span class="sd">            have to be adjusted and repeated.</span>
+<span class="sd">            In a simple example model, :math:`y = m * x + b`, the parameters</span>
+<span class="sd">            are :math:`m` and :math:`b`. Each array in the</span>
+<span class="sd">            :code:`parameter_samples` tuple contains samples from the *prior*</span>
+<span class="sd">            distribution of a parameter. Traditionally, the prior is</span>
+<span class="sd">            described as expressing the state of belief about the parameter</span>
+<span class="sd">            value before measurement, so the prior can be used to include</span>
+<span class="sd">            results of other measurements. For a mostly independent</span>
+<span class="sd">            measurement, the prior samples should cover the full range of</span>
+<span class="sd">            plausible values. Parameters that can be assumed</span>
+<span class="sd">            constant belong in the :code:`constants` array.</span>
 
 <span class="sd">        constants (:obj:`tuple` of :obj:`float`):</span>
 <span class="sd">            Model constants.  Examples include experimental settings that</span>
@@ -157,7 +170,6 @@ $(document).ready(function(){
 <span class="sd">            from previous measurement results.</span>
 
 <span class="sd">    Keyword Args:</span>
-
 <span class="sd">        n_draws (:obj:`int`): specifies the number of parameter samples used</span>
 <span class="sd">            in the utility calculation.  Default 30.</span>
 
@@ -170,73 +182,102 @@ $(document).ready(function(){
 <span class="sd">            likelihood and allows more data to influence the parameter</span>
 <span class="sd">            distribution between resampling events. Default ``None``.</span>
 
+<span class="sd">        use_jit (:obj:`Boolean`): If ``numba`` is installed, pre-compile the</span>
+<span class="sd">            likelihood calculation for faster execution.  Arg ``use_jit`` is also</span>
+<span class="sd">            passed as a keyword arg to ParticlPDF. Default ``True``.</span>
+
+<span class="sd">        utility_method (:obj:`string`)</span>
+<span class="sd">            [``&#39;variance_approx&#39;`` | ``&#39;pseudo_utility&#39;`` |</span>
+<span class="sd">            ``&#39;full_kld_utility&#39;`` | ``&#39;max_min&#39;``]:  Specifies the utility</span>
+<span class="sd">            algorithm as described in [#f1]_. With ``&#39;max_min&#39;``,</span>
+<span class="sd">            n_draws=2 is recommended. Default ``&#39;variance_approx&#39;``.</span>
+
+<span class="sd">        selection_method (:obj:`string`)</span>
+<span class="sd">            [``&#39;optimal&#39;`` | ``&#39;good&#39;`` | ``&#39;random&#39;``]:</span>
+<span class="sd">            Specifies how the setting is selected based on the</span>
+<span class="sd">            utility. If ``&#39;optimal&#39;``, the setting at maximum utility is</span>
+<span class="sd">            selected. If ``&#39;good&#39;``, the utility is raised to a power given</span>
+<span class="sd">            by ``pickiness`` parameter and normalized. The setting is</span>
+<span class="sd">            selected with probability proportional to ``utility`` **</span>
+<span class="sd">            ``pickiness``.  If ``&#39;random``, the utility is disregarded and</span>
+<span class="sd">            the setting is chosen randomly from the allowed settings.</span>
+
+<span class="sd">        pickiness (:obj:`float`):</span>
+<span class="sd">            When `selection_method` is ``&#39;normal&#39;``,</span>
+<span class="sd">            this parameter affects the probability of picking a setting near a</span>
+<span class="sd">            maximum in the utilty function. Default 15.</span>
+
+<span class="sd">        default_noise_std (:obj:`float` or :obj:`ndarray`):</span>
+<span class="sd">            Measurement noise standard deviation used in utility</span>
+<span class="sd">            calculations.  If ``float``, the value populates entries of a</span>
+<span class="sd">            :math:`n_{channels} \\times 1` ``ndarray`` where :math:`n_{</span>
+<span class="sd">            channels}` corresponds to the number of measurement channels,</span>
+<span class="sd">            e.g. 2 if data is collected from :math:`X` and :math:`Y` outputs</span>
+<span class="sd">            of an instrument. If  :math:`n_{channels} \\times 1` ``ndarray``,</span>
+<span class="sd">            entries are noise standard deviations corresponding to the</span>
+<span class="sd">            measurement channels. </span>
+
 <span class="sd">        \*\*kwargs: Keyword arguments passed to the parent ParticlePDF class.</span>
 
-<span class="sd">    Attributes:</span>
-<span class="sd">        model_function (:obj:`function`): Same as the ``model_function``</span>
-<span class="sd">            parameter above.</span>
-
-<span class="sd">        setting_values (:obj:`tuple` of :obj:`ndarray`): A record of the</span>
-<span class="sd">            setting_values argument.</span>
-
-<span class="sd">        allsettings (:obj:`list` of :obj:`ndarray`): Arrays containing all</span>
-<span class="sd">            possible combinations of the setting values provided in the</span>
-<span class="sd">            ``setting_values`` argument.</span>
-
-<span class="sd">        setting_indices (:obj:`ndarray` of :obj:`int`): indices in to</span>
-<span class="sd">            the allsettings arrays. Used in ``opt_setting()`` and</span>
-<span class="sd">            ``good_setting()``.</span>
-
-<span class="sd">        parameters (:obj:`ndarray` of :obj:`ndarray`): The most recently</span>
-<span class="sd">            set of parameter samples the parameter distribution.</span>
-<span class="sd">            ``self.parameters`` is a *view* of ``PartcilePDF.particles``.</span>
-
-<span class="sd">        cons (:obj:`tuple` of :obj:`float`): Stores the ``constants``</span>
-<span class="sd">            argument tuple.</span>
-
-<span class="sd">        default_noise_std (:obj:`float`): A rough-estimate of measurement</span>
-<span class="sd">            noise as a standard-deviation. The default return value of</span>
-<span class="sd">            ``cost()``.</span>
-
-<span class="sd">        measurement_results (:obj:`list`): A list containing records of</span>
-<span class="sd">            accumulated measurement results</span>
-
-<span class="sd">        last_setting_index (:obj:`int`): The most recent settings</span>
-<span class="sd">            recommendation as an index into ``self.allsettings``.</span>
-
-<span class="sd">        N_DRAWS (int): The number of parameter draws to use in the utility</span>
-<span class="sd">            calculation to estimate the variance of model outputs due to</span>
-<span class="sd">            parameter distribution.  Default: 30</span>
-
-<span class="sd">    Methods:</span>
+<span class="sd">    **Attributes:**</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_model</span><span class="p">,</span> <span class="n">setting_values</span><span class="p">,</span> <span class="n">parameter_samples</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measurement_model</span><span class="p">,</span> <span class="n">setting_values</span><span class="p">,</span> <span class="n">parameter_samples</span><span class="p">,</span>
                  <span class="n">constants</span><span class="p">,</span> <span class="n">n_draws</span><span class="o">=</span><span class="n">DEFAULT_N_DRAWS</span><span class="p">,</span> <span class="n">choke</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">use_jit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model_function</span> <span class="o">=</span> <span class="n">user_model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">setting_values</span> <span class="o">=</span> <span class="n">setting_values</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span>
-                            <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="o">*</span><span class="n">setting_values</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s1">&#39;ij&#39;</span><span class="p">)])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">setting_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                 <span class="n">use_jit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">utility_method</span><span class="o">=</span><span class="s1">&#39;variance_approx&#39;</span><span class="p">,</span>
+                 <span class="n">selection_method</span><span class="o">=</span><span class="s1">&#39;optimal&#39;</span><span class="p">,</span> <span class="n">pickiness</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+                 <span class="n">default_noise_std</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">ParticlePDF</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_samples</span><span class="p">,</span> <span class="n">use_jit</span><span class="o">=</span><span class="n">use_jit</span><span class="p">,</span>
                              <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
+        <span class="c1">#: function: equal to the measurement model parameter above.</span>
+        <span class="c1">#: with added text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_function</span> <span class="o">=</span> <span class="n">measurement_model</span>
+
+        <span class="c1">#: :obj:`tuple` of :obj:`ndarray`: A record  of the setting_values</span>
+        <span class="c1">#: argument.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setting_values</span> <span class="o">=</span> <span class="n">setting_values</span>
+
+        <span class="c1">#: :obj:`list` of :obj:`ndarray`: Arrays containing all possible</span>
+        <span class="c1">#: combinations of the : setting values provided in the`</span>
+        <span class="c1">#: ``setting_values`` argument.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span>
+                                     <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="o">*</span><span class="n">setting_values</span><span class="p">,</span>
+                                                 <span class="n">indexing</span><span class="o">=</span><span class="s1">&#39;ij&#39;</span><span class="p">)])</span>
+
+        <span class="c1">#: :obj:`ndarray` of :obj:`int`: indices in to the allsettings</span>
+        <span class="c1">#: arrays. Used in#: ``opt_setting()`` and ``good_setting()``.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setting_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="c1">#: :obj:`ndarray` of :obj:`ndarray`: The most recently set of</span>
+        <span class="c1">#: parameter samples the parameter distribution. ``self.parameters``</span>
+        <span class="c1">#: is a *view* of ``PartcilePDF.particles``.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles</span>
+
+        <span class="c1">#: :obj:`tuple` of:obj:`float`: Stores the ``constants`` argument.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cons</span> <span class="o">=</span> <span class="n">constants</span>
+
+        <span class="c1">#: ``float``: Stores the ``choke`` argument.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">choke</span> <span class="o">=</span> <span class="n">choke</span>
 
-        <span class="c1"># A noise level estimate used in setting selection</span>
-        <span class="c1"># used by ``y_var_noise_model()``.</span>
-        <span class="c1"># A list containing records of accumulated measurement results</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">measurement_results</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="c1"># Indices of most recent requested setting</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">last_setting_index</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="c1"># The number of parameter draws to use in the utility calculation.</span>
-        <span class="c1"># Default: 30</span>
+        <span class="c1">#: ``int``: Stores the ``n_draws`` argument.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N_DRAWS</span> <span class="o">=</span> <span class="n">n_draws</span>
 
-        <span class="c1"># Test the supplied model</span>
-        <span class="c1"># n_channels = values per measurement = model output values</span>
+        <span class="c1">#: ``float``: Stores the pickiness argument</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pickiness</span> <span class="o">=</span> <span class="n">pickiness</span>
+
+        <span class="c1">#: ``list`` Records of accumulated measurement results for output to</span>
+        <span class="c1">#: data files and / or plotting.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measurement_results</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1">#: ``int``: The most recent setting choice as an index into the</span>
+        <span class="c1">#: allsettings arrays.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_setting_index</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1">#: ``int``: The number of measurement values per experiment, e.g. 2</span>
+        <span class="c1">#: for an : experiment that reports two voltages. Deduced from model</span>
+        <span class="c1">#: outputs.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_output_len</span><span class="p">()</span>
 
         <span class="c1"># In order to handle single-channel and multi-channel measurements</span>
@@ -244,20 +285,46 @@ $(document).ready(function(){
         <span class="c1"># channels.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">def</span> <span class="nf">wrapped_function</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-                <span class="n">y</span> <span class="o">=</span> <span class="n">user_model</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">measurement_model</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
                 <span class="k">return</span> <span class="p">(</span><span class="n">y</span><span class="p">,)</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">_model_function</span> <span class="o">=</span> <span class="n">wrapped_function</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_model_function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_function</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">utility_y_space</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_n_draws</span><span class="p">(</span><span class="n">n_draws</span><span class="p">)</span>
-        <span class="c1"># self.utility_y_space = np.zeros((self.N_DRAWS,</span>
-        <span class="c1">#                                 self.n_channels,</span>
-        <span class="c1">#                                 len(self.allsettings[0])))</span>
+        <span class="c1">#: :obj:`ndarray`: A noise level estimate for each channel used in</span>
+        <span class="c1">#: setting selection used by ``y_var_noise_model()``.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_noise_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> \
+                                 <span class="n">default_noise_std</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">default_noise_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1.0</span>
-        <span class="c1"># self.default_noise_std = np.ones(self.n_channels) * 1.0</span>
+        <span class="n">utilitymethods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;variance_approx&#39;</span><span class="p">,</span> <span class="s1">&#39;pseudo_utility&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;full_kld_utility&#39;</span><span class="p">,</span> <span class="s1">&#39;max_min&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">utility_method</span> <span class="o">==</span> <span class="s1">&#39;variance_approx&#39;</span><span class="p">:</span>
+            <span class="n">_utility</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">utility_variance</span>
+        <span class="k">elif</span> <span class="n">utility_method</span> <span class="o">==</span> <span class="s1">&#39;pseudo_utility&#39;</span><span class="p">:</span>
+            <span class="n">_utility</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">utility_pseudo</span>
+        <span class="k">elif</span> <span class="n">utility_method</span> <span class="o">==</span> <span class="s1">&#39;max_min&#39;</span><span class="p">:</span>
+            <span class="n">_utility</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">utility_max_min</span>
+        <span class="k">elif</span> <span class="n">utility_method</span> <span class="o">==</span> <span class="s1">&#39;full_kld_utility&#39;</span><span class="p">:</span>
+            <span class="n">_utility</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">utility_full_kld</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">SyntaxError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown utility method, </span><span class="si">{</span><span class="n">utility_method</span><span class="si">}</span><span class="s1">. &#39;</span>
+                              <span class="sa">f</span><span class="s1">&#39;Valid utility methods are: </span><span class="si">{</span><span class="n">utilitymethods</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">utility</span> <span class="o">=</span> <span class="n">_utility</span>
+
+        <span class="n">selection_methods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;optimal&#39;</span><span class="p">,</span> <span class="s1">&#39;good&#39;</span><span class="p">,</span> <span class="s1">&#39;random&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">selection_method</span> <span class="o">==</span> <span class="s1">&#39;optimal&#39;</span><span class="p">:</span>
+            <span class="n">_get_setting</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opt_setting</span>
+        <span class="k">elif</span> <span class="n">selection_method</span> <span class="o">==</span> <span class="s1">&#39;good&#39;</span><span class="p">:</span>
+            <span class="n">_get_setting</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">good_setting</span>
+        <span class="k">elif</span> <span class="n">selection_method</span> <span class="o">==</span> <span class="s1">&#39;random&#39;</span><span class="p">:</span>
+            <span class="n">_get_setting</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_setting</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">SyntaxError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown selection_method, </span><span class="si">{</span><span class="n">selection_method</span><span class="si">}</span><span class="s1">. &#39;</span>
+                              <span class="sa">f</span><span class="s1">&#39;Valid selection methods are: </span><span class="si">{</span><span class="n">selection_methods</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_setting</span> <span class="o">=</span> <span class="n">_get_setting</span>
 
         <span class="c1"># pre-compile some numeric routines using numba.njit</span>
         <span class="k">if</span> <span class="n">GOT_NUMBA</span> <span class="ow">and</span> <span class="n">use_jit</span><span class="p">:</span>
@@ -275,7 +342,7 @@ $(document).ready(function(){
                     <span class="o">-</span><span class="p">((</span><span class="n">y_model</span> <span class="o">-</span> <span class="n">y_meas</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_gauss_noise_likelihood</span> <span class="o">=</span> <span class="n">_gauss_noise_likelihood</span>
 
-<div class="viewcode-block" id="OptBayesExpt.set_n_draws"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt.set_n_draws">[docs]</a>    <span class="k">def</span> <span class="nf">set_n_draws</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_draws</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="OptBayesExpt.set_n_draws"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.set_n_draws">[docs]</a>    <span class="k">def</span> <span class="nf">set_n_draws</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_draws</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets OptBayesExpt.N_DRAWS attribute.</span>
 
 <span class="sd">        Sets or queries the number of parameter samples to use in the utility</span>
@@ -290,16 +357,16 @@ $(document).ready(function(){
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">n_draws</span> <span class="o">==</span> <span class="s1">&#39;default&#39;</span><span class="p">:</span>
             <span class="c1"># reset to the default value</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_n_draws</span><span class="p">(</span><span class="n">DEFAULT_N_DRAWS</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">N_DRAWS</span> <span class="o">=</span> <span class="n">DEFAULT_N_DRAWS</span>
         <span class="k">elif</span> <span class="n">n_draws</span><span class="p">:</span>
             <span class="c1"># non-zero or not None</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">N_DRAWS</span> <span class="o">=</span> <span class="n">n_draws</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">utility_y_space</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">N_DRAWS</span><span class="p">,</span>
-                                             <span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">,</span>
-                                             <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">utility_y_space</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">N_DRAWS</span><span class="p">,</span>
+                                         <span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">,</span>
+                                         <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_DRAWS</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.eval_over_all_parameters"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">eval_over_all_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onesettingset</span><span class="p">):</span>
+<div class="viewcode-block" id="OptBayesExpt.eval_over_all_parameters"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">eval_over_all_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onesettingset</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Evaluates the experimental model.</span>
 
 <span class="sd">        Evaluates the model for one combination of measurement settings and</span>
@@ -323,7 +390,7 @@ $(document).ready(function(){
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_function</span><span class="p">(</span><span class="n">onesettingset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cons</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.eval_over_all_settings"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_settings">[docs]</a>    <span class="k">def</span> <span class="nf">eval_over_all_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oneparamset</span><span class="p">):</span>
+<div class="viewcode-block" id="OptBayesExpt.eval_over_all_settings"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_settings">[docs]</a>    <span class="k">def</span> <span class="nf">eval_over_all_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oneparamset</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Evaluates the experimental model.</span>
 
 <span class="sd">        Evaluates the model for all combinations of measurement settings in</span>
@@ -332,44 +399,58 @@ $(document).ready(function(){
 <span class="sd">        calculation</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            oneparamset (:obj:`tuple` of :obj:`float`): a single set of</span>
-<span class="sd">                model parameters.</span>
+<span class="sd">            oneparamset (:obj:`tuple` of :obj:`float`): a set of single</span>
+<span class="sd">                model parameter values.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            (:obj:`ndarray`) array of model values with dimensions of one</span>
-<span class="sd">            element of :code:`self.allsettings`.</span>
+<span class="sd">            (:obj:`ndarray`) array of model values with dimensions</span>
+<span class="sd">            :code:`self.setting_indices`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">,</span> <span class="n">oneparamset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cons</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.pdf_update"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt.pdf_update">[docs]</a>    <span class="k">def</span> <span class="nf">pdf_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measurement_record</span><span class="p">,</span> <span class="n">y_model_data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="OptBayesExpt.pdf_update"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.pdf_update">[docs]</a>    <span class="k">def</span> <span class="nf">pdf_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measurement_record</span><span class="p">,</span> <span class="n">y_model_data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Refines the parameters&#39; probability distribution function given a</span>
 <span class="sd">        measurement result.</span>
 
-<span class="sd">        This is the measurement result input method. An implementation of</span>
-<span class="sd">        Bayesian inference, uses the model to calculate the ikelihood of</span>
-<span class="sd">        obtaining the measurement result :code:`ymeas` as a function of</span>
+<span class="sd">        This is where measurement results are entered. An implementation of</span>
+<span class="sd">        Bayesian inference, uses the model to calculate the likelihood of</span>
+<span class="sd">        obtaining the measurement result as a function of</span>
 <span class="sd">        parameter values, and uses that likelihood to generate a refined</span>
 <span class="sd">        *posterior* ( after-measurement) distribution from the *prior* (</span>
-<span class="sd">        pre-measurement) distribution.</span>
+<span class="sd">        pre-measurement) parameter distribution.</span>
+
+<span class="sd">        Warning:</span>
+
+<span class="sd">            ``OptBayesExpt`` requires the input data to contain good</span>
+<span class="sd">            estimates of measurement uncertainty.  The uncertainty values</span>
+<span class="sd">            entered here can influence both mean values and widths of the</span>
+<span class="sd">            inferred parameter distribution. When measurement uncertainty is</span>
+<span class="sd">            not well-known, ``OptBayesExptNoiseParameter`` is recommended to</span>
+<span class="sd">            determine measurement uncertainty from the measured values.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            measurement_record (:obj:`tuple`): A record of the measurement</span>
-<span class="sd">                containing at least the settings and the measured value(s).</span>
-<span class="sd">                The first element of ``measurement_record`` gets passed as a</span>
-<span class="sd">                settings tuple to ``evaluate_over_all_parameters()`` The</span>
-<span class="sd">                entire ``measurement_result`` tuple gets forwarded to</span>
-<span class="sd">                ``likelihood()``.</span>
+<span class="sd">            measurement_record (:obj:`tuple`): The measurement conditions</span>
+<span class="sd">                and results, supplied by the user to ``update_pdf()``. The</span>
+<span class="sd">                elements of ``measurement_record`` are:</span>
+
+<span class="sd">                    - settings (tuple): the settings used for the</span>
+<span class="sd">                        measurement. May be different from the requested</span>
+<span class="sd">                        settings.</span>
+<span class="sd">                    - measurement result (float or tuple) Use a tuple for</span>
+<span class="sd">                        multi-channel measurements</span>
+<span class="sd">                    - std uncertainty (float or tuple) An uncertainty</span>
+<span class="sd">                        estimate for the measurement result.</span>
 
 <span class="sd">            y_model_data (:obj:`ndarray`): The result of</span>
 <span class="sd">                :code:`self.eval_over_all_parameters()` This argument allows</span>
 <span class="sd">                model evaluation to run before measurement data is</span>
 <span class="sd">                available, e.g. while measurements are being made. Default =</span>
 <span class="sd">                ``None``.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># unpack the measurement result</span>
         <span class="n">onesetting</span> <span class="o">=</span> <span class="n">measurement_record</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
         <span class="c1"># calculate the model for all values of the parameters</span>
         <span class="k">if</span> <span class="n">y_model_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">y_model_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_over_all_parameters</span><span class="p">(</span><span class="n">onesetting</span><span class="p">)</span>
@@ -388,38 +469,38 @@ $(document).ready(function(){
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.enforce_parameter_constraints"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt.enforce_parameter_constraints">[docs]</a>    <span class="k">def</span> <span class="nf">enforce_parameter_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Enforces constraints on parameters</span>
+<div class="viewcode-block" id="OptBayesExpt.enforce_parameter_constraints"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.enforce_parameter_constraints">[docs]</a>    <span class="k">def</span> <span class="nf">enforce_parameter_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A stub for enforcing constraints on parameters</span>
 
 <span class="sd">        for example::</span>
 
-<span class="sd">            # find the violators (negative parameter values)</span>
+<span class="sd">            # find the particles with disallowed parameter values</span>
+<span class="sd">            # (negative parameter values in this example)</span>
 <span class="sd">            bad_ones = np.argwhere(self.parameters[3] &lt; 0)</span>
 <span class="sd">                for index in bad_ones:</span>
+<span class="sd">                    # setting a weight = 0 effectively eliminates the particle</span>
 <span class="sd">                    self.particle_weights[index] = 0</span>
 <span class="sd">            # renormalize</span>
 <span class="sd">            self.particle_weights = self.particle_weights / np.sum(self.particle_weights)</span>
 
-<span class="sd">        Returns:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.likelihood"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt.likelihood">[docs]</a>    <span class="k">def</span> <span class="nf">likelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_model</span><span class="p">,</span> <span class="n">measurement_record</span><span class="p">):</span>
+<div class="viewcode-block" id="OptBayesExpt.likelihood"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.likelihood">[docs]</a>    <span class="k">def</span> <span class="nf">likelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_model</span><span class="p">,</span> <span class="n">measurement_record</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculates the likelihood of a measurement result.</span>
 
 <span class="sd">        For each parameter combination, estimate the probability of</span>
-<span class="sd">        obtaining the results provided in :code:`measurement_result`.  This</span>
+<span class="sd">        obtaining the results provided in :code:`measurement_record`.  This</span>
 <span class="sd">        default method relies on several assumptions:</span>
 
-<span class="sd">        - A single measurement yields a single value :math:`y_{meas}`</span>
-<span class="sd">        - The uncertainty in that value is well-described by additive</span>
-<span class="sd">          Gaussian noise.</span>
+<span class="sd">        - The uncertainty in measurement results is well-described by</span>
+<span class="sd">          normally-distributed (Gaussian) noise.</span>
 <span class="sd">        - The the standard deviation of the noise, :math:`\sigma` is known.</span>
 
 <span class="sd">        Under these assumptions, and model values :math:`y_{model}` as a</span>
 <span class="sd">        function of parameters, the likelihood is a Gaussian function</span>
-<span class="sd">        proportional to :math:`\sigma^{-1} \exp [(y_{model} - y_{meas})^2</span>
+<span class="sd">        proportional to :math:`\sigma^{-1} \exp [-(y_{model} - y_{meas})^2</span>
 <span class="sd">        / (2 \sigma^2)]`.</span>
 
 <span class="sd">        Args:</span>
@@ -430,8 +511,8 @@ $(document).ready(function(){
 <span class="sd">                elements of ``measurement_record`` are:</span>
 
 <span class="sd">                    - settings (tuple)</span>
-<span class="sd">                    - measurement value (float)</span>
-<span class="sd">                    - std uncertainty (float)</span>
+<span class="sd">                    - measurement value (float or tuple)</span>
+<span class="sd">                    - std uncertainty (float or tuple)</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            an array of probabilities corresponding to the parameters in</span>
@@ -450,11 +531,11 @@ $(document).ready(function(){
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">lky</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.yvar_from_parameter_draws"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt.yvar_from_parameter_draws">[docs]</a>    <span class="k">def</span> <span class="nf">yvar_from_parameter_draws</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OptBayesExpt.yvar_from_parameter_draws"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.yvar_from_parameter_draws">[docs]</a>    <span class="k">def</span> <span class="nf">yvar_from_parameter_draws</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Models the measurement variance solely due to parameter</span>
 <span class="sd">        distributions.</span>
 
-<span class="sd">        Evaluates the effect ov the distribution</span>
+<span class="sd">        Evaluates the effect of the distribution</span>
 <span class="sd">        of parameter values on the distribution of model outputs for every</span>
 <span class="sd">        setting combination. This calculation is done as part of the</span>
 <span class="sd">        *utility* calculation as an approximation to the information</span>
@@ -464,7 +545,7 @@ $(document).ready(function(){
 <span class="sd">        values for each setting combination.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            :obj:`ndarray` with shape of a member of all_settings</span>
+<span class="sd">            :obj:`ndarray` with shape of :code:`self.setting_indices`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">paramsets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">randdraw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N_DRAWS</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
@@ -478,9 +559,60 @@ $(document).ready(function(){
         <span class="n">yvar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">utility_y_space</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">yvar</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.y_var_noise_model"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt.y_var_noise_model">[docs]</a>    <span class="k">def</span> <span class="nf">y_var_noise_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OptBayesExpt.yvar_from_entropy"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.yvar_from_entropy">[docs]</a>    <span class="k">def</span> <span class="nf">yvar_from_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Models the entropy of the model values due to the</span>
+<span class="sd">        parameter distributions</span>
+
+<span class="sd">        Evaluates the effect of the distribution</span>
+<span class="sd">        of parameter values on the distribution of model outputs for every</span>
+<span class="sd">        setting combination. This calculation is done as part of the</span>
+<span class="sd">        *utility* calculation as an approximation to the information</span>
+<span class="sd">        entropy. For each of ``self.N_DRAWS`` samples from the parameter</span>
+<span class="sd">        distribution, this method models a noise-free experimental output</span>
+<span class="sd">        for all setting combinations and returns the entropy of the model</span>
+<span class="sd">        values for each setting combination, cast as a variance</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            :obj:`ndarray` with shape of :code:`self.setting_indices`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">paramsets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">randdraw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N_DRAWS</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+        <span class="c1"># fill the model results for each drawn parameter set</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">oneparamset</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">paramsets</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">utility_y_space</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_over_all_settings</span><span class="p">(</span><span class="n">oneparamset</span><span class="p">)</span>
+
+        <span class="c1"># Evaluate how much the model varies at each setting</span>
+        <span class="c1"># calculate the variance of results for each setting</span>
+        <span class="n">model_entropy</span> <span class="o">=</span> <span class="n">diffent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">utility_y_space</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">yvar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">model_entropy</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">yvar</span></div>
+
+<div class="viewcode-block" id="OptBayesExpt.yvar_max_min"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.yvar_max_min">[docs]</a>    <span class="k">def</span> <span class="nf">yvar_max_min</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Models the measurement variance solely due to measurement noise.</span>
+<span class="sd">        Crudely approximates the signal variance using max - min.</span>
+
+<span class="sd">        Returns: :obj:`ndarray` with shape of :code:`self.setting_indices`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">paramsets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">randdraw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N_DRAWS</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+        <span class="c1"># fill the model results for each drawn parameter set</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">oneparamset</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">paramsets</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">utility_y_space</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_over_all_settings</span><span class="p">(</span><span class="n">oneparamset</span><span class="p">)</span>
+
+        <span class="n">span</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">utility_y_space</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> \
+               <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">utility_y_space</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">span</span> <span class="o">**</span> <span class="mi">2</span></div>
+
+<div class="viewcode-block" id="OptBayesExpt.y_var_noise_model"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.y_var_noise_model">[docs]</a>    <span class="k">def</span> <span class="nf">y_var_noise_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;For backawards compatibiilty, a wrapper for ``yvar_noise_model``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">yvar_noise_model</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="OptBayesExpt.yvar_noise_model"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.yvar_noise_model">[docs]</a>    <span class="k">def</span> <span class="nf">yvar_noise_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A stub for models of the measurement noise</span>
 
 <span class="sd">        A model of measurement variance (noise) as a function of settings,</span>
 <span class="sd">        averaged over parameters if parameter-dependent.  Used in the</span>
@@ -498,54 +630,184 @@ $(document).ready(function(){
 <span class="sd">        Returns:</span>
 <span class="sd">            If measurement noise is independent of settings, a :obj:`float`,</span>
 <span class="sd">            otherwise an :obj:`ndarray` with the shape of an</span>
-<span class="sd">            element of `allsettings`</span>
+<span class="sd">            element of `allsettings`.  Default: ``default_noise_std ** 2``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_noise_std</span> <span class="o">**</span> <span class="mi">2</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.cost_estimate"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt.cost_estimate">[docs]</a>    <span class="k">def</span> <span class="nf">cost_estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Estimate the cost of measurements, depending on settings</span>
+<div class="viewcode-block" id="OptBayesExpt.cost_estimate"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.cost_estimate">[docs]</a>    <span class="k">def</span> <span class="nf">cost_estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; A stub for estimating the cost of prospective measurements</span>
 
-<span class="sd">        The denominator of the *utility* function allows measurement</span>
-<span class="sd">        resources (e.g. setup time + data collection time) to be entered</span>
-<span class="sd">        into the utility calculation.</span>
-
+<span class="sd">        An estimate of the cost of measurement resources. (e.g. setup time +</span>
+<span class="sd">        data collection time).  This estimate goes in the denominator of the</span>
+<span class="sd">        *utility* function, yielding a benefit/cost ratio.  Returns a single</span>
+<span class="sd">        float if cost is the same for all settings, or an array with</span>
+<span class="sd">        dimensions of :code:`self.setting_indices`.</span>
 <span class="sd">        Returns:</span>
-<span class="sd">            :obj:`float`, otherwise an :obj:`ndarray` describing how</span>
-<span class="sd">                measurement variance depends on settings.</span>
+<span class="sd">            :obj:`float`, or :obj:`ndarray` Default: 1.0.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="mf">1.0</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.utility"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt.utility">[docs]</a>    <span class="k">def</span> <span class="nf">utility</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OptBayesExpt.utility"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility">[docs]</a>    <span class="k">def</span> <span class="nf">utility</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Estimate the utility as a function of setting options</span>
+
+<span class="sd">        The *utility* :math:`U(d)` is the predicted benefit/cost ratio of proposed</span>
+<span class="sd">        measurement designs :math:`d`.</span>
+
+<span class="sd">        .. Note::</span>
+
+<span class="sd">            Traditionally, utility is given in terms of a change in the</span>
+<span class="sd">            information entropy. However, information entropy is a</span>
+<span class="sd">            logarithmic quantity, and we are accustomed to thinking about</span>
+<span class="sd">            cost on a linear scale. To facilitate estimating benefit/cost,</span>
+<span class="sd">            the utility algorithms below return a &#39;linearized&#39; utility:</span>
+<span class="sd">            :math:`exp(U(d))-1.0`</span>
+
+<span class="sd">        The ``utility()`` function is a wrapper for the algorithm selected</span>
+<span class="sd">            by the  ``utility_method`` argument.</span>
+
+<span class="sd">        Returns: linearized utility</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="OptBayesExpt.utility_max_min"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility_max_min">[docs]</a>    <span class="k">def</span> <span class="nf">utility_max_min</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Estimate utility using the max-min algorithm</span>
+
+<span class="sd">        This algorithm</span>
+<span class="sd">        corresponds to the &quot;max-min algorithm&quot; of [#f1]_.</span>
+
+<span class="sd">        In this algorithm, we use the maximum and minimum modeled</span>
+<span class="sd">        outputs produced by :code:`N_DRAWS` samples of the parameter</span>
+<span class="sd">        distribution and the variance of the measurement noise are calculated</span>
+<span class="sd">        separately.</span>
+
+<span class="sd">        This algorithm provides slightly lower quality setting choices than</span>
+<span class="sd">        the other utility algorithms, but it executes very fast. Speed and</span>
+<span class="sd">        quality of choices are both best when ``N_DRAWS = 2``.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Linearized utility as an :obj:`ndarray` with dimensions of</span>
+<span class="sd">            :code:`self.setting_indices`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">var_p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yvar_max_min</span><span class="p">()</span>
+        <span class="n">var_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yvar_noise_model</span><span class="p">()</span>
+        <span class="n">cost</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cost_estimate</span><span class="p">()</span>
+        <span class="c1"># utility_sum = np.sum(np.log(1 + var_p / var_n), axis=0)</span>
+        <span class="n">utility_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">var_p</span> <span class="o">/</span> <span class="n">var_n</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">utility_sum</span> <span class="o">/</span> <span class="n">cost</span></div>
+
+<div class="viewcode-block" id="OptBayesExpt.utility_variance"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility_variance">[docs]</a>    <span class="k">def</span> <span class="nf">utility_variance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Estimate the utility as a function of settings.</span>
+
+<span class="sd">        The *utility* is the predicted benefit/cost ratio of a new</span>
+<span class="sd">        measurement where the benefit is given in terms of a change in the</span>
+<span class="sd">        information entropy of the parameter distribution. This algorithm</span>
+<span class="sd">        corresponds to the &quot;variance algorithm&quot; of [#f1]_.</span>
+
+<span class="sd">        In this algorithm, we use the logarithm of variance as an</span>
+<span class="sd">        approximation for the information entropy.  The variance of model</span>
+<span class="sd">        outputs produced by :code:`N_DRAWS` samples of the parameter</span>
+<span class="sd">        distribution and the variance of the measurement noise are calculated</span>
+<span class="sd">        separately.</span>
+
+<span class="sd">        Execution of ``utility_variance`` is faster than ``utility_variance``</span>
+<span class="sd">        and ``utility_pseudo`` and the decision quality is very similar to</span>
+<span class="sd">        ``utility_KLD``.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Approximate utility as an :obj:`ndarray` with dimensions of</span>
+<span class="sd">            :code:`self.setting_indices`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">var_p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yvar_from_parameter_draws</span><span class="p">()</span>
+        <span class="n">var_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yvar_noise_model</span><span class="p">()</span>
+        <span class="n">cost</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cost_estimate</span><span class="p">()</span>
+        <span class="c1"># utility_v = np.sum(np.log(1 + var_p / var_n), axis=0)</span>
+        <span class="n">utility_v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">var_p</span> <span class="o">/</span> <span class="n">var_n</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">utility_v</span> <span class="o">/</span> <span class="n">cost</span></div>
+
+<div class="viewcode-block" id="OptBayesExpt.utility_pseudo"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility_pseudo">[docs]</a>    <span class="k">def</span> <span class="nf">utility_pseudo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Estimate the utility as a function of settings.</span>
 
 <span class="sd">        Used in selecting measurement settings. The *utility* is the</span>
 <span class="sd">        predicted benefit/cost ratio of a new measurement where the benefit</span>
 <span class="sd">        is given in terms of a change in the information entropy of the</span>
-<span class="sd">        parameter distribution.  Here we use an approximation that assumes</span>
-<span class="sd">        Gaussian distributions.</span>
+<span class="sd">        parameter distribution. This algorithm</span>
+<span class="sd">        corresponds to the &quot;pseudo-H algorithm&quot; of [#f1]_, and it is included</span>
+<span class="sd">        here mostly for historical reasons.</span>
+
+<span class="sd">        In this algorithm, the idea is to mimic the :code:`utility_KLD()`</span>
+<span class="sd">        algorithm more closely than ``utility_variance()``. We calculate the</span>
+<span class="sd">        differential entropy of the model outputs produced by</span>
+<span class="sd">        :code:`N_DRAWS` samples</span>
+<span class="sd">        of the parameter distribution. We then compute the variance of a</span>
+<span class="sd">        normal (Gaussian) distribution that has the same information entropy.</span>
+<span class="sd">        This effective variance is combined with the noise variance as in</span>
+<span class="sd">        ``utility_variance()``.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            utility as an :obj:`ndarray` with dimensions of a member of</span>
-<span class="sd">            :code:`allsettings`</span>
+<span class="sd">            Approximate utility as an :obj:`ndarray` with dimensions of</span>
+<span class="sd">            :code:`self.setting_indices`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">var_p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yvar_from_parameter_draws</span><span class="p">()</span>
-        <span class="n">var_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_var_noise_model</span><span class="p">()</span>
+        <span class="n">var_p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yvar_from_entropy</span><span class="p">()</span>
+        <span class="n">var_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yvar_noise_model</span><span class="p">()</span>
         <span class="n">cost</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cost_estimate</span><span class="p">()</span>
-        <span class="n">utility</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">var_p</span> <span class="o">/</span> <span class="n">var_n</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">utility</span> <span class="o">/</span> <span class="n">cost</span></div>
+        <span class="c1"># utility_p = np.sum(np.log(1 + var_p / var_n), axis=0)</span>
+        <span class="n">utility_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">var_p</span> <span class="o">/</span> <span class="n">var_n</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">utility_p</span> <span class="o">/</span> <span class="n">cost</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.opt_setting"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt.opt_setting">[docs]</a>    <span class="k">def</span> <span class="nf">opt_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Find the setting with maximum predicted impact on the parameter</span>
-<span class="sd">        distribution.</span>
+<div class="viewcode-block" id="OptBayesExpt.utility_full_kld"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility_full_kld">[docs]</a>    <span class="k">def</span> <span class="nf">utility_full_kld</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimate the utility as a function of settings.</span>
 
-<span class="sd">        At what settings are we most uncertain about how an experiment will</span>
-<span class="sd">        come out? That is where the next measurement will do the most good.</span>
-<span class="sd">        So, we calculate model outputs for a bunch of possible model</span>
-<span class="sd">        parameters and see wherethe output varies the most. We use our</span>
-<span class="sd">        accumulated knowledge by drawing the possible parameters from the</span>
-<span class="sd">        current parameter pdf.</span>
+<span class="sd">        Used in selecting measurement settings. The *utility* is the</span>
+<span class="sd">        predicted benefit/cost ratio of a new measurement where the benefit</span>
+<span class="sd">        is given in terms of a change in the information entropy of the</span>
+<span class="sd">        parameter distribution. This algorithm</span>
+<span class="sd">        corresponds to the &quot;full-KLD algorithm&quot; of [#f1]_.</span>
+
+<span class="sd">        Among the provided utility algorithms, ``utility_KLD`` comes closest to</span>
+<span class="sd">        the information-theoretic analytical result.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Approximate utility as an :obj:`ndarray` with dimensions of</span>
+<span class="sd">            :code:`self.setting_indices`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># randomly draw parameter samples</span>
+        <span class="n">paramsets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">randdraw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N_DRAWS</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="c1"># model measurement noise</span>
+        <span class="n">nva</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_DRAWS</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">)</span>
+        <span class="n">nvb</span> <span class="o">=</span> <span class="n">nva</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_DRAWS</span><span class="p">))</span>
+        <span class="n">noisevalues</span> <span class="o">=</span> <span class="p">(</span><span class="n">nvb</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">yvar_noise_model</span><span class="p">()))</span><span class="o">.</span><span class="n">T</span>
+        <span class="c1"># fill the model results for each drawn parameter set</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">oneparamset</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">paramsets</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">utility_y_space</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_over_all_settings</span><span class="p">(</span><span class="n">oneparamset</span><span class="p">)</span> \
+                                      <span class="o">+</span> <span class="n">noisevalues</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="n">y_entropy</span> <span class="o">=</span> <span class="n">diffent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">utility_y_space</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">n_entropy</span> <span class="o">=</span> <span class="n">diffent</span><span class="p">(</span><span class="n">noisevalues</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># return y_entropy - n_entropy</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">y_entropy</span> <span class="o">-</span> <span class="n">n_entropy</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span></div>
+
+<div class="viewcode-block" id="OptBayesExpt.get_setting"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.get_setting">[docs]</a>    <span class="k">def</span> <span class="nf">get_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Selects settings for the next measurement.</span>
+
+<span class="sd">        A wrapper for the method selected by the ``selection_method``</span>
+<span class="sd">        argument. See ``opt_setting``, ``good_setting()`` and ``random()``.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A settings tuple.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="OptBayesExpt.opt_setting"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.opt_setting">[docs]</a>    <span class="k">def</span> <span class="nf">opt_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Find the setting with maximum utility</span>
+
+<span class="sd">        Selects settings based on the maximum value of the utility.</span>
+<span class="sd">        Calls :code:`utility()` for an estimate of the benfit/cost ratio for</span>
+<span class="sd">        all allowed settings, and returns the settings corresponding to the</span>
+<span class="sd">        maximum value. Selected by ``selection_method=&#39;optimal&#39;`` argument.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A settings tuple.</span>
@@ -559,21 +821,21 @@ $(document).ready(function(){
         <span class="c1"># translate to setting values</span>
         <span class="c1"># allsettings is a list of setting arrays generated by np.meshgrid,</span>
         <span class="c1"># one for each &#39;knob&#39;</span>
-        <span class="n">bestvalues</span> <span class="o">=</span> <span class="p">[</span><span class="nb">set</span><span class="p">[</span><span class="n">bestindex</span><span class="p">]</span> <span class="k">for</span> <span class="nb">set</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">]</span>
+        <span class="n">bestvalues</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">[:,</span> <span class="n">bestindex</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">last_setting_index</span> <span class="o">=</span> <span class="n">bestindex</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">bestvalues</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.good_setting"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt.good_setting">[docs]</a>    <span class="k">def</span> <span class="nf">good_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pickiness</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="OptBayesExpt.good_setting"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.good_setting">[docs]</a>    <span class="k">def</span> <span class="nf">good_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pickiness</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate a setting with a good probability of refining the pdf</span>
+<span class="sd">        Calculate a setting with a good utility</span>
 
-<span class="sd">        ``good_setting()`` selects settings using a weighted random</span>
-<span class="sd">        selection using the utility function to calculate a weight.  The</span>
-<span class="sd">        weight function is ``utility( )`` raised to the ``pickiness`` power.</span>
-<span class="sd">        In comparison to the ``opt_setting()`` method, where the</span>
-<span class="sd">        measurements select only the very best setting, ``good_setting()``</span>
-<span class="sd">        yields a more diverse series of settings.</span>
+<span class="sd">        Selects settings using a weighted random selection using the utility</span>
+<span class="sd">        function to calculate a weight.  The weight function is ``utility(</span>
+<span class="sd">        )`` raised to the ``pickiness`` power. In comparison to the</span>
+<span class="sd">        ``opt_setting()`` method, where the measurements select only the very</span>
+<span class="sd">        best setting, ``good_setting()`` yields a more diverse series of</span>
+<span class="sd">        settings. Selected by ``selection_method=&#39;good&#39;`` argument.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            pickiness (float): A setting selection tuning parameter.</span>
@@ -584,6 +846,8 @@ $(document).ready(function(){
 <span class="sd">        Returns:</span>
 <span class="sd">            A settings tuple.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">pickiness</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pickiness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pickiness</span>
 
         <span class="n">utility</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">utility</span><span class="p">())</span> <span class="o">**</span> <span class="n">pickiness</span>
         <span class="c1"># the exponent &#39;pickiness&#39; is a tuning parameter</span>
@@ -595,11 +859,27 @@ $(document).ready(function(){
         <span class="bp">self</span><span class="o">.</span><span class="n">last_setting_index</span> <span class="o">=</span> <span class="n">goodindex</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">goodvalues</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt._model_output_len"><a class="viewcode-back" href="../../optbayesexpt.html#optbayesexpt.obe_base.OptBayesExpt._model_output_len">[docs]</a>    <span class="k">def</span> <span class="nf">_model_output_len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Detect the number of model outputs</span>
+<div class="viewcode-block" id="OptBayesExpt.random_setting"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.random_setting">[docs]</a>    <span class="k">def</span> <span class="nf">random_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Pick a random setting for the next measurement</span>
 
-<span class="sd">        :return: int</span>
+<span class="sd">        Randomly selects a setting from all possible</span>
+<span class="sd">        setting combinations. Selected by ``selection_method=&#39;random&#39;``</span>
+<span class="sd">        argument.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A settings tuple.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">settingindex</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setting_indices</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_setting_index</span> <span class="o">=</span> <span class="n">settingindex</span>
+        <span class="n">one_setting</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">[:,</span> <span class="n">settingindex</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">one_setting</span></div>
+
+    <span class="k">def</span> <span class="nf">_model_output_len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># &quot;&quot;&quot;Detect the number of model outputs</span>
+        <span class="c1">#</span>
+        <span class="c1"># :return: int</span>
+        <span class="c1"># &quot;&quot;&quot;</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
@@ -612,8 +892,7 @@ $(document).ready(function(){
 
         <span class="n">singleshot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_function</span><span class="p">(</span><span class="n">one_setting</span><span class="p">,</span> <span class="n">one_param_set</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cons</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">singleshot</span><span class="p">))</span></div></div>
-
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">singleshot</span><span class="p">))</span></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -626,12 +905,12 @@ $(document).ready(function(){
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -645,14 +924,14 @@ $(document).ready(function(){
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">OptBayesExpt 1.2.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">optbayesexpt.obe_base</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>
