@@ -1,6 +1,8 @@
 import numpy as np
+import warnings
 
-GOT_NUMBA = True
+GOT_NUMBA = False
+# GOT_NUMBA = True
 try:
     from numba import njit, float64
 except ImportError:
@@ -132,9 +134,10 @@ class ParticlePDF:
                 return tmp / np.sum(tmp)
         else:
             def _proto_normalized_product(wgts, lkl):
-                tmp = wgts * lkl
-                return tmp / np.sum(tmp)
-        self._normalized_product = _proto_normalized_product
+                tmp = np.nan_to_num(wgts * lkl)
+                result = np.nan_to_num(tmp / np.sum(tmp))
+                return result
+            self._normalized_product = _proto_normalized_product
 
         try:
             self.rng = np.random.default_rng()
@@ -237,8 +240,17 @@ class ParticlePDF:
         ``self.tuning_parameters['resample_threshold'] * n_particles``,
         performs a resampling.  Sets the ``just_resampled`` flag.
         """
-        n_eff = 1 / (self.particle_weights @ self.particle_weights)
-        if n_eff / self.n_particles < \
+        wsquared = np.nan_to_num(self.particle_weights * self.particle_weights)
+        n_eff = 1 / np.sum(wsquared)
+        if n_eff < 0.1 * self.n_particles:
+            warnings.warn("\nParticle filter rejected > 90 % of particles. "
+                          f"N_eff = {n_eff:.2f}. "
+                          "Particle impoverishment may lead to errors.",
+                          RuntimeWarning)
+            self.resample()
+            self.just_resampled = True
+        # n_eff = 1 / (self.particle_weights @ self.particle_weights)
+        elif n_eff / self.n_particles < \
                 self.tuning_parameters['resample_threshold']:
             self.resample()
             self.just_resampled = True
@@ -314,8 +326,16 @@ class ParticlePDF:
         # p=self.particle_weights, axis=1)
         draws = np.zeros((self.n_dims, n_draws))
 
-        indices = self.rng.choice(self._particle_indices, size=n_draws,
-                                  p=self.particle_weights)
+        try:
+            indices = self.rng.choice(self._particle_indices, size=n_draws,
+                                      p=self.particle_weights)
+            for i, param in enumerate(self.particles):
+                # for j, selected_index in enumerate(indices):
+                #     draws[i,j] = param[selected_index]
+                draws[i] = param[indices]
+        except ValueError:
+            print('weights: ', self.particle_weights)
+            print('weight sum = ', np.sum(self.particle_weights))
 
         for i, param in enumerate(self.particles):
             # for j, selected_index in enumerate(indices):
