@@ -780,7 +780,7 @@ class OptBayesExpt(ParticlePDF):
 
         utility = (self.utility()) ** pickiness
         # the exponent 'pickiness' is a tuning parameter
-
+        np.nan_to_num(utility, copy=False)
         utility /= np.sum(utility)
         goodindex = self.rng.choice(self.setting_indices, p=utility)
         goodvalues = self.allsettings[:, goodindex]
