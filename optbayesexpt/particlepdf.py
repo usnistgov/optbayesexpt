@@ -1,5 +1,6 @@
 import numpy as np
 import warnings
+from .samplers import *
 
 GOT_NUMBA = False
 # GOT_NUMBA = True
@@ -322,27 +323,8 @@ class ParticlePDF:
         Returns:
             An ``n_dims`` x ``N_DRAWS`` :obj:`ndarray` of parameter draws.
         """
-        # draws = self.rng.choice(self.particles, size=n_draws,
-        # p=self.particle_weights, axis=1)
-        draws = np.zeros((self.n_dims, n_draws))
-
-        try:
-            indices = self.rng.choice(self._particle_indices, size=n_draws,
-                                      p=self.particle_weights)
-            for i, param in enumerate(self.particles):
-                # for j, selected_index in enumerate(indices):
-                #     draws[i,j] = param[selected_index]
-                draws[i] = param[indices]
-        except ValueError:
-            print('weights: ', self.particle_weights)
-            print('weight sum = ', np.sum(self.particle_weights))
-
-        for i, param in enumerate(self.particles):
-            # for j, selected_index in enumerate(indices):
-            #     draws[i,j] = param[selected_index]
-            draws[i] = param[indices]
-
-        return draws
+        
+        return sample(self.particles,self.particle_weights,n=n_draws)
 
     @staticmethod
     def _normalized_product(weight_array, likelihood_array):
