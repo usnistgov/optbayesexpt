@@ -41,25 +41,6 @@ class ParticlePDF:
             different ``n_particles`` sizes to assure consistent results.
 
     Keyword Args:
-        a_param: (float) In resampling, determines the scale of random
-            diffusion relative to the distribution covariance.  After
-            weighted sampling, some parameter values may have been
-            chosen multiple times. To make the new distribution smoother,
-            the parameters are given small 'nudges', random displacements
-            much smaller than the overall parameter distribution, but with
-            the same shape as the overall distribution.  More precisely,
-            the covariance of the nudge distribution is :code:`(1 -
-            a_param ** 2)` times the covariance of the parameter distribution.
-            Default ``0.98``.
-
-        scale (:obj:`bool`): determines whether resampling includes a
-            contraction of the parameter distribution toward the
-            distribution mean.  The idea of this contraction is to
-            compensate for the overall expansion of the distribution
-            that is a by-product of random displacements.  If true,
-            parameter samples (particles) move a fraction ``a_param`` of
-            the distance to the distribution mean.  Default is ``True``,
-            but ``False`` is recommended.
 
         resample_threshold (:obj:`float`): Sets a threshold for automatic
             resampling. Resampling is triggered when the effective fraction of
@@ -77,16 +58,10 @@ class ParticlePDF:
     **Attributes:**
     """
 
-    def __init__(self, prior, a_param=0.98, resample_threshold=0.5,
-                 auto_resample=True, scale=True, use_jit=True):
+    def __init__(self, prior, resampler=Liu_West_resampler, resampler_params = {}, resample_threshold=0.5,
+                 auto_resample=True, use_jit=True):
 
         #: dict: A package of parameters affecting the resampling algorithm
-        #:
-        #:     - ``'a_param'`` (:obj:`float`): Initially, the value of the
-        #:       ``a_param`` keyword argument.  Default ``0.98``
-        #:
-        #:     - ``'scale'`` (:obj:`bool`): Initially, the value of the
-        #:       ``scale`` keyword argument. Default ``True``
         #:
         #:     - ``'resample_threshold'`` (:obj:`float`):  Initially,
         #:       the value of the ``resample_threshold`` keyword argument.
@@ -94,10 +69,10 @@ class ParticlePDF:
         #:
         #:     - ``'auto_resample'`` (:obj:`bool`): Initially, the value of the
         #:       ``auto_resample`` keyword argument. Default ``True``.
-        self.tuning_parameters = {'a_param': a_param,
-                                  'resample_threshold': resample_threshold,
-                                  'auto_resample': auto_resample,
-                                  'scale': scale}
+        self.tuning_parameters = {'resample_threshold': resample_threshold,
+                                  'auto_resample': auto_resample}
+        self.resampler = resampler
+        self.resampler_params = resampler_params
 
         #: ``n_dims x n_particles ndarray`` of ``float64``: Together with
         #: ``particle_weights``,#: these ``n_particles`` points represent
@@ -259,7 +234,8 @@ class ParticlePDF:
             self.just_resampled = False
 
     def resample(self):
-        """Performs a resampling of the distribution.
+        """Performs a resampling of the distribution as specified by 
+        and self.resampler and self.resampler_params.
 
         Resampling refreshes the random draws that represent the probability
         distribution.  As Bayesian updates are made, the weights of
@@ -284,31 +260,12 @@ class ParticlePDF:
               *supposed* to change the distribution, just refresh its
               representation.
         """
-        coords = self.randdraw(self.n_particles)
-        # coords is n_dims x n_particles
-        origin = np.zeros(self.n_dims)
 
-        covar = self.covariance()
-        old_center = self.mean().reshape((self.n_dims, 1))
-        # a_param is typically close to but less than 1
-        a_param = self.tuning_parameters['a_param']
-        # newcover is a small version of covar that determines the size of
-        # the nudge.
-        newcovar = (1 - a_param ** 2) * covar
-
-        # multivariate normal returns n_particles x n_dims array. ".T"
-        # transposes to match coords shape.
-        nudged = coords + self.rng.multivariate_normal(origin, newcovar,
-                                                       self.n_particles).T
-
-        if self.tuning_parameters['scale']:
-            scaled = nudged * a_param + old_center * (1 - a_param)
-            self.particles = scaled
-        else:
-            self.particles = nudged
-
-        self.particle_weights = np.full_like(self.particle_weights,
-                                         1.0 / self.n_particles)
+        # Call the resampler function to get a new set of particles
+        # and overwrite the current particles in-place
+        self.particles = self.resampler(self.particles, self.particle_weights, **self.resampler_params)
+        # Re-fill the current particle weights with 1/n_particles
+        self.particle_weights.fill( 1.0 / self.n_particles)
 
     def randdraw(self, n_draws=1):
         """Provides random parameter draws from the distribution
