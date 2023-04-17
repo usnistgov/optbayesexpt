@@ -56,8 +56,8 @@ def Liu_West_resampler(particles, weights, a=0.98, scale=True):
             new_particles (`ndarray`): The new set of particles
     """
     rng = np.random.default_rng()
-    num_particles = particles.shape[1]
-    origin = np.zeros(particles.shape[0])
+    ndim, num_particles = particles.shape
+    origin = np.zeros(ndim)
     # coords is n_dims x n_particles
     coords = sample(particles, weights, n=num_particles)
     old_center = np.average(particles, axis=1, weights=weights)
