@@ -1,0 +1,2 @@
+#x0	Atrue	Btrue	dtrue	noiselevel
+2.5	1	0	0.15	1

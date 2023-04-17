@@ -58,8 +58,8 @@ class ParticlePDF:
     **Attributes:**
     """
 
-    def __init__(self, prior, resampler=Liu_West_resampler, resampler_params = {}, resample_threshold=0.5,
-                 auto_resample=True, use_jit=True):
+    def __init__(self, prior, resampler=Liu_West_resampler, resample_threshold=0.5,
+                 auto_resample=True, use_jit=True, **kwargs):
 
         #: dict: A package of parameters affecting the resampling algorithm
         #:
@@ -72,7 +72,7 @@ class ParticlePDF:
         self.tuning_parameters = {'resample_threshold': resample_threshold,
                                   'auto_resample': auto_resample}
         self.resampler = resampler
-        self.resampler_params = resampler_params
+        self.resampler_params = kwargs
 
         #: ``n_dims x n_particles ndarray`` of ``float64``: Together with
         #: ``particle_weights``,#: these ``n_particles`` points represent
