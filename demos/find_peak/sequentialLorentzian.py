@@ -104,8 +104,9 @@ constants = (dtrue,)
 
 # make an instance of OptBayesExpt
 #
+resampler_params = {'a':0.98,'scale':False}
 my_obe = OptBayesExpt(my_model_function, settings, parameters, constants,
-                      scale=False)
+                      resampler_params=resampler_params)
 
 ########################################################################
 #           MEASUREMENT LOOP

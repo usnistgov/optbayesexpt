@@ -15,10 +15,10 @@ def sample(particles, weights, n=1):
         Returns:
             An ``n_dims`` x ``N_DRAWS`` :obj:`ndarray` of parameter draws.
     """
-    num_particles = particles.shape[0]
+    num_particles = particles.shape[1]
     rng = np.random.default_rng()
     I = rng.choice(num_particles,size=n,p=weights)
-    return particles[I,:]
+    return particles[:,I]
 
 
 def Liu_West_resampler(particles, weights, a=0.98, scale=True):
