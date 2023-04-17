@@ -103,6 +103,7 @@ dtrue = .1
 constants = (dtrue,)
 
 # make an instance of OptBayesExpt
+#
 my_obe = OptBayesExpt(my_model_function, settings, parameters, constants,
                       scale=False)
 
