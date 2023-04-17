@@ -29,7 +29,7 @@ def Liu_West_resampler(particles, weights, a=0.98, scale=True):
 
         Args:
             particles (`ndarray`): The location of particles
-            
+
             weights (`ndarray`): The probability weights
 
             a_param (`float`): In resampling, determines the scale of random
@@ -55,12 +55,6 @@ def Liu_West_resampler(particles, weights, a=0.98, scale=True):
         Returns:
             new_particles (`ndarray`): The new set of particles
     """
-    # a is typically close to but less than 1
-    a = params['a']
-    # Scale is chosen to contract the newly resampled particle 
-    # distribution towards the mean to compensate for 
-    # random sampling spread
-    scale = params['scale']
     rng = np.random.default_rng()
     num_particles = particles.shape[0]
     origin = np.zeros(num_particles)
@@ -73,7 +67,7 @@ def Liu_West_resampler(particles, weights, a=0.98, scale=True):
     # multivariate normal returns n_particles x n_dims array. ".T"
     # transposes to match coords shape.
     nudged = coords + rng.multivariate_normal(origin, newcovar,
-                                                       self.n_particles).T
+                                                       num_particles).T
     
     if scale:
             nudged = nudged * a
