@@ -1,6 +1,6 @@
 import numpy as np
 import warnings
-from .samplers import *
+from optbayesexpt.samplers import sample,Liu_West_resampler
 
 GOT_NUMBA = False
 # GOT_NUMBA = True
