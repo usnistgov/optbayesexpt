@@ -195,7 +195,7 @@ normal distributions, we now have an approximate utility function
 
 .. math::
 
-    U^*(x) \propto \approx \ln(\sqrt{\sigma_\theta^2 + \sigma_y^2}) - \ln(\sigma_y)
+    U^*(x) \propto \approx \ln(\sqrt{\sigma_{y,\theta}^2 + \sigma_y^2}) - \ln(\sigma_y)
             = \frac{1}{2}\ln\left[\frac{\sigma_{y,\theta}(x)^2}{\sigma_y(x)^2}+1\right]
 
 This approximation has some reasonable properties. The dependence on
