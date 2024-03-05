@@ -1,19 +1,16 @@
-
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>Theory of operation &#8212; OptBayesExpt 1.2.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=601dbdee" />
+    <script src="_static/documentation_options.js?v=6efca38a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -68,12 +65,12 @@ $(document).ready(function(){
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="theory-of-operation">
-<h1>Theory of operation<a class="headerlink" href="#theory-of-operation" title="Permalink to this heading">¶</a></h1>
+  <section id="theory-of-operation">
+<h1>Theory of operation<a class="headerlink" href="#theory-of-operation" title="Link to this heading">¶</a></h1>
 <p>The optimal Bayes experimental design method incorporates two main jobs,
 which we can describe as “learning early” and “making good decisions”</p>
-<div class="section" id="learning-early">
-<h2>Learning early<a class="headerlink" href="#learning-early" title="Permalink to this heading">¶</a></h2>
+<section id="learning-early">
+<h2>Learning early<a class="headerlink" href="#learning-early" title="Link to this heading">¶</a></h2>
 <p>By interpreting measurement data as soon as it becomes available, sequential Bayesian
 experimental design gains a critical advantage over the traditional measure-then-fit design.
 With a measure-then-fit strategy, we get information about parameters only at the very end of the
@@ -141,9 +138,9 @@ measurement uncertainty on the measurement reporter, but as an experimental resu
 generally a measurement output, not an input.  If uncertainty is a parameter to be determined, it
 enters the process through the likelihood function given above, but it is not part of the model
 function <span class="math notranslate nohighlight">\(y(x_i, \theta)\)</span>. See <code class="docutils literal notranslate"><span class="pre">demos/line_plus_noise.py</span></code> for an example.</p>
-</div>
-<div class="section" id="making-good-decisions">
-<h2>Making good decisions<a class="headerlink" href="#making-good-decisions" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="making-good-decisions">
+<h2>Making good decisions<a class="headerlink" href="#making-good-decisions" title="Link to this heading">¶</a></h2>
 <p>The next important job in the process is figuring out good measurement
 settings. The goal is to make the parameter probability distribution
 <span class="math notranslate nohighlight">\(p(\theta)\)</span> narrow while minimizing cost. More formally, the
@@ -162,8 +159,8 @@ agree.  Instead, it would do the most good to “pin down” the results with a 
 focuses attention on the relevant parts of parameter space, and through the model to relevant
 settings. Or, stated slightly differently, using an updated parameter distribution helps to avoid
 wasting measurement resources on low-impact measurements.</p>
-<div class="section" id="estimate-benefits">
-<h3>Estimate benefits<a class="headerlink" href="#estimate-benefits" title="Permalink to this heading">¶</a></h3>
+<section id="estimate-benefits">
+<h3>Estimate benefits<a class="headerlink" href="#estimate-benefits" title="Link to this heading">¶</a></h3>
 <p>To translate such a qualitative argument into code, “doing the most good”
 must be defined more precisely in terms of desired changes in
 the parameter distribution <span class="math notranslate nohighlight">\(p(\theta)\)</span>. Usually, the goal in
@@ -198,7 +195,7 @@ arbitrary possible measurement value <span class="math notranslate nohighlight">
 <p>With two applications of Bayes rule and some rearrangement this expression for
 <span class="math notranslate nohighlight">\(U(x)\)</span> can be rewritten as the difference between two information entropy-like terms:</p>
 <dl class="field-list">
-<dt class="field-odd">Term 1</dt>
+<dt class="field-odd">Term 1<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The information entropy of <span class="math notranslate nohighlight">\(p(y|x)\)</span>, the distribution of
 measurement values expected at setting <span class="math notranslate nohighlight">\(x\)</span>. Importantly this distribution
 includes likely variations of <span class="math notranslate nohighlight">\(\theta.\)</span> Explicitly,</p>
@@ -207,7 +204,7 @@ includes likely variations of <span class="math notranslate nohighlight">\(\thet
 <p>Qualitatively, this term is the information entropy of the predicted measurement values
 including both measurement noise and the effects of parameter uncertainty.</p>
 </dd>
-<dt class="field-even">Term 2</dt>
+<dt class="field-even">Term 2<span class="colon">:</span></dt>
 <dd class="field-even"><p>The other term is the information entropy of <span class="math notranslate nohighlight">\(p(y|\theta,x)\)</span> the measurement value
 distribution when <span class="math notranslate nohighlight">\(\theta\)</span> and <span class="math notranslate nohighlight">\(x\)</span> are fixed, i.e. the entropy of just the
 measurement noise distribution. The entropy of this distribution is averaged over
@@ -242,7 +239,7 @@ of normal distributions is another normal distribution with width =
 <span class="math notranslate nohighlight">\(\sqrt{\sigma_{y,\theta}^2 + \sigma_y^2}\)</span>. Under the assumption of
 normal distributions, we now have an approximate utility function</p>
 <div class="math notranslate nohighlight">
-\[U^*(x) \propto \approx \ln(\sqrt{\sigma_\theta^2 + \sigma_y^2}) - \ln(\sigma_y)
+\[U^*(x) \propto \approx \ln(\sqrt{\sigma_{y,\theta}^2 + \sigma_y^2}) - \ln(\sigma_y)
         = \frac{1}{2}\ln\left[\frac{\sigma_{y,\theta}(x)^2}{\sigma_y(x)^2}+1\right]\]</div>
 <p>This approximation has some reasonable properties. The dependence on
 <span class="math notranslate nohighlight">\(\sigma_{y,\theta}\)</span> matches our initial intuition that
@@ -252,9 +249,9 @@ parameter variations. The dependence on measurement noise
 useful to make measurements at settings <span class="math notranslate nohighlight">\(x\)</span> where the
 instrumental noise is larger. This approximate utility function is
 also positive, i.e. more data helps narrow a distribution.</p>
-</div>
-<div class="section" id="estimate-the-costs">
-<h3>Estimate the costs<a class="headerlink" href="#estimate-the-costs" title="Permalink to this heading">¶</a></h3>
+</section>
+<section id="estimate-the-costs">
+<h3>Estimate the costs<a class="headerlink" href="#estimate-the-costs" title="Link to this heading">¶</a></h3>
 <p>The utility as described above focuses on the information entropy change,
 but if the question is about making efficient measurements, the cost of the
 measurements is fully half of the problem.  In the simplest situations, the
@@ -263,9 +260,9 @@ there may be a cost associated with changing settings, the cost of a
 measurement may depend on the likelihood of damage. So in contrast to the
 general approach to predicting information entropy change, the cost closely
 associated with local conditions.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -324,8 +321,8 @@ associated with local conditions.</p>
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

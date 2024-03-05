@@ -1,19 +1,16 @@
-
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>Guided Tour &#8212; OptBayesExpt 1.2.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=601dbdee" />
+    <script src="_static/documentation_options.js?v=6efca38a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
 
@@ -67,20 +64,20 @@ $(document).ready(function(){
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="guided-tour">
-<h1>Guided Tour<a class="headerlink" href="#guided-tour" title="Permalink to this heading">¶</a></h1>
+  <section id="guided-tour">
+<h1>Guided Tour<a class="headerlink" href="#guided-tour" title="Link to this heading">¶</a></h1>
 <p>Where the section above treats the theory of Bayesian experimental design,
 this section provides an introduction to the algorithms and methods in the
 <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code>
 class that perform the “learn fast” and “make good decisions” tasks.
 An additional subsection describes how the parameter probability
 distribution is implemented.</p>
-<div class="section" id="learn-fast-routine">
-<h2>Learn fast routine<a class="headerlink" href="#learn-fast-routine" title="Permalink to this heading">¶</a></h2>
-<div class="sidebar">
+<section id="learn-fast-routine">
+<h2>Learn fast routine<a class="headerlink" href="#learn-fast-routine" title="Link to this heading">¶</a></h2>
+<aside class="sidebar">
 <p class="sidebar-title">Measurement inputs</p>
 <a class="reference internal image-reference" href="_images/obe_pdf_update_flowchart.png"><img alt="_images/obe_pdf_update_flowchart.png" src="_images/obe_pdf_update_flowchart.png" style="width: 317.45px; height: 193.89999999999998px;" /></a>
-</div>
+</aside>
 <p>To input measurement data, the user script invokes
 <code class="docutils literal notranslate"><span class="pre">pdf_update(measurement_result)</span></code>.  The events that follow are illustrated
 in the sidebar.  <code class="docutils literal notranslate"><span class="pre">OptBaesExpt</span></code> requires the user to provide a
@@ -115,13 +112,13 @@ this approach, see</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">ParticlePdf.bayesian_update()</span></code> adjusts the parameter distribution
 (including the uncertainty part) based on the likelihood.</p>
-</div>
-<div class="section" id="make-good-decisions-routine">
-<h2>Make good decisions routine<a class="headerlink" href="#make-good-decisions-routine" title="Permalink to this heading">¶</a></h2>
-<div class="sidebar">
+</section>
+<section id="make-good-decisions-routine">
+<h2>Make good decisions routine<a class="headerlink" href="#make-good-decisions-routine" title="Link to this heading">¶</a></h2>
+<aside class="sidebar">
 <p class="sidebar-title">Setting selection</p>
 <a class="reference internal image-reference" href="_images/utility.png"><img alt="_images/utility.png" src="_images/utility.png" style="width: 317.79999999999995px; height: 349.29999999999995px;" /></a>
-</div>
+</aside>
 <p>Measurement settings are selected by <code class="docutils literal notranslate"><span class="pre">opt_setting()</span></code> and <code class="docutils literal notranslate"><span class="pre">good_setting</span></code>,
 and both of these rely on <code class="docutils literal notranslate"><span class="pre">utility()</span></code>.  The sidebar illustrates the inner
 workings of <code class="docutils literal notranslate"><span class="pre">utility()</span></code>, where the most time-consuming part is
@@ -132,7 +129,7 @@ variance of these outputs is compared to the model experimental noise which
 is a constant by default.  The examples listed above for unknown
 uncertainties include the mean of the variance as a model of experimental
 noise.</p>
-<p>In the deoniminator, the cost of a potential experiment may depend on
+<p>In the denominator, the cost of a potential experiment may depend on
 settings, or predicted value or distance to the next setting.  There are
 many possibilities.  In <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code> the cost is constant by default but
 customized cost models can be programmed into child classes.
@@ -151,13 +148,13 @@ with higher utility, the contrast between high and low utility is stretched
 by raising utility to a power, <code class="docutils literal notranslate"><span class="pre">pickiness</span></code>.  The contrasting behavior of
 <code class="docutils literal notranslate"><span class="pre">opt_settting()</span></code> and <code class="docutils literal notranslate"><span class="pre">good_setting()</span></code> with different <code class="docutils literal notranslate"><span class="pre">pickiness</span></code>
 values are illustrated by <code class="docutils literal notranslate"><span class="pre">demos/line_plus_noise.py</span></code></p>
-</div>
-<div class="section" id="probability-distribution-class">
-<h2>Probability distribution class<a class="headerlink" href="#probability-distribution-class" title="Permalink to this heading">¶</a></h2>
-<div class="sidebar">
+</section>
+<section id="probability-distribution-class">
+<h2>Probability distribution class<a class="headerlink" href="#probability-distribution-class" title="Link to this heading">¶</a></h2>
+<aside class="sidebar">
 <p class="sidebar-title">Probability distributions</p>
 <a class="reference internal image-reference" href="_images/particleFilter.png"><img alt="_images/particleFilter.png" src="_images/particleFilter.png" style="width: 320.0px; height: 240.0px;" /></a>
-</div>
+</aside>
 <p>The probability distribution over the model parameters is at the core of
 <code class="docutils literal notranslate"><span class="pre">OptBayesExpt</span></code>.  As of version 1.0, the optbayesexpt package uses the
 <code class="docutils literal notranslate"><span class="pre">particlePDF</span></code> class to implement the distribution function for <em>N</em>
@@ -199,8 +196,8 @@ slightly to compensate for the one-step diffusion, and the weight is divided
 evenly between particles as shown in panel (c). Resampling relocates
 low-weight particles to higher-weight neighborhoods so that as measurements
 narrow the distributions of parameter values, the representation adapts.</p>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -256,8 +253,8 @@ narrow the distributions of parameter values, the representation adapts.</p>
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>
