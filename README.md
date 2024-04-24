@@ -4,12 +4,12 @@
 R. D. McMichael
 `rmcmichael@nist.gov`  
 National Institute of Standards and Technology  
-May 1, 2020
+revision: April 24, 2024
 
 ## What is it for?
 
-It's for making smart setting choices in measurements that determine
-the parameters of a model. It is for cases with
+Optimal Bayesian Experiment Design is for making smart setting choices in
+measurements. The `optbayesexpt` python package is for cases with
 
  - a known parametric model, i.e. an equation that relates unknown parameters
    and experimental settings to measurement predictions. Fitting functions used
@@ -17,14 +17,13 @@ the parameters of a model. It is for cases with
  - an experiment (possibly computational) that uses a set-measure-repeat
    sequence with opportunities to change settings between measurements.
 
-The benefit of these methods is that they provide settings choices
-that have the best chance of making the parameter estimates more precise.
+The benefit of these methods is that they choose settings
+that have a good chance of making the parameter estimates more precise.
 This feature is very helpful in situations where the measurements are
 expensive.
 
 It is not primarily designed for analyzing existing data, but some of the
-code could be used with existing data to do Bayesian inference of parameter
-values.
+code could be used for Bayesian inference of parameter values.
 
 Note that *Bayesian optimization* addresses a different problem: finding a
 maximum or minimum of an unknown function.
