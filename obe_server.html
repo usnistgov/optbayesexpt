@@ -1,19 +1,16 @@
-
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>OBE_Server class &#8212; OptBayesExpt 1.2.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=601dbdee" />
+    <script src="_static/documentation_options.js?v=6efca38a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="OBE_Socket class" href="obe_socket.html" />
@@ -76,11 +73,11 @@ $(document).ready(function(){
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-optbayesexpt.obe_server">
-<span id="obe-server-class"></span><h1>OBE_Server class<a class="headerlink" href="#module-optbayesexpt.obe_server" title="Permalink to this heading">¶</a></h1>
+  <section id="module-optbayesexpt.obe_server">
+<span id="obe-server-class"></span><h1>OBE_Server class<a class="headerlink" href="#module-optbayesexpt.obe_server" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="optbayesexpt.obe_server.OBE_Server">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_server.</span></span><span class="sig-name descname"><span class="pre">OBE_Server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip_address</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">61981</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_server.</span></span><span class="sig-name descname"><span class="pre">OBE_Server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip_address</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">61981</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="obe_socket.html#optbayesexpt.obe_socket.Socket" title="optbayesexpt.obe_socket.Socket"><code class="xref py py-class docutils literal notranslate"><span class="pre">Socket</span></code></a></p>
 <p>A TCP socket interface for OptBayesExpt using JSON strings</p>
 <p>This class provides communication between an OptBayesExpt object and
@@ -90,7 +87,7 @@ experiments to use OptBayesExpt from their native languages by issuing
 command messages in JSON <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code> format through TCP sockets. The
 available commands are documented below in the <code class="docutils literal notranslate"><span class="pre">run()</span></code> method.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>initial_args</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code>) – <p>Requires a tuple with the following structure:</p>
 <ol class="arabic simple" start="0">
@@ -106,18 +103,18 @@ Default ‘127.0.0.1’.</p></li>
 Default 61981.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Keyword Arguments</dt>
+<dt class="field-even">Keyword Arguments<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>function.</strong> (<em>**kwargs are passed to the specified OBE_class's `` __init__``</em>) – </p>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="optbayesexpt.obe_server.OBE_Server.obe_engine">
-<span class="sig-name descname"><span class="pre">obe_engine</span></span><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.obe_engine" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">obe_engine</span></span><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.obe_engine" title="Link to this definition">¶</a></dt>
 <dd><p>The disembodied brains of the
 experimental design scheme. <code class="docutils literal notranslate"><span class="pre">OBE_server</span></code> provides TCP
 communication between <code class="docutils literal notranslate"><span class="pre">obe_engine</span></code> and a client program.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">OptBayesExpt</span></code></p>
 </dd>
 </dl>
@@ -125,12 +122,12 @@ communication between <code class="docutils literal notranslate"><span class="pr
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="optbayesexpt.obe_server.OBE_Server.initial_args">
-<span class="sig-name descname"><span class="pre">initial_args</span></span><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.initial_args" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">initial_args</span></span><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.initial_args" title="Link to this definition">¶</a></dt>
 <dd><p>Stored samples from an
 initial parameter distribution.  Initialized by <code class="docutils literal notranslate"><span class="pre">self.__init__()</span></code>
 and <code class="docutils literal notranslate"><span class="pre">self.make_obe()</span></code>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></p>
 </dd>
 </dl>
@@ -138,11 +135,11 @@ and <code class="docutils literal notranslate"><span class="pre">self.make_obe()
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="optbayesexpt.obe_server.OBE_Server.initial_kwargs">
-<span class="sig-name descname"><span class="pre">initial_kwargs</span></span><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.initial_kwargs" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">initial_kwargs</span></span><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.initial_kwargs" title="Link to this definition">¶</a></dt>
 <dd><p>keyword arguments stored for future
 OBE_class intantiation.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code></p>
 </dd>
 </dl>
@@ -165,14 +162,14 @@ experimental runs with differently configured
 </ol>
 <dl class="py method">
 <dt class="sig sig-object py" id="optbayesexpt.obe_server.OBE_Server.make_obe">
-<span class="sig-name descname"><span class="pre">make_obe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obe_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server.make_obe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.make_obe" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">make_obe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obe_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server.make_obe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.make_obe" title="Link to this definition">¶</a></dt>
 <dd><p>Creates and attaches a new OptBayesExpt-like object</p>
 <p>A server may need to handle several runs. This function allows
 OBE_Server to instantiate new OptBayesExpt objects from scratch.
 Enables a server to start a new experimental run with modified
 starting conditions.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>obe_class</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">OptBayesExpt</span></code>-like) – e.g. <code class="docutils literal notranslate"><span class="pre">optbayesexpt.OptBayesExpt</span></code> without parentheses</p></li>
 <li><p><strong>class_args</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code>) – the arguments to the obe_class. For
@@ -184,7 +181,7 @@ example, <code class="docutils literal notranslate"><span class="pre">(model_fun
 
 <dl class="py method">
 <dt class="sig sig-object py" id="optbayesexpt.obe_server.OBE_Server.newrun">
-<span class="sig-name descname"><span class="pre">newrun</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server.newrun"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.newrun" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">newrun</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server.newrun"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.newrun" title="Link to this definition">¶</a></dt>
 <dd><p>A stub to allow customized TCP commands</p>
 <p>Invoked by the <code class="docutils literal notranslate"><span class="pre">run</span></code> method when a message with a <code class="docutils literal notranslate"><span class="pre">'newrun'</span></code>
 command string is received. The idea is to provide flexible control
@@ -195,7 +192,7 @@ to the OBE_Server and its OptBayesExpt through the <code class="docutils literal
 argument, and with any information the user chooses to send from the
 client program, there are many more possibilities.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>self</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">optbayesexpt.OBE_Server</span></code>) – provides access to the
 attributes of <code class="docutils literal notranslate"><span class="pre">self</span></code> and also its OptBayesExpt attribute.</p></li>
@@ -209,7 +206,7 @@ client program.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="optbayesexpt.obe_server.OBE_Server.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.run" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_server.html#OBE_Server.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_server.OBE_Server.run" title="Link to this definition">¶</a></dt>
 <dd><p>Listens and responds to TCP messages</p>
 <p>Enters a continuous loop, interpreting incoming messages as python
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> objects and responding to command strings found in
@@ -328,7 +325,7 @@ goodset.</p>
 
 </dd></dl>
 
-</div>
+</section>
 
 
             <div class="clearer"></div>
@@ -407,8 +404,8 @@ goodset.</p>
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

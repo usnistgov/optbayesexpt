@@ -1,19 +1,15 @@
-
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>optbayesexpt.obe_server &#8212; OptBayesExpt 1.2.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css?v=601dbdee" />
+    <script src="../../_static/documentation_options.js?v=6efca38a"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 
@@ -73,8 +69,10 @@ $(document).ready(function(){
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
-<div class="viewcode-block" id="OBE_Server"><a class="viewcode-back" href="../../obe_server.html#optbayesexpt.obe_server.OBE_Server">[docs]</a><span class="k">class</span> <span class="nc">OBE_Server</span><span class="p">(</span><span class="n">Socket</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A TCP socket interface for OptBayesExpt using JSON strings</span>
+<div class="viewcode-block" id="OBE_Server">
+<a class="viewcode-back" href="../../obe_server.html#optbayesexpt.obe_server.OBE_Server">[docs]</a>
+<span class="k">class</span> <span class="nc">OBE_Server</span><span class="p">(</span><span class="n">Socket</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A TCP socket interface for OptBayesExpt using JSON strings</span>
 
 <span class="sd">    This class provides communication between an OptBayesExpt object and</span>
 <span class="sd">    user software running in a separate process. Instrumentation software is</span>
@@ -140,8 +138,10 @@ $(document).ready(function(){
             <span class="bp">self</span><span class="o">.</span><span class="n">initial_kwargs</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="OBE_Server.make_obe"><a class="viewcode-back" href="../../obe_server.html#optbayesexpt.obe_server.OBE_Server.make_obe">[docs]</a>    <span class="k">def</span> <span class="nf">make_obe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obe_class</span><span class="p">,</span> <span class="n">class_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates and attaches a new OptBayesExpt-like object</span>
+<div class="viewcode-block" id="OBE_Server.make_obe">
+<a class="viewcode-back" href="../../obe_server.html#optbayesexpt.obe_server.OBE_Server.make_obe">[docs]</a>
+    <span class="k">def</span> <span class="nf">make_obe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obe_class</span><span class="p">,</span> <span class="n">class_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates and attaches a new OptBayesExpt-like object</span>
 
 <span class="sd">        A server may need to handle several runs. This function allows</span>
 <span class="sd">        OBE_Server to instantiate new OptBayesExpt objects from scratch.</span>
@@ -164,8 +164,11 @@ $(document).ready(function(){
         <span class="c1"># create a new OptBayesExpt and attach it as the obe_engine attribute.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">obe_engine</span> <span class="o">=</span> <span class="n">obe_class</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OBE_Server.newrun"><a class="viewcode-back" href="../../obe_server.html#optbayesexpt.obe_server.OBE_Server.newrun">[docs]</a>    <span class="k">def</span> <span class="nf">newrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;A stub to allow customized TCP commands</span>
+
+<div class="viewcode-block" id="OBE_Server.newrun">
+<a class="viewcode-back" href="../../obe_server.html#optbayesexpt.obe_server.OBE_Server.newrun">[docs]</a>
+    <span class="k">def</span> <span class="nf">newrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A stub to allow customized TCP commands</span>
 
 <span class="sd">        Invoked by the ``run`` method when a message with a ``&#39;newrun&#39;``</span>
 <span class="sd">        command string is received. The idea is to provide flexible control</span>
@@ -186,8 +189,11 @@ $(document).ready(function(){
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="OBE_Server.run"><a class="viewcode-back" href="../../obe_server.html#optbayesexpt.obe_server.OBE_Server.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Listens and responds to TCP messages</span>
+
+<div class="viewcode-block" id="OBE_Server.run">
+<a class="viewcode-back" href="../../obe_server.html#optbayesexpt.obe_server.OBE_Server.run">[docs]</a>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Listens and responds to TCP messages</span>
 
 <span class="sd">        Enters a continuous loop, interpreting incoming messages as python</span>
 <span class="sd">        :obj:`dict` objects and responding to command strings found in</span>
@@ -381,7 +387,9 @@ $(document).ready(function(){
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># the incoming message wasn&#39;t interpreted</span>
-                <span class="k">pass</span></div></div>
+                <span class="k">pass</span></div>
+</div>
+
 
     <span class="c1"># end of run() method.</span>
 <span class="c1"># end of OBE_Server definition</span>
@@ -422,8 +430,8 @@ $(document).ready(function(){
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

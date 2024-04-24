@@ -1,19 +1,16 @@
-
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>OptBayesExptNoiseParam class &#8212; OptBayesExpt 1.2.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=601dbdee" />
+    <script src="_static/documentation_options.js?v=6efca38a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -77,11 +74,11 @@ $(document).ready(function(){
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-optbayesexpt.obe_noiseparam">
-<span id="optbayesexptnoiseparam-class"></span><h1>OptBayesExptNoiseParam class<a class="headerlink" href="#module-optbayesexpt.obe_noiseparam" title="Permalink to this heading">¶</a></h1>
+  <section id="module-optbayesexpt.obe_noiseparam">
+<span id="optbayesexptnoiseparam-class"></span><h1>OptBayesExptNoiseParam class<a class="headerlink" href="#module-optbayesexpt.obe_noiseparam" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_noiseparam.</span></span><span class="sig-name descname"><span class="pre">OptBayesExptNoiseParameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">measurement_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setting_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constants</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_parameter_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_noiseparam.</span></span><span class="sig-name descname"><span class="pre">OptBayesExptNoiseParameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">measurement_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setting_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constants</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_parameter_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="obe_base.html#optbayesexpt.obe_base.OptBayesExpt" title="optbayesexpt.obe_base.OptBayesExpt"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptBayesExpt</span></code></a></p>
 <p>OptBayesExpt adding measurement uncertainty as an unknown parameter.</p>
 <p>OptBayesExptNoiseParameter is designed for cases where the experimental
@@ -97,7 +94,7 @@ normally-distributed (Gaussian) noise.</p></li>
 </ul>
 </div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Arguments</dt>
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>measurement_model</strong> (<em>function</em>) – A function accepting (settings,
 parameters, constants) arguments and returning model values of
@@ -125,7 +122,7 @@ repeated in the tuple.</p></li>
 <p><strong>Attributes:</strong></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.enforce_parameter_constraints">
-<span class="sig-name descname"><span class="pre">enforce_parameter_constraints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter.enforce_parameter_constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.enforce_parameter_constraints" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">enforce_parameter_constraints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter.enforce_parameter_constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.enforce_parameter_constraints" title="Link to this definition">¶</a></dt>
 <dd><p>Detects and nullifies disallowed parameter values</p>
 <p>Constrains the noise parameter to be positive. Negative
 uncertainties lead to negative likelihoods, negative particle
@@ -135,7 +132,7 @@ method.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.likelihood">
-<span class="sig-name descname"><span class="pre">likelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_record</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter.likelihood"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.likelihood" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">likelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_record</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter.likelihood"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.likelihood" title="Link to this definition">¶</a></dt>
 <dd><p>Calculates the likelihood of a measurement result.</p>
 <p>For each parameter combination, estimate the probability of
 obtaining the results provided in <code class="code docutils literal notranslate"><span class="pre">measurement_result</span></code>.</p>
@@ -144,7 +141,7 @@ function of parameters, the likelihood is a Gaussian function
 proportional to <span class="math notranslate nohighlight">\(\sigma^{-1} \exp [-(y_{model} - y_{meas})^2
 / (2 \sigma^2)]\)</span>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>y_model</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – <code class="docutils literal notranslate"><span class="pre">model_function()</span></code> results evaluated
 for all parameters.</p></li>
@@ -161,7 +158,7 @@ first two elements of <code class="docutils literal notranslate"><span class="pr
 </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>an array of probabilities corresponding to the parameters in
 <code class="code docutils literal notranslate"><span class="pre">self.allparameters</span></code>.</p>
 </dd>
@@ -170,10 +167,10 @@ first two elements of <code class="docutils literal notranslate"><span class="pr
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.noise_parameter_index">
-<span class="sig-name descname"><span class="pre">noise_parameter_index</span></span><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.noise_parameter_index" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">noise_parameter_index</span></span><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.noise_parameter_index" title="Link to this definition">¶</a></dt>
 <dd><p>Stores the noise_parameter_index argument</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -181,7 +178,7 @@ first two elements of <code class="docutils literal notranslate"><span class="pr
 
 <dl class="py method">
 <dt class="sig sig-object py" id="optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.yvar_noise_model">
-<span class="sig-name descname"><span class="pre">yvar_noise_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter.yvar_noise_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.yvar_noise_model" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">yvar_noise_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_noiseparam.html#OptBayesExptNoiseParameter.yvar_noise_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_noiseparam.OptBayesExptNoiseParameter.yvar_noise_model" title="Link to this definition">¶</a></dt>
 <dd><p>Calculates the mean variance from the noise parameter.</p>
 <p>Overwrites OptBayesExpt method, replacing <code class="code docutils literal notranslate"><span class="pre">default_noise_std</span> <span class="pre">**</span>
 <span class="pre">2</span></code> with the mean variance calculated from the noise parameter. Used
@@ -191,7 +188,7 @@ in calculating utility.</p>
 
 </dd></dl>
 
-</div>
+</section>
 
 
             <div class="clearer"></div>
@@ -268,8 +265,8 @@ in calculating utility.</p>
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

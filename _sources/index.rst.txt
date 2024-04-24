@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 
-OptBayesExpt: Optimmal Bayesian Experiment Design
+OptBayesExpt: Optimal Bayesian Experiment Design
 =================================================
 
 :Author: R.\  D.\  McMichael

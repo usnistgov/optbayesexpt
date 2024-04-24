@@ -1,19 +1,16 @@
-
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>OBE_Socket class &#8212; OptBayesExpt 1.2.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=601dbdee" />
+    <script src="_static/documentation_options.js?v=6efca38a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="ParticlePDF class" href="particlepdf.html" />
@@ -76,11 +73,11 @@ $(document).ready(function(){
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-optbayesexpt.obe_socket">
-<span id="obe-socket-class"></span><h1>OBE_Socket class<a class="headerlink" href="#module-optbayesexpt.obe_socket" title="Permalink to this heading">¶</a></h1>
+  <section id="module-optbayesexpt.obe_socket">
+<span id="obe-socket-class"></span><h1>OBE_Socket class<a class="headerlink" href="#module-optbayesexpt.obe_socket" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="optbayesexpt.obe_socket.Socket">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_socket.</span></span><span class="sig-name descname"><span class="pre">Socket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">role</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip_address</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">61981</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_socket.</span></span><span class="sig-name descname"><span class="pre">Socket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">role</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip_address</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">61981</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Handles TCP communications</p>
 <p>The <code class="code docutils literal notranslate"><span class="pre">Socket</span></code> can be configured either as a ‘server’ or a ‘client’.
@@ -105,7 +102,7 @@ number.  The general form is</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>role</strong> (<em>str</em>) – either ‘client’ to configure the Socket to initiate
 communications or ‘server’ to listen and respond.</p></li>
@@ -120,21 +117,21 @@ communications between processes on the host computer.</p></li>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="optbayesexpt.obe_socket.Socket.server">
-<span class="sig-name descname"><span class="pre">server</span></span><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.server" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">server</span></span><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.server" title="Link to this definition">¶</a></dt>
 <dd><p>for the ‘server’ role, a <code class="code docutils literal notranslate"><span class="pre">socket.socket</span></code> object
 configured to listen and accept connections</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="optbayesexpt.obe_socket.Socket.connection">
-<span class="sig-name descname"><span class="pre">connection</span></span><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.connection" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">connection</span></span><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.connection" title="Link to this definition">¶</a></dt>
 <dd><p>for the ‘client’ role, a <code class="code docutils literal notranslate"><span class="pre">socket.socket</span></code> object
 configured to initiate connections and send messages</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="optbayesexpt.obe_socket.Socket.close">
-<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.close" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.close" title="Link to this definition">¶</a></dt>
 <dd><p>Close the communication connection.</p>
 <p>Only clients need to close connections once they’re done communicating.
 No need to call this for servers.</p>
@@ -142,13 +139,13 @@ No need to call this for servers.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="optbayesexpt.obe_socket.Socket.receive">
-<span class="sig-name descname"><span class="pre">receive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket.receive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.receive" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">receive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket.receive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.receive" title="Link to this definition">¶</a></dt>
 <dd><p>Wait for and process messages on the TCP port</p>
 <p>Blocks until a connection is made, then reads the number of bytes
 specified in the first 10 characters.  Reads the connection until
 the full message is received, then decodes the messages string.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The message string decoded and repackaged as a python object</p>
 </dd>
 </dl>
@@ -156,12 +153,12 @@ the full message is received, then decodes the messages string.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="optbayesexpt.obe_socket.Socket.send">
-<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contents</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket.send"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.send" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contents</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket.send"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.send" title="Link to this definition">¶</a></dt>
 <dd><p>Formats and sends a message</p>
 <p>This method formats the <code class="code docutils literal notranslate"><span class="pre">contents</span></code> argument into the message
 format, opens a connection and sends the <code class="code docutils literal notranslate"><span class="pre">contents</span></code> as a message.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>contents</strong> – Any JSON format-able object. Briefly, python’s
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>,
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code>, and <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> objects.</p>
@@ -180,18 +177,18 @@ list-ify a numpy array.  For example:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="optbayesexpt.obe_socket.Socket.tcpcmd">
-<span class="sig-name descname"><span class="pre">tcpcmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket.tcpcmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.tcpcmd" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tcpcmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_socket.html#Socket.tcpcmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_socket.Socket.tcpcmd" title="Link to this definition">¶</a></dt>
 <dd><p>Sends a command and receives a response.</p>
 <p>Run from a client socket, this method sends a command message and
 receives a response. The connection is then closed.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>command</strong> – a JSON-ifiable python object to be interpreted by the</p></li>
 <li><p><strong>recipient.</strong> – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>a pyhton object decoded from the reply message</p>
 </dd>
 </dl>
@@ -199,7 +196,7 @@ receives a response. The connection is then closed.</p>
 
 </dd></dl>
 
-</div>
+</section>
 
 
             <div class="clearer"></div>
@@ -278,8 +275,8 @@ receives a response. The connection is then closed.</p>
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

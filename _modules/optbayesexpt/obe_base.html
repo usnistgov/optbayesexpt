@@ -1,19 +1,15 @@
-
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>optbayesexpt.obe_base &#8212; OptBayesExpt 1.2.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css?v=601dbdee" />
+    <script src="../../_static/documentation_options.js?v=6efca38a"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 
@@ -89,8 +85,10 @@ $(document).ready(function(){
 <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
 <span class="n">DEFAULT_N_DRAWS</span> <span class="o">=</span> <span class="mi">30</span>
 
-<div class="viewcode-block" id="OptBayesExpt"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt">[docs]</a><span class="k">class</span> <span class="nc">OptBayesExpt</span><span class="p">(</span><span class="n">ParticlePDF</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;An implementation of sequential Bayesian experiment design.</span>
+<div class="viewcode-block" id="OptBayesExpt">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt">[docs]</a>
+<span class="k">class</span> <span class="nc">OptBayesExpt</span><span class="p">(</span><span class="n">ParticlePDF</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An implementation of sequential Bayesian experiment design.</span>
 
 <span class="sd">    OptBayesExpt is a manager that calculates strategies for efficient</span>
 <span class="sd">    measurement runs. OptBayesExpt incorporates measurement data, and uses</span>
@@ -342,8 +340,10 @@ $(document).ready(function(){
                     <span class="o">-</span><span class="p">((</span><span class="n">y_model</span> <span class="o">-</span> <span class="n">y_meas</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_gauss_noise_likelihood</span> <span class="o">=</span> <span class="n">_gauss_noise_likelihood</span>
 
-<div class="viewcode-block" id="OptBayesExpt.set_n_draws"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.set_n_draws">[docs]</a>    <span class="k">def</span> <span class="nf">set_n_draws</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_draws</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets OptBayesExpt.N_DRAWS attribute.</span>
+<div class="viewcode-block" id="OptBayesExpt.set_n_draws">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.set_n_draws">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_n_draws</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_draws</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets OptBayesExpt.N_DRAWS attribute.</span>
 
 <span class="sd">        Sets or queries the number of parameter samples to use in the utility</span>
 <span class="sd">        calculation.</span>
@@ -366,8 +366,11 @@ $(document).ready(function(){
                                          <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_DRAWS</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.eval_over_all_parameters"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">eval_over_all_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onesettingset</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Evaluates the experimental model.</span>
+
+<div class="viewcode-block" id="OptBayesExpt.eval_over_all_parameters">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_parameters">[docs]</a>
+    <span class="k">def</span> <span class="nf">eval_over_all_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onesettingset</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluates the experimental model.</span>
 
 <span class="sd">        Evaluates the model for one combination of measurement settings and</span>
 <span class="sd">        all parameter combinations in ``self.parameters``. Called by</span>
@@ -390,8 +393,11 @@ $(document).ready(function(){
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_function</span><span class="p">(</span><span class="n">onesettingset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cons</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.eval_over_all_settings"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_settings">[docs]</a>    <span class="k">def</span> <span class="nf">eval_over_all_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oneparamset</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Evaluates the experimental model.</span>
+
+<div class="viewcode-block" id="OptBayesExpt.eval_over_all_settings">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.eval_over_all_settings">[docs]</a>
+    <span class="k">def</span> <span class="nf">eval_over_all_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oneparamset</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluates the experimental model.</span>
 
 <span class="sd">        Evaluates the model for all combinations of measurement settings in</span>
 <span class="sd">        ``self.allsettings`` and one set of parameters. Called ``N_DRAWS``</span>
@@ -408,8 +414,11 @@ $(document).ready(function(){
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">,</span> <span class="n">oneparamset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cons</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.pdf_update"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.pdf_update">[docs]</a>    <span class="k">def</span> <span class="nf">pdf_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measurement_record</span><span class="p">,</span> <span class="n">y_model_data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OptBayesExpt.pdf_update">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.pdf_update">[docs]</a>
+    <span class="k">def</span> <span class="nf">pdf_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measurement_record</span><span class="p">,</span> <span class="n">y_model_data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Refines the parameters&#39; probability distribution function given a</span>
 <span class="sd">        measurement result.</span>
 
@@ -469,8 +478,11 @@ $(document).ready(function(){
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">particle_weights</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.enforce_parameter_constraints"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.enforce_parameter_constraints">[docs]</a>    <span class="k">def</span> <span class="nf">enforce_parameter_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;A stub for enforcing constraints on parameters</span>
+
+<div class="viewcode-block" id="OptBayesExpt.enforce_parameter_constraints">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.enforce_parameter_constraints">[docs]</a>
+    <span class="k">def</span> <span class="nf">enforce_parameter_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A stub for enforcing constraints on parameters</span>
 
 <span class="sd">        for example::</span>
 
@@ -486,8 +498,11 @@ $(document).ready(function(){
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.likelihood"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.likelihood">[docs]</a>    <span class="k">def</span> <span class="nf">likelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_model</span><span class="p">,</span> <span class="n">measurement_record</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OptBayesExpt.likelihood">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.likelihood">[docs]</a>
+    <span class="k">def</span> <span class="nf">likelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_model</span><span class="p">,</span> <span class="n">measurement_record</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculates the likelihood of a measurement result.</span>
 
 <span class="sd">        For each parameter combination, estimate the probability of</span>
@@ -531,8 +546,11 @@ $(document).ready(function(){
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">lky</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.yvar_from_parameter_draws"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.yvar_from_parameter_draws">[docs]</a>    <span class="k">def</span> <span class="nf">yvar_from_parameter_draws</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Models the measurement variance solely due to parameter</span>
+
+<div class="viewcode-block" id="OptBayesExpt.yvar_from_parameter_draws">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.yvar_from_parameter_draws">[docs]</a>
+    <span class="k">def</span> <span class="nf">yvar_from_parameter_draws</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Models the measurement variance solely due to parameter</span>
 <span class="sd">        distributions.</span>
 
 <span class="sd">        Evaluates the effect of the distribution</span>
@@ -559,8 +577,11 @@ $(document).ready(function(){
         <span class="n">yvar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">utility_y_space</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">yvar</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.yvar_from_entropy"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.yvar_from_entropy">[docs]</a>    <span class="k">def</span> <span class="nf">yvar_from_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Models the entropy of the model values due to the</span>
+
+<div class="viewcode-block" id="OptBayesExpt.yvar_from_entropy">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.yvar_from_entropy">[docs]</a>
+    <span class="k">def</span> <span class="nf">yvar_from_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Models the entropy of the model values due to the</span>
 <span class="sd">        parameter distributions</span>
 
 <span class="sd">        Evaluates the effect of the distribution</span>
@@ -588,8 +609,11 @@ $(document).ready(function(){
         <span class="n">yvar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">model_entropy</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">e</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">yvar</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.yvar_max_min"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.yvar_max_min">[docs]</a>    <span class="k">def</span> <span class="nf">yvar_max_min</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OptBayesExpt.yvar_max_min">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.yvar_max_min">[docs]</a>
+    <span class="k">def</span> <span class="nf">yvar_max_min</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Crudely approximates the signal variance using max - min.</span>
 
 <span class="sd">        Returns: :obj:`ndarray` with shape of :code:`self.setting_indices`</span>
@@ -605,13 +629,19 @@ $(document).ready(function(){
 
         <span class="k">return</span> <span class="n">span</span> <span class="o">**</span> <span class="mi">2</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.y_var_noise_model"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.y_var_noise_model">[docs]</a>    <span class="k">def</span> <span class="nf">y_var_noise_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;For backawards compatibiilty, a wrapper for ``yvar_noise_model``.</span>
+
+<div class="viewcode-block" id="OptBayesExpt.y_var_noise_model">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.y_var_noise_model">[docs]</a>
+    <span class="k">def</span> <span class="nf">y_var_noise_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;For backawards compatibiilty, a wrapper for ``yvar_noise_model``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">yvar_noise_model</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.yvar_noise_model"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.yvar_noise_model">[docs]</a>    <span class="k">def</span> <span class="nf">yvar_noise_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OptBayesExpt.yvar_noise_model">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.yvar_noise_model">[docs]</a>
+    <span class="k">def</span> <span class="nf">yvar_noise_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A stub for models of the measurement noise</span>
 
 <span class="sd">        A model of measurement variance (noise) as a function of settings,</span>
@@ -634,8 +664,11 @@ $(document).ready(function(){
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_noise_std</span> <span class="o">**</span> <span class="mi">2</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.cost_estimate"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.cost_estimate">[docs]</a>    <span class="k">def</span> <span class="nf">cost_estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; A stub for estimating the cost of prospective measurements</span>
+
+<div class="viewcode-block" id="OptBayesExpt.cost_estimate">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.cost_estimate">[docs]</a>
+    <span class="k">def</span> <span class="nf">cost_estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; A stub for estimating the cost of prospective measurements</span>
 
 <span class="sd">        An estimate of the cost of measurement resources. (e.g. setup time +</span>
 <span class="sd">        data collection time).  This estimate goes in the denominator of the</span>
@@ -647,8 +680,11 @@ $(document).ready(function(){
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="mf">1.0</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.utility"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility">[docs]</a>    <span class="k">def</span> <span class="nf">utility</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Estimate the utility as a function of setting options</span>
+
+<div class="viewcode-block" id="OptBayesExpt.utility">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility">[docs]</a>
+    <span class="k">def</span> <span class="nf">utility</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate the utility as a function of setting options</span>
 
 <span class="sd">        The *utility* :math:`U(d)` is the predicted benefit/cost ratio of proposed</span>
 <span class="sd">        measurement designs :math:`d`.</span>
@@ -670,8 +706,11 @@ $(document).ready(function(){
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.utility_max_min"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility_max_min">[docs]</a>    <span class="k">def</span> <span class="nf">utility_max_min</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Estimate utility using the max-min algorithm</span>
+
+<div class="viewcode-block" id="OptBayesExpt.utility_max_min">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility_max_min">[docs]</a>
+    <span class="k">def</span> <span class="nf">utility_max_min</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate utility using the max-min algorithm</span>
 
 <span class="sd">        This algorithm</span>
 <span class="sd">        corresponds to the &quot;max-min algorithm&quot; of [#f1]_.</span>
@@ -696,8 +735,11 @@ $(document).ready(function(){
         <span class="n">utility_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">var_p</span> <span class="o">/</span> <span class="n">var_n</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">utility_sum</span> <span class="o">/</span> <span class="n">cost</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.utility_variance"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility_variance">[docs]</a>    <span class="k">def</span> <span class="nf">utility_variance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Estimate the utility as a function of settings.</span>
+
+<div class="viewcode-block" id="OptBayesExpt.utility_variance">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility_variance">[docs]</a>
+    <span class="k">def</span> <span class="nf">utility_variance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Estimate the utility as a function of settings.</span>
 
 <span class="sd">        The *utility* is the predicted benefit/cost ratio of a new</span>
 <span class="sd">        measurement where the benefit is given in terms of a change in the</span>
@@ -725,8 +767,11 @@ $(document).ready(function(){
         <span class="n">utility_v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">var_p</span> <span class="o">/</span> <span class="n">var_n</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">utility_v</span> <span class="o">/</span> <span class="n">cost</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.utility_pseudo"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility_pseudo">[docs]</a>    <span class="k">def</span> <span class="nf">utility_pseudo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OptBayesExpt.utility_pseudo">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility_pseudo">[docs]</a>
+    <span class="k">def</span> <span class="nf">utility_pseudo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Estimate the utility as a function of settings.</span>
 
 <span class="sd">        Used in selecting measurement settings. The *utility* is the</span>
@@ -756,8 +801,11 @@ $(document).ready(function(){
         <span class="n">utility_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">var_p</span> <span class="o">/</span> <span class="n">var_n</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">utility_p</span> <span class="o">/</span> <span class="n">cost</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.utility_full_kld"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility_full_kld">[docs]</a>    <span class="k">def</span> <span class="nf">utility_full_kld</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OptBayesExpt.utility_full_kld">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.utility_full_kld">[docs]</a>
+    <span class="k">def</span> <span class="nf">utility_full_kld</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Estimate the utility as a function of settings.</span>
 
 <span class="sd">        Used in selecting measurement settings. The *utility* is the</span>
@@ -790,8 +838,11 @@ $(document).ready(function(){
         <span class="c1"># return y_entropy - n_entropy</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">y_entropy</span> <span class="o">-</span> <span class="n">n_entropy</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.get_setting"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.get_setting">[docs]</a>    <span class="k">def</span> <span class="nf">get_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Selects settings for the next measurement.</span>
+
+<div class="viewcode-block" id="OptBayesExpt.get_setting">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.get_setting">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Selects settings for the next measurement.</span>
 
 <span class="sd">        A wrapper for the method selected by the ``selection_method``</span>
 <span class="sd">        argument. See ``opt_setting``, ``good_setting()`` and ``random()``.</span>
@@ -801,8 +852,11 @@ $(document).ready(function(){
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.opt_setting"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.opt_setting">[docs]</a>    <span class="k">def</span> <span class="nf">opt_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Find the setting with maximum utility</span>
+
+<div class="viewcode-block" id="OptBayesExpt.opt_setting">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.opt_setting">[docs]</a>
+    <span class="k">def</span> <span class="nf">opt_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find the setting with maximum utility</span>
 
 <span class="sd">        Selects settings based on the maximum value of the utility.</span>
 <span class="sd">        Calls :code:`utility()` for an estimate of the benfit/cost ratio for</span>
@@ -826,8 +880,11 @@ $(document).ready(function(){
         <span class="bp">self</span><span class="o">.</span><span class="n">last_setting_index</span> <span class="o">=</span> <span class="n">bestindex</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">bestvalues</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.good_setting"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.good_setting">[docs]</a>    <span class="k">def</span> <span class="nf">good_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pickiness</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OptBayesExpt.good_setting">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.good_setting">[docs]</a>
+    <span class="k">def</span> <span class="nf">good_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pickiness</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate a setting with a good utility</span>
 
 <span class="sd">        Selects settings using a weighted random selection using the utility</span>
@@ -851,7 +908,7 @@ $(document).ready(function(){
 
         <span class="n">utility</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">utility</span><span class="p">())</span> <span class="o">**</span> <span class="n">pickiness</span>
         <span class="c1"># the exponent &#39;pickiness&#39; is a tuning parameter</span>
-
+        <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">utility</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">utility</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">utility</span><span class="p">)</span>
         <span class="n">goodindex</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setting_indices</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">utility</span><span class="p">)</span>
         <span class="n">goodvalues</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">[:,</span> <span class="n">goodindex</span><span class="p">]</span>
@@ -859,8 +916,11 @@ $(document).ready(function(){
         <span class="bp">self</span><span class="o">.</span><span class="n">last_setting_index</span> <span class="o">=</span> <span class="n">goodindex</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">goodvalues</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OptBayesExpt.random_setting"><a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.random_setting">[docs]</a>    <span class="k">def</span> <span class="nf">random_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OptBayesExpt.random_setting">
+<a class="viewcode-back" href="../../obe_base.html#optbayesexpt.obe_base.OptBayesExpt.random_setting">[docs]</a>
+    <span class="k">def</span> <span class="nf">random_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Pick a random setting for the next measurement</span>
 
 <span class="sd">        Randomly selects a setting from all possible</span>
@@ -874,6 +934,7 @@ $(document).ready(function(){
         <span class="bp">self</span><span class="o">.</span><span class="n">last_setting_index</span> <span class="o">=</span> <span class="n">settingindex</span>
         <span class="n">one_setting</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">allsettings</span><span class="p">[:,</span> <span class="n">settingindex</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">one_setting</span></div>
+
 
     <span class="k">def</span> <span class="nf">_model_output_len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># &quot;&quot;&quot;Detect the number of model outputs</span>
@@ -893,6 +954,7 @@ $(document).ready(function(){
         <span class="n">singleshot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_function</span><span class="p">(</span><span class="n">one_setting</span><span class="p">,</span> <span class="n">one_param_set</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cons</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">singleshot</span><span class="p">))</span></div>
+
 </pre></div>
 
             <div class="clearer"></div>
@@ -930,8 +992,8 @@ $(document).ready(function(){
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

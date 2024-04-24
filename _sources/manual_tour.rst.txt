@@ -70,7 +70,7 @@ is a constant by default.  The examples listed above for unknown
 uncertainties include the mean of the variance as a model of experimental
 noise.
 
-In the deoniminator, the cost of a potential experiment may depend on
+In the denominator, the cost of a potential experiment may depend on
 settings, or predicted value or distance to the next setting.  There are
 many possibilities.  In ``OptBayesExpt`` the cost is constant by default but
 customized cost models can be programmed into child classes.

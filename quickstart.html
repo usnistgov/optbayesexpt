@@ -1,19 +1,16 @@
-
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>Quick Start &#8212; OptBayesExpt 1.2.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=601dbdee" />
+    <script src="_static/documentation_options.js?v=6efca38a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -76,10 +73,10 @@ $(document).ready(function(){
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="quick-start">
-<h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading">¶</a></h1>
-<div class="section" id="software-requirements">
-<h2>Software Requirements<a class="headerlink" href="#software-requirements" title="Permalink to this heading">¶</a></h2>
+  <section id="quick-start">
+<h1>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h1>
+<section id="software-requirements">
+<h2>Software Requirements<a class="headerlink" href="#software-requirements" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>python3.X with the following packages:</dt><dd><ul class="simple">
 <li><p>numpy</p></li>
@@ -90,9 +87,9 @@ $(document).ready(function(){
 </ul>
 </dd>
 </dl>
-</div>
-<div class="section" id="download">
-<h2>Download<a class="headerlink" href="#download" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="download">
+<h2>Download<a class="headerlink" href="#download" title="Link to this heading">¶</a></h2>
 <dl>
 <dt>Using <code class="docutils literal notranslate"><span class="pre">git</span></code>,</dt><dd><ol class="arabic">
 <li><p>Create an empty directory/folder to hold the source files.  The
@@ -136,9 +133,9 @@ and then File –&gt; Open Windows Power Shell.</p></li>
 </li>
 </ol>
 </div></blockquote>
-</div>
-<div class="section" id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
 <p>Now install the optbayesexpt modules from the command line by one of these
 methods:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
@@ -150,9 +147,9 @@ methods:</p>
 </pre></div>
 </div>
 <p>Some systems may use <code class="docutils literal notranslate"><span class="pre">python3</span></code> instead of <code class="docutils literal notranslate"><span class="pre">python</span></code>.</p>
-</div>
-<div class="section" id="testing">
-<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Link to this heading">¶</a></h2>
 <p>Optional testing for basic functionality requires the
 pytest module. From the source directory:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pytest</span>
@@ -161,14 +158,14 @@ pytest module. From the source directory:</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">test_zinference.py</span></code> script is a statistical test, and is not
 expected to pass every time.  An error message of the form <code class="docutils literal notranslate"><span class="pre">&quot;AssertionError:</span>
 <span class="pre">We</span> <span class="pre">ran</span> <span class="pre">100</span> <span class="pre">inference</span> <span class="pre">tests</span> <span class="pre">...&quot;</span></code> does not necessarily indicate a problem.</p>
-</div>
-<div class="section" id="scripting">
-<h2>Scripting<a class="headerlink" href="#scripting" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="scripting">
+<h2>Scripting<a class="headerlink" href="#scripting" title="Link to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">*.py</span></code> files in the <code class="docutils literal notranslate"><span class="pre">demos/</span></code> folder offer several examples of working
 scripts that may be adapted for different applications. This <em>Quick Start</em>
 offers an overview of the essentials.</p>
-<div class="section" id="setting-up">
-<h3>Setting up<a class="headerlink" href="#setting-up" title="Permalink to this heading">¶</a></h3>
+<section id="setting-up">
+<h3>Setting up<a class="headerlink" href="#setting-up" title="Link to this heading">¶</a></h3>
 <p>In the python script, import the necessary modules.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">optbayesexpt</span> <span class="kn">import</span> <span class="n">OptBayesExpt</span>
@@ -177,8 +174,8 @@ offers an overview of the essentials.</p>
 <p>“Out of the box,” OptBayesExpt is ignorant, and
 it must be educated about the little universe where it will do its work.
 The “Specify …” sections below show how this education process is done.</p>
-<div class="section" id="specify-the-model">
-<h4>Specify the model<a class="headerlink" href="#specify-the-model" title="Permalink to this heading">¶</a></h4>
+<section id="specify-the-model">
+<h4>Specify the model<a class="headerlink" href="#specify-the-model" title="Link to this heading">¶</a></h4>
 <p>OPtBayesExpt requires a <code class="docutils literal notranslate"><span class="pre">model_function()</span></code> to describe the relationships
 between experimental controls, parameters and measurement results. The
 model_function is trusted to tell the truth, the whole truth and nothing but
@@ -192,7 +189,7 @@ values. When this function is called, either <code class="docutils literal notra
 will be a tuple of numpy arrays.  The other two arguments will be tuples of
 floats.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_model_function</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">constants</span><span class="p">):</span>
-   <span class="sd">&quot;&quot;&quot;Example model function</span>
+<span class="w">   </span><span class="sd">&quot;&quot;&quot;Example model function</span>
 
 <span class="sd">   The ``(settings, parameters, constants)`` argument structure is required</span>
 <span class="sd">   Args:</span>
@@ -221,9 +218,9 @@ broadcasting. See the Numpy User Guide for information on
 <p>The <code class="docutils literal notranslate"><span class="pre">(settings,</span> <span class="pre">parameters,</span> <span class="pre">constants)</span></code> arguments are required for
 compatibility, and the example code above shows how they are unpacked. The
 following sections describe what these arguments should contain.</p>
-</div>
-<div class="section" id="specify-the-allowed-experimental-settings">
-<h4>Specify the allowed experimental settings<a class="headerlink" href="#specify-the-allowed-experimental-settings" title="Permalink to this heading">¶</a></h4>
+</section>
+<section id="specify-the-allowed-experimental-settings">
+<h4>Specify the allowed experimental settings<a class="headerlink" href="#specify-the-allowed-experimental-settings" title="Link to this heading">¶</a></h4>
 <p>Generally, there can be more than one setting, so the convention is that
 settings are always part of a tuple., i.e. <code class="docutils literal notranslate"><span class="pre">(setting_1_values,</span>
 <span class="pre">[setting_2_values,</span> <span class="pre">[</span> <span class="pre">...</span> <span class="pre">]])</span></code> with array-like lists of values for each
@@ -240,9 +237,9 @@ for every combination of setting values included in the
 <p>The first line here creates an array called <code class="docutils literal notranslate"><span class="pre">knob</span></code> that contains possible
 knob settings, and the second line above packs <code class="docutils literal notranslate"><span class="pre">knob</span></code> as the first item in
 a one-item tuple.</p>
-</div>
-<div class="section" id="specify-the-model-parameters">
-<h4>Specify the model parameters<a class="headerlink" href="#specify-the-model-parameters" title="Permalink to this heading">¶</a></h4>
+</section>
+<section id="specify-the-model-parameters">
+<h4>Specify the model parameters<a class="headerlink" href="#specify-the-model-parameters" title="Link to this heading">¶</a></h4>
 <p>Parameters are specified by describing their initial or <em>prior</em> probability
 distributions, each described by a generous sampling of draws from the
 distribution.  It’s easier to demonstrate than to explain.  For example,
@@ -271,27 +268,27 @@ than as a concise summary of preconceived notions. Narrow <em>prior</em>
 distributions risk biasing the results. A minimally biased result can
 always be compared and combined with independent results afterwards.</p>
 </div></blockquote>
-</div>
-<div class="section" id="specify-constants">
-<h4>Specify constants<a class="headerlink" href="#specify-constants" title="Permalink to this heading">¶</a></h4>
+</section>
+<section id="specify-constants">
+<h4>Specify constants<a class="headerlink" href="#specify-constants" title="Link to this heading">¶</a></h4>
 <p>A definition for values (settings or parameters) that are constant for the
 duration of an experiment, but that might change at some later time.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">temperature</span> <span class="o">=</span> <span class="mi">19</span>   <span class="c1"># degrees C</span>
 <span class="n">constants</span> <span class="o">=</span> <span class="p">(</span><span class="n">temperature</span><span class="p">,</span> <span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="configure">
-<h4>Configure<a class="headerlink" href="#configure" title="Permalink to this heading">¶</a></h4>
+</section>
+<section id="configure">
+<h4>Configure<a class="headerlink" href="#configure" title="Link to this heading">¶</a></h4>
 <p>The final part of preparation is to create an instance of the OptBayesExpt class</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_obe</span> <span class="o">=</span> <span class="n">OptBayesExpt</span><span class="p">(</span><span class="n">model_function</span><span class="p">,</span> <span class="n">setting_values</span><span class="p">,</span> <span class="n">parameter_samples</span><span class="p">,</span> <span class="n">constants</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="running">
-<h2>Running<a class="headerlink" href="#running" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+</section>
+<section id="running">
+<h2>Running<a class="headerlink" href="#running" title="Link to this heading">¶</a></h2>
 <p>BayesOptExpt participates at two stages in the measurement loop as shown
 in the following <strong>pseudocode</strong>.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="n">still_measuring</span><span class="p">:</span>
@@ -320,8 +317,8 @@ in the following <strong>pseudocode</strong>.</p>
 <p>Footnote:</p>
 <p><span class="math notranslate nohighlight">\(^*\)</span> Previous work has suggested that a <em>delay</em> parameter value of 2 is
 transitional and that 5 is “right out.”</p>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -406,8 +403,8 @@ transitional and that 5 is “right out.”</p>
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

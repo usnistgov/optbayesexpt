@@ -1,19 +1,15 @@
-
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>optbayesexpt.obe_socket &#8212; OptBayesExpt 1.2.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css?v=601dbdee" />
+    <script src="../../_static/documentation_options.js?v=6efca38a"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 
@@ -73,8 +69,10 @@ $(document).ready(function(){
 <span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="n">socket</span><span class="p">,</span> <span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span>
 
 
-<div class="viewcode-block" id="Socket"><a class="viewcode-back" href="../../obe_socket.html#optbayesexpt.obe_socket.Socket">[docs]</a><span class="k">class</span> <span class="nc">Socket</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Handles TCP communications</span>
+<div class="viewcode-block" id="Socket">
+<a class="viewcode-back" href="../../obe_socket.html#optbayesexpt.obe_socket.Socket">[docs]</a>
+<span class="k">class</span> <span class="nc">Socket</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handles TCP communications</span>
 
 <span class="sd">    The :code:`Socket` can be configured either as a &#39;server&#39; or a &#39;client&#39;.</span>
 <span class="sd">    Server sockets wait for connections, receive messages and send replies.</span>
@@ -132,8 +130,10 @@ $(document).ready(function(){
                 <span class="s1">&#39;Invalid role </span><span class="si">{}</span><span class="s1">. Valid choices are </span><span class="se">\</span>
 <span class="s1">                    client or server.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">role</span><span class="p">))</span>
 
-<div class="viewcode-block" id="Socket.send"><a class="viewcode-back" href="../../obe_socket.html#optbayesexpt.obe_socket.Socket.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contents</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Socket.send">
+<a class="viewcode-back" href="../../obe_socket.html#optbayesexpt.obe_socket.Socket.send">[docs]</a>
+    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contents</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Formats and sends a message</span>
 
 <span class="sd">        This method formats the :code:`contents` argument into the message</span>
@@ -162,8 +162,11 @@ $(document).ready(function(){
         <span class="c1"># print(message)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Socket.receive"><a class="viewcode-back" href="../../obe_socket.html#optbayesexpt.obe_socket.Socket.receive">[docs]</a>    <span class="k">def</span> <span class="nf">receive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Wait for and process messages on the TCP port</span>
+
+<div class="viewcode-block" id="Socket.receive">
+<a class="viewcode-back" href="../../obe_socket.html#optbayesexpt.obe_socket.Socket.receive">[docs]</a>
+    <span class="k">def</span> <span class="nf">receive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wait for and process messages on the TCP port</span>
 
 <span class="sd">        Blocks until a connection is made, then reads the number of bytes</span>
 <span class="sd">        specified in the first 10 characters.  Reads the connection until</span>
@@ -199,8 +202,11 @@ $(document).ready(function(){
                 <span class="n">bytes_recd</span> <span class="o">=</span> <span class="n">bytes_recd</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">loads</span><span class="p">(</span><span class="n">raw_message</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="Socket.close"><a class="viewcode-back" href="../../obe_socket.html#optbayesexpt.obe_socket.Socket.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Close the communication connection.</span>
+
+<div class="viewcode-block" id="Socket.close">
+<a class="viewcode-back" href="../../obe_socket.html#optbayesexpt.obe_socket.Socket.close">[docs]</a>
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the communication connection.</span>
 
 <span class="sd">        Only clients need to close connections once they&#39;re done communicating.</span>
 <span class="sd">        No need to call this for servers.</span>
@@ -208,8 +214,11 @@ $(document).ready(function(){
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="Socket.tcpcmd"><a class="viewcode-back" href="../../obe_socket.html#optbayesexpt.obe_socket.Socket.tcpcmd">[docs]</a>    <span class="k">def</span> <span class="nf">tcpcmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sends a command and receives a response.</span>
+
+<div class="viewcode-block" id="Socket.tcpcmd">
+<a class="viewcode-back" href="../../obe_socket.html#optbayesexpt.obe_socket.Socket.tcpcmd">[docs]</a>
+    <span class="k">def</span> <span class="nf">tcpcmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sends a command and receives a response.</span>
 
 <span class="sd">        Run from a client socket, this method sends a command message and</span>
 <span class="sd">        receives a response. The connection is then closed.</span>
@@ -225,7 +234,9 @@ $(document).ready(function(){
             <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
             <span class="n">reply</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">receive</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-            <span class="k">return</span> <span class="n">reply</span></div></div>
+            <span class="k">return</span> <span class="n">reply</span></div>
+</div>
+
 </pre></div>
 
             <div class="clearer"></div>
@@ -263,8 +274,8 @@ $(document).ready(function(){
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

@@ -1,19 +1,16 @@
-
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>Utilities &#8212; OptBayesExpt 1.2.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=601dbdee" />
+    <script src="_static/documentation_options.js?v=6efca38a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -73,16 +70,16 @@ $(document).ready(function(){
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-optbayesexpt.obe_utils">
-<span id="utilities"></span><h1>Utilities<a class="headerlink" href="#module-optbayesexpt.obe_utils" title="Permalink to this heading">¶</a></h1>
+  <section id="module-optbayesexpt.obe_utils">
+<span id="utilities"></span><h1>Utilities<a class="headerlink" href="#module-optbayesexpt.obe_utils" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="optbayesexpt.obe_utils.MeasurementSimulator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_utils.</span></span><span class="sig-name descname"><span class="pre">MeasurementSimulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_level</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_utils.html#MeasurementSimulator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_utils.MeasurementSimulator" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_utils.</span></span><span class="sig-name descname"><span class="pre">MeasurementSimulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_level</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_utils.html#MeasurementSimulator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_utils.MeasurementSimulator" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Provides simulated measurement data</p>
 <p>Evaluates the model function and adds noise.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model_function</strong> (<em>func</em>) – Generally the same as the function used
 by OptBayesExpt</p></li>
@@ -95,10 +92,10 @@ of the simulated experiment.</p></li>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="optbayesexpt.obe_utils.MeasurementSimulator.simdata">
-<span class="sig-name descname"><span class="pre">simdata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">setting</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_utils.html#MeasurementSimulator.simdata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_utils.MeasurementSimulator.simdata" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">simdata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">setting</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_utils.html#MeasurementSimulator.simdata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_utils.MeasurementSimulator.simdata" title="Link to this definition">¶</a></dt>
 <dd><p>Simulate a measurement</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>setting</strong> (<em>tuple</em><em> of </em><em>floats</em>) – The setting values</p></li>
 <li><p><strong>params</strong> (<em>tuple</em><em> of </em><em>floats</em>) – if not <code class="docutils literal notranslate"><span class="pre">None</span></code>, temporarily used
@@ -107,7 +104,7 @@ instead of the initial values. (opt)</p></li>
 the initial value. (opt)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Simulated measurement value(s)</p>
 </dd>
 </dl>
@@ -117,7 +114,7 @@ the initial value. (opt)</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="optbayesexpt.obe_utils.differential_entropy">
-<span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_utils.</span></span><span class="sig-name descname"><span class="pre">differential_entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_utils.html#differential_entropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_utils.differential_entropy" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_utils.</span></span><span class="sig-name descname"><span class="pre">differential_entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_utils.html#differential_entropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_utils.differential_entropy" title="Link to this definition">¶</a></dt>
 <dd><p>Given a sample of a distribution, estimate the differential entropy.</p>
 <p>This code is copied from scipy.stats with reformatted docstrings.  When the module is
 loaded, __init__.py attempts to import <code class="docutils literal notranslate"><span class="pre">differential_entropy()</span></code> from scipy.stats, and loads
@@ -125,7 +122,7 @@ this version from obe_utils.py if an <code class="docutils literal notranslate">
 <p>Several estimation methods are available using the <cite>method</cite> parameter. By
 default, a method is selected based the size of the sample.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>values</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">sequence</span></code>) – Samples from a continuous distribution.</p></li>
 <li><p><strong>window_length</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – <p>Window length for computing Vasicek estimate.
@@ -134,7 +131,7 @@ Must be an integer between 1 and half of  the sample size. If <code class="docut
 <div class="math notranslate nohighlight">
 \[\left \lfloor \sqrt{n} + 0.5 \right \rfloor\]</div>
 <p>where <span class="math notranslate nohighlight">\(n\)</span> is the sample size. This heuristic was originally
-proposed in <a class="footnote-reference brackets" href="#id9" id="id1">2</a> and has become common in the literature.</p>
+proposed in <a class="footnote-reference brackets" href="#id9" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> and has become common in the literature.</p>
 </p></li>
 <li><p><strong>base</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, optional) – The logarithmic base to use, defaults to <code class="docutils literal notranslate"><span class="pre">e</span></code> (natural logarithm).</p></li>
 <li><p><strong>axis</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – The axis along which the differential entropy is calculated.
@@ -144,10 +141,10 @@ The method used to estimate the differential entropy from the sample.
 Default is <code class="docutils literal notranslate"><span class="pre">'auto'</span></code>.  See Notes for more information.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The calculated differential entropy.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>entropy (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p>
 </dd>
 </dl>
@@ -157,17 +154,17 @@ Default is <code class="docutils literal notranslate"><span class="pre">'auto'</
 \[n \to \infty, \quad m \to \infty, \quad \frac{m}{n} \to 0\]</div>
 <p>The optimal choice of <code class="docutils literal notranslate"><span class="pre">window_length</span></code> for a given sample size depends on
 the (unknown) distribution. Typically, the smoother the density of the
-distribution, the larger the optimal value of <code class="docutils literal notranslate"><span class="pre">window_length</span></code> <a class="footnote-reference brackets" href="#id8" id="id2">1</a>.
+distribution, the larger the optimal value of <code class="docutils literal notranslate"><span class="pre">window_length</span></code> <a class="footnote-reference brackets" href="#id8" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.
 The following options are available for the <cite>method</cite> parameter.</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">'vasicek'</span></code> uses the estimator presented in <a class="footnote-reference brackets" href="#id8" id="id3">1</a>. This is one of the
+<li><p><code class="docutils literal notranslate"><span class="pre">'vasicek'</span></code> uses the estimator presented in <a class="footnote-reference brackets" href="#id8" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. This is one of the
 first and most influential estimators of differential entropy.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">'van</span> <span class="pre">es'</span></code> uses the bias-corrected estimator presented in <a class="footnote-reference brackets" href="#id10" id="id4">3</a>, which
+<li><p><code class="docutils literal notranslate"><span class="pre">'van</span> <span class="pre">es'</span></code> uses the bias-corrected estimator presented in <a class="footnote-reference brackets" href="#id10" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, which
 is not only consistent but, under some conditions, asymptotically normal.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">'ebrahimi'</span></code> uses an estimator presented in <a class="footnote-reference brackets" href="#id11" id="id5">4</a>, which was shown
+<li><p><code class="docutils literal notranslate"><span class="pre">'ebrahimi'</span></code> uses an estimator presented in <a class="footnote-reference brackets" href="#id11" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>, which was shown
 in simulation to have smaller bias and mean squared error than
 the Vasicek estimator.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">'correa'</span></code> uses the estimator presented in <a class="footnote-reference brackets" href="#id12" id="id6">5</a> based on local linear
+<li><p><code class="docutils literal notranslate"><span class="pre">'correa'</span></code> uses the estimator presented in <a class="footnote-reference brackets" href="#id12" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a> based on local linear
 regression. In a simulation study, it had consistently smaller mean
 square error than the Vasiceck estimator, but it is more expensive to
 compute.</p></li>
@@ -176,43 +173,50 @@ this selects <code class="docutils literal notranslate"><span class="pre">'van</
 for moderate sample sizes (11-1000), and <code class="docutils literal notranslate"><span class="pre">'vasicek'</span></code> for larger
 samples, but this behavior is subject to change in future versions.</p></li>
 </ul>
-<p>All estimators are implemented as described in <a class="footnote-reference brackets" href="#id13" id="id7">6</a>.</p>
+<p>All estimators are implemented as described in <a class="footnote-reference brackets" href="#id13" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a>.</p>
 <p class="rubric">References</p>
-<dl class="footnote brackets">
-<dt class="label" id="id8"><span class="brackets">1</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id3">2</a>)</span></dt>
-<dd><p>Vasicek, O. (1976). A test for normality based on sample entropy.
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id8" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id3">2</a>)</span>
+<p>Vasicek, O. (1976). A test for normality based on sample entropy.
 Journal of the Royal Statistical Society:
 Series B (Methodological), 38(1), 54-59.</p>
-</dd>
-<dt class="label" id="id9"><span class="brackets"><a class="fn-backref" href="#id1">2</a></span></dt>
-<dd><p>Crzcgorzewski, P., &amp; Wirczorkowski, R. (1999). Entropy-based
+</aside>
+<aside class="footnote brackets" id="id9" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">2</a><span class="fn-bracket">]</span></span>
+<p>Crzcgorzewski, P., &amp; Wirczorkowski, R. (1999). Entropy-based
 goodness-of-fit test for exponentiality. Communications in
 Statistics-Theory and Methods, 28(5), 1183-1202.</p>
-</dd>
-<dt class="label" id="id10"><span class="brackets"><a class="fn-backref" href="#id4">3</a></span></dt>
-<dd><p>Van Es, B. (1992). Estimating functionals related to a density by a
+</aside>
+<aside class="footnote brackets" id="id10" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">3</a><span class="fn-bracket">]</span></span>
+<p>Van Es, B. (1992). Estimating functionals related to a density by a
 class of statistics based on spacings. Scandinavian Journal of
 Statistics, 61-72.</p>
-</dd>
-<dt class="label" id="id11"><span class="brackets"><a class="fn-backref" href="#id5">4</a></span></dt>
-<dd><p>Ebrahimi, N., Pflughoeft, K., &amp; Soofi, E. S. (1994). Two measures
+</aside>
+<aside class="footnote brackets" id="id11" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">4</a><span class="fn-bracket">]</span></span>
+<p>Ebrahimi, N., Pflughoeft, K., &amp; Soofi, E. S. (1994). Two measures
 of sample entropy. Statistics &amp; Probability Letters, 20(3), 225-234.</p>
-</dd>
-<dt class="label" id="id12"><span class="brackets"><a class="fn-backref" href="#id6">5</a></span></dt>
-<dd><p>Correa, J. C. (1995). A new estimator of entropy. Communications
+</aside>
+<aside class="footnote brackets" id="id12" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">5</a><span class="fn-bracket">]</span></span>
+<p>Correa, J. C. (1995). A new estimator of entropy. Communications
 in Statistics-Theory and Methods, 24(10), 2439-2449.</p>
-</dd>
-<dt class="label" id="id13"><span class="brackets"><a class="fn-backref" href="#id7">6</a></span></dt>
-<dd><p>Noughabi, H. A. (2015). Entropy Estimation Using Numerical
+</aside>
+<aside class="footnote brackets" id="id13" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">6</a><span class="fn-bracket">]</span></span>
+<p>Noughabi, H. A. (2015). Entropy Estimation Using Numerical
 Methods. Annals of Data Science, 2(2), 231-241.
 <a class="reference external" href="https://link.springer.com/article/10.1007/s40745-015-0045-9">https://link.springer.com/article/10.1007/s40745-015-0045-9</a></p>
-</dd>
-</dl>
+</aside>
+</aside>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="optbayesexpt.obe_utils.trace_sort">
-<span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_utils.</span></span><span class="sig-name descname"><span class="pre">trace_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurements</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_utils.html#trace_sort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_utils.trace_sort" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">optbayesexpt.obe_utils.</span></span><span class="sig-name descname"><span class="pre">trace_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurements</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/optbayesexpt/obe_utils.html#trace_sort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#optbayesexpt.obe_utils.trace_sort" title="Link to this definition">¶</a></dt>
 <dd><p>Combine measurements at identical settings values</p>
 <p>Analyzes input arrays of setttings and corresponding measurement
 values, data where settings values may repeat, i. e. more than one
@@ -220,13 +224,13 @@ measurement was done at some of the settings.  The function
 bins the measurements by setting value and calculates some statistics
 for measurments in each bin.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>settings</strong> – (ndarray) Setting values</p></li>
 <li><p><strong>measurements</strong> – (ndarray) measurement values</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
 <dt>A tuple, (sorted_settings, m_average, m_std, n_of_m)</dt><dd><ul class="simple">
 <li><p>sorted_settings (list): setting values (sorted, none repeated)</p></li>
@@ -242,7 +246,7 @@ each setting</p></li>
 </dl>
 </dd></dl>
 
-</div>
+</section>
 
 
             <div class="clearer"></div>
@@ -310,8 +314,8 @@ each setting</p></li>
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

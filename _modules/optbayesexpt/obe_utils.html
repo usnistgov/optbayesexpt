@@ -1,19 +1,15 @@
-
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>optbayesexpt.obe_utils &#8212; OptBayesExpt 1.2.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css?v=601dbdee" />
+    <script src="../../_static/documentation_options.js?v=6efca38a"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 
@@ -76,8 +72,10 @@ $(document).ready(function(){
 <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
     <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span>
     
-<div class="viewcode-block" id="MeasurementSimulator"><a class="viewcode-back" href="../../obe_utils.html#optbayesexpt.obe_utils.MeasurementSimulator">[docs]</a><span class="k">class</span> <span class="nc">MeasurementSimulator</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="MeasurementSimulator">
+<a class="viewcode-back" href="../../obe_utils.html#optbayesexpt.obe_utils.MeasurementSimulator">[docs]</a>
+<span class="k">class</span> <span class="nc">MeasurementSimulator</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Provides simulated measurement data</span>
 
 <span class="sd">    Evaluates the model function and adds noise.</span>
@@ -98,8 +96,10 @@ $(document).ready(function(){
         <span class="bp">self</span><span class="o">.</span><span class="n">cons</span> <span class="o">=</span> <span class="n">cons</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">noise_level</span> <span class="o">=</span> <span class="n">noise_level</span>
 
-<div class="viewcode-block" id="MeasurementSimulator.simdata"><a class="viewcode-back" href="../../obe_utils.html#optbayesexpt.obe_utils.MeasurementSimulator.simdata">[docs]</a>    <span class="k">def</span> <span class="nf">simdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">setting</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">noise_level</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Simulate a measurement</span>
+<div class="viewcode-block" id="MeasurementSimulator.simdata">
+<a class="viewcode-back" href="../../obe_utils.html#optbayesexpt.obe_utils.MeasurementSimulator.simdata">[docs]</a>
+    <span class="k">def</span> <span class="nf">simdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">setting</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">noise_level</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Simulate a measurement</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            setting (tuple of floats): The setting values</span>
@@ -121,11 +121,15 @@ $(document).ready(function(){
         <span class="n">tmpnoise</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="n">noise_level</span>
         <span class="n">yn</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">tmpnoise</span>
 
-        <span class="k">return</span> <span class="n">yn</span></div></div>
+        <span class="k">return</span> <span class="n">yn</span></div>
+</div>
 
 
-<div class="viewcode-block" id="trace_sort"><a class="viewcode-back" href="../../obe_utils.html#optbayesexpt.obe_utils.trace_sort">[docs]</a><span class="k">def</span> <span class="nf">trace_sort</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">measurements</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Combine measurements at identical settings values</span>
+
+<div class="viewcode-block" id="trace_sort">
+<a class="viewcode-back" href="../../obe_utils.html#optbayesexpt.obe_utils.trace_sort">[docs]</a>
+<span class="k">def</span> <span class="nf">trace_sort</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">measurements</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Combine measurements at identical settings values</span>
 
 <span class="sd">    Analyzes input arrays of setttings and corresponding measurement</span>
 <span class="sd">    values, data where settings values may repeat, i. e. more than one</span>
@@ -184,9 +188,12 @@ $(document).ready(function(){
     <span class="k">return</span> <span class="n">sorted_settings</span><span class="p">,</span> <span class="n">m_average</span><span class="p">,</span> <span class="n">m_std</span><span class="p">,</span> <span class="n">n_of_m</span></div>
 
 
-<div class="viewcode-block" id="differential_entropy"><a class="viewcode-back" href="../../obe_utils.html#optbayesexpt.obe_utils.differential_entropy">[docs]</a><span class="k">def</span> <span class="nf">differential_entropy</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">window_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+
+<div class="viewcode-block" id="differential_entropy">
+<a class="viewcode-back" href="../../obe_utils.html#optbayesexpt.obe_utils.differential_entropy">[docs]</a>
+<span class="k">def</span> <span class="nf">differential_entropy</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">window_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Given a sample of a distribution, estimate the differential entropy.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Given a sample of a distribution, estimate the differential entropy.</span>
 
 <span class="sd">    This code is copied from scipy.stats with reformatted docstrings.  When the module is</span>
 <span class="sd">    loaded, __init__.py attempts to import ``differential_entropy()`` from scipy.stats, and loads</span>
@@ -316,6 +323,7 @@ $(document).ready(function(){
     <span class="k">return</span> <span class="n">res</span></div>
 
 
+
 <span class="k">def</span> <span class="nf">_pad_along_last_axis</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
     <span class="c1"># Pad the data for computing the rolling window difference.</span>
     <span class="c1"># scales a  bit better than method in _vasicek_like_entropy</span>
@@ -416,8 +424,8 @@ $(document).ready(function(){
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    &#169; Copyright National Institute of Standards and Technology.Not subject to copyright in the United States..
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>
